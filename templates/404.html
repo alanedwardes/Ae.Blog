@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found &mdash; Alan Edwardes{% endblock %}
+
+{% block content %}
+	<div class="wrp">
+		<div class="lft">
+			<div id="cnt">
+				<h2>Page Not Found</h2>
+				<p>Perhaps you could try the search box below.</p>
+				{% include "searchbox.html" %}
+			</div>
+		</div>
+		<div class="rgt">
+			<div id="sdb">
+				{% include "sidebar.html" %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

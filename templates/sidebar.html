@@ -1,0 +1,30 @@
+{% load recent_comments most_commented nowhitespace %}
+{% most_commented %}
+{% if most_commented %}
+	<h2>Commented</h2>
+	<small>10 most commented on posts</small>
+	<ul>
+	{% for post in most_commented %}
+		<li>
+			<a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+			<a href="{{ post.get_absolute_url }}#comments" class="commentcount">{{ post.comments }}</a>
+		</li>
+	{% endfor %}
+	</ul>
+	<script>{% nowhitespace %}
+		$.getJSON('http://hits.projects.alanedwardes.com/?callback=?', function(data){
+			var html = '';
+			html += '<h2>Visited</h2>';
+			html += '<small>10 most visited posts in the past month</small>';
+			html += '<ul>';
+			$(data).each(function(){
+				html += '<li>';
+					html += '<a href="' + this.resource + '">' + this.resource_title + '</a>';
+					html += '<a href="' + this.resource + '" class="visitcount">' + this.hits + '</a>';
+				html += '</li>';
+			});
+			//$('#hit-count').html(html + '<ul>');
+		});
+	{% endnowhitespace %}</script>
+	<div id="hit-count"></div>
+{% endif %}

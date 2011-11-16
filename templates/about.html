@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load age %}
+
+{% block description %}About Alan Edwardes.{% endblock %}
+
+{% block title %}About &mdash; Alan Edwardes{% endblock %}
+
+{% block content %}
+	<div class="wrp">
+		<div class="lft">
+			<div id="cnt">
+				<h2>About</h2>
+				<p>I'm a {% age %} year old year old student living in the UK. I'm your typical nerd: I dabble in web design (both professionally and as a hobby), programming, and gaming (see my <a href="http://steamcommunity.com/id/alanedwardes">Steam profile</a> for my PC gaming habits).</p>
+				<p>I love alternative rock (see my <a href="http://www.last.fm/user/alanedwardes">Last.fm profile</a>), satire and American animated comedy.</p>
+				<p>You're reading my blog, best described as a collection of miscellaneous geeky thoughts.</p>
+			</div>
+		</div>
+		<div class="rgt">
+			<div id="sdb">
+				<h2>Attribution</h2>
+				<p>Open source or free services and libraries that this site uses:</p>
+				<ul>
+					<li><a href="http://subtlepatterns.com/">Subtle Patterns</a> for <a href="http://www.atlemo.com/">Atle Mo's</a> background <a href="/media/smooth_wall.png">Smooth Wall</a></li>
+					<li><a href="http://www.famfamfam.com/lab/icons/silk/">famfamfam Silk Icon set</a> for various icons</li>
+					<li><a href="http://akismet.com/">Automattic Akismet</a> for comment spam filtering</li>
+					<li><a href="http://code.google.com/webfonts">Google Font Directory</a> for <a href="http://www.google.com/webfonts/family?family=PT+Sans&subset=latin">PT Sans</a>, <a href="http://www.google.com/webfonts/family?family=Raleway">Raleway</a> and <a href="http://www.google.com/webfonts/family?family=Copse">Copse</a></li>
+					<li><a href="http://www.djangoproject.com/">Django</a>, a web development framework to make my life easier</li>
+					<li><a href="http://jquery.com/">jQuery</a> for an awesome JavaScript framework</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+{% endblock %}

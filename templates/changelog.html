@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load nl2li %}
+
+{% block description %}Changelog for this blog.{% endblock %}
+
+{% block title %}Changelog &mdash; Alan Edwardes{% endblock %}
+
+{% block content %}
+	<div class="wrp">
+		<div class="lft">
+			<div id="cnt">
+				{% for change in changes %}
+					<h3>{{ change.published|date:"dS M Y" }}</h3>
+					<ul>
+						{{ change.body|nl2li|safe }}
+					</ul>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="rgt">
+			<div id="sdb">
+				<h2>Changelog</h2>
+				<p>Changes I've made to my blog over time. I thought I'd start a list for my own reference.</p>
+				<p>&nbsp;</p>
+				<p>TODO: USE GITHUB YOU IDIOT.</p>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% load htmlentities paragraphize nowhitespace md5 %}
+
+{% if comments %}
+	<h2 id="comments">{{ post.comments }} Comment{{ post.comments|pluralize }}</h2>
+	{% for comment in comments %}
+		<div id="comment-{{ comment.id }}" class="comment{% if comment.is_admin %} admin{% endif %}">
+			<a class="grav" target="_blank" href="http://www.gravatar.com/{% md5 comment.email %}">
+				<img width="24" height="24" alt="{{ comment.name|striptags|escape }}'s Gravatar" src="http://www.gravatar.com/avatar/{% md5 comment.email %}.png?s=24&r=g&d=retro"/>
+			</a>
+			<div class="metawrap">
+				<div class="postdate">
+					<a href="{{ comment.get_absolute_url }}" title="Permanent link to this comment">{{ comment.published|date:"jS \o\f F Y \a\t g:i A" }}</a>
+				</div>
+				<div class="author">{% nowhitespace %}
+					{% if comment.url %}
+						<a title="Go to {{ comment.name|striptags|escape }}'s website" rel="nofollow" target="_blank" href="{{ comment.url|escape }}">{{ comment.name|striptags|htmlentities }}</a>
+					{% else %}
+						{{ comment.name|striptags|htmlentities }}
+					{% endif %}
+				{% endnowhitespace %}</div>
+			</div>
+			<div class="counter">{{ forloop.counter }}</div>
+			<div class="body">{{ comment.body|urlizetrunc:40|paragraphize }}</div>
+		</div>
+	{% endfor %}
+{% endif %}

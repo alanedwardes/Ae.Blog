@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load random_post nowhitespace %}
+
+{% block description %}Posted {{ post.published|date:"d/m/Y" }} with {{ post.comments }} comments and {{ post.body|wordcount }} words.{% endblock %}
+
+{% block title %}{{ post.title }} &mdash; Alan Edwardes{% endblock %}
+
+{% block content %}
+	<div class="wrp">
+		<div class="lft">
+			<div id="cnt">
+				{% include "post.html" %}
+				{% if post.comments > 0 %}
+					{% include "commentlist.html" %}
+					{% include "commentform.html" %}
+				{% endif %}
+			</div>
+		</div>
+		<div class="rgt">
+			<div id="sdb">
+				{% include "searchbox.html" %}
+				<p class="meta-item meta-date">{{ post.published|date:"dS \o\f F Y \a\t g:i A" }}</p>
+				<p class="meta-item meta-date">{{ post.published|timesince }} ago</p>
+				<p class="meta-item meta-author">written by <a href="/">Alan Edwardes</a></p>
+				{% if request.user.is_authenticated %}
+					<p class="meta-item meta-edit">admin: <a href="http://alan.edward.es/admin/blog/post/{{ post.id }}/">edit post</a></p>
+				{% endif %}
+				<p class="meta-item meta-words">{{ post.body|wordcount }} words</p>
+				{% if post.comments > 0 %}
+					<p class="meta-item meta-comments">{{ post.comments }} <a href="#comments">comment{{ post.comments|pluralize }}</a> so far</p>
+					<p class="meta-item meta-rss"><a href="/feeds/comments/{{ post.slug }}/" target="_blank">feed</a> for comments on this post</p>
+				{% endif %}
+				{% random_post post.slug %}
+				<p class="meta-item meta-rand">rand: <a href="{{ random_post.get_absolute_url }}">{{ random_post.title|truncatewords:5 }}</a></p>
+				{% if post.get_next_by_published and post.get_next_by_published.type == 'published' %}
+					<p class="meta-item meta-next">next: <a href="{{ post.get_next_by_published.get_absolute_url }}">{{ post.get_next_by_published.title|truncatewords:5 }}</a></p>
+				{% endif %}
+				{% if post.get_previous_by_published and post.get_previous_by_published.type == 'published' %}
+					<p class="meta-item meta-prev">prev: <a href="{{ post.get_previous_by_published.get_absolute_url }}">{{ post.get_previous_by_published.title|truncatewords:5 }}</a></p>
+				{% endif %}
+				<script>{% nowhitespace %}
+					$.getJSON('http://hits.projects.alanedwardes.com/?resource=http://{{ request.get_host }}{{ request.path }}&callback=?', function(hits){
+						result = false;
+						for(period in hits){
+							if(result){
+								result += ' / ';
+							}else{
+								result = '<a href="/mint/">views</a>: last ';
+							}
+							result += period + ' ' + hits[period];
+						}
+						$('#dynamic-meta').append('<p class="meta-item meta-stats">' + result + '</p>');
+					});
+				{% endnowhitespace %}</script>
+				<div id="dynamic-meta"></div>
+				<p class="meta-item meta-share">{% nowhitespace %}
+					<a href="http://www.addthis.com/bookmark.php?url=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;title={{ post.title|urlencode }}">share</a>:
+					<a title="Share on Facebook" target="new" style="margin-left:8px" href="http://www.facebook.com/sharer.php?u=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;t={{ post.title|urlencode }}">
+						<img style="vertical-align:middle" src="/media/facebook.png" alt="Facebook"/>
+					</a>
+					<a title="Share on Twitter" target="new" style="margin-left:10px" href="http://twitter.com/share?url=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;text=Reading%20%22{{ post.title|urlencode }}%22&amp;via=AlanEdwardes">
+						<img style="vertical-align:middle" src="/media/twitter.png" alt="Twitter"/>
+					</a>
+					<a title="Submit to Reddit" target="new" style="margin-left:10px" href="http://www.reddit.com/submit?url=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;title={{ post.title|urlencode }}">
+						<img style="vertical-align:middle" src="/media/reddit.png" alt="Reddit"/>
+					</a>
+					<a title="Submit to Digg" target="new" style="margin-left:10px" href="http://digg.com/submit?url=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;title={{ post.title|urlencode }}">
+						<img style="vertical-align:middle" src="/media/digg.gif" alt="digg"/>
+					</a>
+					<a title="Submit to StumbleUpon" target="new" style="margin-left:10px" href="http://www.stumbleupon.com/submit?url=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;title={{ post.title|urlencode }}">
+						<img style="vertical-align:middle" src="/media/stumbleupon.png" alt="StumbleUpon"/>
+					</a>
+					<a title="Bookmark on Delicious" target="new" style="margin-left:10px" href="http://del.icio.us/post?url=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;title={{ post.title|urlencode }}">
+						<img style="vertical-align:middle" src="/media/delicious.png" alt="delicious"/>
+					</a>
+					<a title="Submit to Hacker News" target="new" style="margin-left:10px" href="http://news.ycombinator.com/submitlink?u=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;t={{ post.title|urlencode }}">
+						<img style="vertical-align:middle" src="/media/hnews.png" alt="Hacker News"/>
+					</a>
+					<a title="Share on LinkedIn" target="new" style="margin-left:10px" href="http://www.linkedin.com/shareArticle?url=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;title={{ post.title|urlencode }}">
+						<img style="vertical-align:middle" src="/media/linkedin.png" alt="LinkedIn"/>
+					</a>
+				{% endnowhitespace %}</p>
+				{% if post.slideshow %}
+					<div style="margin-bottom:15px"></div>
+					<h2>Slideshow</h2>
+					<div id="slideshow"></div>
+				{% endif %}
+				{% if post.comments == 0 %}
+					<div style="margin-bottom:15px"></div>
+					{% include "commentform.html" %}
+				{% else %}
+					<p class="meta-item meta-addcomment"><a href="#comment-form">add</a> a comment</p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

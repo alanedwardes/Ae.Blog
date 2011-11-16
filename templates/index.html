@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load age nowhitespace %}
+
+{% block description %}{% if title %}Alan Edwardes' Blog: {{ title }}{% else %}The thoughts and irrational headspew of Alan Edwardes.{% endif %}{% endblock %}
+
+{% block title %}Alan Edwardes{% endblock %}
+
+{% block content %}
+<div class="wrp">
+	<div id="hi">Hello. I'm a programmer.</div>
+	<img id="int" src="/media/languages.png" alt="Languages" width="960" height="200"/>
+	<div class="tri first">
+		<h2>Recent Blog Posts</h2>
+		<ul>
+		{% for post in posts %}
+			<li>
+				<a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:6 }}</a>
+				{% if post.comments %}
+					<a class="commentcount" href="{{ post.get_absolute_url }}#comments">{{ post.comments }}</a>
+				{% endif %}
+			</li>
+		{% endfor %}
+		</ul>
+	</div>
+	<div class="tri">
+		<h2>Recent Tweets</h2>
+		<script>{% nowhitespace %}
+			$.getJSON('https://api.twitter.com/1/statuses/user_timeline.json?screen_name=AlanEdwardes&trim_user=true&callback=?', function(data){
+				c = 0;
+				$(data).each(function(){
+					if(!this.in_reply_to_user_id && c < 5){
+						posted = new Date(this.created_at);
+						$('#tweets ul').append('<li>' + this.text + ' <a href="https://twitter.com/AlanEdwardes/status/' + this.id_str + '">' + posted.getHours() + ':' + posted.getMinutes() + ' on ' + posted.getDate() + '/' + (posted.getMonth() + 1) + '</a></li>');
+						c++;
+					}
+				});
+			});
+		{% endnowhitespace %}</script>
+		<div id="tweets">
+			<ul></ul>
+		</div>
+	</div>
+	<div class="tri">
+		<h2>About</h2>
+		<p>I'm a {% age %} year old student from the UK. I am a programmer that dabbles in web design, and love listening to <a href="http://www.last.fm/user/alanedwardes">music</a> and playing <a href="http://steamcommunity.com/id/alanedwardes">games</a>.</p>
+		<p>I enjoy satire, animated comedy, and a range of films.</p>
+		<p>
+			<script>{% nowhitespace %}
+				mt = 'mailto';
+				ae = 'alanedwardes';
+				pe = '\u002e';
+				cm = 'com';
+				at = '\u0040';
+				co = 'alan';
+				document.write('<a href="' + mt + ':' + co + at + ae + pe + cm + '">' + co + at + ae + pe + cm + '</a>');
+			{% endnowhitespace %}</script>
+		</p>
+	</div>
+	<script>{% nowhitespace %}
+		$.getJSON('https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=alanedwardes&api_key=aeddbef34f0e1aca090ea79badb28a2e&period=7day&limit=20&format=json&callback=?', function(data){
+			$('.game.intro #first').css('visibility','visible').hide().fadeIn();
+			c = 0;
+			$(data['topalbums']['album']).each(function(){
+				if(this.image['1']['#text'] && !this.image['1']['#text'].match(/default/g) && c < 12){
+					album = $('<div id="cover-' + c + '" class="album"><a target="_blank" href="' + this.url + '" title="' + this.name + ' by ' + this.artist.name + ', played ' + this.playcount + ' times this week.' + '"><img width="64" height="64" src="' + this.image['1']['#text'] + '"/></a></div>');
+					$('#lastfm').append(album);
+					$(album).delay(c * 50).fadeIn();
+					c++;
+				}
+			});
+		});
+	{% endnowhitespace %}</script>
+	<div id="lastfm"></div>
+	<script>{% nowhitespace %}
+		$.getJSON('http://steamgames.projects.alanedwardes.com/?callback=?', function(data){
+			$('.game.intro #second').css('visibility','visible').hide().fadeIn();
+			var intro = $(
+
+			);
+			$('#steamgames').append(intro);
+			$(intro).fadeIn();
+			$(data.mostPlayedGames.mostPlayedGame).each(function(i, game){
+				if(i < 3){
+					game = $('<div class="game"><a target="_blank" href="' + game.gameLink + '" title="' + game.gameName + ', played ' + game.hoursPlayed + ' hours over the past two weeks, ' + game.hoursOnRecord + ' hours total."><img width="184" height="69" src="' + game.gameLogo + '"/></a></div>');
+					$('#steamgames').append(game);
+					$(game).delay(i * 50).fadeIn();
+				}
+			});
+		});
+	{% endnowhitespace %}</script>
+	<div id="steamgames">
+		<div class="game intro">
+			<div id="first"><a target="_blank" href="http://www.last.fm/user/alanedwardes/charts?subtype=albums">Albums</a> I've been listening to over the past week <span>&#8593;</span></div>
+			<div id="second"><a target="_blank" href="http://steamcommunity.com/id/alanedwardes/games/">Games</a> I've been playing over the past two weeks <span>&#8594;</span></div>
+		</div>
+	</div>
+</div>
+{% endblock %}

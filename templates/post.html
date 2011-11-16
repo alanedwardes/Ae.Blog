@@ -1,0 +1,19 @@
+{% spaceless %}
+{% load htmlentities paragraphize specialtags %}
+{% if is_single %}
+	{% if not post.slideshow %}
+		<h2>{{ post.title|escape }}</h2>
+	{% endif %}
+	{{ post.body|htmlentities|paragraphize|specialtags|safe }}
+{% else %}
+	<h2><a href="{{ post.get_absolute_url }}">{{ post.title|escape }}</a></h2>
+	<div class="meta">
+		<span class="meta-item meta-date">{{ post.published|date:"jS \o\f F Y \a\t g:i A" }}</span>
+		{% if post.comments != 0 %}
+			<a class="commentcount" href="{{ post.get_absolute_url }}#comments">{{ post.comments }}</a>
+		{% endif %}
+	</div>
+	{{ post.body|striptags|paragraphize|truncatewords_html:"50"|safe }}
+	<p style="margin-bottom:30px"><a href="{{ post.get_absolute_url }}">Read the rest of this post &raquo;</a></p>
+{% endif %}
+{% endspaceless %}

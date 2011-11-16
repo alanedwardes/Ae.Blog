@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{{ file }}.png</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+		<script>
+			var first_error = true;
+			var img = new Image();
+			
+			function retry(){
+				img.src = 'http://dl.dropbox.com/u/1903330/wc/{{ file }}.png?' + (new Date()).getTime();
+				$('#error').fadeOut();
+				$('#loading').fadeIn();
+				document.title = 'Loading...';
+				first_error = false;
+				return false;
+			}
+			$(document).ready(function(){
+				$('#loading').fadeIn();
+				document.title = 'Loading...';
+				img.id = 'img';
+				img.onload = function(){
+					$(img).css({
+						'marginTop': '-' + img.height / 2 + 'px',
+						'marginLeft': '-' + img.width / 2 + 'px'
+					});
+					document.title = '{{ file }}.png (' + img.width + '\u00d7' + img.height + ')';
+					$(document.body).append(img);
+					$('#loading').fadeOut();
+					$('#img').fadeIn();
+				};
+				img.onerror = function(e){
+					if(first_error){
+						retry();
+					}else{
+						document.title = 'Error';
+						$('#loading').fadeOut();
+						$('#error').fadeIn();
+					}
+				};
+				img.src = 'http://dl.dropbox.com/u/1903330/wc/{{ file }}.png';
+			});
+		</script>
+		<style>
+			a{
+				color:inherit;
+			}
+			body{
+				font-size:16px;
+				font-family:'Georgia', sans-serif;
+				background:url(data:image/gif;base64,R0lGODlhEAAQAIAAAAAAABwcHCH5BAAAAAAALAAAAAAQABAAQAIdjG+gyw0IY3B0yTvprXVrHHWSGH4l13iOmo4mVAAAOw==);
+			}
+			.c, #img{
+				position:absolute;
+				left:50%;
+				top:50%;
+			}
+			.c{
+				margin-left:-150px;
+				margin-top:-25px;
+				width:300px;
+				height:50px;
+				line-height:50px;
+				text-align:center;
+			}
+			#img, #error, #loading{
+				display:none;
+			}
+			#loading{
+				background:url(/static_media/s/loading.gif) center center no-repeat;
+			}
+			#error{
+				color:red;
+			}
+			#error a{
+				color:#fff;
+			}
+			#footer{
+				font-style:italic;
+				color:white;
+				position:absolute;
+				left:10px;
+				bottom:10px;
+			}
+		</style>
+	</head>
+	<body>
+		<noscript><img src="http://dl.dropbox.com/u/1903330/wc/{{ file }}.png"/></noscript>
+		<div class="c" id="loading"></div>
+		<div class="c" id="error">There was an error loading the image D:<br/><a href="#" onclick="return retry();">Try again?</a></div>
+		<div id="footer">my <a href="/">blog</a></div>
+	</body>
+</html>

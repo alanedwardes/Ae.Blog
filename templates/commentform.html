@@ -1,0 +1,32 @@
+<h2 id="comment-form">Add a Comment</h2>
+{% if data.generalerror %}
+	<div class="error">{{ data.generalerror }}</div>
+{% endif %}
+<form action="{{ post.get_absolute_url }}#comment-form" method="post">
+	{% csrf_token %}
+	{% if not user.is_authenticated %}
+		<div{% if data.nameerror %} class="errorwrap"{% endif %}>
+			<label for="cname">Name <small>(If it's not real, it better be cool)</small></label>
+			<input name="name" type="text" id="cname" class="text" value="{{ data.name }}"/>
+			{% if data.nameerror %}<div class="error">{{ data.nameerror }}</div>{% endif %}
+		</div>
+		<div{% if data.emailerror %} class="errorwrap"{% endif %}>
+			<label for="cemail">Email <small>(optional, used for <a target="_blank" href="http://www.gravatar.com/">gravatar</a>)</small></label>
+			<input name="email" type="text" id="cemail" class="text" value="{{ data.email }}"/>
+			{% if data.emailerror %}<div class="error">{{ data.emailerror }}</div>{% endif %}
+		</div>
+		<div{% if data.urlerror %} class="errorwrap"{% endif %}>
+			<label for="curl">URL <small>(optional, makes your name link to your site)</small></label>
+			<input name="url" type="text" id="curl" class="text" value="{{ data.url }}"/>
+			{% if data.urlerror %}<div class="error">{{ data.urlerror }}</div>{% endif %}
+		</div>
+	{% endif %}
+	<div{% if data.bodyerror %} class="errorwrap"{% endif %}>
+		<label for="cbody">Comment <small>(No HTML, URLs are made clickable, press enter twice for a new paragraph)</small></label>
+		<textarea name="body" id="cbody" rows="7" cols="30">{{ data.body }}</textarea>
+		{% if data.bodyerror %}<div class="error">{{ data.bodyerror }}</div>{% endif %}
+	</div>
+	<div>
+		<input type="submit" class="save" value="Save Comment"/>
+	</div>
+</form>

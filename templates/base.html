@@ -1,0 +1,92 @@
+{% spaceless %}
+{% load random_item age nowhitespace version %}
+{% random_item 046380|A20D1E|6F8C07|955918|800463 %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{% block title %}{% endblock %}</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<meta name="description" content="{% block description %}{% endblock %}">
+		<meta name="google-site-verification" content="NCSP7ePJCNSEOH5g0NfK8--mzC-zaxHs2mgRYi0PWbA">
+		<link rel="alternate" type="application/rss+xml" href="/feeds/posts/" title="Alan Edwardes Posts">
+		<link rel="alternate" type="application/rss+xml" href="/feeds/comments/" title="Alan Edwardes Comments">
+		<link rel="shortcut icon" href="http://favicon.projects.alanedwardes.com/{{ random_item }}/">
+		{% if is_single %}
+			<link rel="alternate" type="application/rss+xml" href="/feeds/comments/{{ post.slug }}/" title="Comments (just this post)">
+		{% endif %}
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans|Copse">
+		{% if post.slideshow %}
+			<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway:100&amp;text={{ post.title|urlencode }}">
+		{% endif %}
+		<!-- {{ request.META.SERVER_PORT }} -->
+		{% if request.META.SERVER_PORT == "8080" %}
+			<link rel="stylesheet" type="text/css" href="/media/main.css">
+			<script src="/media/jquery-latest.min.js"></script>
+			<script src="/media/main.js"></script>
+		{% else %}
+			<link rel="stylesheet" type="text/css" href="/media/{% version %}-main.min.css">
+			<!--[if IE 6]><link rel="stylesheet" type="text/css" href="/media/ie6.css?v={% version %}"><![endif]-->
+			<script src="/media/{% version %}-merge.min.js"></script>
+			<script src="/mint/?js" async="async"></script>
+		{% endif %}
+
+		<style>{% nowhitespace %}
+			.dbg, label.error, #hdr, .save, #ldg{
+				background-color:#{{ random_item }};
+			}
+			.dbd, input.text:focus, textarea:focus, input.error, textarea.error, #tbg, #ftr, #bdy.shw, .admin .metawrap, .save, .tri h2, #ftr a{
+				border-color:#{{ random_item }};
+			}
+			.dco, a{
+				color:#{{ random_item }};
+			}
+		{% endnowhitespace %}</style>
+	</head>
+	<body>
+		<div id="hdr">
+			<div class="wrp">
+				<div class="rgt">
+					{% if request.user.is_authenticated %}<a href="/admin/">Admin</a>{% endif %}
+					<a{% if request.path == '/archive/' %} class="current"{% endif %} href="/archive/">Blog Archive</a>
+					<a{% if request.path == '/about/'   %} class="current"{% endif %} href="/about/">About Me</a>
+					<a{% if request.path == '/contact/' %} class="current"{% endif %} href="/contact/">Contact</a>
+				</div>
+				<div class="lft">
+					<a href="/"><img src="/media/logo.png" height="25" width="181" alt="Alan Edwardes"/></a>
+				</div>
+			</div>
+		</div>
+		{% if post.slideshow %}
+			<script>{% nowhitespace %}
+				var bgImg = '{{ post.slideshow }}'.split('|');
+				var curBg = randomFromTo(0, bgImg.length-1);
+				$(document).ready(replaceBg);
+			{% endnowhitespace %}</script>
+			<div id="tbg">
+				<div id="ldg"></div>
+			</div>
+			<div id="ttl">
+				<div class="wrp">{{ post.title }}</div>
+			</div>
+		{% endif %}
+		<div id="bdy" class="{% if post.slideshow %}shw{% endif %}{% if request.path == '/' %} hme{% else %} sde{% endif %}">
+			{% block content %}{% endblock %}
+			<div style="clear:both"></div>
+		</div>
+		<div id="ftr">{% nowhitespace %}
+			<div class="wrp">
+				<div class="lft">
+					&copy; 2006 &ndash; {% now "Y" %} <a href="/about/">Alan Edwardes</a> / <a href="/changelog/">Changelog</a> / <a href="/mint/">Mint</a>
+					{% if is_index %}
+						 / Powered by <a href="http://www.audioscrobbler.net/">AudioScrobbler</a>, powered by <a href="http://steampowered.com">Steam</a>
+					{% endif %}
+				</div>
+				<div class="rgt">
+					<a href="#" onclick="$.scrollTo(0);return false;">Top</a> &#8593;
+				</div>
+				<div style="clear:both"></div>
+			</div>
+		{% endnowhitespace %}</div>
+	</body>
+</html>
+{% endspaceless %}

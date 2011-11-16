@@ -1,0 +1,6 @@
+Sitemap: http://{{ request.META.HTTP_HOST }}/sitemap.xml
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /mint/
