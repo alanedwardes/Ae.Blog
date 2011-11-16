@@ -1,11 +1,11 @@
 # Full Source Code for my django Blog
 
 This repository is the entire source (sans sensitive DB credentials and stuff) for my blog, located at 
-[alan.edward.es](http://alan.edward.es/ "domain hacks are cool :-)").
+[alan.edward.es](http://alan.edward.es/).
 
 ## Why
 
-I have been keeping my own [release notes](http://alan.edward.es/changelog/) for a while now, but it's pretty stupid that I haven't been versioing my code. So here it is.
+I have been keeping my own [release notes](http://alan.edward.es/changelog/) for a while now, but it's pretty stupid that I haven't been versioning my code. So here it is.
 
 ## What It Does
 
