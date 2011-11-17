@@ -18,7 +18,6 @@
 		{% if post.slideshow %}
 			<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway:100&amp;text={{ post.title|urlencode }}">
 		{% endif %}
-		<!-- {{ request.META.SERVER_PORT }} -->
 		{% if request.META.SERVER_PORT == "8080" %}
 			<link rel="stylesheet" type="text/css" href="/media/main.css">
 			<script src="/media/jquery-latest.min.js"></script>
@@ -76,9 +75,9 @@
 		<div id="ftr">{% nowhitespace %}
 			<div class="wrp">
 				<div class="lft">
-					&copy; 2006 &ndash; {% now "Y" %} <a href="/about/">Alan Edwardes</a> / <a href="/changelog/">Changelog</a> / <a href="/mint/">Mint</a>
+					&copy; 2006 &ndash; {% now "Y" %} <a href="/about/">Alan Edwardes</a> / <a href="https://github.com/alanedwardes/aeblog">Source</a> / <a href="/mint/">Mint</a>
 					{% if is_index %}
-						 / Powered by <a href="http://www.audioscrobbler.net/">AudioScrobbler</a>, powered by <a href="http://steampowered.com">Steam</a>
+						 / Powered by <a href="http://www.audioscrobbler.net/">AudioScrobbler</a>, powered by <a href="http://steampowered.com/">Steam</a>
 					{% endif %}
 				</div>
 				<div class="rgt">
