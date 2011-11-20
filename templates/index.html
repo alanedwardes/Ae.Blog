@@ -30,7 +30,10 @@
 				$(data).each(function(){
 					if(!this.in_reply_to_user_id && c < 5){
 						posted = new Date(this.created_at);
-						$('#tweets ul').append('<li>' + this.text + ' <a href="https://twitter.com/AlanEdwardes/status/' + this.id_str + '">' + posted.getHours() + ':' + posted.getMinutes() + ' on ' + posted.getDate() + '/' + (posted.getMonth() + 1) + '</a></li>');
+						li = $('<li>' + this.text + ' <a href="https://twitter.com/AlanEdwardes/status/' + this.id_str + '">' + posted.getHours() + ':' + posted.getMinutes() + ' on ' + posted.getDate() + '/' + (posted.getMonth() + 1) + '</a></li>');
+						$(li).hide();
+						$('#tweets ul').append(li);
+						$(li).delay(c * 50).fadeIn();
 						c++;
 					}
 				});
