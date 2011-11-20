@@ -214,6 +214,15 @@ def single(request, post_slug):
 				post=post
 			)
 			comment.save()
+			
+			email = EmailMessage(
+				'Comment on Alan Edwardes',
+				'http://alan.edward.es' + comment.get_absolute_url(),
+				None,
+				[settings.ADMINS[0][1]]
+			)
+			email.send()
+			
 			response = HttpResponse(status=302)
 			response.set_cookie('name', data['name'])
 			response.set_cookie('email', data['email'])

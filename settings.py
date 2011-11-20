@@ -20,13 +20,6 @@
 #     }
 # }
 #
-# SERVER_EMAIL = ''
-# EMAIL_HOST = ''
-# EMAIL_HOST_USER = ''
-# EMAIL_HOST_PASSWORD = ''
-# EMAIL_PORT = 0
-# EMAIL_USE_TLS = True
-#
 # AKISMET_KEY = ''
 # WEB_ROOT = '/'
 #
