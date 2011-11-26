@@ -5,7 +5,7 @@
 	{% for comment in comments %}
 		<div id="comment-{{ comment.id }}" class="comment{% if comment.is_admin %} admin{% endif %}">
 			<a class="grav" target="_blank" href="http://www.gravatar.com/{% md5 comment.email %}">
-				<img width="24" height="24" alt="{{ comment.name|striptags|escape }}'s Gravatar" src="http://www.gravatar.com/avatar/{% md5 comment.email %}.png?s=24&r=g&d=retro"/>
+				<img width="24" height="24" alt="{{ comment.name|striptags|escape }}'s Gravatar" src="http://www.gravatar.com/avatar/{% md5 comment.email %}.png?s=24&amp;r=g&amp;d=retro"/>
 			</a>
 			<div class="metawrap">
 				<div class="postdate">
