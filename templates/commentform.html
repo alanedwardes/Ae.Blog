@@ -11,7 +11,7 @@
 			{% if data.nameerror %}<div class="error">{{ data.nameerror }}</div>{% endif %}
 		</div>
 		<div{% if data.emailerror %} class="errorwrap"{% endif %}>
-			<label for="cemail">Email <small>(optional, used for <a target="_blank" href="http://www.gravatar.com/">gravatar</a>)</small></label>
+			<label for="cemail">Email <small>(optional, used for <a target="_blank" href="http://www.gravatar.com/">your avatar</a>)</small></label>
 			<input name="email" type="text" id="cemail" class="text" value="{{ data.email }}"/>
 			{% if data.emailerror %}<div class="error">{{ data.emailerror }}</div>{% endif %}
 		</div>

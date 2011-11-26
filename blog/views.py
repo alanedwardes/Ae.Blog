@@ -3,7 +3,7 @@ from akismet import Akismet
 from django.conf import settings
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.core.validators import validate_email, URLValidator
+from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail, EmailMessage
 from django.shortcuts import get_object_or_404, render_to_response, redirect
@@ -165,17 +165,13 @@ def single(request, post_slug):
 			data['bodyerror'] = 'Enter a comment.'
 			error = True
 			
+		if len(data['body']) > 2000:
+			data['bodyerror'] = 'Enter a comment that is shorter than 2000 characters'
+			error = True
+			
 		if re.search('<a', data['body']):
 			data['bodyerror'] = 'No HTML allowed in comments.'
 			error = True
-		
-		if data['url']:
-			validate = URLValidator(verify_exists=True)
-			try:
-				validate(data['url'])
-			except ValidationError, e:
-				data['urlerror'] = '; '.join(e.messages)
-				error = True
 		
 		if data['email']:
 			try:
