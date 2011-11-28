@@ -149,18 +149,24 @@ def single(request, post_slug):
 	akismet = False
 
 	if request.method == 'POST':
+		if request.POST.get('email', '') or request.POST.get('honeypot', ''):
+			raise Http404
+	
 		data = {
-			'email': request.POST.get('email', '').encode('utf-8', 'ignore'),
+			'email': request.POST.get('jerry_the_spider', '').encode('utf-8', 'ignore'),
 			'name': request.POST.get('name', '').encode('utf-8', 'ignore'),
 			'url': request.POST.get('url', '').encode('utf-8', 'ignore'),
 			'body': request.POST.get('body', '').encode('utf-8', 'ignore'),
 		}
+
 		if request.user.is_authenticated():
 			data['email'] = request.user.email
 			data['name'] = request.user.first_name + ' ' + request.user.last_name
+
 		if not data['name']:
 			data['nameerror'] = 'Enter your name.'
 			error = True
+
 		if not data['body']:
 			data['bodyerror'] = 'Enter a comment.'
 			error = True
@@ -169,7 +175,7 @@ def single(request, post_slug):
 			data['bodyerror'] = 'Enter a comment that is shorter than 2000 characters'
 			error = True
 			
-		if re.search('<a', data['body']):
+		if re.search('<a', data['body']) or re.search('/>', data['body']):
 			data['bodyerror'] = 'No HTML allowed in comments.'
 			error = True
 		

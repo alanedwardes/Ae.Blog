@@ -4,6 +4,7 @@
 {% endif %}
 <form action="{{ post.get_absolute_url }}#comment-form" method="post">
 	{% csrf_token %}
+	<input type="text" name="email" value="" id="email_field" style="display:none" />
 	{% if not user.is_authenticated %}
 		<div{% if data.nameerror %} class="errorwrap"{% endif %}>
 			<label for="cname">Name <small>(If it's not real, it better be cool)</small></label>
@@ -11,8 +12,8 @@
 			{% if data.nameerror %}<div class="error">{{ data.nameerror }}</div>{% endif %}
 		</div>
 		<div{% if data.emailerror %} class="errorwrap"{% endif %}>
-			<label for="cemail">Email <small>(optional, used for <a target="_blank" href="http://www.gravatar.com/">your avatar</a>)</small></label>
-			<input name="email" type="text" id="cemail" class="text" value="{{ data.email }}"/>
+			<label for="jerry_the_spider">Email <small>(optional, used for <a target="_blank" href="http://www.gravatar.com/">your avatar</a>)</small></label>
+			<input name="jerry_the_spider" type="text" id="jerry_the_spider" class="text" value="{{ data.email }}"/>
 			{% if data.emailerror %}<div class="error">{{ data.emailerror }}</div>{% endif %}
 		</div>
 		<div{% if data.urlerror %} class="errorwrap"{% endif %}>
@@ -29,4 +30,5 @@
 	<div>
 		<input type="submit" class="save" value="Save Comment"/>
 	</div>
+	<input type="text" name="honeypot" value="" style="display:none" />
 </form>
