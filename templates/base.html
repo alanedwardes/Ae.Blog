@@ -26,9 +26,7 @@
 			<link rel="stylesheet" type="text/css" href="/media/{% version %}-main.min.css">
 			<!--[if IE 6]><link rel="stylesheet" type="text/css" href="/media/ie6.css?v={% version %}"><![endif]-->
 			<script src="/media/{% version %}-merge.min.js"></script>
-			<script src="/mint/?js" async="async"></script>
 		{% endif %}
-
 		<style>{% nowhitespace %}
 			.dbg, label.error, #hdr, .save, #ldg{
 				background-color:#{{ random_item }};
@@ -40,6 +38,9 @@
 				color:#{{ random_item }};
 			}
 		{% endnowhitespace %}</style>
+		{% if not user.is_authenticated %}
+			{% include "analytics.html" %}
+		{% endif %}
 	</head>
 	<body>
 		<div id="hdr">
