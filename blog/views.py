@@ -186,7 +186,7 @@ def single(request, post_slug):
 				data['emailerror'] = '; '.join(e.messages)
 				error = True
 
-		if not error and not request.user.is_authenticated():
+		if not error and not request.user.is_authenticated() and False:
 			try:
 				akismet = Akismet(settings.AKISMET_KEY, 'http://alan.edward.es/')
 				is_spam = akismet.comment_check(data['body'], {
