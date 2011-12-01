@@ -9,20 +9,57 @@
 	<div class="wrp">
 		<div class="lft">
 			<div id="cnt">
+				<div id="dyc">
+				
+				</div>
+				<h2>Changes not on github</h2>
+				<p>Changes that I logged manually before I started using github.</p>
 				{% for change in changes %}
-					<h3>{{ change.published|date:"dS M Y" }}</h3>
+					<h3>{{ change.published|date:"d/m/Y" }}</h3>
 					<ul>
 						{{ change.body|nl2li|safe }}
 					</ul>
 				{% endfor %}
+				<script>
+					var gdata = {};
+					$.getJSON('https://github.com/api/v2/json/commits/list/alanedwardes/aeblog/master?callback=?', function(data){
+						var count = data.commits.length;
+						$(data.commits).each(function(){
+							d = new Date(this.authored_date);
+							var key = d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear();
+							if(!gdata[key]){
+								gdata[key] = [];
+							}
+							gdata[key].push(this.message + ' <sup><a href="https://github.com' + this.url + '">[commit]</a></sup>');
+							if(!--count){
+								var c = 0;
+								$.each(gdata, function(k, v){
+									var div = $('<div></div>');
+									$(div).append(
+										'<h3>' + k + '</h3>' +
+										'<ul><li>' +
+										v.join('</li><li>') +
+										'</li></ul>'
+									);
+									$(div).hide();
+									$('#dyc').append(div);
+									$(div).delay(c * 100).slideDown();
+									c++;
+								});
+								$('#dyc').prepend(
+									'<h2>Changes on github</h2>' +
+									'<p>Changes from the <a href="https://github.com/alanedwardes/aeblog/">github repository</a>.</p>'
+								);
+							}
+						});
+					});
+				</script>
 			</div>
 		</div>
 		<div class="rgt">
 			<div id="sdb">
 				<h2>Changelog</h2>
-				<p>Changes I've made to my blog over time. I thought I'd start a list for my own reference.</p>
-				<p>&nbsp;</p>
-				<p>TODO: USE GITHUB YOU IDIOT.</p>
+				<p>Changes I've made to my blog over time. The project is now hosted on <a href="https://github.com/alanedwardes/aeblog/">github</a>, however below are the github and pre-github changes.</p>
 			</div>
 		</div>
 	</div>
