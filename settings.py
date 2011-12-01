@@ -20,7 +20,6 @@
 #     }
 # }
 #
-# AKISMET_KEY = ''
 # WEB_ROOT = '/'
 #
 from sensitive_settings import *

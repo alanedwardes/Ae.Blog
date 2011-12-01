@@ -1,5 +1,4 @@
 import glob, re, os
-from akismet import Akismet
 from django.conf import settings
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -145,8 +144,6 @@ def changelog(request):
 def single(request, post_slug):
 	post = get_object_or_404(Post, slug=post_slug)
 	error = False
-	is_spam = False
-	akismet = False
 
 	if request.method == 'POST':
 		if request.POST.get('email', '') or request.POST.get('honeypot', ''):
@@ -185,26 +182,6 @@ def single(request, post_slug):
 			except ValidationError, e:
 				data['emailerror'] = '; '.join(e.messages)
 				error = True
-
-		if not error and not request.user.is_authenticated() and False:
-			try:
-				akismet = Akismet(settings.AKISMET_KEY, 'http://alan.edward.es/')
-				is_spam = akismet.comment_check(data['body'], {
-					'user_ip': request.META.get('REMOTE_ADDR', '127.0.0.1'),
-					'user_agent': request.META.get('HTTP_USER_AGENT', ''),
-					'referrer': request.META.get('HTTP_REFERER', ''),
-					'comment_type': 'comment',
-					'comment_author': data['name'],
-					'comment_author_email': data['email'],
-					'comment_author_url': data['url']
-				})
-			except:
-				data['generalerror'] = 'Couldn\'t check your comment for spam :( Sorry, please submit again'
-				error = True
-		
-		if is_spam:
-			data['generalerror'] = 'Sorry, your comment looks like spam. This is typically because of the number URLs in your comment, or it could be because you\'re using a structure similar to a spam comment. Try adjusting it a bit, then re-submitting.'
-			error = True
 
 		if not error:
 			comment = Comment(
