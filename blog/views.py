@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext, loader, Context, Template
 from django.utils import simplejson
 from django.utils.html import strip_tags
+from django.utils.encoding import smart_unicode
 from blog.models import *
 
 def index(request):
@@ -150,10 +151,10 @@ def single(request, post_slug):
 			raise Http404
 	
 		data = {
-			'email': request.POST.get('jerry_the_spider', '').encode('utf-8', 'ignore'),
-			'name': request.POST.get('name', '').encode('utf-8', 'ignore'),
-			'url': request.POST.get('url', '').encode('utf-8', 'ignore'),
-			'body': request.POST.get('body', '').encode('utf-8', 'ignore'),
+			'email': smart_unicode(request.POST.get('jerry_the_spider', '')),
+			'name': smart_unicode(request.POST.get('name', '')),
+			'url': smart_unicode(request.POST.get('url', '')),
+			'body': smart_unicode(request.POST.get('body', '')),
 		}
 
 		if request.user.is_authenticated():
@@ -210,9 +211,9 @@ def single(request, post_slug):
 			return response
 	else:
 		data = {
-			'email': request.COOKIES.get('email', '').encode('utf-8', 'ignore'),
-			'name': request.COOKIES.get('name', '').encode('utf-8', 'ignore'),
-			'url': request.COOKIES.get('url', '').encode('utf-8', 'ignore'),
+			'email': smart_unicode(request.COOKIES.get('email', '')),
+			'name': smart_unicode(request.COOKIES.get('name', '')),
+			'url': smart_unicode(request.COOKIES.get('url', '')),
 		}
 
 	t = loader.get_template('single.html')

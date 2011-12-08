@@ -13,6 +13,10 @@
 				{% if post.comments > 0 %}
 					{% include "commentlist.html" %}
 					{% include "commentform.html" %}
+				{% else %}
+					{% if not user.is_authenticated %}
+						{% include "adunit1.html" %}
+					{% endif %}
 				{% endif %}
 			</div>
 		</div>
@@ -38,9 +42,10 @@
 				{% if post.get_previous_by_published and post.get_previous_by_published.type == 'published' %}
 					<p class="meta-item meta-prev">prev: <a href="{{ post.get_previous_by_published.get_absolute_url }}">{{ post.get_previous_by_published.title|truncatewords:5 }}</a></p>
 				{% endif %}
-				<script>{% nowhitespace %}
-					$.getJSON('http://hits.projects.alanedwardes.com/?resource=http://{{ request.get_host }}{{ request.path }}&callback=?', function(hits){
+				<script>{% nowhitespace %}				
+					$.getJSON('http://hits.projects.alanedwardes.com/?resource=http://{{ request.get_host }}{{ request.path }}&callback=?', function(data){
 						result = false;
+						hits = data.hits;
 						for(period in hits){
 							if(result){
 								result += ' / ';
@@ -50,6 +55,10 @@
 							result += period + ' ' + hits[period];
 						}
 						$('#dynamic-meta').append('<p class="meta-item meta-stats">' + result + '</p>');
+						
+						if(data.terms.length > 0){
+							$('#dynamic-meta').append('<p class="meta-item meta-searches">terms: ' + data.terms.join(', ').replace(/\+/g, ' ') + '.</p>');
+						}
 					});
 				{% endnowhitespace %}</script>
 				<div id="dynamic-meta"></div>
@@ -90,9 +99,9 @@
 					{% include "commentform.html" %}
 				{% else %}
 					<p class="meta-item meta-addcomment"><a href="#comment-form">add</a> a comment</p>
-				{% endif %}
-				{% if not user.is_authenticated %}
-					{% include "adunit1.html" %}
+					{% if not user.is_authenticated %}
+						{% include "adunit1.html" %}
+					{% endif %}
 				{% endif %}
 			</div>
 		</div>
