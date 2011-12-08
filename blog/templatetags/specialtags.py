@@ -8,8 +8,9 @@ def specialtags( text ):
 	for match in re.findall('\[s3\](.*?)\[/s3\]', text):
 		text = text.replace('[s3]'+ match +'[/s3]', '/static_media/' + match)
 	for match in re.findall('\[yt\](.*?)\[/yt\]', text):
-		YouTubeURL = 'http://www.youtube.com/v/' + match + '?version=3&amp;rel=0'
-		text = text.replace('[yt]'+ match +'[/yt]', '<object type="application/x-shockwave-flash" data="' + YouTubeURL + '" width="600" height="375"><param name="movie" value="' + YouTubeURL + '"/><param name="wmode" value="transparent"/></object>')
+		#YouTubeURL = 'http://www.youtube.com/v/' + match + '?version=3&amp;rel=0'
+		#text = text.replace('[yt]'+ match +'[/yt]', '<object type="application/x-shockwave-flash" data="' + YouTubeURL + '" width="600" height="375"><param name="movie" value="' + YouTubeURL + '"/><param name="wmode" value="transparent"/></object>')
+		text = text.replace('[yt]'+ match +'[/yt]', '<iframe width="420" height="315" src="http://www.youtube.com/embed/' + match + '" frameborder="0" allowfullscreen></iframe>')
 	for match in re.findall('\[av\](.*?)\[/av\]', text):
 		text = text.replace('[av]' + match + '[/av]', 
 			'<object type="application/x-shockwave-flash" data="/static_media/jwplayer.swf" width="600" height="338">' +
