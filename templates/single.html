@@ -42,15 +42,20 @@
 					$.getJSON('http://hits.projects.alanedwardes.com/?resource=http://{{ request.get_host }}{{ request.path }}&callback=?', function(data){
 						result = false;
 						hits = data.hits;
+						t = 0;
 						for(period in hits){
 							if(result){
 								result += ' / ';
 							}else{
 								result = 'views: last ';
 							}
+							t += hits[period];
 							result += period + ' ' + hits[period];
 						}
-						$('#dynamic-meta').append('<p class="meta-item meta-stats">' + result + '</p>');
+						
+						if(t > 0){
+							$('#dynamic-meta').append('<p class="meta-item meta-stats">' + result + '</p>');
+						}
 						
 						if(data.terms.length > 0){
 							$('#dynamic-meta').append('<p class="meta-item meta-searches">terms: ' + data.terms.join(', ').replace(/\+/g, ' ') + '.</p>');
