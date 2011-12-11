@@ -1,4 +1,3 @@
-templates/adunit1.html
 templates/analytics.html
 sensitive_settings.py
 *.pyc
