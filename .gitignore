@@ -1,5 +1,5 @@
 templates/analytics.html
 sensitive_settings.py
-*-merge.min.js
-*-main.min.css
+*-merge.js
+*-main.css
 *.pyc
