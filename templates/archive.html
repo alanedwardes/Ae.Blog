@@ -12,7 +12,12 @@
 				<p>All {{ posts.count }} posts on this blog starting with the most recent.</p>
 				<ul>
 				{% for post in posts %}
-					<li><code>{{ post.published|date:"d/m/Y" }}</code> &mdash; <a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:8 }}</a><a class="commentcount" href="{{ post.get_absolute_url }}#comments">{{ post.comments }}</a></li>
+					<li style="border-bottom:1px dotted #aaa;">
+						<code>{{ post.published|date:"d/m/Y" }}</code> &mdash; <a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:8 }}</a>
+						{% if post.comments %}
+							<a class="commentcount" href="{{ post.get_absolute_url }}#comments">{{ post.comments }}</a>
+						{% endif %}
+					</li>
 				{% endfor %}
 				</ul>
 			</div>
