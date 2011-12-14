@@ -84,6 +84,9 @@
 				bottom:10px;
 			}
 		</style>
+		{% if not user.is_authenticated %}
+			{% include "analytics.html" %}
+		{% endif %}
 	</head>
 	<body>
 		<noscript><img src="http://dl.dropbox.com/u/1903330/wc/{{ file }}.png"/></noscript>
