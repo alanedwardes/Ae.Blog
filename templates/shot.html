@@ -1,10 +1,12 @@
+{% spaceless %}
+{% load nowhitespace %}
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>{{ file }}.png</title>
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
-		<script>
+		<script src="http://d13viqhq54ll3j.cloudfront.net/jquery-latest.min.js"></script>
+		<script>{% nowhitespace %}
 			var first_error = true;
 			var img = new Image();
 			
@@ -41,8 +43,8 @@
 				};
 				img.src = 'http://dl.dropbox.com/u/1903330/wc/{{ file }}.png';
 			});
-		</script>
-		<style>
+		{% endnowhitespace %}</script>
+		<style>{% nowhitespace %}
 			a{
 				color:inherit;
 			}
@@ -83,7 +85,7 @@
 				left:10px;
 				bottom:10px;
 			}
-		</style>
+		{% endnowhitespace %}</style>
 		{% if not user.is_authenticated %}
 			{% include "analytics.html" %}
 		{% endif %}
@@ -95,3 +97,4 @@
 		<div id="footer">my <a href="/">blog</a></div>
 	</body>
 </html>
+{% endspaceless %}
