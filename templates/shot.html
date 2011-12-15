@@ -5,6 +5,7 @@
 	<head>
 		<title>{{ file }}.png</title>
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+		<meta name="robots" content="noindex"/>
 		<script src="http://d13viqhq54ll3j.cloudfront.net/jquery-latest.min.js"></script>
 		<script>{% nowhitespace %}
 			var num_error = 0;
@@ -93,7 +94,7 @@
 		{% endif %}
 	</head>
 	<body>
-		<noscript><img src="http://dl.dropbox.com/u/1903330/wc/{{ file }}.png"/></noscript>
+		<noscript><img alt="" src="http://dl.dropbox.com/u/1903330/wc/{{ file }}.png"/></noscript>
 		<div class="c" id="loading"></div>
 		<div class="c" id="error">There was an error loading the image D:<br/><a href="#" onclick="return retry();">Try again?</a></div>
 		<div id="footer">my <a href="/">blog</a></div>
