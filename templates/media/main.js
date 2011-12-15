@@ -195,11 +195,78 @@ function ResizeObject(Object,Meta,ImageWidth,ImageHeight){
 	return Object;
 };
 
+function hexToRGB(hex){
+	hex = hex.replace('#', '');
+	return {
+		'r': parseInt(hex.substring(0, 2), 16),
+		'g': parseInt(hex.substring(2, 4), 16),
+		'b': parseInt(hex.substring(4, 6), 16)
+	}
+}
+
+var currentColour = 0;
+var colours = ['046380', 'A20D1E', '6F8C07', '955918', '800463'];
+var current = {};
+
+function doColour(fr, to){
+	current = fr;
+	function an(a, b){
+		if(a == b){
+			return a;
+		}else if(a < b){
+			return a+20;
+		}else{
+			return a-20;
+		}
+	}
+	
+	function rgbtostr(c){
+		return 'rgb(' + c.r + ',' + c.g + ',' + c.b + ')';
+	}
+
+	currentInterval = setInterval(function(){
+		if(current.r == to.r && current.g == to.g && current.b == to.b){
+			clearInterval(currentInterval);
+			currentColour++;
+			if(!colours[currentColour]){
+				currentColour = 0;
+			}
+			return doColour(current, hexToRGB(colours[currentColour]));
+		}
+	
+		current.r = an(current.r, to.r);
+		current.g = an(current.g, to.g);
+		current.b = an(current.b, to.b);
+		
+		styles = 
+			'.dbg, label.error, #hdr, .save, #ldg{' +
+				'background-color:' + rgbtostr(current) + ';' +
+			'}' +
+			'.dbd, input.text:focus, textarea:focus, input.error, textarea.error, #tbg, #ftr, #bdy.shw, .admin .metawrap, .save, .tri h2, #ftr a{' +
+				'border-color:' + rgbtostr(current) + ';' +
+			'}' +
+			'.dco, a{' +
+				'color:' + rgbtostr(current) + ';' +
+			'}'
+		
+		document.getElementById('theme').innerHTML = styles;
+	}, 250000000000);
+}
+
 $(document).ready(function(){
 	if($('#search-box').val()){
-		searchFor($('#search-box').val())
+		searchFor($('#search-box').val());
 	}
 	searchLinksForLightbox();
+	
+	if(theme == colours[0]){
+		currentColour = 1;
+		to = colours[1];
+	}else{
+		to = colours[0];
+	}
+	
+	doColour(hexToRGB(theme), hexToRGB(to));
 });
 
 function showLightbox(e, link){
