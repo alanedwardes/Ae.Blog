@@ -484,7 +484,7 @@ function doColour(fr, to){
 }
 
 $(document).ready(function(){
-	if(!bgImg){
+	if(typeof bgImg == "undefined"){
 		$(document).snowfall({
 			minSize : 3,
 			maxSize : 6,
