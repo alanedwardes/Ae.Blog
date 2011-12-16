@@ -25,9 +25,12 @@
 			<script src="/media/main.js"></script>
 		{% else %}
 			<link rel="stylesheet" type="text/css" href="http://d13viqhq54ll3j.cloudfront.net/{% version %}-main.min.css">
-			<!--[if IE 6]><link rel="stylesheet" type="text/css" href="/media/ie6.css?v={% version %}"><![endif]-->
 			<script src="http://d13viqhq54ll3j.cloudfront.net/{% version %}-merge.min.js"></script>
 		{% endif %}
+		<!--[if IE 6]>
+			<link rel="stylesheet" type="text/css" href="/media/ie6.css?v={% version %}">
+			<script src="/media/jquery.pngfix.min.js?v={% version %}"></script>
+		<![endif]-->
 		<style id="theme">{% nowhitespace %}
 			.dbg, label.error, #hdr, .save, #ldg, #tbg{
 				background-color:#{{ theme }};

@@ -514,6 +514,10 @@ function stopSnow(){
 }
 
 $(document).ready(function(){
+	if(typeof $().pngfix == "function"){
+		$('img').pngfix();
+	}
+
 	if(typeof bgImg == "undefined" && !document.cookie.match(/nosnow=true/g)){
 		startSnow();
 	}else{
