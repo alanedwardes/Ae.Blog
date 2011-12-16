@@ -498,7 +498,14 @@ function startSnow(){
 	return false;
 }
 
+function action(str){
+	return $.getJSON('http://actions.projects.alanedwardes.com/?callback=?', {
+		'action': str
+	});
+}
+
 function stopSnow(){
+	action('stopSnow');
 	document.cookie = "nosnow=true";
 	$(document).snowfall('clear');
 	$('#ps').hide();
@@ -554,12 +561,14 @@ function showLightbox(e, link){
 	
 	img = new Image();
 	$(img).error(function(){
-		if(confirm('Error loading "' + URL + '".\n\nDo you want to try and open it normally?')){
-			document.location = URL;
+		action('lightbox-error-' + link.href);
+		if(confirm('Error loading "' + link.href + '".\n\nDo you want to try and open it normally?')){
+			document.location = link.href;
 		}else{
 			return fadeAndRemove(container);
 		}
 	}).load(function(){
+		action('lightbox-load-' + link.href);
 		preview = $(document.createElement('div')).attr('id', 'preview').css('display', 'none').fadeIn(function(){
 			fadeAndRemove(loading);
 		});
