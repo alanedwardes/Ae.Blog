@@ -484,15 +484,17 @@ function doColour(fr, to){
 }
 
 $(document).ready(function(){
-	$(document).snowfall({
-		minSize : 3,
-		maxSize : 6,
-		minSpeed : 2,
-		maxSpeed : 4,
-		flakeCount : 75,
-		round : true,
-		shadow: true
-	});
+	if(!bgImg){
+		$(document).snowfall({
+			minSize : 3,
+			maxSize : 6,
+			minSpeed : 2,
+			maxSpeed : 4,
+			flakeCount : 50,
+			round : true,
+			shadow: true
+		});
+	}
 
 	if($('#search-box').val()){
 		searchFor($('#search-box').val());
