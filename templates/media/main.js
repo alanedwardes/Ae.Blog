@@ -1,65 +1,3 @@
-(function($) {
-	if(!document.defaultView || !document.defaultView.getComputedStyle){ // IE6-IE8
-		var oldCurCSS = $.curCSS;
-		$.curCSS = function(elem, name, force){
-			if(name === 'background-position'){
-				name = 'backgroundPosition';
-			}
-			if(name !== 'backgroundPosition' || !elem.currentStyle || elem.currentStyle[ name ]){
-				return oldCurCSS.apply(this, arguments);
-			}
-			var style = elem.style;
-			if ( !force && style && style[ name ] ){
-				return style[ name ];
-			}
-			return oldCurCSS(elem, 'backgroundPositionX', force) +' '+ oldCurCSS(elem, 'backgroundPositionY', force);
-		};
-	}
-	
-	var oldAnim = $.fn.animate;
-	$.fn.animate = function(prop){
-		if('background-position' in prop){
-			prop.backgroundPosition = prop['background-position'];
-			delete prop['background-position'];
-		}
-		if('backgroundPosition' in prop){
-			prop.backgroundPosition = '('+ prop.backgroundPosition;
-		}
-		return oldAnim.apply(this, arguments);
-	};
-	
-	function toArray(strg){
-		strg = strg.replace(/left|top/g,'0px');
-		strg = strg.replace(/right|bottom/g,'100%');
-		strg = strg.replace(/([0-9\.]+)(\s|\)|$)/g,"$1px$2");
-		var res = strg.match(/(-?[0-9\.]+)(px|\%|em|pt)\s(-?[0-9\.]+)(px|\%|em|pt)/);
-		return [parseFloat(res[1],10),res[2],parseFloat(res[3],10),res[4]];
-	}
-	
-	$.fx.step. backgroundPosition = function(fx) {
-		if (!fx.bgPosReady) {
-			var start = $.curCSS(fx.elem,'backgroundPosition');
-			if(!start){//FF2 no inline-style fallback
-				start = '0px 0px';
-			}
-			
-			start = toArray(start);
-			fx.start = [start[0],start[2]];
-			var end = toArray(fx.end);
-			fx.end = [end[0],end[2]];
-			
-			fx.unit = [end[1],end[3]];
-			fx.bgPosReady = true;
-		}
-		//return;
-		var nowPosX = [];
-		nowPosX[0] = ((fx.end[0] - fx.start[0]) * fx.pos) + fx.start[0] + fx.unit[0];
-		nowPosX[1] = ((fx.end[1] - fx.start[1]) * fx.pos) + fx.start[1] + fx.unit[1];           
-		fx.elem.style.backgroundPosition = nowPosX[0]+' '+nowPosX[1];
-
-	};
-})(jQuery);
-
 var searchTimeout;
 function searchFor(query){
 	clearTimeout(searchTimeout)
@@ -92,40 +30,57 @@ function searchFor(query){
 	}
 }
 
-var anDur = 20000;
+var anDur = 25000;
 var curIm;
+var changeTimeout;
 function replaceBg(){
+	$('#slideshow').fadeTo(0.7);
+	$('#img').remove();
 	base = '/static_media/';
 	curIm = new Image()
 	curIm.onload = function(){
-		$('#slideshow').html('<a href="' + base + bgImg[curBg] + '"><img id="ssi" width="100%" src="' + base + bgImg[curBg] + '"/></a>');
+		$('#slideshow').fadeTo(1).html('<a href="' + base + bgImg[curBg] + '"><img id="ssi" width="100%" src="' + base + bgImg[curBg] + '"/></a>');
 		searchLinksForLightbox();
-		$('#tbg').css({
-			'background-image': 'url(' + base + bgImg[curBg] + ')',
-			'background-position': '0px 0px'
-		});
-		$('#tbg #ldg').stop().fadeOut(anDur / 10);
-		$('#tbg').animate({
-			backgroundPosition: '(0px -' + (curIm.height - 300) + 'px)'
+		//$('#tbg #ldg').stop().fadeOut(anDur / 10);
+		$(curIm).hide().attr('id', 'img');
+		$('#tbg').append(curIm);
+		$('#img').stop().fadeIn(anDur / 10).animate({
+			marginTop: '-=' + ($('#img').height() - 200),
 		}, {
+			queue: false,
 			duration: anDur,
-			easing: 'linear',
-			complete: function(){
-				return replaceBg();
-			}
+			easing: 'linear'
 		});
-		setTimeout(function(){
-			$('#tbg #ldg').css('opacity', 1).fadeIn(anDur / 10, function(){
-				$('#tbg').css('background-image', '');
+		
+		clearTimeout(changeTimeout);
+		changeTimeout = setTimeout(function(){
+			$(curIm).fadeOut(anDur / 10, function(){
+				return nextBG();
 			});
-		}, anDur - (anDur / 10));
-		if(bgImg[curBg+1]){
-			curBg++
-		}else{
-			curBg = 0
-		}
+			
+		}, anDur/2);
 	}
 	curIm.src = base + bgImg[curBg]
+	
+	return false; // don't go to #
+}
+
+function nextBG(){
+	if(bgImg[curBg+1]){
+		curBg++
+	}else{
+		curBg = 0
+	}
+	return replaceBg();
+}
+
+function lastBG(){
+	if(bgImg[curBg-1]){
+		curBg--
+	}else{
+		curBg = bgImg.length - 1
+	}
+	return replaceBg();
 }
 
 // http://www.admixweb.com/2010/08/24/javascript-tip-get-a-random-number-between-two-integers/

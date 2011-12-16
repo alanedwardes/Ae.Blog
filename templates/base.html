@@ -29,7 +29,7 @@
 			<script src="http://d13viqhq54ll3j.cloudfront.net/{% version %}-merge.min.js"></script>
 		{% endif %}
 		<style id="theme">{% nowhitespace %}
-			.dbg, label.error, #hdr, .save, #ldg{
+			.dbg, label.error, #hdr, .save, #ldg, #tbg{
 				background-color:#{{ random_item }};
 			}
 			.dbd, input.text:focus, textarea:focus, input.error, textarea.error, #tbg, #ftr, #bdy.shw, .admin .metawrap, .save, .tri h2, #ftr a{
@@ -63,9 +63,7 @@
 				var curBg = randomFromTo(0, bgImg.length-1);
 				$(document).ready(replaceBg);
 			{% endnowhitespace %}</script>
-			<div id="tbg">
-				<div id="ldg"></div>
-			</div>
+			<div id="tbg"></div>
 			<div id="ttl">
 				<div class="wrp">{{ post.title }}</div>
 			</div>

@@ -142,18 +142,18 @@ ul li{
 
 /* Header */
 #tbg{
-	box-shadow:inset 0px 0px 20px #222;
+	overflow:hidden;
+	box-shadow:inset 0px 0px 20px #444;
 	background-position:50% 0px;
 	background-repeat:no-repeat;
-	height:300px;
+	height:200px;
 	width:100%;
 	top:50px;
 	left:0px;
 	position:absolute;
 	z-index:-1;
 }
-#tbg #ldg{
-	height:300px;
+#tbg #img{
 	width:100%;
 }
 #hdr{
@@ -229,7 +229,7 @@ ul li{
 
 /* Title */
 #ttl .wrp{
-	padding-top:200px;
+	padding-top:100px;
 	overflow:hidden;
 	white-space:nowrap;
 	filter:Glow(color=000000, strength=4);
@@ -484,6 +484,23 @@ ul li{
 }
 #sdb .sdbmeta{
 	margin-bottom:10px;
+}
+#ssc{
+	height:20px;
+}
+#ssn{
+	background:url(next.png) no-repeat center right;
+	float:right;
+	text-align:right;
+	padding-right:20px;
+	width:100px;
+}
+#ssp{
+	background:url(prev.png) no-repeat center left;
+	float:left;
+	text-align:left;
+	padding-left:20px;
+	width:100px;
 }
 
 /* Footer */
