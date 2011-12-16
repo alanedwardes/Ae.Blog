@@ -19,7 +19,6 @@ urlpatterns = patterns('',
 	(r'^archive/$', 'blog.views.archive'),
 	(r'^random/$', 'blog.views.random'),
 	(r'^contact/$', 'blog.views.contact'),
-	(r'^changelog/$', 'blog.views.changelog'),
 	(r'^projects/$', 'blog.views.projects'),
 	(r'^about/$', 'blog.views.about'),
 	#(r'^hire/$', 'blog.views.hire'), // NOT READY, NAUGHTY
