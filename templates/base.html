@@ -19,7 +19,7 @@
 			<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway:100&amp;text={{ post.title|urlencode }}">
 		{% endif %}
 		<script>var theme = '{{ random_item }}';</script>
-		{% if request.META.SERVER_PORT == "8080" %}
+		{% if request.META.SERVER_PORT == "8080" or request.GET.local %}
 			<link rel="stylesheet" type="text/css" href="/media/main.css">
 			<script src="/media/jquery-latest.min.js"></script>
 			<script src="/media/main.js"></script>

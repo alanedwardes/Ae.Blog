@@ -238,18 +238,9 @@ function doColour(fr, to){
 		current.g = an(current.g, to.g);
 		current.b = an(current.b, to.b);
 		
-		styles = 
-			'.dbg, label.error, #hdr, .save, #ldg{' +
-				'background-color:' + rgbtostr(current) + ';' +
-			'}' +
-			'.dbd, input.text:focus, textarea:focus, input.error, textarea.error, #tbg, #ftr, #bdy.shw, .admin .metawrap, .save, .tri h2, #ftr a{' +
-				'border-color:' + rgbtostr(current) + ';' +
-			'}' +
-			'.dco, a{' +
-				'color:' + rgbtostr(current) + ';' +
-			'}'
-		
-		document.getElementById('theme').innerHTML = styles;
+		//$('.dbg, label.error, #hdr, .save, #ldg').css('background-color', rgbtostr(current));
+		//$('.dbd, input.text:focus, textarea:focus, input.error, textarea.error, #tbg, #ftr, #bdy.shw, .admin .metawrap, .save, .tri h2, #ftr a').css('border-color', rgbtostr(current));
+		//$('.dco, a').css('color', rgbtostr(current));
 	}, 250000000000);
 }
 
