@@ -329,7 +329,7 @@ function replaceBg(){
 		$(curIm).hide().attr('id', 'img');
 		$('#tbg').append(curIm);
 		$('#img').stop().fadeIn(anDur / 10).animate({
-			marginTop: '-=' + ($('#img').height() - 200),
+			marginTop: '-=' + ($('#img').height() - 200)
 		}, {
 			queue: false,
 			duration: anDur,
