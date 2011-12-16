@@ -483,17 +483,35 @@ function doColour(fr, to){
 	}, 250000000000);
 }
 
+function startSnow(){
+	$(document).snowfall({
+		minSize : 3,
+		maxSize : 6,
+		minSpeed : 2,
+		maxSpeed : 4,
+		flakeCount : 50,
+		round : true,
+		shadow: true
+	});
+	$('#ts').hide();
+	$('#ps').show();
+	return false;
+}
+
+function stopSnow(){
+	document.cookie = "nosnow=true";
+	$(document).snowfall('clear');
+	$('#ps').hide();
+	$('#ts').show();
+	return false;
+}
+
 $(document).ready(function(){
-	if(typeof bgImg == "undefined"){
-		$(document).snowfall({
-			minSize : 3,
-			maxSize : 6,
-			minSpeed : 2,
-			maxSpeed : 4,
-			flakeCount : 50,
-			round : true,
-			shadow: true
-		});
+	if(typeof bgImg == "undefined" && !document.cookie.match(/nosnow=true/g)){
+		startSnow();
+	}else{
+		document.cookie = "nosnow=false";
+		$('#ts').show();
 	}
 
 	if($('#search-box').val()){
