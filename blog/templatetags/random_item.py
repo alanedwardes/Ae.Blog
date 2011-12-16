@@ -11,8 +11,8 @@ def random_item(parser, token):
 
 class RandomItemNode(template.Node):
 	def __init__(self, str, var):
-		self.str = str
+		self.choices = str.replace('"', '').split('|')
 		self.var = var
 	def render(self, context):
-		context[self.var] = choice(self.str.split('|'))
+		context[self.var] = choice(self.choices)
 		return ''
