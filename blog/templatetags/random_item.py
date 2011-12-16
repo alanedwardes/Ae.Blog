@@ -6,12 +6,13 @@ register = template.Library()
 
 @register.tag
 def random_item(parser, token):
-	tag_name, str = token.split_contents()
-	return RandomItemNode(str)
+	tag_name, str, var = token.split_contents()
+	return RandomItemNode(str, var)
 
 class RandomItemNode(template.Node):
-	def __init__(self, str):
+	def __init__(self, str, var):
 		self.str = str
+		self.var = var
 	def render(self, context):
-		context['random_item'] = choice(self.str.split('|'))
+		context[self.var] = choice(self.str.split('|'))
 		return ''

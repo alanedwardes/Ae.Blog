@@ -1,6 +1,6 @@
 {% spaceless %}
 {% load random_item age nowhitespace version %}
-{% random_item 046380|A20D1E|6F8C07|955918|800463 %}
+{% random_item 046380|A20D1E|6F8C07|955918|800463 theme %}
 <!DOCTYPE html>
 <html>
 	<head>
@@ -18,7 +18,7 @@
 		{% if post.slideshow %}
 			<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway:100&amp;text={{ post.title|urlencode }}">
 		{% endif %}
-		<script>var theme = '{{ random_item }}';</script>
+		<script>var theme = '{{ theme }}';</script>
 		{% if request.META.SERVER_PORT == "8080" or request.GET.local %}
 			<link rel="stylesheet" type="text/css" href="/media/main.css">
 			<script src="/media/jquery-latest.min.js"></script>
@@ -30,13 +30,13 @@
 		{% endif %}
 		<style id="theme">{% nowhitespace %}
 			.dbg, label.error, #hdr, .save, #ldg, #tbg{
-				background-color:#{{ random_item }};
+				background-color:#{{ theme }};
 			}
 			.dbd, input.text:focus, textarea:focus, input.error, textarea.error, #tbg, #ftr, #bdy.shw, .admin .metawrap, .save, .tri h2, #ftr a{
-				border-color:#{{ random_item }};
+				border-color:#{{ theme }};
 			}
 			.dco, a{
-				color:#{{ random_item }};
+				color:#{{ theme }};
 			}
 		{% endnowhitespace %}</style>
 		{% if not user.is_authenticated %}
