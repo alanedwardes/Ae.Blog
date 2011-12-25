@@ -82,16 +82,19 @@ h4{
 form div{
 	padding-bottom:5px;
 }
+textarea, input{
+	padding:3px;
+	border-radius:5px;
+}
 textarea{
-	padding:2px 2px;
 	height:175px;
 	width:100%;
 }
 input{
-	padding:2px 2px;
 	width:50%;
 }
 input.text, textarea{
+	box-shadow:inset 2px 2px 5px rgba(0, 0, 0, 0.1);
 	background:#fff;
 	border-top:1px solid #bbb;
 	border-left:1px solid #bbb;
@@ -102,7 +105,6 @@ input.text, textarea{
 input.save{
 	width:101%;
 	color:#fff;
-	border:1px solid inherit;
 }
 label{
 	padding-bottom:5px;
