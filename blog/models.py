@@ -21,7 +21,7 @@ class Post(models.Model):
 class Comment(models.Model):
 	name = models.CharField(max_length = 100)
 	email = models.EmailField()
-	url = models.URLField()
+	url = models.URLField(blank = True)
 	body = models.TextField()
 	published = models.DateTimeField(auto_now_add = True)
 	is_admin = models.BooleanField()

@@ -11,7 +11,7 @@
 				<div class="postdate">
 					<a href="{{ comment.get_absolute_url }}" title="Permanent link to this comment">{{ comment.published|date:"jS \o\f F Y \a\t g:i A" }}</a>
 				</div>
-				<div class="author">{% nowhitespace %}
+				<div id="author-{{ comment.id }}" class="author">{% nowhitespace %}
 					{% if comment.url %}
 						<a title="Go to {{ comment.name|striptags|escape }}'s website" rel="nofollow" target="_blank" href="{{ comment.url|escape }}">{{ comment.name|striptags|htmlentities }}</a>
 					{% else %}
@@ -21,6 +21,37 @@
 			</div>
 			<div class="counter">{{ forloop.counter }}</div>
 			<div class="body">{{ comment.body|urlizetrunc:40|paragraphize }}</div>
+			<script>{% nowhitespace %}
+				(function(){
+					comment_body = document.getElementById('comment-{{ comment.id }}').getElementsByClassName('body')[0];
+					if(comment_body.innerHTML.match('@')){
+						replyTo = comment_body.innerHTML.split('@')[1].split(' ')[0];
+						authors = document.getElementsByClassName('author');
+						last_author = false;
+						for(i = authors.length-1;i >= 0; i--){
+							if(authors[i].innerHTML.match(replyTo)){
+								last_author = authors[i];
+							}
+						}
+						if(last_author){
+							link = '#' + last_author.id.replace('author-', 'comment-');
+							if(!replaceIn('@' + last_author.innerHTML, '<a href="' + link + '">@' + last_author.innerHTML + '</a>', comment_body)){
+								replaceIn('@' + replyTo, '<a href="' + link + '">@' + replyTo + '</a>', comment_body);
+							}
+						}
+						
+						function replaceIn(needle, replacement, haystack){
+							replaced = haystack.innerHTML.replace(needle, replacement);
+							if(replaced == haystack.innerHTML){
+								return false;
+							}else{
+								haystack.innerHTML = replaced;
+								return true;
+							}
+						}
+					};
+				})();
+			{% endnowhitespace %}</script>
 		</div>
 	{% endfor %}
 {% endif %}
