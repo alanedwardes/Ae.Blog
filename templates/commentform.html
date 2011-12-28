@@ -1,3 +1,5 @@
+{% load nowhitespace %}
+
 <h2 id="comment-form">Add a Comment</h2>
 {% if data.generalerror %}
 	<div class="error">{{ data.generalerror }}</div>
@@ -23,8 +25,25 @@
 		</div>
 	{% endif %}
 	<div{% if data.bodyerror %} class="errorwrap"{% endif %}>
+		<script>{% nowhitespace %}
+			authors = document.getElementsByClassName('author');
+			authors_unique = [];
+			for(i in authors){
+				if(!authors_unique.join('|').match(authors[i].innerHTML)){
+					authors_unique.push(authors[i].innerHTML);
+				}
+			}			
+			function suggestNames(event, object){
+				if(object.value.substr(-1, 1) == '@' && event.shiftKey){
+					document.getElementById('reply-suggestions').innerHTML = 'Reply to: ';
+					link = '@<a href="#" onclick="document.getElementById(\'cbody\').value += this.innerHTML;return false">';
+					document.getElementById('reply-suggestions').innerHTML += link + authors_unique.slice(authors_unique.length - 4, authors_unique.length + 1).join('</a>, ' + link) + '</a>';
+				}
+			}
+		{% endnowhitespace %}</script>
 		<label for="cbody">Comment <small>(No HTML, URLs are made clickable, press enter twice for a new paragraph)</small></label>
-		<textarea name="body" id="cbody" rows="7" cols="30">{{ data.body }}</textarea>
+		<div id="reply-suggestions"></div>
+		<textarea onkeyup="suggestNames(event, this)" name="body" id="cbody" rows="7" cols="30">{{ data.body }}</textarea>
 		{% if data.bodyerror %}<div class="error">{{ data.bodyerror }}</div>{% endif %}
 	</div>
 	<div>
