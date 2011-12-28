@@ -32,16 +32,20 @@
 				if(!authors_unique.join('|').match(authors[i].innerHTML)){
 					authors_unique.push(authors[i].innerHTML);
 				}
-			}			
+			}
+			oldcontent = '';
 			function suggestNames(event, object){
 				if(object.value.substr(-1, 1) == '@' && event.shiftKey){
 					document.getElementById('reply-suggestions').innerHTML = 'Reply to: ';
-					link = '@<a href="#" onclick="document.getElementById(\'cbody\').value += this.innerHTML;return false">';
-					document.getElementById('reply-suggestions').innerHTML += link + authors_unique.slice(authors_unique.length - 4, authors_unique.length + 1).join('</a>, ' + link) + '</a>';
+					link = '@<a href="#" onclick="document.getElementById(\'cbody\').value += this.innerHTML;document.getElementById(\'reply-suggestions\').innerHTML = \'\';return false">';
+					document.getElementById('reply-suggestions').innerHTML += link + authors_unique.slice(authors_unique.length - 5, authors_unique.length).join('</a>, ' + link) + '</a>';
+				}else if(object.value != oldcontent){
+					document.getElementById('reply-suggestions').innerHTML = '';
 				}
+				oldcontent = object.value;
 			}
 		{% endnowhitespace %}</script>
-		<label for="cbody">Comment <small>(No HTML, URLs are made clickable, press enter twice for a new paragraph)</small></label>
+		<label for="cbody">Comment <small>(No HTML, URLs are made clickable, press enter twice for a new paragraph{% if post.comments %}. Type @name to reply.{% endif %})</small></label>
 		<div id="reply-suggestions"></div>
 		<textarea onkeyup="suggestNames(event, this)" name="body" id="cbody" rows="7" cols="30">{{ data.body }}</textarea>
 		{% if data.bodyerror %}<div class="error">{{ data.bodyerror }}</div>{% endif %}
