@@ -471,6 +471,7 @@ ul li{
 
 /* Sidebar */
 #sdb{
+	width:330px;
 	line-height:1.5;
 	padding:0px 0px 0px 10px;
 }

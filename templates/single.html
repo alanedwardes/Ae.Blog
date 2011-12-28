@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<div class="rgt">
-			<div id="sdb">
+			<div id="sdb" {% if post.comments > 5 %}style="position:fixed"{% endif %}>
 				{% include "searchbox.html" %}
 				<p class="meta-item meta-date">{{ post.published|date:"dS \o\f F Y \a\t g:i A" }}</p>
 				<p class="meta-item meta-date">{{ post.published|timesince }} ago</p>
