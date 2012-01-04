@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<div class="rgt">
-			<div id="sdb" {% if post.comments > 5 %}style="position:fixed"{% endif %}>
+			<div id="sdb" {% if post.comments > 4 %}style="position:fixed"{% endif %}>
 				{% include "searchbox.html" %}
 				<p class="meta-item meta-date">{{ post.published|date:"dS \o\f F Y \a\t g:i A" }}</p>
 				<p class="meta-item meta-date">{{ post.published|timesince }} ago</p>
@@ -39,7 +39,7 @@
 					<p class="meta-item meta-prev">prev: <a href="{{ post.get_previous_by_published.get_absolute_url }}">{{ post.get_previous_by_published.title|truncatewords:5 }}</a></p>
 				{% endif %}
 				<script>{% nowhitespace %}				
-					$.getJSON('http://hits.projects.alanedwardes.com/?resource=http://{{ request.get_host }}{{ request.path }}&callback=?', function(data){
+					$.getJSON('http://hits.alanedwardes.com/?resource=http://{{ request.get_host }}{{ request.path }}&callback=?', function(data){
 						result = false;
 						hits = data.hits;
 						t = 0;
