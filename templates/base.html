@@ -27,6 +27,10 @@
 			<link rel="stylesheet" type="text/css" href="http://d13viqhq54ll3j.cloudfront.net/{% version %}-main.min.css">
 			<script src="http://d13viqhq54ll3j.cloudfront.net/{% version %}-merge.min.js"></script>
 		{% endif %}
+		{% if request.GET.mobile %}
+			<meta name="viewport" content="width=600,initial-scale=1">
+			<link rel="stylesheet" type="text/css" href="/media/mobile.css">
+		{% endif %}
 		<!--[if IE 6]>
 			<link rel="stylesheet" type="text/css" href="/media/ie6.css?v={% version %}">
 			<script src="/media/jquery.pngfix.min.js?v={% version %}"></script>

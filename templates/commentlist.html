@@ -9,7 +9,7 @@
 			</a>
 			<div class="metawrap">
 				<div class="postdate">
-					<a href="{{ comment.get_absolute_url }}" title="Permanent link to this comment">{{ comment.published|date:"jS \o\f F Y \a\t g:i A" }}</a>
+					<a href="{{ comment.get_absolute_url }}" title="{{ comment.published|date:"jS \o\f F Y \a\t g:i A" }}">{{ comment.published|timesince }} ago</a>
 				</div>
 				<div id="author-{{ comment.id }}" class="author">{% nowhitespace %}
 					{% if comment.url %}

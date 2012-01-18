@@ -21,7 +21,7 @@
 				{% include "searchbox.html" %}
 				<p class="meta-item meta-date">{{ post.published|date:"dS \o\f F Y \a\t g:i A" }}</p>
 				<p class="meta-item meta-date">{{ post.published|timesince }} ago</p>
-				<p class="meta-item meta-author">written by <a href="/">Alan Edwardes</a>. <a rel="author" href="https://plus.google.com/115256908274749978641/">g+</a></p>
+				<p class="meta-item meta-author">written by <a href="/">Alan Edwardes</a>.</p>
 				{% if request.user.is_authenticated %}
 					<p class="meta-item meta-edit">admin: <a href="http://alan.edward.es/admin/blog/post/{{ post.id }}/">edit post</a></p>
 				{% endif %}

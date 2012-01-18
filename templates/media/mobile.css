@@ -1,0 +1,12 @@
+#sdb{
+	display:none !important;
+}
+#bdy{
+	background:#fff !important;
+}
+body, html{
+	max-width:600px !important;
+}
+#bdy .lft, .wrp{
+	width:600px !important;
+}
