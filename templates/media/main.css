@@ -149,8 +149,6 @@ ul li{
 	background-repeat:no-repeat;
 	height:200px;
 	width:100%;
-	top:50px;
-	left:0px;
 	position:absolute;
 	z-index:-1;
 }
