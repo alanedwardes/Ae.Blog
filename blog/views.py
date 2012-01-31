@@ -130,10 +130,11 @@ def pure(request, post_slug):
 		'request': request,
 	}, context_instance=RequestContext(request))
 
-def projects(request):
-	return render_to_response('projects.html', {
+def portfolio(request):
+	return render_to_response('portfolio.html', {
 		'projects': Project.objects.all().order_by('-published'),
 		'request': request,
+		'is_index': True,
 	}, context_instance=RequestContext(request))
 	
 def changelog(request):

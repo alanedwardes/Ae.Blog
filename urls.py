@@ -19,7 +19,7 @@ urlpatterns = patterns('',
 	(r'^archive/$', 'blog.views.archive'),
 	(r'^random/$', 'blog.views.random'),
 	(r'^contact/$', 'blog.views.contact'),
-	(r'^projects/$', 'blog.views.projects'),
+	(r'^portfolio/$', 'blog.views.portfolio'),
 	(r'^about/$', 'blog.views.about'),
 	#(r'^hire/$', 'blog.views.hire'), // NOT READY, NAUGHTY
 	(r'^posts/(?P<post_slug>[a-z0-9-_]+)/$', 'blog.views.single'),
