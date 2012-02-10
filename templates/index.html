@@ -15,7 +15,7 @@
 		<ul>
 		{% for post in posts %}
 			<li>
-				<a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:6 }}</a>
+				<a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:5 }}</a>
 				{% if post.comments %}
 					<a class="commentcount" href="{{ post.get_absolute_url }}#comments">{{ post.comments }}</a>
 				{% endif %}
