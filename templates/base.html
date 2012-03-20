@@ -55,6 +55,7 @@
 			<div class="wrp">
 				<div class="rgt">
 					{% if request.user.is_authenticated %}<a href="/admin/">Admin</a>{% endif %}
+					<a href="/estranged/">Play Estranged</a>
 					<a{% if request.path == '/archive/' %} class="current"{% endif %} href="/archive/">Blog Archive</a>
 					<a{% if request.path == '/about/'   %} class="current"{% endif %} href="/about/">About Me</a>
 					<a{% if request.path == '/contact/' %} class="current"{% endif %} href="/contact/">Contact</a>
