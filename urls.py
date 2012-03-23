@@ -28,14 +28,8 @@ urlpatterns = patterns('',
 	(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
 		'document_root': settings.MEDIA_ROOT,
     }),
-	(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-		'document_root': settings.MEDIA_ROOT,
-    }),
 	(r'^static_media/(?P<path>.*)$', 'django.views.static.serve', {
 		'document_root': settings.WEB_ROOT + '/static_media/',
-    }),
-	(r'^admin-media/(?P<path>.*)$', 'django.views.static.serve', {
-		'document_root': settings.WEB_ROOT + '/djangotrunk/django/contrib/admin/media/',
     }),
     (r'^admin/', include(admin.site.urls)),
 )
