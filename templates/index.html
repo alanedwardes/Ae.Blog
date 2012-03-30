@@ -77,19 +77,21 @@
 	<div id="lastfm"></div>
 	<script>{% nowhitespace %}
 		$.getJSON('http://steamgames.alanedwardes.com/?callback=?', function(data){
-			$('.game.intro #second').css('visibility','visible').hide().fadeIn();
-			var intro = $(
+			if(data && data.mostPlayedGames.mostPlayedGame){
+				$('.game.intro #second').css('visibility','visible').hide().fadeIn();
+				var intro = $(
 
-			);
-			$('#steamgames').append(intro);
-			$(intro).fadeIn();
-			$(data.mostPlayedGames.mostPlayedGame).each(function(i, game){
-				if(i < 3){
-					game = $('<div class="game"><a target="_blank" href="' + game.gameLink + '" title="' + game.gameName + ', played ' + game.hoursPlayed + ' hours over the past two weeks, ' + game.hoursOnRecord + ' hours total."><img width="184" height="69" src="' + game.gameLogo + '"/></a></div>');
-					$('#steamgames').append(game);
-					$(game).delay(i * 50).fadeIn();
-				}
-			});
+				);
+				$('#steamgames').append(intro);
+				$(intro).fadeIn();
+				$(data.mostPlayedGames.mostPlayedGame).each(function(i, game){
+					if(i < 3){
+						game = $('<div class="game"><a target="_blank" href="' + game.gameLink + '" title="' + game.gameName + ', played ' + game.hoursPlayed + ' hours over the past two weeks, ' + game.hoursOnRecord + ' hours total."><img width="184" height="69" src="' + game.gameLogo + '"/></a></div>');
+						$('#steamgames').append(game);
+						$(game).delay(i * 50).fadeIn();
+					}
+				});
+			}
 		});
 	{% endnowhitespace %}</script>
 	<div id="steamgames">
