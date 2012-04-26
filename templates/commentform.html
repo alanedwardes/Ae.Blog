@@ -26,28 +26,30 @@
 	{% endif %}
 	<div{% if data.bodyerror %} class="errorwrap"{% endif %}>
 		<script>{% nowhitespace %}
-			authors = document.getElementsByClassName('author');
-			authors_unique = [];
-			for(i in authors){
-				if(!authors_unique.join('|').match(authors[i].innerHTML)){
-					authors_unique.push(authors[i].innerHTML);
-				}
-			}
+			var authors = new Array();
+		
+			$('.author').each(function(i, author)
+			{
+				authors.push($(author).text());
+			});
+			
+			authors = $.unique(authors.slice(authors.length - 10, authors.length));
+			
 			oldcontent = '';
-			function suggestNames(event, object){
-				if(object.value.substr(-1, 1) == '@' && event.shiftKey){
-					document.getElementById('reply-suggestions').innerHTML = 'Reply to: ';
+			function suggestNames(object){
+				if(object.value.substr(-1, 1) == '@'){
 					link = '@<a href="#" onclick="document.getElementById(\'cbody\').value += this.innerHTML;document.getElementById(\'reply-suggestions\').innerHTML = \'\';return false">';
-					document.getElementById('reply-suggestions').innerHTML += link + authors_unique.slice(authors_unique.length - 5, authors_unique.length).join('</a>, ' + link) + '</a>';
+					
+					$('#reply-suggestions').html('Reply to: ' + link + authors.join('</a>, ' + link) + '</a>');
 				}else if(object.value != oldcontent){
-					document.getElementById('reply-suggestions').innerHTML = '';
+					$('#reply-suggestions').html('');
 				}
 				oldcontent = object.value;
 			}
 		{% endnowhitespace %}</script>
 		<label for="cbody">Comment <small>(No HTML, URLs are made clickable, press enter twice for a new paragraph{% if post.comments %}. Type @name to reply.{% endif %})</small></label>
 		<div id="reply-suggestions"></div>
-		<textarea onkeyup="suggestNames(event, this)" name="body" id="cbody" rows="7" cols="30">{{ data.body }}</textarea>
+		<textarea onkeyup="suggestNames(this)" name="body" id="cbody" rows="7" cols="30">{{ data.body }}</textarea>
 		{% if data.bodyerror %}<div class="error">{{ data.bodyerror }}</div>{% endif %}
 	</div>
 	<div>
