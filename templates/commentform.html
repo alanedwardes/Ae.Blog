@@ -19,7 +19,7 @@
 			{% if data.emailerror %}<div class="error">{{ data.emailerror }}</div>{% endif %}
 		</div>
 		<div{% if data.urlerror %} class="errorwrap"{% endif %}>
-			<label for="curl">URL <small>(optional, makes your name link to your site)</small></label>
+			<label for="curl">Website Address <small>(optional, makes your name link to your site)</small></label>
 			<input name="url" type="text" id="curl" class="text" value="{{ data.url }}"/>
 			{% if data.urlerror %}<div class="error">{{ data.urlerror }}</div>{% endif %}
 		</div>
