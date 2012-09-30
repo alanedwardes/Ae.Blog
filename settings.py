@@ -21,6 +21,7 @@
 # }
 #
 # WEB_ROOT = '/'
+# SECRET_KEY = 'secret key'
 #
 from sensitive_settings import *
 
