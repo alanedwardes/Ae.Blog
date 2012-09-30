@@ -4,20 +4,20 @@
 # The file basically looks like:
 #
 # ADMINS = (
-#     ('Alan Edwardes', 'my@email.address'),
+#	 ('Alan Edwardes', 'my@email.address'),
 # )
 #
 # MANAGERS = ADMINS
 #
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.',	# Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-#         'NAME': '',						# Or path to database file if using sqlite3.
-#         'USER': '',						# Not used with sqlite3.
-#         'PASSWORD': '',					# Not used with sqlite3.
-#         'HOST': '',						# Set to empty string for localhost. Not used with sqlite3.
-#         'PORT': '',						# Set to empty string for default. Not used with sqlite3.
-#     }
+#	 'default': {
+#		 'ENGINE': 'django.db.backends.',	# Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+#		 'NAME': '',						# Or path to database file if using sqlite3.
+#		 'USER': '',						# Not used with sqlite3.
+#		 'PASSWORD': '',					# Not used with sqlite3.
+#		 'HOST': '',						# Set to empty string for localhost. Not used with sqlite3.
+#		 'PORT': '',						# Set to empty string for default. Not used with sqlite3.
+#	 }
 # }
 #
 # WEB_ROOT = '/'
@@ -76,35 +76,32 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+	# Put strings here, like "/home/html/static" or "C:/www/django/static".
+	# Always use forward slashes, even on Windows.
+	# Don't forget to use absolute paths, not relative paths.
 )
 
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+	'django.contrib.staticfiles.finders.FileSystemFinder',
+	'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#	'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
-
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = 'n5=-5&*l$^7kl@%yhh*a)m#-#ls&1&%je1-!=0@)!^iu582(q*'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+	'django.template.loaders.filesystem.Loader',
+	'django.template.loaders.app_directories.Loader',
+#	 'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+	'django.middleware.common.CommonMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	'django.middleware.csrf.CsrfViewMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 ROOT_URLCONF = 'djblog.urls'
@@ -115,15 +112,15 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
 	'djblog.blog',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.admin',
-    #'django.contrib.sites',
-    # Uncomment the next line to enable admin documentation:
-    #'django.contrib.admindocs',
+	'django.contrib.auth',
+	'django.contrib.contenttypes',
+	'django.contrib.sessions',
+	'django.contrib.messages',
+	'django.contrib.staticfiles',
+	'django.contrib.admin',
+	#'django.contrib.sites',
+	# Uncomment the next line to enable admin documentation:
+	#'django.contrib.admindocs',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -132,19 +129,19 @@ INSTALLED_APPS = (
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    }
+	'version': 1,
+	'disable_existing_loggers': False,
+	'handlers': {
+		'mail_admins': {
+			'level': 'ERROR',
+			'class': 'django.utils.log.AdminEmailHandler'
+		}
+	},
+	'loggers': {
+		'django.request': {
+			'handlers': ['mail_admins'],
+			'level': 'ERROR',
+			'propagate': True,
+		},
+	}
 }
