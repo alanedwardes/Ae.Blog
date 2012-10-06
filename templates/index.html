@@ -26,10 +26,11 @@
 	<div class="tri">
 		<h2>Recent Tweets</h2>
 		<script>{% nowhitespace %}
-			$.getJSON('https://api.twitter.com/1/statuses/user_timeline.json?screen_name=AlanEdwardes&trim_user=true&callback=?', function(data){
+			$.getJSON('http://jsonpcache.alanedwardes.com/?resource=twitter_ae_timeline&callback=?', function(data) {
 				c = 0;
-				$(data).each(function(){
-					if(!this.in_reply_to_user_id && c < 5){
+				$(data).each(function() {
+					if (!this.in_reply_to_user_id && c < 5)
+					{
 						dt = this.created_at.split(' ');
 						li = $('<li>' + this.text + ' <a href="https://twitter.com/AlanEdwardes/status/' + this.id_str + '">' + dt[3] + ' on ' + dt[1] + ' ' + dt[2] +'</a></li>');
 						$(li).hide();
@@ -61,11 +62,12 @@
 		</p>
 	</div>
 	<script>{% nowhitespace %}
-		$.getJSON('https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=alanedwardes&api_key=aeddbef34f0e1aca090ea79badb28a2e&period=7day&limit=20&format=json&callback=?', function(data){
+		$.getJSON('http://jsonpcache.alanedwardes.com/?resource=lastfm_ae_albums&callback=?', function(data){
 			$('.game.intro #first').css('visibility','visible').hide().fadeIn();
 			c = 0;
 			$(data['topalbums']['album']).each(function(){
-				if(this.image['1']['#text'] && !this.image['1']['#text'].match(/default/g) && c < 12){
+				if (this.image['1']['#text'] && !this.image['1']['#text'].match(/default/g) && c < 12)
+				{
 					album = $('<div id="cover-' + c + '" class="album"><a target="_blank" href="' + this.url + '" title="' + this.name + ' by ' + this.artist.name + ', played ' + this.playcount + ' times this week.' + '"><img width="64" height="64" src="' + this.image['1']['#text'] + '"/></a></div>');
 					$('#lastfm').append(album);
 					$(album).delay(c * 50).fadeIn();
@@ -76,16 +78,13 @@
 	{% endnowhitespace %}</script>
 	<div id="lastfm"></div>
 	<script>{% nowhitespace %}
-		$.getJSON('http://steamgames.alanedwardes.com/?callback=?', function(data){
-			if(data && data.mostPlayedGames.mostPlayedGame){
+		$.getJSON('http://jsonpcache.alanedwardes.com/?resource=steam_ae_games&callback=?', function(data){
+			if (data && data.mostPlayedGames && data.mostPlayedGames.mostPlayedGame)
+			{
 				$('.game.intro #second').css('visibility','visible').hide().fadeIn();
-				var intro = $(
-
-				);
-				$('#steamgames').append(intro);
-				$(intro).fadeIn();
-				$(data.mostPlayedGames.mostPlayedGame).each(function(i, game){
-					if(i < 3){
+				$(data.mostPlayedGames.mostPlayedGame).each(function(i, game) {
+					if (i < 3)
+					{
 						game = $('<div class="game"><a target="_blank" href="' + game.gameLink + '" title="' + game.gameName + ', played ' + game.hoursPlayed + ' hours over the past two weeks, ' + game.hoursOnRecord + ' hours total."><img width="184" height="69" src="' + game.gameLogo + '"/></a></div>');
 						$('#steamgames').append(game);
 						$(game).delay(i * 50).fadeIn();
