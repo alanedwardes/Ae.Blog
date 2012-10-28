@@ -1,7 +1,9 @@
+#coding=utf-8
 from django.conf.urls.defaults import *
 from blog.feeds import *
 from django.conf import settings
 from django.contrib import admin
+from django.utils.encoding import iri_to_uri
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -19,17 +21,13 @@ urlpatterns = patterns('',
 	(r'^archive/$', 'blog.views.archive'),
 	(r'^random/$', 'blog.views.random'),
 	(r'^contact/$', 'blog.views.contact'),
-	(r'^portfolio/$', 'blog.views.portfolio'),
 	(r'^about/$', 'blog.views.about'),
-	#(r'^hire/$', 'blog.views.hire'), // NOT READY, NAUGHTY
-	(r'^posts/(?P<post_slug>[a-z0-9-_]+)/$', 'blog.views.single'),
-	(r'^s/(?P<file>[a-z0-9-_]+)/$', 'blog.views.shot'),
-	(r'^pure/(?P<post_slug>[a-z0-9-_]+)/$', 'blog.views.pure'),
+	(ur'^résumé/$', 'blog.views.resume'),
+	(r'^posts/(?P<post_slug>.*)/$', 'blog.views.single'),
+	(r'^s/(?P<file>.*)/$', 'blog.views.shot'),
+	(r'^pure/(?P<post_slug>.*)/$', 'blog.views.pure'),
 	(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
 		'document_root': settings.MEDIA_ROOT,
-    }),
-	(r'^static_media/(?P<path>.*)$', 'django.views.static.serve', {
-		'document_root': settings.MEDIA_ROOT + '/static_media/',
     }),
     (r'^admin/', include(admin.site.urls)),
 )

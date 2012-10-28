@@ -5,7 +5,6 @@
 <html>
 	<head>
 		<title>{% block title %}{% endblock %}</title>
-		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 		<meta name="description" content="{% block description %}{% endblock %}">
 		<meta name="google-site-verification" content="NCSP7ePJCNSEOH5g0NfK8--mzC-zaxHs2mgRYi0PWbA">
 		<link rel="alternate" type="application/rss+xml" href="/feeds/posts/" title="Alan Edwardes Posts">
@@ -57,7 +56,8 @@
 					{% if request.user.is_authenticated %}<a href="/admin/">Admin</a>{% endif %}
 					<a href="/estranged/">Play Estranged</a>
 					<a{% if request.path == '/archive/' %} class="current"{% endif %} href="/archive/">Blog Archive</a>
-					<a{% if request.path == '/about/'   %} class="current"{% endif %} href="/about/">About Me</a>
+					{#<a{% if request.path == '/résumé/'  %} class="current"{% endif %} href="/r&eacute;sum&eacute;/">R&eacute;sum&eacute;</a>#}
+					<a{% if request.path == '/about/'  %} class="current"{% endif %} href="/about/">About</a>
 					<a{% if request.path == '/contact/' %} class="current"{% endif %} href="/contact/">Contact</a>
 				</div>
 				<div class="lft">

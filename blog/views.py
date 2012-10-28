@@ -5,34 +5,43 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail, EmailMessage
-from django.shortcuts import get_object_or_404, render_to_response, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.template import RequestContext, loader, Context, Template
 from django.utils import simplejson
 from django.utils.html import strip_tags
 from django.utils.encoding import smart_unicode
 from blog.models import *
 
+def respond(template, data, request, mime=None):
+	if data is None:
+		data = {}
+	if mime is None:
+		mime = 'text/html'
+	t = loader.get_template(template)
+	data['request'] = request
+	data['settings'] = settings
+	c = RequestContext(request, data)
+	return HttpResponse(t.render(c), content_type=mime + "; charset=utf-8")
+
+def resume(request):
+	return respond('resume.html', None, request)
+
 def index(request):
-	return render_to_response('index.html', {
+	return respond('index.html', {
 		'posts': Post.objects.all().filter(type='published').order_by('-published')[:7],
-		'is_index': True,
-		'request': request,
-		'birth_date': settings.BIRTH_DATE
-	}, context_instance=RequestContext(request))
+		'is_index': True
+	}, request)
 
 def random(request):
 	return redirect(Post.objects.filter(type='published').order_by('?')[0])
 
 def robots(request):
-	return render_to_response('robots.txt', {
-		'request': request,
-	}, mimetype='text/plain', context_instance=RequestContext(request))
+	return respond('robots.txt', None, request, 'text/plain')
 
 def sitemap(request):
-	return render_to_response('sitemap.xml', {
+	return respond('sitemap.xml', {
 		'posts': Post.objects.all().filter(type='published').order_by('-published'),
-		'request': request,
-	}, mimetype='application/xml', context_instance=RequestContext(request))
+	}, request, 'application/xml')
 
 def contact(request):
 	error = False
@@ -82,27 +91,20 @@ def contact(request):
 			'name': request.COOKIES.get('name',''),
 			'email': request.COOKIES.get('email',''),
 		}
-	return render_to_response('contact.html', {
-		'request': request,
+	return respond('contact.html', {
 		'data': data,
-	}, context_instance=RequestContext(request))
+	}, request)
 	
 def about(request):
-	return render_to_response('about.html', {
-		'request': request,
-		'birth_date': settings.BIRTH_DATE
-	}, context_instance=RequestContext(request))
+	return respond('about.html', None, request)
 	
 def hire(request):
-	return render_to_response('hire.html', {
-		'request': request,
-	}, context_instance=RequestContext(request))
+	return respond('hire.html', None, request)
 
 def archive(request):
-	return render_to_response('archive.html', {
+	return respond('archive.html', {
 		'posts': Post.objects.all().filter(type='published').order_by('-published'),
-		'request': request,
-	}, context_instance=RequestContext(request))
+	}, request)
 
 def json(request, method):
 	if method == 'search':
@@ -120,30 +122,15 @@ def json(request, method):
 		raise Http404
 
 def shot(request, file):
-	return render_to_response('shot.html', {
+	return respond('shot.html', {
 		'file': file,
-		'request': request,
-	}, context_instance=RequestContext(request))
+	}, request)
 		
 def pure(request, post_slug):
 	post = get_object_or_404(Post, slug=post_slug)
-	return render_to_response('pure.html', {
+	return respond('pure.html', {
 		'post': post,
-		'request': request,
-	}, context_instance=RequestContext(request))
-
-def portfolio(request):
-	return render_to_response('portfolio.html', {
-		'projects': Project.objects.all().order_by('-published'),
-		'request': request,
-		'is_index': True,
-	}, context_instance=RequestContext(request))
-	
-def changelog(request):
-	return render_to_response('changelog.html', {
-		'changes': Change.objects.all().order_by('-published'),
-		'request': request,
-	}, context_instance=RequestContext(request))
+	}, request)
 
 def single(request, post_slug):
 	post = get_object_or_404(Post, slug=post_slug)
@@ -230,9 +217,9 @@ def single(request, post_slug):
 		'data': data,
 		'is_single': True,
 		'request': request,
-		'birth_date': settings.BIRTH_DATE
+		'settings': settings
 	})
-	response = HttpResponse(t.render(c))
+	response = HttpResponse(t.render(c), "text/html; charset=utf-8")
 	response.set_cookie('name', data['name'], max_age=30000000)
 	response.set_cookie('email', data['email'], max_age=30000000)
 	response.set_cookie('url', data['url'], max_age=30000000)

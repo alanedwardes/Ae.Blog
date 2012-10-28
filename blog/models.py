@@ -1,4 +1,4 @@
-from django.dispatch import receiver
+﻿from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 from django.db import models
 import datetime
@@ -42,19 +42,3 @@ class Comment(models.Model):
 def update_comment_count(signal, sender, instance, **kwargs):
 	instance.post.comments = Comment.objects.all().filter(post=instance.post).count()
 	instance.post.save()
-
-class Change(models.Model):
-	published = models.DateTimeField(auto_now_add = True)
-	body = models.TextField()
-	def __unicode__(self):
-		return self.published.isoformat()
-
-class Project(models.Model):
-	title = models.CharField(max_length = 100)
-	url = models.URLField()
-	banner = models.CharField(max_length = 100)
-	published = models.DateTimeField(auto_now_add = True)
-	skills = models.TextField()
-	body = models.TextField()
-	def __unicode__(self):
-		return self.title

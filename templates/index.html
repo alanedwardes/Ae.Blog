@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load timesince_years nowhitespace random_item %}
-
 {% block description %}{% if title %}Alan Edwardes' Blog: {{ title }}{% else %}The thoughts and irrational headspew of Alan Edwardes.{% endif %}{% endblock %}
 
 {% block title %}Alan Edwardes{% endblock %}
@@ -47,7 +46,7 @@
 	</div>
 	<div class="tri">
 		<h2>About</h2>
-		<p>I'm a {{ birth_date|timesince_years }} year old student from the UK. I am a programmer that dabbles in web design, and love listening to <a href="http://www.last.fm/user/alanedwardes">music</a> and playing <a href="http://steamcommunity.com/id/alanedwardes">games</a>.</p>
+		<p>I'm a {{ settings.BIRTH_DATE|timesince_years }} year old student from the UK. I am a programmer that dabbles in web design, and love listening to <a href="http://www.last.fm/user/alanedwardes">music</a> and playing <a href="http://steamcommunity.com/id/alanedwardes">games</a>.</p>
 		<p>I enjoy satire, animated comedy, and a range of films.</p>
 		<p>
 			<script>{% nowhitespace %}
