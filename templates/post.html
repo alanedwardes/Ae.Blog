@@ -1,5 +1,5 @@
 {% spaceless %}
-{% load htmlentities paragraphize specialtags %}
+{% load htmlentities paragraphize specialtags timesince_years %}
 {% if is_single %}
 	{% if not post.slideshow %}
 		<h2>{{ post.title|escape }}</h2>
@@ -7,7 +7,7 @@
 	{% if post.is_old %}
 		<div class="posthint">
 			<h4 style="margin:4px 0px">Old Content Warning</h4>
-			This post is very old (it was published {{ post.published|timesince }} ago), so I can't vouch for its content or accuracy. It may be here for posterity. Please take with a pinch of salt.
+			This post is very old (it was published {{ post.published|timesince_years }} years ago), so I can't vouch for its content or accuracy. It may be here for posterity. Please take with a pinch of salt.
 		</div>
 	{% endif %}
 	{{ post.body|htmlentities|paragraphize|specialtags|safe }}

@@ -20,6 +20,8 @@
 #	 }
 # }
 #
+# BIRTH_DATE = datetime.datetime(yyy, m, dd)
+#
 # WEB_ROOT = '/'
 # SECRET_KEY = 'secret key'
 #

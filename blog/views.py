@@ -17,6 +17,7 @@ def index(request):
 		'posts': Post.objects.all().filter(type='published').order_by('-published')[:7],
 		'is_index': True,
 		'request': request,
+		'birth_date': settings.BIRTH_DATE
 	}, context_instance=RequestContext(request))
 
 def random(request):
@@ -224,6 +225,7 @@ def single(request, post_slug):
 		'data': data,
 		'is_single': True,
 		'request': request,
+		'birth_date': settings.BIRTH_DATE
 	})
 	response = HttpResponse(t.render(c))
 	response.set_cookie('name', data['name'], max_age=30000000)

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load random_post nowhitespace %}
+{% load random_post nowhitespace timesince_years %}
 
 {% block description %}Posted {{ post.published|date:"d/m/Y" }} with {{ post.comments }} comments and {{ post.body|wordcount }} words.{% endblock %}
 
@@ -21,7 +21,7 @@
 				{% include "searchbox.html" %}
 				<p class="meta-item meta-date">{{ post.published|date:"dS \o\f F Y \a\t g:i A" }}</p>
 				<p class="meta-item meta-date">{{ post.published|timesince }} ago</p>
-				<p class="meta-item meta-author">written by <a href="/">Alan Edwardes</a>.</p>
+				<p class="meta-item meta-author">I was {{ post.published|timesince_years:birth_date }} years old when I wrote this</p>
 				{% if request.user.is_authenticated %}
 					<p class="meta-item meta-edit">admin: <a href="http://alan.edward.es/admin/blog/post/{{ post.id }}/">edit post</a></p>
 				{% endif %}
