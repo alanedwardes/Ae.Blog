@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load age %}
+{% load timesince_years %}
 
 {% block description %}About Alan Edwardes.{% endblock %}
 
@@ -10,7 +10,7 @@
 		<div class="lft">
 			<div id="cnt">
 				<div id="hi">About</div>
-				<p>I'm a {% age %} year old year old student living in the UK. I'm your typical nerd: I dabble in web design (both professionally and as a hobby), programming, and gaming (see my <a href="http://steamcommunity.com/id/alanedwardes">Steam profile</a> for my PC gaming habits).</p>
+				<p>I'm a {{ birth_date|timesince_years }} year old year old student living in the UK. I'm your typical nerd: I dabble in web design (both professionally and as a hobby), programming, and gaming (see my <a href="http://steamcommunity.com/id/alanedwardes">Steam profile</a> for my PC gaming habits).</p>
 				<p>I love alternative rock (see my <a href="http://www.last.fm/user/alanedwardes">Last.fm profile</a>), satire and American animated comedy.</p>
 				<p>You're reading my blog, best described as a collection of miscellaneous geeky thoughts.</p>
 			</div>

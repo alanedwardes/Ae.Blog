@@ -90,6 +90,7 @@ def contact(request):
 def about(request):
 	return render_to_response('about.html', {
 		'request': request,
+		'birth_date': settings.BIRTH_DATE
 	}, context_instance=RequestContext(request))
 	
 def hire(request):
