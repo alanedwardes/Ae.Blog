@@ -3,5 +3,5 @@ sensitive_settings.py
 *-main.css
 *-merge.min.js
 *-main.min.css
-db.sqlite
 *.pyc
+db.sqlite
