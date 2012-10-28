@@ -4,6 +4,12 @@
 	{% if not post.slideshow %}
 		<h2>{{ post.title|escape }}</h2>
 	{% endif %}
+	{% if post.is_old %}
+		<div class="posthint">
+			<h4 style="margin:4px 0px">Old Content Warning</h4>
+			This post is very old (it was published {{ post.published|timesince }} ago), so I can't vouch for its content or accuracy. It may be here for posterity. Please take with a pinch of salt.
+		</div>
+	{% endif %}
 	{{ post.body|htmlentities|paragraphize|specialtags|safe }}
 {% else %}
 	<h2><a href="{{ post.get_absolute_url }}">{{ post.title|escape }}</a></h2>

@@ -1,6 +1,8 @@
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 from django.db import models
+from dateutil.relativedelta import relativedelta
+import datetime
 
 class Post(models.Model):
 	title = models.CharField(max_length=100)
@@ -15,6 +17,10 @@ class Post(models.Model):
 	comments = models.IntegerField(default=0)
 	def get_absolute_url(self):
 		return "/posts/%s/" % self.slug
+	def is_old(self):
+		if self.published < datetime.datetime.now() - relativedelta(years=2):
+			return True
+		return False
 	def __unicode__(self):
 		return self.title
 
