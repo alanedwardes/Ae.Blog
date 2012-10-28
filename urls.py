@@ -29,7 +29,7 @@ urlpatterns = patterns('',
 		'document_root': settings.MEDIA_ROOT,
     }),
 	(r'^static_media/(?P<path>.*)$', 'django.views.static.serve', {
-		'document_root': settings.WEB_ROOT + '/static_media/',
+		'document_root': settings.MEDIA_ROOT + '/static_media/',
     }),
     (r'^admin/', include(admin.site.urls)),
 )
