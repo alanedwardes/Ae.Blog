@@ -141,6 +141,26 @@ ol li{
 ul li{
 	list-style-type:disc;
 }
+table.horizontal-table
+{
+	margin-bottom:20px;
+}
+table.horizontal-table th
+{
+	color:#666;
+	background:#eee;
+	padding:0px 5px;
+}
+table.horizontal-table td
+{
+	padding:0px 5px;
+}
+
+table.horizontal-table tr
+{
+	border-top:1px solid #dddd;
+	border-bottom:1px solid #ddd;
+}
 
 /* Header */
 #tbg{
@@ -309,6 +329,10 @@ ul li{
 #int{
 	margin-top:15px;
 	margin-bottom:15px;
+}
+#int:hover
+{
+
 }
 .tri p{
 	padding-bottom:5px;
@@ -479,8 +503,8 @@ ul li{
 #sdb .notch, #sdb h2{
 	display:block;
 	min-height:18px;
-	margin-left:-25px;
-	padding-left:25px;
+	margin-left:-26px;
+	padding-left:26px;
 	background:url(notch.gif) no-repeat left center;
 }
 #sdb .sdbmeta{
@@ -502,6 +526,32 @@ ul li{
 	text-align:left;
 	padding-left:20px;
 	width:100px;
+}
+
+/* Résumé */
+#placard
+{
+	z-index:1;
+	background:#fff;
+	text-align:right;
+	position:absolute;
+	margin-left:450px;
+	-moz-transform:rotate(5deg);
+	-webkit-transform:rotate(5deg);
+	-o-transform:rotate(5deg);
+	transform:rotate(5deg);
+	-webkit-transition: all 100ms linear;
+	margin-top:10px;
+	box-shadow:0px 0px 5px #444, inset 0px 0px 80px #eee;
+	padding:15px 10px 30px 10px;
+}
+
+#placard:hover
+{
+	-moz-transform:rotate(10deg);
+	-webkit-transform:rotate(10deg);
+	-o-transform:rotate(10deg);
+	transform:rotate(10deg);
 }
 
 /* Portfolio */

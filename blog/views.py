@@ -1,3 +1,4 @@
+#coding=utf-8
 import glob, re, os
 from django.conf import settings
 from django.db.models import Q
@@ -24,7 +25,7 @@ def respond(template, data, request, mime=None):
 	return HttpResponse(t.render(c), content_type=mime + "; charset=utf-8")
 
 def resume(request):
-	return respond('resume.html', None, request)
+	return respond('résumé.html', None, request)
 
 def index(request):
 	return respond('index.html', {

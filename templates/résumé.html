@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load md5 nowhitespace timesince_years %}
+{% block description %}My résumé.{% endblock %}
+
+{% block title %}Résumé &mdash; Alan Edwardes{% endblock %}
+
+{% block content %}
+	<div class="wrp">
+		<div class="lft">
+			<div id="cnt">
+				<img src="http://www.gravatar.com/avatar/{% md5 settings.ADMINS.0.1 %}.png?s=120" id="placard"/>
+				<div id="hi">Résumé</div>
+				<h2>About</h2>
+				<table class="horizontal-table">
+					<tr>
+						<th>Sex</th>
+						<td>Male</td>
+					</tr>
+					<tr>
+						<th>Age</th>
+						<td>{{ settings.BIRTH_DATE|timesince_years }}</td>
+					</tr>
+					<tr>
+						<th>Nationality</th>
+						<td>British</td>
+					</tr>
+					<tr>
+						<th>Driving License</th>
+						<td>Full, clean</td>
+					</tr>
+					<tr>
+						<th>Email</th>
+						<td>
+							<script>{% nowhitespace %}
+								mt = 'mailto';
+								ae = 'alanedwardes';
+								pe = '\u002e';
+								cm = 'com';
+								at = '\u0040';
+								co = 'alan';
+								document.write('<a href="' + mt + ':' + co + at + ae + pe + cm + '">' + co + at + ae + pe + cm + '</a>');
+							{% endnowhitespace %}</script>
+						</td>
+					</tr>
+					<tr>
+						<th>Biography</th>
+						<td></td>
+					</tr>
+				</table>
+				<h2>Skills</h2>
+				<table class="horizontal-table">
+					<tr>
+						<th>General IT</th>
+						<td></td>
+					</tr>
+					<tr>
+						<th>Communication</th>
+						<td></td>
+					</tr>
+					<tr>
+						<th>Website Development</th>
+						<td></td>
+					</tr>
+					<tr>
+						<th>Problem Solving</th>
+						<td></td>
+					</tr>
+				</table>
+				<h2>Education</h2>
+			</div>
+		</div>
+		<div class="rgt">
+			<div id="sdb">
+				<h2>What is this?</h2>
+				<div class="notch" style="padding-bottom:10px">This page includes information about my experience, education, and what I'm interested in.</div>
+				<div class="notch" style="padding-bottom:10px">Because of its public nature, I have ommitted certain personal details and specific grades, but this serves as a summary of my professional self so you can guage whether you'd be interested in hiring me, or if you think I'd be right for the job.</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

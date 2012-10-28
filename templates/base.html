@@ -18,6 +18,7 @@
 			<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway:100&amp;text={{ post.title|urlencode }}">
 		{% endif %}
 		<script>var theme = '{{ theme }}';</script>
+		<!--
 		{% if request.META.SERVER_PORT == "8080" or request.GET.local %}
 			<link rel="stylesheet" type="text/css" href="/media/main.css">
 			<script src="/media/jquery-latest.min.js"></script>
@@ -26,6 +27,10 @@
 			<link rel="stylesheet" type="text/css" href="http://d13viqhq54ll3j.cloudfront.net/{% version %}-main.min.css">
 			<script src="http://d13viqhq54ll3j.cloudfront.net/{% version %}-merge.min.js"></script>
 		{% endif %}
+		-->
+			<link rel="stylesheet" type="text/css" href="/media/main.css">
+			<script src="/media/jquery-latest.min.js"></script>
+			<script src="/media/main.js"></script>
 		{% if request.GET.mobile %}
 			<meta name="viewport" content="width=600,initial-scale=1">
 			<link rel="stylesheet" type="text/css" href="/media/mobile.css">
@@ -55,13 +60,13 @@
 				<div class="rgt">
 					{% if request.user.is_authenticated %}<a href="/admin/">Admin</a>{% endif %}
 					<a href="/estranged/">Play Estranged</a>
-					<a{% if request.path == '/archive/' %} class="current"{% endif %} href="/archive/">Blog Archive</a>
-					{#<a{% if request.path == '/résumé/'  %} class="current"{% endif %} href="/r&eacute;sum&eacute;/">R&eacute;sum&eacute;</a>#}
+					<a{% if request.path == '/archive/' %} class="current"{% endif %} href="/archive/">Archive</a>
+					<!--<a{% if request.path == '/résumé/'  %} class="current"{% endif %} href="/résumé/">Résumé</a>-->
 					<a{% if request.path == '/about/'  %} class="current"{% endif %} href="/about/">About</a>
 					<a{% if request.path == '/contact/' %} class="current"{% endif %} href="/contact/">Contact</a>
 				</div>
 				<div class="lft">
-					<a href="/"><img src="http://d13viqhq54ll3j.cloudfront.net/logo.png" height="25" width="181" alt="Alan Edwardes"/></a>
+					<a href="/"><img src="/media/logo.png" height="25" width="181" alt="Alan Edwardes"/></a>
 				</div>
 			</div>
 		</div>

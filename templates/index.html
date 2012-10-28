@@ -6,9 +6,9 @@
 
 {% block content %}
 <div class="wrp">
-	{% random_item "Hi|Ohai|Ciao|Hello|Salut|Hola|Guten tag|Aloha|Hej|Hallo" greeting %}
-	<div id="hi"><a href="/">{{ greeting }}!</a> I'm a programmer<span style="color:#777">;</span></div>
-	<img id="int" src="http://d13viqhq54ll3j.cloudfront.net/languages.png" alt="Languages" width="960" height="200"/>
+	{% random_item "Ciao|Hello|Salut|¡Hola|Guten tag|Aloha|Hallo|Hallå|Salam" greeting %}
+	<div id="hi"><a href="/" title="Click for a new greeting">{{ greeting }}!</a> I'm a programmer<span style="color:#777">;</span></div>
+	<img id="int" src="/media/languages.png" alt="Languages" width="960" height="200"/>
 	<div class="tri first">
 		<h2>Recent Blog Posts</h2>
 		<ul>

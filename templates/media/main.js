@@ -1,32 +1,102 @@
-var searchTimeout;
-function searchFor(query){
-	clearTimeout(searchTimeout)
-	if(query){
-		return searchTimeout = setTimeout(function(){
-			$.getJSON('/json/search?q=' + query, function(results){
-				output = '';
-				if(results.length){
-					output += '<h2>Results for "' + query + '"</h2>';
-					output += '<ul>'
-					$.each(results, function(i, result){
-						output += '<li>'
-							output += '<a href="' + result.slug + '">' + result.title + '</a>'
-							output += '<a href="' + result.slug + '#comments" class="commentcount">' + result.comments + '</a>'
-						output += '</li>'
-					});
-					output += '</ul>'
-				}else{
-					output += '<h2>No results for ' + query + '</h2>'
-					output += '<ul>'
-						output += '<li>Try to use simple search terms</li>'
-						output += '<li>Can\'t find what you\'re looking for? Try <a href="http://www.google.co.uk/search?q=' + query + '&sitesearch=alan.edward.es">searching this site for "' + query + '" on Google</a></li>'
-					output += '</ul>'
+HTTP = {
+	temp: {},
+	factory: function()
+	{
+		var requestObjects = [
+			function () { return new XMLHttpRequest(); },
+			function () { return new ActiveXObject("Msxml2.XMLHTTP"); },
+			function () { return new ActiveXObject("Msxml3.XMLHTTP"); },
+			function () { return new ActiveXObject("Microsoft.XMLHTTP"); }
+		];
+		for (var i = 0; i < requestObjects.length; i++)
+		{
+			try
+			{
+				return requestObjects[i]();
+				this.factory = requestObjects[i]();
+			}
+			catch (e)
+			{
+				// Try another
+			}
+		}
+	},
+	getJSON: function(url, success)
+	{
+		this.get(url, function(data){
+			try
+			{
+				success(JSON.parse(data));
+			}
+			catch(e)
+			{
+				var id = new Date().getTime();
+				eval('HTTP.temp = [' + id + '] = ' + data);
+				success(HTTP.temp[id]);
+			}
+		});
+	},
+	get: function(url, success)
+	{
+		var http = this.factory();
+		http.open("GET", url, true);
+		
+		http.onreadystatechange = function(e){
+			if (http.readyState == 4)
+			{
+				if (http.status == 200)
+				{
+					success(http.responseText);
 				}
-				$('#searchresults').html(output);
-			});
-		}, 50)
-	}else{
-		$('#searchresults').html('');
+			}
+			return false;
+		}
+		
+		http.send();
+	}
+}
+
+var search = {
+	searchTimeout: false,
+	query: function(queryString)
+	{
+		clearTimeout(search.searchTimeout);
+		queryString = queryString.replace(/[^A-Za-z0-9 ]/g, '');
+		if (queryString)
+		{
+			search.searchTimeout = setTimeout(function(){
+				HTTP.getJSON('/json/search?q=' + queryString, function(results){
+					var output = [];
+					if (results.length)
+					{
+						output.push('<h2>Results for "' + queryString + '"</h2>');
+						output.push('<ul>');
+						for (i in results)
+						{
+							output.push('<li>');
+							var result = results[i];
+							output.push('<a href="' + result.slug + '">' + result.title + '</a>');
+							output.push('<a href="' + result.slug + '#comments" class="commentcount">' + result.comments + '</a>');
+							output.push('</li>');
+						}
+						output.push('</ul>');
+					}
+					else
+					{
+						output.push('<h2>No results for ' + queryString + '</h2>');
+						output.push('<ul>');
+							output.push('<li>Try to use simple search terms</li>');
+							output.push('<li>Can\'t find what you\'re looking for? Try <a href="http://www.google.co.uk/search?q=' + queryString + '&sitesearch=alan.edward.es">searching this site for "' + queryString + '" on Google</a></li>');
+						output.push('</ul>');
+					}
+					document.getElementById('searchresults').innerHTML = output.join('');
+				});
+			}, 50);
+		}
+		else
+		{
+			document.getElementById('searchresults').innerHTML = '';
+		}
 	}
 }
 
