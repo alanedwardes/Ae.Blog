@@ -1,33 +1,13 @@
 # Django settings for djblog project.
 
 # Import sensitive credentials (DB stuff, SMTP servers etc, too sensitive for github)
-# The file basically looks like:
-#
-# ADMINS = (
-#	 ('Alan Edwardes', 'my@email.address'),
-# )
-#
-# MANAGERS = ADMINS
-#
-# DATABASES = {
-#	 'default': {
-#		 'ENGINE': 'django.db.backends.',	# Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-#		 'NAME': '',						# Or path to database file if using sqlite3.
-#		 'USER': '',						# Not used with sqlite3.
-#		 'PASSWORD': '',					# Not used with sqlite3.
-#		 'HOST': '',						# Set to empty string for localhost. Not used with sqlite3.
-#		 'PORT': '',						# Set to empty string for default. Not used with sqlite3.
-#	 }
-# }
-#
-# BIRTH_DATE = datetime.datetime(yyy, m, dd)
-#
-# WEB_ROOT = '/'
-# SECRET_KEY = 'secret key'
-#
+# rename sensitive_settings.example.py to sensitive_settings.py.
 from sensitive_settings import *
 
-DEBUG = False
+import sys
+
+# Dbug if we're running the debug server
+DEBUG = sys.argv[1] == 'runserver'
 TEMPLATE_DEBUG = DEBUG
 
 # Local time zone for this installation. Choices can be found here:
@@ -55,7 +35,7 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = WEB_ROOT + '/djblog/templates/media/'
+MEDIA_ROOT = TEMPLATE_ROOT + '/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -66,7 +46,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = WEB_ROOT + '/djblog/templates/static/'
+STATIC_ROOT = TEMPLATE_ROOT + '/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -107,14 +87,14 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'djblog.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
-	WEB_ROOT + '/djblog/templates/'
+	TEMPLATE_ROOT
 )
 
 INSTALLED_APPS = (
-	'djblog.blog',
+	'blog',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',

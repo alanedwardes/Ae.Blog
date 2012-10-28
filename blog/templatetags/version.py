@@ -4,4 +4,4 @@ register = template.Library()
 
 @register.simple_tag
 def version():
-	return open(settings.WEB_ROOT + '/djblog/VERSION', 'r').read().replace('\n', '')
+	return open(settings.BLOG_ROOT + 'VERSION', 'r').read().replace('\n', '')

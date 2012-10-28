@@ -1,6 +1,4 @@
-templates/analytics.html
 sensitive_settings.py
-VERSION
 *-merge.js
 *-main.css
 *-merge.min.js

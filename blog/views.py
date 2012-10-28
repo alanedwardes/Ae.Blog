@@ -204,7 +204,11 @@ def single(request, post_slug):
 				None,
 				[settings.ADMINS[0][1]]
 			)
-			email.send()
+			try:
+				email.send()
+			except:
+				# We couldn't send the email
+				pass
 			
 			response = HttpResponse(status=302)
 			response.set_cookie('name', data['name'])
