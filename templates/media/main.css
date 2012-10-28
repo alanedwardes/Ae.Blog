@@ -143,6 +143,7 @@ ul li{
 }
 table.horizontal-table
 {
+	width:100%;
 	margin-bottom:20px;
 }
 table.horizontal-table th
