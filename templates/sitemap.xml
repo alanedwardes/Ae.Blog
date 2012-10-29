@@ -5,6 +5,14 @@
 		<changefreq>daily</changefreq>
 		<priority>1</priority>
 	</url>
+	{% for page in pages %}
+		<url>
+			<loc>http://{{ request.META.HTTP_HOST }}{{ page.get_absolute_url }}</loc>
+			<lastmod>{{ page.published|date:"Y-m-d" }}</lastmod>
+			<changefreq>monthly</changefreq>
+			<priority>0.8</priority>
+		</url>
+	{% endfor %}
 	{% for post in posts %}
 		<url>
 			<loc>http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}</loc>
