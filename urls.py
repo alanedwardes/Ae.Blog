@@ -1,4 +1,3 @@
-#coding=utf-8
 from django.conf.urls.defaults import *
 from blog.feeds import *
 from django.conf import settings
@@ -11,7 +10,7 @@ urlpatterns = patterns('',
 	(r'^favicon.ico$', 'django.views.static.serve', {
 		'document_root': settings.MEDIA_ROOT,
 		'path': 'favicon.ico'
-    }),
+	}),
 	(r'^robots.txt$', 'blog.views.robots'),
 	(r'^sitemap.xml$', 'blog.views.sitemap'),
 	(r'^feeds/posts/$', PostFeed()),
@@ -21,13 +20,12 @@ urlpatterns = patterns('',
 	(r'^archive/$', 'blog.views.archive'),
 	(r'^random/$', 'blog.views.random'),
 	(r'^contact/$', 'blog.views.contact'),
-	(r'^about/$', 'blog.views.about'),
-	(ur'^résumé/$', 'blog.views.resume'),
 	(r'^posts/(?P<post_slug>.*)/$', 'blog.views.single'),
 	(r'^s/(?P<file>.*)/$', 'blog.views.shot'),
 	(r'^pure/(?P<post_slug>.*)/$', 'blog.views.pure'),
 	(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
 		'document_root': settings.MEDIA_ROOT,
-    }),
-    (r'^admin/', include(admin.site.urls)),
+	}),
+	(r'^admin/', include(admin.site.urls)),
+	(r'^(?P<page_slug>.*)/$', 'blog.views.page'),
 )

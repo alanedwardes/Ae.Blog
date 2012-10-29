@@ -3,16 +3,18 @@ from django.db.models.signals import post_save, post_delete
 from django.db import models
 import datetime
 
+content_type_choices = (
+	('draft', 'Draft'),
+	('published', 'Published')
+)
+
 class Post(models.Model):
 	title = models.CharField(max_length=100)
 	slug = models.SlugField(max_length=75)
 	body = models.TextField()
 	slideshow = models.CharField(max_length=1024, blank=True)
 	published = models.DateTimeField(auto_now_add=True)
-	type = models.CharField(max_length=255, choices=(
-		('draft', 'Draft'),
-		('published', 'Published')
-	))
+	type = models.CharField(max_length=255, choices=content_type_choices)
 	comments = models.IntegerField(default=0)
 	def get_absolute_url(self):
 		return "/posts/%s/" % self.slug
@@ -21,6 +23,18 @@ class Post(models.Model):
 		if self.published < datetime.datetime(now.year - 2, now.month, now.day):
 			return True
 		return False
+	def __unicode__(self):
+		return self.title
+		
+class Page(models.Model):
+	title = models.CharField(max_length=100)
+	slug = models.SlugField(max_length=75)
+	body = models.TextField()
+	sidebar = models.TextField()
+	published = models.DateTimeField(auto_now_add=True)
+	type = models.CharField(max_length=255, choices=content_type_choices)
+	def get_absolute_url(self):
+		return "/%s/" % self.slug
 	def __unicode__(self):
 		return self.title
 

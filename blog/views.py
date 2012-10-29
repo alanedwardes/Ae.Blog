@@ -12,24 +12,32 @@ from django.utils.html import strip_tags
 from django.utils.encoding import smart_unicode
 from blog.models import *
 
-def respond(template, data, request, mime=None):
+def base_view_data(data, request):
 	if data is None:
 		data = {}
+	data['request'] = request
+	data['settings'] = settings
+	data['pages'] = Page.objects.all().filter(type='published').order_by('-published')
+	return data
+
+def respond(template, data, request, mime=None):
+	data = base_view_data(data, request)
 	if mime is None:
 		mime = 'text/html'
 	t = loader.get_template(template)
-	data['request'] = request
-	data['settings'] = settings
 	c = RequestContext(request, data)
 	return HttpResponse(t.render(c), content_type=mime + "; charset=utf-8")
 
-def resume(request):
-	return respond('resume.html', None, request)
+def page(request, page_slug):
+	page = get_object_or_404(Page, slug=page_slug)
+	return respond('page.html', {
+		'page': page
+	}, request)
 
 def index(request):
 	return respond('index.html', {
-		'posts': Post.objects.all().filter(type='published').order_by('-published')[:7],
-		'is_index': True
+		'is_index': True,
+		'posts': Post.objects.all().filter(type='published').order_by('-published')[:7]
 	}, request)
 
 def random(request):
@@ -211,14 +219,13 @@ def single(request, post_slug):
 		}
 
 	t = loader.get_template('single.html')
-	c = RequestContext(request, {
+	template_data = {
 		'comments': Comment.objects.all().filter(post=post).order_by('published'),
 		'post': post,
 		'data': data,
-		'is_single': True,
-		'request': request,
-		'settings': settings
-	})
+		'is_single': True
+	}
+	c = RequestContext(request, base_view_data(template_data, request))
 	response = HttpResponse(t.render(c), "text/html; charset=utf-8")
 	response.set_cookie('name', data['name'], max_age=30000000)
 	response.set_cookie('email', data['email'], max_age=30000000)

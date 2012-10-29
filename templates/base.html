@@ -61,8 +61,9 @@
 					{% if request.user.is_authenticated %}<a href="/admin/">Admin</a>{% endif %}
 					<a href="/estranged/">Play Estranged</a>
 					<a{% if request.path == '/archive/' %} class="current"{% endif %} href="/archive/">Archive</a>
-					<!--<a{% if request.path == '/résumé/'  %} class="current"{% endif %} href="/résumé/">Résumé</a>-->
-					<a{% if request.path == '/about/'  %} class="current"{% endif %} href="/about/">About</a>
+					{% for page in pages %}
+						<a{% if request.path == page.get_absolute_url  %} class="current"{% endif %} href="{{ page.get_absolute_url }}">{{ page.title }}</a>
+					{% endfor %}
 					<a{% if request.path == '/contact/' %} class="current"{% endif %} href="/contact/">Contact</a>
 				</div>
 				<div class="lft">
