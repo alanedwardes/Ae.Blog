@@ -1,10 +1,14 @@
 import re, os
 from django import template
+from settings import BIRTH_DATE
+from datetime import datetime
 
 register = template.Library()
 
 @register.filter
-def specialtags( text ):
+def specialtags(text):
+	for match in re.findall('[age]', text):
+		text = text.replace('[age]', str(datetime.now().year - BIRTH_DATE.year))
 	for match in re.findall('\[s3\](.*?)\[/s3\]', text):
 		text = text.replace('[s3]'+ match +'[/s3]', '/static_media/' + match)
 	for match in re.findall('\[yt\](.*?)\[/yt\]', text):
