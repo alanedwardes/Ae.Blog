@@ -1,4 +1,4 @@
-import sys
+import sys, os
 # Django settings for djblog project.
 
 # Import sensitive credentials (DB stuff, SMTP servers etc, too sensitive for github)
@@ -8,6 +8,10 @@ from sensitive_settings import *
 # Debug if we're running the debug server
 DEBUG = sys.argv[1] == 'runserver'
 TEMPLATE_DEBUG = DEBUG
+
+# Setup some paths
+# http://www.morethanseven.net/2009/02/11/django-settings-tip-setting-relative-paths/
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -37,7 +41,7 @@ USE_L10N = True
 STATIC_URL = '/static/'
 
 # CSS, Images etc
-MEDIA_ROOT = './templates/media/'
+MEDIA_ROOT = os.path.join(SITE_ROOT, 'templates', 'media')
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
@@ -77,7 +81,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
-	'./templates/'
+	os.path.join(SITE_ROOT, 'templates')
 )
 
 INSTALLED_APPS = (
