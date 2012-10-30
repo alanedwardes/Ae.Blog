@@ -145,9 +145,9 @@ def pure(request, post_slug):
 
 def single(request, post_slug):
 	if request.user.is_authenticated():
-		post = get_object_or_404(Post, slug=page_slug)
+		post = get_object_or_404(Post, slug=post_slug)
 	else:
-		post = get_object_or_404(Post, slug=page_slug, type='published')
+		post = get_object_or_404(Post, slug=post_slug, type='published')
 	
 	error = False
 	
