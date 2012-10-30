@@ -29,7 +29,10 @@ def respond(template, data, request, mime=None):
 	return HttpResponse(t.render(c), content_type=mime + "; charset=utf-8")
 
 def page(request, page_slug):
-	page = get_object_or_404(Page, slug=page_slug)
+	if request.user.is_authenticated():
+		page = get_object_or_404(Page, slug=page_slug)
+	else:
+		page = get_object_or_404(Page, slug=page_slug, type='published')
 	return respond('page.html', {
 		'page': page
 	}, request)
@@ -141,9 +144,13 @@ def pure(request, post_slug):
 	}, request)
 
 def single(request, post_slug):
-	post = get_object_or_404(Post, slug=post_slug)
+	if request.user.is_authenticated():
+		post = get_object_or_404(Post, slug=page_slug)
+	else:
+		post = get_object_or_404(Post, slug=page_slug, type='published')
+	
 	error = False
-
+	
 	if request.method == 'POST':
 		if request.POST.get('email', '') or request.POST.get('honeypot', ''):
 			raise Http404
