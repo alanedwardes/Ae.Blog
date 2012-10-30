@@ -49,15 +49,7 @@
 		<p>I'm a {{ settings.BIRTH_DATE|timesince_years }} year old student from the UK. I am a programmer that dabbles in web design, and love listening to <a href="http://www.last.fm/user/alanedwardes">music</a> and playing <a href="http://steamcommunity.com/id/alanedwardes">games</a>.</p>
 		<p>I enjoy satire, animated comedy, and a range of films.</p>
 		<p>
-			<script>{% nowhitespace %}
-				mt = 'mailto';
-				ae = 'alanedwardes';
-				pe = '\u002e';
-				cm = 'com';
-				at = '\u0040';
-				co = 'alan';
-				document.write('<a href="' + mt + ':' + co + at + ae + pe + cm + '">' + co + at + ae + pe + cm + '</a>');
-			{% endnowhitespace %}</script>
+			<script>document.write(ae.print_mail());</script>
 		</p>
 	</div>
 	<script>{% nowhitespace %}
