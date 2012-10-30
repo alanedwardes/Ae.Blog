@@ -1,12 +1,11 @@
+import sys
 # Django settings for djblog project.
 
 # Import sensitive credentials (DB stuff, SMTP servers etc, too sensitive for github)
 # rename sensitive_settings.example.py to sensitive_settings.py.
 from sensitive_settings import *
 
-import sys
-
-# Dbug if we're running the debug server
+# Debug if we're running the debug server
 DEBUG = sys.argv[1] == 'runserver'
 TEMPLATE_DEBUG = DEBUG
 
@@ -33,24 +32,12 @@ USE_I18N = True
 # calendars according to the current locale
 USE_L10N = True
 
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = TEMPLATE_ROOT + '/media/'
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash.
-# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = '/media/'
-
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = TEMPLATE_ROOT + '/static/'
-
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
+
+# CSS, Images etc
+MEDIA_ROOT = './templates/media/'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
@@ -76,7 +63,7 @@ STATICFILES_FINDERS = (
 TEMPLATE_LOADERS = (
 	'django.template.loaders.filesystem.Loader',
 	'django.template.loaders.app_directories.Loader',
-#	 'django.template.loaders.eggs.Loader',
+#	'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -90,7 +77,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
-	BLOG_ROOT + TEMPLATE_ROOT
+	'./templates/'
 )
 
 INSTALLED_APPS = (

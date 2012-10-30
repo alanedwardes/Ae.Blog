@@ -1,5 +1,5 @@
 {% spaceless %}
-{% load random_item nowhitespace version %}
+{% load random_item nowhitespace %}
 {% random_item 046380|A20D1E|827b00|955918|800463 theme %}
 <!DOCTYPE html>
 <html>
@@ -18,35 +18,28 @@
 			<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway:100&amp;text={{ post.title|urlencode }}">
 		{% endif %}
 		<script>var theme = '{{ theme }}';</script>
-		<!--
-		{% if request.META.SERVER_PORT == "8080" or request.GET.local %}
-			<link rel="stylesheet" type="text/css" href="/media/main.css">
-			<script src="/media/jquery-latest.min.js"></script>
-			<script src="/media/main.js"></script>
-		{% else %}
-			<link rel="stylesheet" type="text/css" href="http://d13viqhq54ll3j.cloudfront.net/{% version %}-main.min.css">
-			<script src="http://d13viqhq54ll3j.cloudfront.net/{% version %}-merge.min.js"></script>
-		{% endif %}
-		-->
-			<link rel="stylesheet" type="text/css" href="/media/main.css">
-			<script src="/media/jquery-latest.min.js"></script>
-			<script src="/media/main.js"></script>
+		<link rel="stylesheet" type="text/css" href="/media/main.css">
+		<script src="/media/jquery-latest.min.js"></script>
+		<script src="/media/main.js"></script>
 		{% if request.GET.mobile %}
 			<meta name="viewport" content="width=600,initial-scale=1">
 			<link rel="stylesheet" type="text/css" href="/media/mobile.css">
 		{% endif %}
 		<!--[if IE 6]>
-			<link rel="stylesheet" type="text/css" href="/media/ie6.css?v={% version %}">
-			<script src="/media/jquery.pngfix.min.js?v={% version %}"></script>
+			<link rel="stylesheet" type="text/css" href="/media/ie6.css">
+			<script src="/media/jquery.pngfix.min.js"></script>
 		<![endif]-->
 		<style id="theme">{% nowhitespace %}
-			.dbg, label.error, #hdr, .save, #ldg, #tbg{
+			.dbg, label.error, #hdr, .save, #ldg, #tbg
+			{
 				background-color:#{{ theme }};
 			}
-			.dbd, input.text:focus, textarea:focus, input.error, textarea.error, #tbg, #ftr, #bdy.shw, .admin .metawrap, .save, .tri h2, #ftr a{
+			.dbd, input.text:focus, textarea:focus, input.error, textarea.error, #tbg, #ftr, #bdy.shw, .admin .metawrap, .save, .tri h2, #ftr a
+			{
 				border-color:#{{ theme }};
 			}
-			.dco, a{
+			.dco, a
+			{
 				color:#{{ theme }};
 			}
 		{% endnowhitespace %}</style>

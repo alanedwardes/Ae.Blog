@@ -17,9 +17,6 @@ DATABASES = {
 	}
 }
 
-BIRTH_DATE = datetime.datetime(yyyy, m, dd)
+BIRTH_DATE = datetime.datetime(yyyy, mm, dd)
 
-TEMPLATE_ROOT = 'templates/'
-MEDIA_ROOT = 'path\\to\\media\\dir'
-BLOG_ROOT = 'absolute path to this directory'
 SECRET_KEY = 'secret key'
