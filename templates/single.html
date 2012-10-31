@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load random_post nowhitespace timesince_years %}
+{% load random_post nowhitespace timesince_years humanize %}
 
 {% block description %}Posted {{ post.published|date:"d/m/Y" }} with {{ post.comments }} comments and {{ post.body|wordcount }} words.{% endblock %}
 
@@ -25,9 +25,9 @@
 				{% if request.user.is_authenticated %}
 					<p class="meta-item meta-edit">admin: <a href="http://alan.edward.es/admin/blog/post/{{ post.id }}/">edit post</a></p>
 				{% endif %}
-				<p class="meta-item meta-words">{{ post.body|wordcount }} words</p>
+				<p class="meta-item meta-words">{{ post.body|wordcount|intcomma }} words</p>
 				{% if post.comments > 0 %}
-					<p class="meta-item meta-comments">{{ post.comments }} <a href="#comments">comment{{ post.comments|pluralize }}</a> so far</p>
+					<p class="meta-item meta-comments">{{ post.comments|intcomma }} <a href="#comments">comment{{ post.comments|pluralize }}</a> so far</p>
 					<p class="meta-item meta-rss"><a href="/feeds/comments/{{ post.slug }}/" target="_blank">feed</a> for comments on this post</p>
 				{% endif %}
 				{% random_post post.slug %}

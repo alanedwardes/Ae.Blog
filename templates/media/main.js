@@ -280,7 +280,6 @@ function replaceBg(){
 	curIm = new Image()
 	curIm.onload = function(){
 		$('#slideshow').fadeTo(1).html('<a href="' + base + bgImg[curBg] + '"><img id="ssi" width="100%" src="' + base + bgImg[curBg] + '"/></a>');
-		searchLinksForLightbox();
 		//$('#tbg #ldg').stop().fadeOut(anDur / 10);
 		$(curIm).hide().attr('id', 'img');
 		$('#tbg').append(curIm);
