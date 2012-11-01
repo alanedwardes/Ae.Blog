@@ -12,18 +12,25 @@
 	{% endfor %}
 	</ul>
 	<script>{% nowhitespace %}
-		$.getJSON('http://hits.alanedwardes.com/?callback=?', function(data){
-			var html = '';
-			html += '<h2>Visited</h2>';
-			html += '<small>10 most visited posts in the past month</small>';
-			html += '<ul>';
-			$(data).each(function(){
-				html += '<li>';
-					html += '<a href="' + this.resource + '">' + this.resource_title + '</a>';
-					html += '<a href="' + this.resource + '" class="visitcount">' + this.hits + '</a>';
-				html += '</li>';
-			});
-			$('#hit-count').html(html + '<ul>');
+		ae.util.http.getJSONP('http://hits.alanedwardes.com/?callback=?', function(hits){
+			var hitCount = document.getElementById('hit-count');
+			ae.util.element('h2', 'Visited', hitCount);
+			ae.util.element('small', '10 most visited posts in the past month', hitCount);
+			var ul = ae.util.element('ul', {}, hitCount);
+			for (var i = 0; i < hits.length; i++)
+			{
+				var hit = hits[i];
+				var li = ae.util.element('li', {}, ul);
+				ae.util.element('a', {
+					href: hit.resource,
+					innerHTML: hit.resource_title
+				}, li);
+				ae.util.element('a', {
+					href: hit.resource,
+					className: 'visitcount',
+					innerHTML: hit.hits
+				}, li);
+			}
 		});
 	{% endnowhitespace %}</script>
 	<div id="hit-count"></div>

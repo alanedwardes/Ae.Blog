@@ -25,24 +25,27 @@
 	<div class="tri">
 		<h2>Recent Tweets</h2>
 		<script>{% nowhitespace %}
-			$.getJSON('http://jsonpcache.alanedwardes.com/?resource=twitter_ae_timeline&callback=?', function(data) {
-				c = 0;
-				$(data).each(function() {
-					if (!this.in_reply_to_user_id && c < 5)
+			ae.util.http.getJSONP('http://jsonpcache.alanedwardes.com/?resource=twitter_ae_timeline&callback=?', function(tweets){
+				var ul = ae.util.element('ul', {}, document.getElementById('tweets'));
+				var count = 0;
+				for (var i = 0; i < tweets.length; i++)
+				{
+					var tweet = tweets[i];
+					if (!tweet.in_reply_to_user_id && count < 5)
 					{
-						dt = this.created_at.split(' ');
-						li = $('<li>' + this.text + ' <a href="https://twitter.com/AlanEdwardes/status/' + this.id_str + '">' + dt[3] + ' on ' + dt[1] + ' ' + dt[2] +'</a></li>');
-						$(li).hide();
-						$('#tweets ul').append(li);
-						$(li).delay(c * 50).fadeIn();
-						c++;
+						var dt = tweet.created_at.split(' ');
+						ae.util.element('a', {
+							href: 'https://twitter.com/AlanEdwardes/status/' + tweet.id_str,
+							innerHTML: ['<br/>' + dt[3], 'on', dt[1], dt[2]].join(' ')
+						}, ae.util.element('li', {
+							innerHTML: tweet.text
+						}, ul));
+						count++;
 					}
-				});
+				}
 			});
 		{% endnowhitespace %}</script>
-		<div id="tweets">
-			<ul></ul>
-		</div>
+		<div id="tweets"></div>
 	</div>
 	<div class="tri">
 		<h2>About</h2>
@@ -53,34 +56,59 @@
 		</p>
 	</div>
 	<script>{% nowhitespace %}
-		$.getJSON('http://jsonpcache.alanedwardes.com/?resource=lastfm_ae_albums&callback=?', function(data){
-			$('.game.intro #first').css('visibility','visible').hide().fadeIn();
-			c = 0;
-			$(data['topalbums']['album']).each(function(){
-				if (this.image['1']['#text'] && !this.image['1']['#text'].match(/default/g) && c < 12)
+		ae.util.http.getJSONP('http://jsonpcache.alanedwardes.com/?resource=lastfm_ae_albums&callback=?', function(albums){
+			document.getElementById('first').style.visibility = 'visible';
+			var count = 0;
+			for (var i = 0; i < albums['topalbums']['album'].length; i++)
+			{
+				var album = albums['topalbums']['album'][i];
+				if (album.image[1]['#text'] && !album.image[1]['#text'].match(/default/g) && count < 12)
 				{
-					album = $('<div id="cover-' + c + '" class="album"><a target="_blank" href="' + this.url + '" title="' + this.name + ' by ' + this.artist.name + ', played ' + this.playcount + ' times this week.' + '"><img width="64" height="64" src="' + this.image['1']['#text'] + '"/></a></div>');
-					$('#lastfm').append(album);
-					$(album).delay(c * 50).fadeIn();
-					c++;
+					var div = ae.util.element('div', {
+						id: 'cover-' + count,
+						className: 'album'
+					}, document.getElementById('lastfm'));
+					var a = ae.util.element('a', {
+						target: '_blank',
+						href: album.url,
+						title: album.name + ' by ' + album.artist.name + ', played ' + album.playcount + ' times this week.'
+					}, div);
+					ae.util.element('img', {
+						width: 64,
+						height: 64,
+						src: album.image[1]['#text']
+					}, a);
+					count++;
 				}
-			});
+			}
 		});
 	{% endnowhitespace %}</script>
 	<div id="lastfm"></div>
 	<script>{% nowhitespace %}
-		$.getJSON('http://jsonpcache.alanedwardes.com/?resource=steam_ae_games&callback=?', function(data){
-			if (data && data.mostPlayedGames && data.mostPlayedGames.mostPlayedGame)
+		ae.util.http.getJSONP('http://jsonpcache.alanedwardes.com/?resource=steam_ae_games&callback=?', function(games){
+			if (games && games.mostPlayedGames && games.mostPlayedGames.mostPlayedGame)
 			{
-				$('.game.intro #second').css('visibility','visible').hide().fadeIn();
-				$(data.mostPlayedGames.mostPlayedGame).each(function(i, game) {
+				document.getElementById('second').style.visibility = 'visible';
+				for (var i = 0; i < games.mostPlayedGames.mostPlayedGame.length; i++)
+				{
+					var game = games.mostPlayedGames.mostPlayedGame[i];
 					if (i < 3)
 					{
-						game = $('<div class="game"><a target="_blank" href="' + game.gameLink + '" title="' + game.gameName + ', played ' + game.hoursPlayed + ' hours over the past two weeks, ' + game.hoursOnRecord + ' hours total."><img width="184" height="69" src="' + game.gameLogo + '"/></a></div>');
-						$('#steamgames').append(game);
-						$(game).delay(i * 50).fadeIn();
+						var div = ae.util.element('div', {
+							className: 'game'
+						}, document.getElementById('steamgames'));
+						var a = ae.util.element('a', {
+							target: '_blank',
+							href: game.gameLink,
+							title: game.gameName + ', played ' + game.hoursPlayed + ' hours over the past two weeks, ' + game.hoursOnRecord + ' hours total.'
+						}, div);
+						var img = ae.util.element('img', {
+							width: 184,
+							height: 69,
+							src: game.gameLogo
+						}, a);
 					}
-				});
+				}
 			}
 		});
 	{% endnowhitespace %}</script>

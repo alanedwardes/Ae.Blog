@@ -35,11 +35,25 @@ ae =
 					}
 					catch(e)
 					{
-						var id = new Date().getTime();
-						eval('HTTP.temp = [' + id + '] = ' + data);
+						var id = ae.util.random();
+						eval('ae.util.http.temp = [' + id + '] = ' + data);
 						success(ae.util.http.temp[id]);
 					}
 				});
+			},
+			getJSONP: function(url, success)
+			{
+				var id = 'aeCallback' + ae.util.random();
+				if (url.charAt(url.length - 1) == '?')
+				{
+					window[id] = success;
+					url = url.substring(0, url.length - 1) + id
+				}
+				ae.util.element('script', {
+					src: url,
+					type: 'text/javascript'
+				}, document.head);
+				var id = new Date().getTime();
 			},
 			get: function(url, success)
 			{
@@ -60,6 +74,10 @@ ae =
 				http.send();
 			}
 		},
+		random: function()
+		{
+			return Math.floor(Math.random() * 9999999) + new Date().getTime();
+		},
 		event: function(element, event, callback)
 		{
 			// If we didn't supply a valid element, exit.
@@ -78,20 +96,27 @@ ae =
 		element: function(tag, attributes, appendTo)
 		{
 			var el = document.createElement(tag);
-			for (index in attributes)
+			if (typeof attributes == 'object')
 			{
-				var type = typeof attributes[index];
-				if (type === "object")
+				for (index in attributes)
 				{
-					for (index2 in attributes[index])
+					var type = typeof attributes[index];
+					if (type === "object")
 					{
-						el[index][index2] = attributes[index][index2];
+						for (index2 in attributes[index])
+						{
+							el[index][index2] = attributes[index][index2];
+						}
+					}
+					else
+					{
+						el[index] = attributes[index];
 					}
 				}
-				else
-				{
-					el[index] = attributes[index];
-				}
+			}
+			else
+			{
+				el.innerHTML = attributes;
 			}
 			if (appendTo) appendTo.appendChild(el);
 			return el;

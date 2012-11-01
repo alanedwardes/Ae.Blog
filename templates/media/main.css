@@ -392,7 +392,6 @@ table.horizontal-table tr
 	float:right;
 }
 .game{
-	display:none;
 	float:left;
 	padding-left:25px;
 }
@@ -407,7 +406,6 @@ table.horizontal-table tr
 	padding-left:0px;
 }
 .album{
-	display:none;
 	float:left;
 	padding-left:17px;
 }

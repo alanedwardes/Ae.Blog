@@ -38,8 +38,8 @@
 				{% if post.get_previous_by_published and post.get_previous_by_published.type == 'published' %}
 					<p class="meta-item meta-prev">prev: <a href="{{ post.get_previous_by_published.get_absolute_url }}">{{ post.get_previous_by_published.title|truncatewords:5 }}</a></p>
 				{% endif %}
-				<script>{% nowhitespace %}				
-					$.getJSON('http://hits.alanedwardes.com/?resource=http://{{ request.get_host }}{{ request.path }}&callback=?', function(data){
+				<script>{% nowhitespace %}
+					ae.util.http.getJSONP('http://hits.alanedwardes.com/?resource=http://{{ request.get_host }}{{ request.path }}&callback=?', function(data){
 						result = false;
 						hits = data.hits;
 						t = 0;
