@@ -18,7 +18,6 @@
 			<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway:100&amp;text={{ post.title|urlencode }}">
 		{% endif %}
 		<link rel="stylesheet" type="text/css" href="/media/main.css">
-		<script src="/media/jquery-latest.min.js"></script>
 		<script src="/media/main.js"></script>
 		{% if request.GET.mobile %}
 			<meta name="viewport" content="width=600,initial-scale=1">
@@ -62,18 +61,18 @@
 				</div>
 			</div>
 		</div>
-		{% if post.slideshow %}
+		{% if post.slideshow and false %}
 			<script>{% nowhitespace %}
-				var bgImg = '{{ post.slideshow }}'.split('|');
-				var curBg = randomFromTo(0, bgImg.length-1);
-				$(document).ready(replaceBg);
+				ae.background.images = '{{ post.slideshow }}'.split('|');
+				ae.background.index = ae.util.randomFromTo(0, bgImg.length - 1);
+				ae.background.replace();
 			{% endnowhitespace %}</script>
 			<div id="tbg"></div>
 			<div id="ttl">
 				<div class="wrp">{{ post.title }}</div>
 			</div>
 		{% endif %}
-		<div id="bdy" class="{% if post.slideshow %}shw{% endif %}{% if is_index %} hme{% else %} sde{% endif %}">
+		<div id="bdy" class="{% if post.slideshow and false %}shw{% endif %}{% if is_index %} hme{% else %} sde{% endif %}">
 			{% block content %}{% endblock %}
 			<div style="clear:both"></div>
 		</div>

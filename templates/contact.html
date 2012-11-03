@@ -50,13 +50,7 @@
 				<p>Use this page to get in touch. Rules:</p>
 				<ul>
 					<li>You can either use this form, or reach me at <script>{% nowhitespace %}
-						mt = 'mailto';
-						ae = 'alanedwardes';
-						pe = '\u002e';
-						cm = 'com';
-						at = '\u0040';
-						co = 'alan';
-						document.write('<a href="' + mt + ':' + co + at + ae + pe + cm + '">' + co + at + ae + pe + cm + '</a>');
+						document.write(ae.print_mail());
 					{% endnowhitespace %}</script>, whichever is easier</li>
 					<li>I'll try and get back to you in 24 hours or so</li>
 					<li>Don't contact me if you are <a href="http://en.wikipedia.org/wiki/Brandon_Flowers">Brandon Flowers</a>*</li>

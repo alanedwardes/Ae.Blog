@@ -26,23 +26,34 @@
 	{% endif %}
 	<div{% if data.bodyerror %} class="errorwrap"{% endif %}>
 		<script>{% nowhitespace %}
-			var authors = new Array();
-		
-			$('.author').each(function(i, author)
+			var authors = [];
+			var author_divs = ae.util.byClass('author');
+			for (var i = 0; i < author_divs.length; i++)
 			{
-				authors.push($(author).text());
-			});
+				var author = author_divs[i].innerHTML;
+				if (authors.indexOf(author) < 0 && author)
+				{
+					authors.push(author);
+				}
+				if (authors.length > 10)
+				{
+					break;
+				}
+			}
 			
-			authors = $.unique(authors.slice(authors.length - 10, authors.length));
-			
-			oldcontent = '';
-			function suggestNames(object){
-				if(object.value.substr(-1, 1) == '@'){
+			var oldcontent = '';
+			function suggestNames(object)
+			{
+				var replySuggestions = document.getElementById('reply-suggestions');
+				if(object.value.substr(-1, 1) == '@')
+				{
 					link = '@<a href="#" onclick="document.getElementById(\'cbody\').value += this.innerHTML;document.getElementById(\'reply-suggestions\').innerHTML = \'\';return false">';
 					
-					$('#reply-suggestions').html('Reply to: ' + link + authors.join('</a>, ' + link) + '</a>');
-				}else if(object.value != oldcontent){
-					$('#reply-suggestions').html('');
+					replySuggestions.innerHTML = 'Reply to: ' + link + authors.join('</a>, ' + link) + '</a>';
+				}
+				else if(object.value != oldcontent)
+				{
+					replySuggestions.innerHTML = '';
 				}
 				oldcontent = object.value;
 			}

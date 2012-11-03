@@ -40,25 +40,27 @@
 				{% endif %}
 				<script>{% nowhitespace %}
 					ae.util.http.getJSONP('http://hits.alanedwardes.com/?resource=http://{{ request.get_host }}{{ request.path }}&callback=?', function(data){
-						result = false;
-						hits = data.hits;
+						var dynamicMeta = document.getElementById('dynamic-meta');
+						
+						var result = false;
+						var hits = data.hits;
 						t = 0;
-						for(period in hits){
-							if(result){
-								result += ' / ';
-							}else{
-								result = 'views: last ';
-							}
+						for (period in hits)
+						{
+							if (result) result += ' / ';
+							else result = 'views: last ';
 							t += hits[period];
 							result += period + ' ' + hits[period];
 						}
 						
-						if(t > 0){
-							$('#dynamic-meta').append('<p class="meta-item meta-stats">' + result + '</p>');
+						if (t > 0)
+						{
+							dynamicMeta.innerHTML += '<p class="meta-item meta-stats">' + result + '</p>';
 						}
 						
-						if(data.terms.length > 0){
-							$('#dynamic-meta').append('<p class="meta-item meta-searches">terms: ' + data.terms.join(', ').replace(/\+/g, ' ') + '.</p>');
+						if (data.terms.length > 0)
+						{
+							dynamicMeta.innerHTML += '<p class="meta-item meta-searches">terms: ' + data.terms.join(', ').replace(/\+/g, ' ') + '.</p>';
 						}
 					});
 				{% endnowhitespace %}</script>
@@ -90,7 +92,7 @@
 						<img style="vertical-align:middle" src="/media/linkedin.png" alt="LinkedIn"/>
 					</a>
 				{% endnowhitespace %}</p>
-				{% if post.slideshow %}
+				{% if post.slideshow and false %}
 					<div style="margin-bottom:15px"></div>
 					<h2>Slideshow</h2>
 					<div id="slideshow"></div>

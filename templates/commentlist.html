@@ -23,48 +23,49 @@
 			<div class="body">{{ comment.body|urlizetrunc:40|paragraphize }}</div>
 		</div>
 	{% endfor %}
-	<script>
-		{% nowhitespace %}
-		$('.comment').each(function(i, comment)
+	<script>{% nowhitespace %}
+		var comments = ae.util.byClass('comment');
+		for (var commentIndex = 0; commentIndex < comments.length; commentIndex++)
 		{
-			var comment_body = $(comment).find('.body');
-			var body = $(comment_body).text();
+			var comment = comments[commentIndex];
+			var comment_body = ae.util.byClass('body', comment)[0];
+			var body = comment_body.innerText;
 			var replies = [];
 			
-			$(body.split(' ')).each(function(i, word)
+			var words = body.split(' ');
+			for (var wordIndex = 0; wordIndex < words.length; wordIndex++)
 			{
-				if(word.match('@'))
+				var word = words[wordIndex];
+				if (word.match('@'))
 				{
 					replies.push(word);
 				}
-			});
-			
-			if(replies.length > 0)
-			{
-				$(replies).each(function(i, replyTo)
-				{
-					last_author = false;
-					this_author_id = parseInt($(comment).find('.author').attr('id').replace('author-', ''));
-					$('.author').each(function(i, author)
-					{
-						author_id = parseInt($(author).attr('id').replace('author-', ''));
-						if($(author).text().match(replyTo.replace('@', '')) && author_id < this_author_id)
-						{
-							last_author = this;
-						}
-					});
-					
-					if(last_author)
-					{
-						comment_body.html(
-							comment_body.html().replace(replyTo,
-								'<a href="#' + $(last_author).attr('id').replace('author-', 'comment-') + '">' + replyTo + '</a>'
-							)
-						)
-					}
-				});
 			}
-		});
-		{% endnowhitespace %}
-	</script>
+			
+			if (replies.length > 0)
+			{
+				for (var replyIndex = 0; replyIndex < replies.length; replyIndex++)
+				{
+					var reply = replies[replyIndex];
+					var last_author = false;
+					var this_author_id = parseInt(ae.util.byClass('author', comment)[0].id.replace('author-', ''));
+					var authors = ae.util.byClass('author');
+					for (var authorIndex = 0; authorIndex < authors.length; authorIndex++)
+					{
+						var author = authors[authorIndex];
+						var author_id = parseInt(author.id.replace('author-', ''));
+						if (author.innerHTML.match(reply.replace('@', '')) && author_id < this_author_id)
+						{
+							last_author = author;
+						}
+					}
+					
+					if (last_author)
+					{
+						comment_body.innerHTML = comment_body.innerHTML.replace(reply, '<a href="#' + last_author.id.replace('author-', 'comment-') + '">' + reply + '</a>');
+					}
+				}
+			}
+		}
+	{% endnowhitespace %}</script>
 {% endif %}

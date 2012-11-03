@@ -120,6 +120,28 @@ ae =
 			}
 			if (appendTo) appendTo.appendChild(el);
 			return el;
+		},
+		randomFromTo: function(from, to)
+		{
+			// http://www.admixweb.com/2010/08/24/javascript-tip-get-a-random-number-between-two-integers/
+			return Math.floor(Math.random() * (to - from + 1) + from);
+		},
+		byClass: function(className, scope)
+		{
+			if(!scope) scope = document;
+			if(scope.getElementsByClassName)
+			{
+				return scope.getElementsByClassName(className);
+			}
+			else
+			{
+				var retnode = [];
+				var elem = scope.getElementsByTagName('*');
+				for(var i = 0; i < elem.length; i++)
+					if((' ' + elem[i].className + ' ').indexOf(' ' + className + ' ') > -1)
+						retnode.push(elem[i]);
+			  return retnode;
+			}
 		}
 	},
 	print_mail: function()
@@ -286,6 +308,15 @@ ae =
 			}
 		}
 	},
+	background:
+	{
+		images: [],
+		index: 0,
+		replace: function()
+		{
+		
+		}
+	},
 	init: function(e)
 	{
 		ae.konami();
@@ -294,60 +325,3 @@ ae =
 }
 
 ae.util.event(window, 'load', ae.init);
-
-var anDur = 25000;
-var curIm;
-var changeTimeout;
-function replaceBg(){
-	$('#slideshow').fadeTo(0.7);
-	$('#img').remove();
-	base = '/static_media/';
-	curIm = new Image()
-	curIm.onload = function(){
-		$('#slideshow').fadeTo(1).html('<a href="' + base + bgImg[curBg] + '"><img id="ssi" width="100%" src="' + base + bgImg[curBg] + '"/></a>');
-		//$('#tbg #ldg').stop().fadeOut(anDur / 10);
-		$(curIm).hide().attr('id', 'img');
-		$('#tbg').append(curIm);
-		$('#img').stop().fadeIn(anDur / 10).animate({
-			marginTop: '-=' + ($('#img').height() - 200)
-		}, {
-			queue: false,
-			duration: anDur,
-			easing: 'linear'
-		});
-		
-		clearTimeout(changeTimeout);
-		changeTimeout = setTimeout(function(){
-			$(curIm).fadeOut(anDur / 10, function(){
-				return nextBG();
-			});
-			
-		}, anDur/2);
-	}
-	curIm.src = base + bgImg[curBg]
-	
-	return false; // don't go to #
-}
-
-function nextBG(){
-	if(bgImg[curBg+1]){
-		curBg++
-	}else{
-		curBg = 0
-	}
-	return replaceBg();
-}
-
-function lastBG(){
-	if(bgImg[curBg-1]){
-		curBg--
-	}else{
-		curBg = bgImg.length - 1
-	}
-	return replaceBg();
-}
-
-// http://www.admixweb.com/2010/08/24/javascript-tip-get-a-random-number-between-two-integers/
-function randomFromTo(from, to){
-	return Math.floor(Math.random() * (to - from + 1) + from);
-}
