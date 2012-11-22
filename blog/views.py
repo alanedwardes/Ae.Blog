@@ -193,16 +193,18 @@ def single(request, post_slug):
 			# http://stackoverflow.com/a/4581997
 			forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
 			if forwarded_for:
-				ip = forwarded_for.split(',')[0]
+				ip_address = forwarded_for.split(',')[0]
 			else:
-				ip = request.META.get('REMOTE_ADDR')
+				ip_address = request.META.get('REMOTE_ADDR')
+				
+			print ip_address
 		
 			comment = Comment(
 				name=data['name'],
 				email=data['email'],
 				url=data['url'],
 				body=data['body'],
-				ip=ip,
+				ip=ip_address,
 				is_admin=request.user.is_authenticated(),
 				post=post
 			)
