@@ -40,7 +40,8 @@ class Page(models.Model):
 
 class Comment(models.Model):
 	name = models.CharField(max_length = 100)
-	email = models.EmailField()
+	email = models.EmailField(blank = True)
+	ip = models.GenericIPAddressField(blank = True)
 	url = models.URLField(blank = True)
 	body = models.TextField()
 	published = models.DateTimeField(auto_now_add = True)
