@@ -17,8 +17,8 @@ html{
 	color:#222;
 }
 body{
-	font-family:'PT Sans', sans-serif;
-	font-size:14px;
+	font-family:'Alegreya', sans-serif;
+	font-size:18px;
 }
 
 /* Global */
@@ -59,24 +59,32 @@ pre, code{
 	font-family:'Consolas', monospace;
 }
 h1, h2, h3, h4, h5{
-	font-family:'Copse', Georgia, serif;
-	text-shadow:1px 1px 0px #ccc;
+	text-align:center;
+	font-family:'Alegreya SC', Georgia, serif;
+	text-shadow:1px 1px 1px #ccc;
 	line-height:1;
-	margin-bottom:10px;
 }
 h1 a, h2 a, h3 a, h4 a, h5 a{
 	color:inherit;
 }
-h1{
+h1
+{
+	margin:20px 0px;
 	font-size:35px;
 }
-h2{
+h2
+{
+	margin:20px 0px;
 	font-size:25px;
 }
-h3{
+h3
+{
+	margin:10px 0px;
 	font-size:20px;
 }
-h4{
+h4
+{
+	margin:10px 0px;
 	font-size:15px;
 }
 form div{
@@ -113,6 +121,11 @@ label{
 label small{
 	color:#555;
 	font-size:11px;
+}
+small.subtitle
+{
+	text-align:center;
+	display:block;
 }
 abbr{
 	border-bottom:1px dashed #aaa;
@@ -229,13 +242,10 @@ table.horizontal-table tr
 	padding-top:12.5px;
 }
 #hdr .rgt{
-	padding-top:3px;
 	text-align:right;
 }
 #hdr .rgt a{
 	text-shadow:0px 0px 5px #555;
-	text-transform:uppercase;
-	font-size:13px;
 	margin-left:20px;
 }
 #hdr .rgt a.current{
@@ -323,7 +333,8 @@ table.horizontal-table tr
 /* Body */
 #hi{
 	text-shadow:1px 1px 0px #ccc;
-	font-family:Copse;
+	font-family:;
+	font-weight:bold;
 	font-size:42px;
 	padding:15px 0px;
 }
@@ -350,21 +361,22 @@ table.horizontal-table tr
 }
 .tri h2{
 	padding-bottom:5px;
+	margin-bottom:10px;
+	margin-top:0px;
 	border-bottom:1px solid transparent;
 }
 #tweets{
-	height:150px;
+	height:160px;
 	overflow-y:auto;
 	overflow-x:hidden;
 }
 #steamgames{
-	height:70px;
+	display:none;
 	padding-top:10px;
 	padding-bottom:10px;
 }
 #lastfm{
-	clear:both;
-	height:64px;
+	display:none;
 	padding-top:10px;
 	padding-bottom:10px;
 }
@@ -381,23 +393,33 @@ table.horizontal-table tr
 	padding-top:10px;
 }
 .game.intro #first{
-	visibility:hidden;
+	display:none;
 }
 .game.intro #second{
-	visibility:hidden;
+	display:none;
 }
 .game.intro span{
 	width:20px;
 	text-align:center;
 	float:right;
 }
-.game{
+.album img:hover, .game img:hover
+{
+	box-shadow:0px 0px 20px #222;
+}
+.album img, .game img
+{
+	-webkit-transition:box-shadow 100ms linear;
+	box-shadow:0px 0px 10px #888;
+}
+.game
+{
 	float:left;
 	padding-left:25px;
 }
 .game img{
-	padding-bottom:1px;
-	padding-right:1px;
+	margin-bottom:1px;
+	margin-right:1px;
 }
 .album img, .game img{
 	background:url(check.png);
@@ -416,7 +438,7 @@ table.horizontal-table tr
 	color:#222;
 }
 #bdy.hme{
-	background-image:url(smooth_wall.png);
+	background-image:url(shl.png);
 }
 #bdy.shw{
 	border-top:5px solid transparent;
@@ -497,7 +519,11 @@ table.horizontal-table tr
 	padding:0px 0px 0px 10px;
 }
 #sdb h2{
-
+	margin-bottom:0px;
+}
+#sdb h2 + .subtitle
+{
+	margin-bottom:10px;
 }
 #sdb .notch, #sdb h2{
 	display:block;

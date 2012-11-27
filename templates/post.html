@@ -2,7 +2,7 @@
 {% load htmlentities paragraphize specialtags timesince_years %}
 {% if is_single %}
 	{% if not post.slideshow %}
-		<h2>{{ post.title|escape }}</h2>
+		<h1>{{ post.title|escape }}</h2>
 	{% endif %}
 	{% if post.is_old %}
 		<div class="posthint">
