@@ -13,7 +13,7 @@
 				<ul>
 				{% for post in posts %}
 					<li style="border-bottom:1px dotted #aaa;">
-						<code>{{ post.published|date:"d/m/Y" }}</code> &mdash; <a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:7 }}</a>
+						<code>{{ post.published|date:"d/m/Y" }}</code> &mdash; <a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:6 }}</a>
 						{% if post.comments %}
 							<a class="commentcount" href="{{ post.get_absolute_url }}#comments">{{ post.comments }}</a>
 						{% endif %}

@@ -79,7 +79,7 @@ h2
 }
 h3
 {
-	margin:10px 0px;
+	margin:20px 0px 10px 0px;
 	font-size:20px;
 }
 h4
@@ -332,8 +332,8 @@ table.horizontal-table tr
 
 /* Body */
 #hi{
-	text-shadow:1px 1px 0px #ccc;
-	font-family:;
+	text-shadow:1px 1px 1px #ccc;
+	text-align:center;
 	font-weight:bold;
 	font-size:42px;
 	padding:15px 0px;
@@ -602,7 +602,6 @@ table.horizontal-table tr
 /* Footer */
 #ftr{
 	box-shadow:inset 0px 5px 5px rgba(0, 0, 0, 0.2);
-	font-size:14px;
 	background-color:#222;
 	width:100%;
 	color:#666;

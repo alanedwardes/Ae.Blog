@@ -33,10 +33,10 @@
 				{% random_post post.slug %}
 				<p class="meta-item meta-rand">rand: <a href="{{ random_post.get_absolute_url }}">{{ random_post.title|truncatewords:5 }}</a></p>
 				{% if post.get_next_by_published and post.get_next_by_published.type == 'published' %}
-					<p class="meta-item meta-next">next: <a href="{{ post.get_next_by_published.get_absolute_url }}">{{ post.get_next_by_published.title|truncatewords:5 }}</a></p>
+					<p class="meta-item meta-next">next: <a href="{{ post.get_next_by_published.get_absolute_url }}">{{ post.get_next_by_published.title|truncatewords:4 }}</a></p>
 				{% endif %}
 				{% if post.get_previous_by_published and post.get_previous_by_published.type == 'published' %}
-					<p class="meta-item meta-prev">prev: <a href="{{ post.get_previous_by_published.get_absolute_url }}">{{ post.get_previous_by_published.title|truncatewords:5 }}</a></p>
+					<p class="meta-item meta-prev">prev: <a href="{{ post.get_previous_by_published.get_absolute_url }}">{{ post.get_previous_by_published.title|truncatewords:4 }}</a></p>
 				{% endif %}
 				<script>{% nowhitespace %}
 					ae.util.http.getJSONP('http://hits.alanedwardes.com/?resource=http://{{ request.get_host }}{{ request.path }}&callback=?', function(data){
