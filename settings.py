@@ -43,6 +43,14 @@ STATIC_URL = '/static/'
 # CSS, Images etc
 MEDIA_ROOT = os.path.join(SITE_ROOT, 'templates', 'media')
 
+# The public facing media root.
+# Django has so many fucking settings for
+# various bullshit I just made a new one.
+# It's easier than sifting through to
+# find whatever arbitrary name the
+# official setting has.
+PUBLIC_MEDIA_ROOT = '/media/'
+
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".

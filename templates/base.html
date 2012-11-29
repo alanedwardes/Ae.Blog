@@ -1,5 +1,5 @@
 {% spaceless %}
-{% load random_item nowhitespace %}
+{% load random_item nowhitespace media_include %}
 {% random_item 046380|A20D1E|827b00|955918|800463 theme %}
 <!DOCTYPE html>
 <html>
@@ -17,15 +17,14 @@
 		{% if post.slideshow %}
 			<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway:100&amp;text={{ post.title|urlencode }}">
 		{% endif %}
-		<link rel="stylesheet" type="text/css" href="/media/main.css">
-		<script src="/media/main.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="{% media_include "main.css" %}">
+		<script src="{% media_include "main.js" %}"></script>
 		{% if request.GET.mobile %}
 			<meta name="viewport" content="width=600,initial-scale=1">
-			<link rel="stylesheet" type="text/css" href="/media/mobile.css">
+			<link rel="stylesheet" type="text/css" href="{% media_include "mobile.css" %}">
 		{% endif %}
-		<!--[if IE 6]>
-			<link rel="stylesheet" type="text/css" href="/media/ie6.css">
-		<![endif]-->
+		<!--[if IE 6]>{% media_include "ie6.css" %}<![endif]-->
 		<style id="theme">{% nowhitespace %}
 			.dbg, label.error, #hdr, .save, #ldg, #tbg
 			{
@@ -57,7 +56,7 @@
 					<a{% if request.path == '/contact/' %} class="current"{% endif %} href="/contact/">Contact</a>
 				</div>
 				<div class="lft">
-					<a href="/"><img src="/media/logo.png" height="25" width="181" alt="Alan Edwardes"/></a>
+					<a href="/"><img src="{% media_include "logo.png" %}" height="25" width="181" alt="Alan Edwardes"/></a>
 				</div>
 			</div>
 		</div>

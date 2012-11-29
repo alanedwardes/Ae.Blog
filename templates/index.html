@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load timesince_years nowhitespace random_item %}
+{% load timesince_years nowhitespace random_item media_include %}
 {% block description %}{% if title %}Alan Edwardes' Blog: {{ title }}{% else %}The thoughts and irrational headspew of Alan Edwardes.{% endif %}{% endblock %}
 
 {% block title %}Alan Edwardes{% endblock %}
@@ -8,7 +8,7 @@
 <div class="wrp">
 	{% random_item "Ciao|Hello|Salut|¡Hola|Guten tag|Aloha|Hallo|Hallå|Salam" greeting %}
 	<div id="hi"><a href="/" title="Click for a new greeting">{{ greeting }}!</a> I'm a programmer<span style="color:#777">;</span></div>
-	<img id="int" src="/media/languages.png" alt="Languages" width="960" height="200"/>
+	<img id="int" src="{% media_include "languages.png" %}" alt="Languages" width="960" height="200"/>
 	<div class="tri first">
 		<h2>Posts</h2>
 		<ul>
