@@ -65,7 +65,7 @@ def contact(request):
 		}
 
 		if data['name'].lower() == 'brandon flowers':
-			data['nameerror'] = '<img width="100%" src="/static_media/Operation_Upshot-Knothole_-_Badger_001.jpg"/>'
+			data['nameerror'] = str.format('<img src="{0}brandon.jpg"/>', settings.PUBLIC_MEDIA_ROOT)
 			error = True
 		
 		if not data['name']:
