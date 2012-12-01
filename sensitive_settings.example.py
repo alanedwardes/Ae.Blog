@@ -20,3 +20,5 @@ DATABASES = {
 BIRTH_DATE = datetime.datetime(yyyy, mm, dd)
 
 SECRET_KEY = 'secret key'
+
+EMAIL_FIELD_NAME = 'anti_spam_email_field_name'

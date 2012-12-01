@@ -24,8 +24,8 @@
 							{% if data.nameerror %}<div class="error">{{ data.nameerror|safe }}</div>{% endif %}
 						</div>
 						<div{% if data.emailerror %} class="errorwrap"{% endif %}>
-							<label for="email">Email <small>(Important, allows me to contact you back)</small></label>
-							<input name="email" class="text" type="text" id="email" value="{{ data.email }}"/>
+							<label for="{{ settings.EMAIL_FIELD_NAME }}">Email <small>(Important, allows me to contact you back)</small></label>
+							<input name="{{ settings.EMAIL_FIELD_NAME }}" class="text" type="text" id="{{ settings.EMAIL_FIELD_NAME }}" value="{{ data.email }}"/>
 							{% if data.emailerror %}<div class="error">{{ data.emailerror }}</div>{% endif %}
 						</div>
 						<div{% if data.subjecterror %} class="errorwrap"{% endif %}>

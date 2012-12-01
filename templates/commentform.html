@@ -14,8 +14,8 @@
 			{% if data.nameerror %}<div class="error">{{ data.nameerror }}</div>{% endif %}
 		</div>
 		<div{% if data.emailerror %} class="errorwrap"{% endif %}>
-			<label for="jerry_the_spider">Email <small>(optional, used for <a target="_blank" href="http://www.gravatar.com/">your avatar</a>)</small></label>
-			<input name="jerry_the_spider" type="text" id="jerry_the_spider" class="text" value="{{ data.email }}"/>
+			<label for="{{ settings.EMAIL_FIELD_NAME }}">Email <small>(optional, used for <a target="_blank" href="http://www.gravatar.com/">your avatar</a>)</small></label>
+			<input name="{{ settings.EMAIL_FIELD_NAME }}" type="text" id="{{ settings.EMAIL_FIELD_NAME }}" class="text" value="{{ data.email }}"/>
 			{% if data.emailerror %}<div class="error">{{ data.emailerror }}</div>{% endif %}
 		</div>
 		<div{% if data.urlerror %} class="errorwrap"{% endif %}>

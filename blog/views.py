@@ -12,16 +12,17 @@ from django.utils.html import strip_tags
 from django.utils.encoding import smart_unicode
 from blog.models import *
 
-def base_view_data(data, request):
+def base_view_data(template_name, data, request):
 	if data is None:
 		data = {}
 	data['request'] = request
+	data['template_name'] = template_name
 	data['settings'] = settings
 	data['pages'] = Page.objects.all().filter(type='published').order_by('-published')
 	return data
 
 def respond(template, data, request, mime=None):
-	data = base_view_data(data, request)
+	data = base_view_data(template, data, request)
 	if mime is None:
 		mime = 'text/html'
 	t = loader.get_template(template)
@@ -59,7 +60,7 @@ def contact(request):
 	if request.method == 'POST':
 		data = {
 			'name': request.POST.get('name',''),
-			'email': request.POST.get('email',''),
+			'email': request.POST.get(settings.EMAIL_FIELD_NAME,''),
 			'subject': request.POST.get('subject',''),
 			'body': request.POST.get('body',''),
 		}
@@ -156,7 +157,7 @@ def single(request, post_slug):
 			raise Http404
 	
 		data = {
-			'email': smart_unicode(request.POST.get('jerry_the_spider', '')),
+			'email': smart_unicode(request.POST.get(settings.EMAIL_FIELD_NAME, '')),
 			'name': smart_unicode(request.POST.get('name', '')),
 			'url': smart_unicode(request.POST.get('url', '')),
 			'body': smart_unicode(request.POST.get('body', '')),
@@ -242,7 +243,7 @@ def single(request, post_slug):
 		'data': data,
 		'is_single': True
 	}
-	c = RequestContext(request, base_view_data(template_data, request))
+	c = RequestContext(request, base_view_data('single.html', template_data, request))
 	response = HttpResponse(t.render(c), "text/html; charset=utf-8")
 	response.set_cookie('name', data['name'], max_age=30000000)
 	response.set_cookie('email', data['email'], max_age=30000000)
