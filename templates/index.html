@@ -8,7 +8,7 @@
 <div class="wrp">
 	{% random_item "Ciao|Hello|Salut|¡Hola|Guten tag|Aloha|Hallo|Hallå|Salam" greeting %}
 	<div id="hi"><a href="/" title="Click for a new greeting">{{ greeting }}!</a> I'm a programmer<span style="color:#777">;</span></div>
-	<img id="int" src="{% media_include "languages.png" %}" alt="Languages" width="960" height="200"/>
+	<img id="int" src="{% media_include "languages.png" %}" alt="Languages" width="960" height="150"/>
 	<div class="tri first">
 		<h2>Posts</h2>
 		<ul>
@@ -50,10 +50,9 @@
 	</div>
 	<div class="tri">
 		<h2>About</h2>
-		<p style="padding:20px 0px">I'm a {{ settings.BIRTH_DATE|timesince_years }} year old student from the UK. Programmer that dabbles in web design and game development.</p>
-		<small class="subtitle">
-			contact: <script>document.write(ae.print_mail());</script>
-		</small>
+		<p>I'm a {{ settings.BIRTH_DATE|timesince_years }} year old student from the UK.</p>
+		<p>Programmer that dabbles in web design and <a href="/estranged/">game development</a>.</p>
+		<p>Contact: <script>document.write(ae.print_mail());</script></p>
 	</div>
 	<div class="clr"></div>
 	<script>{% nowhitespace %}

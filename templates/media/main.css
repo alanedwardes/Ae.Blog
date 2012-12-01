@@ -390,7 +390,7 @@ table.horizontal-table tr
 }
 .game.intro div{
 	height:25px;
-	padding-top:10px;
+	padding-top:7.5px;
 }
 .game.intro #first{
 	display:none;
@@ -405,12 +405,12 @@ table.horizontal-table tr
 }
 .album img:hover, .game img:hover
 {
-	box-shadow:0px 0px 20px #222;
+	box-shadow:0px 0px 20px #000;
 }
 .album img, .game img
 {
 	-webkit-transition:box-shadow 100ms linear;
-	box-shadow:0px 0px 10px #888;
+	box-shadow:0px 0px 10px #111;
 }
 .game
 {
@@ -437,8 +437,19 @@ table.horizontal-table tr
 	background-position:center;
 	color:#222;
 }
-#bdy.hme{
-	background-image:url(shl.png);
+#bdy.hme
+{
+	background:url(dark_wall.png) #333;
+	color:#ddd;
+	text-shadow:1px 1px 0px #151515;
+}
+#bdy.hme h1, #bdy.hme h2, #bdy.hme #hi
+{
+	text-shadow:1px 1px 0px #151515;
+}
+#bdy.hme a
+{
+	text-shadow:0px 0px 2px #555;
 }
 #bdy.shw{
 	border-top:5px solid transparent;
@@ -604,6 +615,7 @@ table.horizontal-table tr
 	box-shadow:inset 0px 5px 5px rgba(0, 0, 0, 0.2);
 	background-color:#222;
 	width:100%;
+	text-shadow:1px 1px 0px #151515;
 	color:#666;
 	clear:both;
 	padding:10px 0px;
