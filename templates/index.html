@@ -92,9 +92,8 @@
 			{
 				for (var i = 0; i < games.mostPlayedGames.mostPlayedGame.length; i++)
 				{
+					if (i > 2) break;
 					var game = games.mostPlayedGames.mostPlayedGame[i];
-					
-					if (i > 3) break;
 					
 					var div = ae.util.element('div', {
 						className: 'game'
