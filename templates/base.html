@@ -48,7 +48,7 @@
 			<div class="wrp">
 				<div class="rgt">
 					{% if request.user.is_authenticated %}<a href="/admin/">Admin</a>{% endif %}
-					<a href="/estranged/">Play Estranged</a>
+					<a id="estranged_link" href="/estranged/">Play Estranged</a>
 					<a{% if request.path == '/archive/' %} class="current"{% endif %} href="/archive/">Archive</a>
 					{% for page in pages %}
 						<a{% if request.path == page.get_absolute_url  %} class="current"{% endif %} href="{{ page.get_absolute_url }}">{{ page.title }}</a>

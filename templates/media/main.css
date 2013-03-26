@@ -439,7 +439,7 @@ table.horizontal-table tr
 }
 #bdy.hme
 {
-	background:url(dark_wall.png) #333;
+	background:url(black-Linen.png) #333;
 	color:#ddd;
 	text-shadow:1px 1px 0px #151515;
 }
@@ -789,4 +789,10 @@ table.horizontal-table tr
 
 #search-result{
 	margin-bottom:10px;
+}
+
+#estranged_link
+{
+	background:url(estranged.png) center left no-repeat;
+	padding-left:30px;
 }

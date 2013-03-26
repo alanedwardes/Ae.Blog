@@ -96,6 +96,7 @@
 					var game = games.mostPlayedGames.mostPlayedGame[i];
 					
 					var div = ae.util.element('div', {
+						style: { display: 'none' },
 						className: 'game'
 					}, document.getElementById('steamgames'));
 					var a = ae.util.element('a', {
@@ -103,10 +104,18 @@
 						href: game.gameLink,
 						title: game.gameName + ', played ' + game.hoursPlayed + ' hours over the past two weeks, ' + game.hoursOnRecord + ' hours total.'
 					}, div);
+					
 					var img = ae.util.element('img', {
 						width: 184,
 						height: 69,
-						src: game.gameLogo
+						src: game.gameLogo,
+						onload: (function(game_div)
+						{
+							return function()
+							{
+								game_div.style.display = 'block';
+							}
+						})(div)
 					}, a);
 				}
 				document.getElementById('second').style.display = 'block';
