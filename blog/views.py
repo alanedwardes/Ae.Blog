@@ -59,10 +59,10 @@ def contact(request):
 	error = False
 	if request.method == 'POST':
 		data = {
-			'name': request.POST.get('name',''),
+			'name': request.POST.get(settings.NAME_FIELD_NAME,''),
 			'email': request.POST.get(settings.EMAIL_FIELD_NAME,''),
-			'subject': request.POST.get('subject',''),
-			'body': request.POST.get('body',''),
+			'subject': request.POST.get(settings.SUBJECT_FIELD_NAME,''),
+			'body': request.POST.get(settings.BODY_FIELD_NAME,''),
 		}
 
 		if data['name'].lower() == 'brandon flowers':
@@ -158,9 +158,9 @@ def single(request, post_slug):
 	
 		data = {
 			'email': smart_unicode(request.POST.get(settings.EMAIL_FIELD_NAME, '')),
-			'name': smart_unicode(request.POST.get('name', '')),
-			'url': smart_unicode(request.POST.get('url', '')),
-			'body': smart_unicode(request.POST.get('body', '')),
+			'name': smart_unicode(request.POST.get(settings.NAME_FIELD_NAME, '')),
+			'url': smart_unicode(request.POST.get(settings.URL_FIELD_NAME, '')),
+			'body': smart_unicode(request.POST.get(settings.NAME_FIELD_NAME, '')),
 		}
 
 		if request.user.is_authenticated():

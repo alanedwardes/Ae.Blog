@@ -19,8 +19,8 @@
 					<form action="" method="post">
 						{% csrf_token %}
 						<div{% if data.nameerror %} class="errorwrap"{% endif %}>
-							<label for="name">Name <small>(If it's not real, it better be cool&ndash; and not Brandon Flowers)</small></label>
-							<input name="name" class="text" type="text" id="name" value="{{ data.name }}"/>
+							<label for="{{ settings.NAME_FIELD_NAME }}">Name <small>(If it's not real, it better be cool&ndash; and not Brandon Flowers)</small></label>
+							<input name="{{ settings.NAME_FIELD_NAME }}" class="text" type="text" id="{{ settings.NAME_FIELD_NAME }}" value="{{ data.name }}"/>
 							{% if data.nameerror %}<div class="error">{{ data.nameerror|safe }}</div>{% endif %}
 						</div>
 						<div{% if data.emailerror %} class="errorwrap"{% endif %}>
@@ -29,13 +29,13 @@
 							{% if data.emailerror %}<div class="error">{{ data.emailerror }}</div>{% endif %}
 						</div>
 						<div{% if data.subjecterror %} class="errorwrap"{% endif %}>
-							<label for="subject">Subject <small>(The subject of the email)</small></label>
-							<input name="subject" class="text" type="text" id="subject" value="{% if not data.subject %}{{ request.GET.subject }}{% else %}{{ data.subject }}{% endif %}"/>
+							<label for="{{ settings.SUBJECT_FIELD_NAME }}">Subject <small>(The subject of the email)</small></label>
+							<input name="{{ settings.SUBJECT_FIELD_NAME }}" class="text" type="text" id="{{ settings.SUBJECT_FIELD_NAME }}" value="{% if not data.subject %}{{ request.GET.subject }}{% else %}{{ data.subject }}{% endif %}"/>
 							{% if data.subjecterror %}<div class="error">{{ data.subjecterror }}</div>{% endif %}
 						</div>
 						<div{% if data.bodyerror %} class="errorwrap"{% endif %}>
-							<label for="body">Email Body <small>(HTML won't work, URLs will be made clickable)</small></label>
-							<textarea name="body" id="body" rows="12" cols="30">{% if not data.body %}{{ request.GET.body }}{% else %}{{ data.body }}{% endif %}</textarea>
+							<label for="{{ settings.BODY_FIELD_NAME }}">Email Body <small>(HTML won't work, URLs will be made clickable)</small></label>
+							<textarea name="{{ settings.BODY_FIELD_NAME }}" id="{{ settings.BODY_FIELD_NAME }}" rows="12" cols="30">{% if not data.body %}{{ request.GET.body }}{% else %}{{ data.body }}{% endif %}</textarea>
 							{% if data.bodyerror %}<div class="error">{{ data.bodyerror }}</div>{% endif %}
 						</div>
 						<div>

@@ -22,3 +22,7 @@ BIRTH_DATE = datetime.datetime(yyyy, mm, dd)
 SECRET_KEY = 'secret key'
 
 EMAIL_FIELD_NAME = 'anti_spam_email_field_name'
+NAME_FIELD_NAME = 'anti_spam_name_field_name'
+SUBJECT_FIELD_NAME = 'anti_spam_subject_field_name'
+URL_FIELD_NAME = 'anti_spam_url_field_name'
+COMMENT_FIELD_NAME = 'anti_spam_comment_field_name'

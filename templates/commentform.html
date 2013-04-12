@@ -9,8 +9,8 @@
 	<input type="text" name="email" value="" id="email_field" style="display:none" />
 	{% if not user.is_authenticated %}
 		<div{% if data.nameerror %} class="errorwrap"{% endif %}>
-			<label for="cname">Name <small>(If it's not real, it better be cool)</small></label>
-			<input name="name" type="text" id="cname" class="text" value="{{ data.name }}"/>
+			<label for="{{ settings.NAME_FIELD_NAME }}">Name <small>(If it's not real, it better be cool)</small></label>
+			<input name="{{ settings.NAME_FIELD_NAME }}" type="text" id="{{ settings.NAME_FIELD_NAME }}" class="text" value="{{ data.name }}"/>
 			{% if data.nameerror %}<div class="error">{{ data.nameerror }}</div>{% endif %}
 		</div>
 		<div{% if data.emailerror %} class="errorwrap"{% endif %}>
@@ -19,8 +19,8 @@
 			{% if data.emailerror %}<div class="error">{{ data.emailerror }}</div>{% endif %}
 		</div>
 		<div{% if data.urlerror %} class="errorwrap"{% endif %}>
-			<label for="curl">Website Address <small>(optional, makes your name link to your site)</small></label>
-			<input name="url" type="text" id="curl" class="text" value="{{ data.url }}"/>
+			<label for="{{ settings.URL_FIELD_NAME }}">Website Address <small>(optional, makes your name link to your site)</small></label>
+			<input name="{{ settings.URL_FIELD_NAME }}" type="text" id="{{ settings.URL_FIELD_NAME }}" class="text" value="{{ data.url }}"/>
 			{% if data.urlerror %}<div class="error">{{ data.urlerror }}</div>{% endif %}
 		</div>
 	{% endif %}
@@ -30,7 +30,7 @@
 			var author_divs = ae.util.byClass('author');
 			for (var i = 0; i < author_divs.length; i++)
 			{
-				var author = author_divs[i].innerHTML;
+				var author = author_divs[i].textContent || author_divs[i].innerText;
 				if (authors.indexOf(author) < 0 && author)
 				{
 					authors.push(author);
@@ -47,7 +47,7 @@
 				var replySuggestions = document.getElementById('reply-suggestions');
 				if(object.value.substr(-1, 1) == '@')
 				{
-					link = '@<a href="#" onclick="document.getElementById(\'cbody\').value += this.innerHTML;document.getElementById(\'reply-suggestions\').innerHTML = \'\';return false">';
+					link = '@<a href="#" onclick="document.getElementById(\'{{ settings.COMMENT_FIELD_NAME }}\').value += this.innerHTML;document.getElementById(\'reply-suggestions\').innerHTML = \'\';return false">';
 					
 					replySuggestions.innerHTML = 'Reply to: ' + link + authors.join('</a>, ' + link) + '</a>';
 				}
@@ -58,9 +58,9 @@
 				oldcontent = object.value;
 			}
 		{% endnowhitespace %}</script>
-		<label for="cbody">Comment <small>(No HTML, URLs are made clickable, press enter twice for a new paragraph{% if post.comments %}. Type @name to reply.{% endif %})</small></label>
+		<label for="{{ settings.NAME_FIELD_NAME }}">Comment <small>(No HTML, URLs are made clickable, press enter twice for a new paragraph{% if post.comments %}. Type @name to reply.{% endif %})</small></label>
 		<div id="reply-suggestions"></div>
-		<textarea onkeyup="suggestNames(this)" name="body" id="cbody" rows="7" cols="30">{{ data.body }}</textarea>
+		<textarea onkeyup="suggestNames(this)" name="{{ settings.NAME_FIELD_NAME }}" id="{{ settings.NAME_FIELD_NAME }}" rows="7" cols="30">{{ data.body }}</textarea>
 		{% if data.bodyerror %}<div class="error">{{ data.bodyerror }}</div>{% endif %}
 	</div>
 	<div>
