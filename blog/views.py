@@ -160,7 +160,7 @@ def single(request, post_slug):
 			'email': smart_unicode(request.POST.get(settings.EMAIL_FIELD_NAME, '')),
 			'name': smart_unicode(request.POST.get(settings.NAME_FIELD_NAME, '')),
 			'url': smart_unicode(request.POST.get(settings.URL_FIELD_NAME, '')),
-			'body': smart_unicode(request.POST.get(settings.NAME_FIELD_NAME, '')),
+			'body': smart_unicode(request.POST.get(settings.BODY_FIELD_NAME, '')),
 		}
 
 		if request.user.is_authenticated():

@@ -58,9 +58,9 @@
 				oldcontent = object.value;
 			}
 		{% endnowhitespace %}</script>
-		<label for="{{ settings.NAME_FIELD_NAME }}">Comment <small>(No HTML, URLs are made clickable, press enter twice for a new paragraph{% if post.comments %}. Type @name to reply.{% endif %})</small></label>
+		<label for="{{ settings.BODY_FIELD_NAME }}">Comment <small>(No HTML, URLs are made clickable, press enter twice for a new paragraph{% if post.comments %}. Type @name to reply.{% endif %})</small></label>
 		<div id="reply-suggestions"></div>
-		<textarea onkeyup="suggestNames(this)" name="{{ settings.NAME_FIELD_NAME }}" id="{{ settings.NAME_FIELD_NAME }}" rows="7" cols="30">{{ data.body }}</textarea>
+		<textarea onkeyup="suggestNames(this)" name="{{ settings.BODY_FIELD_NAME }}" id="{{ settings.BODY_FIELD_NAME }}" rows="7" cols="30">{{ data.body }}</textarea>
 		{% if data.bodyerror %}<div class="error">{{ data.bodyerror }}</div>{% endif %}
 	</div>
 	<div>
