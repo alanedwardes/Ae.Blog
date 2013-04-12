@@ -7,8 +7,12 @@
 {% block content %}
 <div class="wrp">
 	{% random_item "Ciao|Hello|Salut|¡Hola|Guten tag|Aloha|Hallo|Hallå|Salam" greeting %}
-	<div id="hi"><a href="/" title="Click for a new greeting">{{ greeting }}!</a> I'm a programmer<span style="color:#777">;</span></div>
-	<img id="int" src="{% media_include "languages.png" %}" alt="Languages" width="960" height="150"/>
+	<div id="hi"><a href="/" title="Click for a new greeting">{{ greeting }}!</a> I make things<span style="color:#777">:</span></div>
+	<div class="ban" style="background-image:url({% media_include "estranged-banner.jpg" %})">
+		<div class="blurb">
+			<a href="/estranged/">Estranged</a>, a free game following the story of a lone fisherman stranded on a mysterious island during a violent storm. <a href="/estranged/">Learn more and play &raquo;</a>
+		</div>
+	</div>
 	<div class="tri first">
 		<h2>Posts</h2>
 		<ul>

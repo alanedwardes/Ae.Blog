@@ -26,11 +26,11 @@
 		{% endif %}
 		<!--[if IE 6]>{% media_include "ie6.css" %}<![endif]-->
 		<style id="theme">{% nowhitespace %}
-			.dbg, label.error, #hdr, .save, #ldg, #tbg
+			.dbg, label.error, #hdr, .save, #ldg, #tbg, #ftr, body
 			{
 				background-color:#{{ theme }};
 			}
-			.dbd, input.text:focus, textarea:focus, input.error, textarea.error, #tbg, #ftr, #bdy.shw, .admin .metawrap, .save, .tri h2, #ftr a
+			.dbd, input.text:focus, textarea:focus, input.error, textarea.error, #tbg, #ftr, #bdy.shw, .admin .metawrap, .save, .tri h2
 			{
 				border-color:#{{ theme }};
 			}
@@ -71,7 +71,7 @@
 				<div class="wrp">{{ post.title }}</div>
 			</div>
 		{% endif %}
-		<div id="bdy" class="{% if post.slideshow and false %}shw{% endif %}{% if is_index %} hme{% else %} sde{% endif %}">
+		<div id="bdy" class="{% if is_index %} hme{% else %} sde{% endif %}">
 			{% block content %}{% endblock %}
 			<div style="clear:both"></div>
 		</div>
