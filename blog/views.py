@@ -153,8 +153,9 @@ def single(request, post_slug):
 	error = False
 	
 	if request.method == 'POST':
-		if request.POST.get('email', '') or request.POST.get('honeypot', ''):
-			raise Http404
+		for input in ['name', 'email', 'url', 'comment', 'honeypot']:
+			if request.POST.get(input, ''):
+				raise Http404
 	
 		data = {
 			'email': smart_unicode(request.POST.get(settings.EMAIL_FIELD_NAME, '')),

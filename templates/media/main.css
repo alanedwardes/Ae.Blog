@@ -39,6 +39,10 @@ body{
 .clr{
 	clear:both;
 }
+.hid
+{
+	display:none;
+}
 a{
 	text-decoration:none;
 }
