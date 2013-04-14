@@ -41,7 +41,7 @@ def page(request, page_slug):
 def index(request):
 	return respond('index.html', {
 		'is_index': True,
-		'posts': Post.objects.all().filter(type='published').order_by('-published')[:5]
+		'posts': Post.objects.all().filter(type='published').order_by('-published')[:4]
 	}, request)
 
 def random(request):

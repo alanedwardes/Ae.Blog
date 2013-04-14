@@ -350,7 +350,6 @@ table.horizontal-table tr
 }
 .ban
 {
-	margin-top:20px;
 	width:960px;
 	padding-top:150px;
 	background-repeat:no-repeat;
@@ -400,12 +399,9 @@ table.horizontal-table tr
 #steamgames{
 	display:none;
 	padding-top:10px;
-	padding-bottom:10px;
 }
 #lastfm{
 	display:none;
-	padding-top:10px;
-	padding-bottom:10px;
 }
 .game#cover-0{
 	padding-left:0px;
