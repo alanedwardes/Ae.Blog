@@ -13,8 +13,13 @@
 			<a href="/estranged/">Estranged</a>, a free game following the story of a lone fisherman stranded on a mysterious island during a violent storm. <a href="/estranged/">Learn more and play &raquo;</a>
 		</div>
 	</div>
-	<div class="tri first">
-		<h2>Posts</h2>
+	<div class="tri first ban" style="background-image:url({% media_include "jw-banner.png" %})">
+		<div class="blurb">
+			<span>A small 2D platformer with a JavaScript graphics &amp; physics engine. <a href="http://jw.alanedwardes.com/">View &raquo;</a></span>
+		</div>
+	</div>
+	<div class="tri">
+		<h2>Latest Blog Posts</h2>
 		<ul>
 		{% for post in posts %}
 			<li>
@@ -27,36 +32,9 @@
 		</ul>
 	</div>
 	<div class="tri">
-		<h2>Tweets</h2>
-		<script>{% nowhitespace %}
-			ae.util.http.getJSONP('http://jsonpcache.alanedwardes.com/?resource=twitter_ae_timeline&callback=?', function(tweets){
-				document.getElementById('tweets').innerHTML = '';
-				var ul = ae.util.element('ul', {}, document.getElementById('tweets'));
-				var count = 0;
-				for (var i = 0; i < tweets.length; i++)
-				{
-					var tweet = tweets[i];
-					if (!tweet.in_reply_to_user_id && count < 5)
-					{
-						var dt = tweet.created_at.split(' ');
-						ae.util.element('a', {
-							href: 'https://twitter.com/AlanEdwardes/status/' + tweet.id_str,
-							innerHTML: ['<br/>' + dt[3], 'on', dt[1], dt[2]].join(' ')
-						}, ae.util.element('li', {
-							innerHTML: tweet.text
-						}, ul));
-						count++;
-					}
-				}
-			});
-		{% endnowhitespace %}</script>
-		<div id="tweets">Error getting tweets.</div>
-	</div>
-	<div class="tri">
-		<h2>About</h2>
-		<p>I'm a {{ settings.BIRTH_DATE|timesince_years }} year old student from the UK.</p>
-		<p>Programmer that dabbles in web design and <a href="/estranged/">game development</a>.</p>
-		<p>Contact: <script>document.write(ae.print_mail());</script></p>
+		<h2>About Me</h2>
+		<p>I'm a {{ settings.BIRTH_DATE|timesince_years }} year old student from the UK who loves creating websites, <a href="/estranged/">making games</a>, and <a href="/posts/running/">running</a>.</p>
+		<p class="ctr">e: <script>document.write(ae.print_mail());</script></p>
 	</div>
 	<div class="clr"></div>
 	<script>{% nowhitespace %}

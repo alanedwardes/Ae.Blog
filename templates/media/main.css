@@ -43,6 +43,10 @@ body{
 {
 	display:none;
 }
+.ctr
+{
+	text-align:center;
+}
 a{
 	text-decoration:none;
 }
@@ -351,11 +355,12 @@ table.horizontal-table tr
 	padding-top:150px;
 	background-repeat:no-repeat;
 	box-shadow:0px 0px 15px #111;
-	background-color:#222;
 	margin-bottom:20px;
 }
 .ban .blurb
 {
+	background-color:#222;
+	background-color:rgba(30, 30, 30, 0.95);
 	font-size:15px;
 	text-align:center;
 	padding:5px 10px;
@@ -363,6 +368,10 @@ table.horizontal-table tr
 #int:hover
 {
 
+}
+.ban.tri
+{
+	padding-top:80px;
 }
 .tri p{
 	padding-bottom:5px;
