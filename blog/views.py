@@ -158,10 +158,10 @@ def single(request, post_slug):
 				raise Http404
 	
 		data = {
-			'email': smart_unicode(request.POST.get(settings.EMAIL_FIELD_NAME, '')),
-			'name': smart_unicode(request.POST.get(settings.NAME_FIELD_NAME, '')),
-			'url': smart_unicode(request.POST.get(settings.URL_FIELD_NAME, '')),
-			'body': smart_unicode(request.POST.get(settings.BODY_FIELD_NAME, '')),
+			'email': smart_text(request.POST.get(settings.EMAIL_FIELD_NAME, '')),
+			'name': smart_text(request.POST.get(settings.NAME_FIELD_NAME, '')),
+			'url': smart_text(request.POST.get(settings.URL_FIELD_NAME, '')),
+			'body': smart_text(request.POST.get(settings.BODY_FIELD_NAME, '')),
 		}
 
 		if request.user.is_authenticated():
@@ -230,9 +230,9 @@ def single(request, post_slug):
 			return response
 	else:
 		data = {
-			'email': smart_unicode(request.COOKIES.get('email', '')),
-			'name': smart_unicode(request.COOKIES.get('name', '')),
-			'url': smart_unicode(request.COOKIES.get('url', '')),
+			'email': smart_text(request.COOKIES.get('email', '')),
+			'name': smart_text(request.COOKIES.get('name', '')),
+			'url': smart_text(request.COOKIES.get('url', '')),
 		}
 
 	t = loader.get_template('single.html')
