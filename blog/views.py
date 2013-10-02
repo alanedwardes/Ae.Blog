@@ -81,7 +81,7 @@ def contact(request):
 
 		try:
 			validate_email(data['email'])
-		except (ValidationError, e):
+		except ValidationError as e:
 			data['emailerror'] = '; '.join(e.messages)
 			error = True
 		
@@ -187,7 +187,7 @@ def single(request, post_slug):
 		if data['email']:
 			try:
 				validate_email(data['email'])
-			except (ValidationError, e):
+			except ValidationError as e:
 				data['emailerror'] = '; '.join(e.messages)
 				error = True
 
