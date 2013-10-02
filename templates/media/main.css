@@ -444,6 +444,10 @@ table.horizontal-table tr
 {
 	display:block;
 }
+.portfolio_item .wbs
+{
+	float:right;
+}
 .portfolio_item
 {
 	margin:20px 0px;
@@ -451,7 +455,6 @@ table.horizontal-table tr
 }
 .portfolio_item .summary
 {
-	background:rgba(32, 32, 32, 0.75);
 	padding:2.5px 10px;
 }
 .game#cover-0{

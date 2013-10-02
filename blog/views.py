@@ -58,7 +58,7 @@ def sitemap(request):
 def portfolio(request):
 	return respond('portfolio.html', {
 		'is_index': True,
-		'portfolios': Portfolio.objects.all().filter(type='published').order_by('-published')
+		'portfolios': Portfolio.objects.all().extra(select={'null_start': "published is not null"}, order_by=['null_start', '-published'])
 	}, request)
 
 def contact(request):
