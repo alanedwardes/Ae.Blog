@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.template import RequestContext, loader, Context, Template
 from django.utils import simplejson
 from django.utils.html import strip_tags
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import smart_text
 from blog.models import *
 
 def base_view_data(template_name, data, request):
@@ -81,7 +81,7 @@ def contact(request):
 
 		try:
 			validate_email(data['email'])
-		except ValidationError, e:
+		except (ValidationError, e):
 			data['emailerror'] = '; '.join(e.messages)
 			error = True
 		
@@ -187,7 +187,7 @@ def single(request, post_slug):
 		if data['email']:
 			try:
 				validate_email(data['email'])
-			except ValidationError, e:
+			except (ValidationError, e):
 				data['emailerror'] = '; '.join(e.messages)
 				error = True
 
@@ -198,8 +198,6 @@ def single(request, post_slug):
 				ip_address = forwarded_for.split(',')[0]
 			else:
 				ip_address = request.META.get('REMOTE_ADDR')
-				
-			print ip_address
 		
 			comment = Comment(
 				name=data['name'],

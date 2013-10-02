@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load nowhitespace %}
+{% load nowhitespace timesince_years %}
 
 {% block description %}How to contact me.{% endblock %}
 
@@ -9,10 +9,15 @@
 	<div class="wrp">
 		<div class="lft">
 			<div id="cnt">
-				<h1>Contact</h1>
+				<h1>About &amp; Contact</h1>
 				{% if data.done %}
 					Email sent - thanks for getting in touch.
 				{% else %}
+					<p>I'm a {{ settings.BIRTH_DATE|timesince_years }} year old student living in the UK. I'm your typical nerd: I dabble in web design (both professionally and as a hobby), programming, and gaming (see my <a href="http://steamcommunity.com/id/alanedwardes">Steam profile</a> for my PC gaming habits).</p>
+					<p>I love alternative rock (see my <a href="http://www.last.fm/user/alanedwardes">Last.fm profile</a>), satire and American animated comedy.</p>
+					
+					<h2>Get In Touch</h2>
+				
 					{% if data.generalerror %}
 						<div class="error">{{ data.generalerror }}</div>
 					{% endif %}

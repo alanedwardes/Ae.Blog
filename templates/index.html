@@ -9,12 +9,12 @@
 	{% random_item "Ciao|Hello|Salut|¡Hola|Guten tag|Aloha|Hallo|Hallå|Salam" greeting %}
 	<div id="hi"><a href="/" title="Click for a new greeting">{{ greeting }}!</a> I make things<span style="color:#777">:</span></div>
 	<div class="ban" style="background-image:url({% media_include "estranged-banner.jpg" %})">
-		<div class="blurb">
+		<div class="blurb dbg">
 			<a href="/estranged/">Estranged</a>, a free game following the story of a lone fisherman stranded on a mysterious island during a violent storm. <a href="/estranged/">Learn more and play &raquo;</a>
 		</div>
 	</div>
 	<div class="tri first ban" style="background-image:url({% media_include "jw-banner.png" %})">
-		<div class="blurb">
+		<div class="blurb dbg">
 			<span>A small 2D platformer with a JavaScript graphics &amp; physics engine. <a href="http://jw.alanedwardes.com/">View &raquo;</a></span>
 		</div>
 	</div>
@@ -112,5 +112,43 @@
 			<div id="second"><a target="_blank" href="http://steamcommunity.com/id/alanedwardes/games/">Games</a> over the past two weeks <span>&#8594;</span></div>
 		</div>
 	</div>
+	<div id="workouts"></div>
+	<script>{% nowhitespace %}
+		ae.util.http.getJSONP('http://jsonpcache.alanedwardes.com/?resource=mapmyfitness_runs&callback=?', function(workouts){
+			function milesToKilometres(miles) { return Math.round((parseFloat(miles) * 1.609344) * 10) / 10; }
+			function prettyDate(date)
+			{
+				var date = new Date(date);
+				var month = null;
+				switch (date.getMonth() + 1)
+				{
+					case 1: month = 'Jan'; break; case 2: month = 'Feb'; break;	case 3: month = 'Mar'; break;
+					case 4: month = 'Apr'; break; case 5: month = 'May'; break;	case 6: month = 'Jun'; break;
+					case 7: month = 'Jul'; break; case 8: month = 'Aug'; break;	case 9: month = 'Sep'; break;
+					case 10: month = 'Oct'; break; case 11: month = 'Nov'; break; case 12: month = 'Dec'; break;
+				}
+				return date.getDate() + ' ' + month;
+			}
+		
+			if (workouts && workouts.result.status == 1 && workouts.result.output.workouts)
+			{
+				for (var i = 0; i < workouts.result.output.workouts.length && i < 8; i++)
+				{
+					var workout = workouts.result.output.workouts[i];
+					var div = ae.util.element('a', {
+						className: 'workout',
+						id: 'workout-' + i,
+						href: 'http://www.mapmyrun.com/workout/' + workout.workout_id,
+						target: "_blank",
+						innerHTML: prettyDate(workout.workout_date)
+					}, document.getElementById('workouts'));
+					ae.util.element('span', {
+						className: 'dbg',
+						innerHTML: 'Ran ' + milesToKilometres(workout.distance) + ' km'
+					}, div);
+				}
+			}
+		});
+	{% endnowhitespace %}</script>
 </div>
 {% endblock %}

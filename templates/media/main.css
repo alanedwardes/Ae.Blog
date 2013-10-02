@@ -202,6 +202,7 @@ table.horizontal-table tr
 	box-shadow:inset 0px -5px 7.5px rgba(0, 0, 0, 0.2);
 	background:url(light.png) repeat-y center;
 	height:50px;
+	padding:5px 0px;
 }
 #hdr.bio{
 	height:50% !important;
@@ -248,20 +249,29 @@ table.horizontal-table tr
 	color:#666;
 }
 #hdr .wrp{
-	padding-top:12.5px;
-}
-#hdr .rgt{
-	text-align:right;
+	font-family:'Alegreya SC';
+	text-shadow:0px 0px 4px #222;
 }
 #hdr .rgt a{
-	text-shadow:0px 0px 5px #555;
 	margin-left:20px;
 }
 #hdr .rgt a.current{
 	text-decoration:underline;
 }
-#hdr .lft, #hdr .rgt{
-	width:45%;
+#hdr .rgt{
+	font-size:22px;
+	padding:7.5px 0px;
+	text-align:right;
+	width:60%;
+}
+#hdr .lft
+{
+	width:30%;
+	font-size:32px;
+}
+#hdr .lft a:hover
+{
+	text-decoration:none;
 }
 #hdr a{
 	color:#fff;
@@ -358,11 +368,14 @@ table.horizontal-table tr
 }
 .ban .blurb
 {
-	background-color:#222;
-	background-color:rgba(30, 30, 30, 0.95);
 	font-size:15px;
 	text-align:center;
 	padding:5px 10px;
+}
+.ban .blurb a
+{
+	color:white;
+	text-decoration:underline;
 }
 #int:hover
 {
@@ -403,6 +416,29 @@ table.horizontal-table tr
 #lastfm{
 	display:none;
 }
+#workouts
+{
+	margin-top:10px;
+	height:55px;
+}
+.workout
+{
+	width:110.5px;
+	float:left;
+	text-align:center;
+	margin-left:10px;
+	color:white;
+	font-family:'Alegreya SC';
+	background:#333;
+}
+.workout span
+{
+	display:block;
+}
+.workout#workout-0
+{
+	margin-left:0px;
+}
 .game#cover-0{
 	padding-left:0px;
 }
@@ -426,11 +462,11 @@ table.horizontal-table tr
 	text-align:center;
 	float:right;
 }
-.album img:hover, .game img:hover
+.album img:hover, .game img:hover, .workout:hover
 {
 	box-shadow:0px 0px 20px #000;
 }
-.album img, .game img
+.album img, .game img, .workout
 {
 	-webkit-transition:box-shadow 100ms linear;
 	box-shadow:0px 0px 10px #111;
@@ -463,13 +499,13 @@ table.horizontal-table tr
 #bdy.hme
 {
 	background:#222222;
-	background:-moz-radial-gradient(center, ellipse cover,  #222222 0%, #111111 100%);
-	background:-webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#222222), color-stop(100%,#111111));
-	background:-webkit-radial-gradient(center, ellipse cover,  #222222 0%,#111111 100%);
-	background:-o-radial-gradient(center, ellipse cover,  #222222 0%,#111111 100%);
-	background:-ms-radial-gradient(center, ellipse cover,  #222222 0%,#111111 100%);
-	background:radial-gradient(ellipse at center,  #222222 0%,#111111 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#222222', endColorstr='#111111',GradientType=1);
+	background:-moz-radial-gradient(center, ellipse cover, #333333 0%, #111111 100%);
+	background:-webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #333333), color-stop(100%, #111111));
+	background:-webkit-radial-gradient(center, ellipse cover, #333333 0%, #111111 100%);
+	background:-o-radial-gradient(center, ellipse cover, #333333 0%, #111111 100%);
+	background:-ms-radial-gradient(center, ellipse cover, #333333 0%, #111111 100%);
+	background:radial-gradient(ellipse at center, #333333 0%, #111111 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#333333', endColorstr='#111111', GradientType=1);
 	color:white;
 	text-shadow:1px 1px 0px #151515;
 }
