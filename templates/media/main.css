@@ -369,13 +369,10 @@ table.horizontal-table tr
 .ban .blurb
 {
 	font-size:15px;
+	opacity:0.9;
+	text-shadow:1px 1px 0px #444;
 	text-align:center;
 	padding:5px 10px;
-}
-.ban .blurb a
-{
-	color:white;
-	text-decoration:underline;
 }
 #int:hover
 {
@@ -419,21 +416,25 @@ table.horizontal-table tr
 #workouts
 {
 	margin-top:10px;
-	height:55px;
+	height:60px;
 }
 .workout
 {
+	background:url(date.png) 5px 5px no-repeat;
 	width:110.5px;
 	float:left;
 	text-align:center;
 	margin-left:10px;
 	color:white;
 	font-family:'Alegreya SC';
-	background:#333;
 }
 .workout span
 {
+	background:#333;
 	display:block;
+	border-width:2px 0px 0px 0px;
+	border-style:solid;
+	color:white;
 }
 .workout#workout-0
 {
@@ -499,17 +500,21 @@ table.horizontal-table tr
 #bdy.hme
 {
 	background:#222222;
-	background:-moz-radial-gradient(center, ellipse cover, #333333 0%, #111111 100%);
-	background:-webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #333333), color-stop(100%, #111111));
-	background:-webkit-radial-gradient(center, ellipse cover, #333333 0%, #111111 100%);
-	background:-o-radial-gradient(center, ellipse cover, #333333 0%, #111111 100%);
-	background:-ms-radial-gradient(center, ellipse cover, #333333 0%, #111111 100%);
-	background:radial-gradient(ellipse at center, #333333 0%, #111111 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#333333', endColorstr='#111111', GradientType=1);
+	background:-moz-radial-gradient(center, ellipse cover, #333333 0%, #222222 100%);
+	background:-webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #333333), color-stop(100%, #222222));
+	background:-webkit-radial-gradient(center, ellipse cover, #333333 0%, #222222 100%);
+	background:-o-radial-gradient(center, ellipse cover, #333333 0%, #222222 100%);
+	background:-ms-radial-gradient(center, ellipse cover, #333333 0%, #222222 100%);
+	background:radial-gradient(ellipse at center, #333333 0%, #222222 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#333333', endColorstr='#222222', GradientType=1);
 	color:white;
 	text-shadow:1px 1px 0px #151515;
 }
-#bdy.hme h1, #bdy.hme h2, #bdy.hme #hi
+#bdy.hme a
+{
+	color:#999;
+}
+#bdy.hme h1, #bdy.hme h2, #bdy.hme #hi, #bdy .hme
 {
 	text-shadow:1px 1px 0px #151515;
 }
