@@ -51,6 +51,22 @@ class Comment(models.Model):
 		return "/posts/%s/#comment-%i" % (self.post.slug, self.id)
 	def __unicode__(self):
 		return self.name
+		
+class Screenshot(models.Model):
+	image = models.FileField(upload_to='uploads/portfolio')
+	name = models.CharField(max_length = 100, blank = True)
+	published = models.DateTimeField(auto_now_add = True)
+	description = models.TextField(blank = True)
+
+class Portfolio(models.Model):
+	name = models.CharField(max_length = 100)
+	published = models.DateField(blank = True, null = True)
+	url = models.URLField(blank = True)
+	summary = models.CharField(max_length = 512)
+	type = models.CharField(max_length=255, choices=content_type_choices)
+	description = models.TextField(blank = True)
+	banner = models.FileField(upload_to='uploads/portfolio', blank = True)
+	screenshots = models.ManyToManyField(Screenshot, blank = True)
 
 @receiver(post_save, sender=Comment)
 @receiver(post_delete, sender=Comment)

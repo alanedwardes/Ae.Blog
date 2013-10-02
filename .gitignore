@@ -5,3 +5,4 @@ sensitive_settings.py
 *-main.min.css
 *.pyc
 /db.sqlite3
+/templates/media/uploads

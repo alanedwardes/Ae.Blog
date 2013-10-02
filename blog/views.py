@@ -55,6 +55,12 @@ def sitemap(request):
 		'posts': Post.objects.all().filter(type='published').order_by('-published'),
 	}, request, 'application/xml')
 
+def portfolio(request):
+	return respond('portfolio.html', {
+		'is_index': True,
+		'portfolios': Portfolio.objects.all().filter(type='published').order_by('-published')
+	}, request)
+
 def contact(request):
 	error = False
 	if request.method == 'POST':

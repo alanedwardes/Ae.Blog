@@ -29,3 +29,21 @@ class CommentAdmin(admin.ModelAdmin):
 	list_display = ('name', 'email', 'published', 'post')
 
 admin.site.register(Comment, CommentAdmin)
+
+class PortfolioAdmin(admin.ModelAdmin):
+	ordering = ['-published']
+	list_filter = ['published']
+	search_fields = ['name', 'summary']
+	date_hierarchy = 'published'
+	list_display = ('name', 'summary', 'published')
+	
+admin.site.register(Portfolio, PortfolioAdmin)
+
+class ScreenshotAdmin(admin.ModelAdmin):
+	ordering = ['-published']
+	list_filter = ['published']
+	search_fields = ['name']
+	date_hierarchy = 'published'
+	list_display = ('name', 'published')
+
+admin.site.register(Screenshot, ScreenshotAdmin)

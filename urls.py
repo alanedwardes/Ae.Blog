@@ -21,6 +21,7 @@ urlpatterns = patterns('',
 	(r'^random/$', 'blog.views.random'),
 	(r'^contact/$', 'blog.views.contact'),
 	(r'^posts/(?P<post_slug>.*)/$', 'blog.views.single'),
+	(r'^portfolio/$', 'blog.views.portfolio'),
 	(r'^s/(?P<file>.*)/$', 'blog.views.shot'),
 	(r'^pure/(?P<post_slug>.*)/$', 'blog.views.pure'),
 	(r'^media/(?P<path>.*)$', 'django.views.static.serve', {

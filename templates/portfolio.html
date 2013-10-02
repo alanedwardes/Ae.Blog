@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load specialtags %}
+
+{% block title %}Portfolio &mdash; Alan Edwardes{% endblock %}
+
+{% block content %}
+	<div class="wrp">
+		{% for portfolio_item in portfolios %}
+			<div class="portfolio_item dbd" style="background-image:url({{ settings.PUBLIC_MEDIA_ROOT }}{{ portfolio_item.banner }})">
+				<div><a href=""><img src="{{ settings.PUBLIC_MEDIA_ROOT }}tint.png" alt=""/></a></div>
+				<div class="summary">{{ portfolio_item.name }}{% if portfolio_item.summary %} &mdash; {{ portfolio_item.summary }}{% endif %}</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}
