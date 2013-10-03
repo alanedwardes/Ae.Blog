@@ -38,12 +38,5 @@ class PortfolioAdmin(admin.ModelAdmin):
 	list_display = ('name', 'summary', 'published')
 	
 admin.site.register(Portfolio, PortfolioAdmin)
-
-class ScreenshotAdmin(admin.ModelAdmin):
-	ordering = ['-published']
-	list_filter = ['published']
-	search_fields = ['name']
-	date_hierarchy = 'published'
-	list_display = ('name', 'published')
-
-admin.site.register(Screenshot, ScreenshotAdmin)
+admin.site.register(Screenshot)
+admin.site.register(Skill)

@@ -57,6 +57,13 @@ class Screenshot(models.Model):
 	name = models.CharField(max_length = 100, blank = True)
 	published = models.DateTimeField(auto_now_add = True)
 	description = models.TextField(blank = True)
+	
+class Skill(models.Model):
+	name = models.CharField(max_length = 100)
+	def get_absolute_url(self):
+		return "/portfolio/skill/%s/" % self.id
+	def __unicode__(self):
+		return self.name
 
 class Portfolio(models.Model):
 	name = models.CharField(max_length = 100)
@@ -67,6 +74,9 @@ class Portfolio(models.Model):
 	description = models.TextField(blank = True)
 	banner = models.FileField(upload_to='uploads/portfolio', blank = True)
 	screenshots = models.ManyToManyField(Screenshot, blank = True)
+	skills = models.ManyToManyField(Skill, blank = True)
+	def get_absolute_url(self):
+		return "/portfolio/item/%s/" % self.id
 
 @receiver(post_save, sender=Comment)
 @receiver(post_delete, sender=Comment)

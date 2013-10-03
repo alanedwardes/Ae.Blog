@@ -440,22 +440,46 @@ table.horizontal-table tr
 {
 	margin-left:0px;
 }
+#portfolio-banner
+{
+	margin:10px 0px;
+}
+#portfolio-screenshots
+{
+	margin:20px 0px;
+	text-align:center;
+}
+#portfolio-screenshots h3
+{
+	margin-bottom:30px;
+}
+#portfolio-screenshots img
+{
+	border-width:1px;
+	border-style:solid;
+	width:22%;
+	margin:0% 1%;
+}
+.prt h3
+{
+	text-align:left;
+	padding-bottom:5px;
+	border-style:solid;
+	border-width:0px 0px 1px 0px;
+}
 .portfolio_item img
 {
 	display:block;
 }
-.portfolio_item .wbs
-{
-	float:right;
-}
 .portfolio_item
 {
-	margin:20px 0px;
-	background-position:top center;
+	text-align:center;
+	margin-top:20px;
+	margin-bottom:10px;
 }
-.portfolio_item .summary
+.portfolio_item p
 {
-	padding:2.5px 10px;
+	padding:10px 0px;
 }
 .game#cover-0{
 	padding-left:0px;
@@ -480,11 +504,11 @@ table.horizontal-table tr
 	text-align:center;
 	float:right;
 }
-.album img:hover, .game img:hover, .workout:hover, .portfolio_item:hover
+.album img:hover, .game img:hover, .workout:hover, .boxshadow:hover
 {
 	box-shadow:0px 0px 20px #000;
 }
-.album img, .game img, .workout, .portfolio_item
+.album img, .game img, .workout, .boxshadow
 {
 	-webkit-transition:box-shadow 100ms linear;
 	box-shadow:0px 0px 10px #111;
@@ -531,7 +555,7 @@ table.horizontal-table tr
 {
 	color:#999;
 }
-#bdy.hme h1, #bdy.hme h2, #bdy.hme #hi, #bdy .hme
+#bdy.hme h1, #bdy.hme h2, #bdy.hme #hi, #bdy .hme, #bdy.hme h3
 {
 	text-shadow:1px 1px 0px #151515;
 }
@@ -596,7 +620,8 @@ table.horizontal-table tr
 #bdy #cnt pre:hover{
 	overflow:auto;
 }
-#bdy #cnt p{
+#bdy #cnt p, #bdy .prt p
+{
 	margin-bottom:10px;
 }
 #bdy #cnt .posthint{
@@ -672,26 +697,6 @@ table.horizontal-table tr
 	-webkit-transform:rotate(10deg);
 	-o-transform:rotate(10deg);
 	transform:rotate(10deg);
-}
-
-/* Portfolio */
-#prj{
-	margin-top:20px;
-}
-.prj{
-	box-shadow:0px 0px 20px #999;
-	border-radius:5px;
-	width:300px;
-	margin-right:20px;
-	float:left;
-	height:100px;
-}
-.prj a{
-	margin-top:60px;
-	padding:5px;
-	background:rgba(0, 0, 0, 0.7);
-	color:#fff;
-	display:block;
 }
 
 /* Footer */

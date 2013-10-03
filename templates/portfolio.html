@@ -4,27 +4,33 @@
 {% block title %}Portfolio &mdash; Alan Edwardes{% endblock %}
 
 {% block content %}
-	<div class="wrp">
+	<div class="wrp prt">
+		{% if skill %}
+			<h1>Projects Involving "{{ skill.name }}"</h1>
+			<p><a href="/portfolio/">&laquo; Remove Filter</a></p>
+		{% else %}
+			<h1>Portfolio</h1>
+		{% endif %}
+	
 		{% for portfolio_item in portfolios %}
 			{% ifchanged portfolio_item.published %}
-				<h2>{% if portfolio_item.published %}{{ portfolio_item.published|date:'F Y' }}{% else %}Ongoing{% endif %}</h2>
-			{% endifchanged %}
-			<div class="portfolio_item dbd" style="background-image:url({{ settings.PUBLIC_MEDIA_ROOT }}{{ portfolio_item.banner }})">
-				<div>
-					{% if portfolio_item.description %}
-						<a href=""><img src="{% media_include 'tint.png' %}" alt=""/></a>
+				<h2 class="dbd">
+					{% if portfolio_item.published %}
+						Projects from {{ portfolio_item.published|date:'F Y' }}
 					{% else %}
-						<img src="{% media_include 'tint.png' %}" alt=""/>
+						Ongoing Projects
 					{% endif %}
-				</div>
-				<div class="summary dbg">
-					{{ portfolio_item.name }}{% if portfolio_item.summary %} &mdash; {{ portfolio_item.summary }}{% endif %}
-					{% if portfolio_item.url %}
-						<div class="wbs">
-							w: <a href="{{ portfolio_item.url }}">{{ portfolio_item.url }}</a>
-						</div>
-					{% endif %}
-				</div>
+				</h2>
+			{% endifchanged %}
+			<div class="portfolio_item">
+				{% if portfolio_item.banner %}
+					<div class="boxshadow" style="background-position:top center;background-image:url({% media_include portfolio_item.banner.url %})">
+						<a href="{{ portfolio_item.get_absolute_url }}"><img src="{% media_include "tint.png" %}" alt=""/></a>
+					</div>
+				{% endif %}
+				{% if portfolio_item.summary %}
+					<p>{{ portfolio_item.name }} &mdash; {{ portfolio_item.summary }}</p>
+				{% endif %}
 			</div>
 		{% endfor %}
 	</div>
