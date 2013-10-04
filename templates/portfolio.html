@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load specialtags media_include %}
 
-{% block title %}Portfolio &mdash; Alan Edwardes{% endblock %}
+{% block title %}Personal Portfolio &mdash; Alan Edwardes{% endblock %}
 
 {% block content %}
 	<div class="wrp prt">
@@ -9,7 +9,7 @@
 			<h1>Projects Involving "{{ skill.name }}"</h1>
 			<p><a href="/portfolio/">&laquo; Remove Filter</a></p>
 		{% else %}
-			<h1>Portfolio</h1>
+			<h1>Personal Portfolio</h1>
 		{% endif %}
 	
 		{% for portfolio_item in portfolios %}
