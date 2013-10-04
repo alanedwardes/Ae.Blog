@@ -844,20 +844,18 @@ table.horizontal-table tr
 	width:100%;
 	height:100%;
 	position:fixed;
-	left:0;
-	top:0;
+	left:0px;
+	top:0px;
 }
 
 #tcial{
 	z-index:9;
-	display:none;
-	cursor:pointer;
-	background: url(http://alan.edward.es/static_media/misc/tcial/tcial.jpg) center center no-repeat;
+	background:url(http://alan.edward.es/static_media/misc/tcial/tcial.jpg) center center no-repeat;
 }
 
 #tciali{
 	z-index:10;
-	background: url(http://alan.edward.es/static_media/misc/tcial/tcial.png) center center no-repeat;
+	background:url(http://alan.edward.es/static_media/misc/tcial/tcial.png) center center no-repeat;
 }
 
 /* Search */
