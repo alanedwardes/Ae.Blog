@@ -467,6 +467,11 @@ table.horizontal-table tr
 	border-style:solid;
 	border-width:0px 0px 1px 0px;
 }
+.prt h2
+{
+	margin-top:60px;
+	margin-bottom:20px;
+}
 .portfolio_item:hover a.portfolio_summary
 {
 	background:#202020 !important;
@@ -485,8 +490,8 @@ table.horizontal-table tr
 .portfolio_item
 {
 	text-align:center;
-	margin-top:20px;
-	margin-bottom:10px;
+	margin-top:30px;
+	margin-bottom:30px;
 }
 #bdy.hme .portfolio_item a.portfolio_summary
 {
