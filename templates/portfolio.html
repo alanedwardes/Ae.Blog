@@ -13,7 +13,7 @@
 		{% endif %}
 	
 		{% for portfolio_item in portfolios %}
-			{% ifchanged portfolio_item.published %}
+			{% ifchanged portfolio_item.published.year %}
 				<h2 class="dbd">
 					{% if portfolio_item.published %}
 						Projects from {{ portfolio_item.published|date:'F Y' }}
