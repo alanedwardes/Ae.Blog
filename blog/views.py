@@ -58,14 +58,14 @@ def sitemap(request):
 def portfolio(request):
 	return respond('portfolio.html', {
 		'is_index': True,
-		'portfolios': Portfolio.objects.all().extra(select={'null_start': "published is not null"}, order_by=['null_start', '-published'])
+		'portfolios': Portfolio.objects.all().filter(type='published').extra(select={'null_start': "published is not null"}, order_by=['null_start', '-published'])
 	}, request)
 	
 def portfolio_skill(request, skill_id):
 	return respond('portfolio.html', {
 		'is_index': True,
 		'skill': Skill.objects.get(pk=skill_id),
-		'portfolios': Portfolio.objects.all().filter(skills__in=skill_id).extra(select={'null_start': "published is not null"}, order_by=['null_start', '-published'])
+		'portfolios': Portfolio.objects.all().filter(skills__in=skill_id, type='published').extra(select={'null_start': "published is not null"}, order_by=['null_start', '-published'])
 	}, request)
 	
 def portfolio_single(request, portfolio_id):
