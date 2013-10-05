@@ -467,9 +467,20 @@ table.horizontal-table tr
 	border-style:solid;
 	border-width:0px 0px 1px 0px;
 }
+.portfolio_item:hover a.portfolio_summary
+{
+	background:#202020 !important;
+	color:white !important;
+}
 .portfolio_item img
 {
 	display:block;
+}
+.portfolio_banner
+{
+	background-position:top center;
+	border-width:0px 0px 1px 0px;
+	border-style:solid;
 }
 .portfolio_item
 {
@@ -477,9 +488,13 @@ table.horizontal-table tr
 	margin-top:20px;
 	margin-bottom:10px;
 }
-.portfolio_item p
+#bdy.hme .portfolio_item a.portfolio_summary
 {
-	padding:10px 0px;
+	display:block;
+	color:#aaa;
+	text-decoration:none;
+	background:#151515;
+	padding:5px 0px;
 }
 .game#cover-0{
 	padding-left:0px;
@@ -510,7 +525,7 @@ table.horizontal-table tr
 }
 .album img, .game img, .workout, .boxshadow
 {
-	-webkit-transition:box-shadow 100ms linear;
+	transition:box-shadow 150ms;
 	box-shadow:0px 0px 10px #111;
 }
 .game
