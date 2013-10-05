@@ -71,6 +71,7 @@ class Portfolio(models.Model):
 	summary = models.CharField(max_length = 512)
 	type = models.CharField(max_length=255, choices=content_type_choices)
 	description = models.TextField(blank = True)
+	preview = models.TextField(blank = True)
 	banner = models.FileField(upload_to='uploads/portfolio', blank = True)
 	screenshots = models.ManyToManyField(Screenshot, blank = True)
 	skills = models.ManyToManyField(Skill, blank = True)

@@ -444,6 +444,17 @@ table.horizontal-table tr
 {
 	margin:10px 0px;
 }
+#portfolio-preview
+{
+
+}
+#portfolio-preview iframe
+{
+	border:0px;
+	background:#222;
+	width:960px;
+	height:540px;
+}
 #portfolio-screenshots
 {
 	margin:20px 0px;

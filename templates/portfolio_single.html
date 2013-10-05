@@ -31,6 +31,13 @@
 		
 		<div class="clr"></div>
 		
+		{% if portfolio_item.preview %}
+			<div id="portfolio-preview">
+				<h3 class="dbd">Preview</h3>
+				{{ portfolio_item.preview|safe }}
+			</div>
+		{% endif %}
+		
 		{% if portfolio_item.screenshots.all %}
 			<div id="portfolio-screenshots">
 				<h3 class="dbd">Screenshots</h3>
@@ -40,6 +47,6 @@
 			</div>
 		{% endif %}
 		
-		<p><a href="/portfolio/">&laquo; Back to Portfolio</a></p>
+		<p><br><a href="/portfolio/">&laquo; Back to Portfolio</a></p>
 	</div>
 {% endnowhitespace %}{% endblock %}
