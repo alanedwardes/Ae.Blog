@@ -18,27 +18,25 @@
 			</div>
 		{% endif %}
 		
-		{% if portfolio_item.skills.all %}
-			<div class="rgt">
+		<div class="rgt">
+			{% if portfolio_item.skills.all %}
 				<h3 class="dbd">Skills</h3>
 				<ul>
 				{% for skill in portfolio_item.skills.all %}
 					<li><a href="{{ skill.get_absolute_url }}">{{ skill.name }}</a> ({{ skill.usage_count }})</li>
 				{% endfor %}
 				</ul>
-			</div>
-		{% endif %}
-		
-		{% if related_items %}
-			<div class="rgt">
+			{% endif %}
+			
+			{% if related_items %}
 				<h3 class="dbd">Related Projects by Skill</h3>
 				<ul>
 				{% for related_item in related_items %}
 					<li><a href="{{ related_item.get_absolute_url }}">{{ related_item.name }}</a> ({{ related_item.count }})</li>
 				{% endfor %}
 				</ul>
-			</div>
-		{% endif %}
+			{% endif %}
+		</div>
 		
 		<div class="clr"></div>
 		
