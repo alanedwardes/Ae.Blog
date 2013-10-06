@@ -60,6 +60,8 @@ class Screenshot(models.Model):
 	
 class Skill(models.Model):
 	name = models.CharField(max_length = 100)
+	def usage_count(self):
+		return self.portfolio_set.distinct().count()
 	def get_absolute_url(self):
 		return "/portfolio/skill/%s/" % self.id
 	def __unicode__(self):

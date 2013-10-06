@@ -1,6 +1,6 @@
 import glob, re, os
 from django.conf import settings
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
@@ -56,16 +56,33 @@ def sitemap(request):
 	}, request, 'application/xml')
 
 def portfolio(request):
+	portfolios = Portfolio.objects.all().filter(
+		type='published'
+	).extra(
+		select={'null_start': "published is not null"},
+		order_by=['null_start', '-published']
+	)
+	
 	return respond('portfolio.html', {
 		'is_index': True,
-		'portfolios': Portfolio.objects.all().filter(type='published').extra(select={'null_start': "published is not null"}, order_by=['null_start', '-published'])
+		'portfolios': portfolios
 	}, request)
 	
 def portfolio_skill(request, skill_id):
+	skill = Skill.objects.get(pk=skill_id)
+	portfolios = skill.portfolio_set.all()
+	
+	portfolios_filtered = portfolios.filter(
+		type='published'
+	).extra(
+		select={'null_start': "published is not null"},
+		order_by=['null_start', '-published']
+	)
+	
 	return respond('portfolio.html', {
 		'is_index': True,
 		'skill': Skill.objects.get(pk=skill_id),
-		'portfolios': Portfolio.objects.all().filter(skills__in=skill_id, type='published').extra(select={'null_start': "published is not null"}, order_by=['null_start', '-published'])
+		'portfolios': portfolios_filtered
 	}, request)
 	
 def portfolio_single(request, portfolio_id):
@@ -73,8 +90,18 @@ def portfolio_single(request, portfolio_id):
 		portfolio = get_object_or_404(Portfolio, id=portfolio_id)
 	else:
 		portfolio = get_object_or_404(Portfolio, id=portfolio_id, type='published')
+	
+	related_items = Portfolio.objects.all().filter(
+		skills__in=portfolio.skills.all()
+	).exclude(
+		id=portfolio.id
+	).annotate(
+		count=Count('name')
+	).order_by('-count')
+	
 	return respond('portfolio_single.html', {
 		'is_index': True,
+		'related_items': related_items,
 		'portfolio_item': portfolio
 	}, request)
 
