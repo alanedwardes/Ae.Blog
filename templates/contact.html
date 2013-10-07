@@ -6,53 +6,16 @@
 {% block title %}Contact &mdash; Alan Edwardes{% endblock %}
 
 {% block content %}
-	<div class="wrp">
-		<div class="lft">
-			<div id="cnt">
-				<h1>About &amp; Contact</h1>
-				{% if data.done %}
-					Email sent - thanks for getting in touch.
-				{% else %}
-					<p class="ctr"><br>I'm a {{ settings.BIRTH_DATE|timesince_years }} year old student living in the UK, with 1 years' industry experience in software development. My CV / résumé is available upon request, and you can also visit my <a href="http://uk.linkedin.com/in/alanedwardes/">LinkedIn profile</a> and <a href="../portfolio/">Personal Portfolio</a> to learn more.</p>
-					
-					<div class="orn wht"></div>
-					
-					<p class="ctr">Reach me at <script>{% nowhitespace %}document.write(ae.print_mail()){% endnowhitespace %}</script>, or use the form to the right.</p>
-				{% endif %}
-			</div>
-		</div>
-		<div class="rgt">
-			<div id="sdb">
-					{% if data.generalerror %}
-						<div class="error">{{ data.generalerror }}</div>
-					{% endif %}
-					<form action="" method="post">
-						{% csrf_token %}
-						<div{% if data.nameerror %} class="errorwrap"{% endif %}>
-							<label for="{{ settings.NAME_FIELD_NAME }}">Name <small>(If it's not real, it better be cool&ndash; and not Brandon Flowers)</small></label>
-							<input name="{{ settings.NAME_FIELD_NAME }}" class="text" type="text" id="{{ settings.NAME_FIELD_NAME }}" value="{{ data.name }}"/>
-							{% if data.nameerror %}<div class="error">{{ data.nameerror|safe }}</div>{% endif %}
-						</div>
-						<div{% if data.emailerror %} class="errorwrap"{% endif %}>
-							<label for="{{ settings.EMAIL_FIELD_NAME }}">Email <small>(Important, allows me to contact you back)</small></label>
-							<input name="{{ settings.EMAIL_FIELD_NAME }}" class="text" type="text" id="{{ settings.EMAIL_FIELD_NAME }}" value="{{ data.email }}"/>
-							{% if data.emailerror %}<div class="error">{{ data.emailerror }}</div>{% endif %}
-						</div>
-						<div{% if data.subjecterror %} class="errorwrap"{% endif %}>
-							<label for="{{ settings.SUBJECT_FIELD_NAME }}">Subject <small>(The subject of the email)</small></label>
-							<input name="{{ settings.SUBJECT_FIELD_NAME }}" class="text" type="text" id="{{ settings.SUBJECT_FIELD_NAME }}" value="{% if not data.subject %}{{ request.GET.subject }}{% else %}{{ data.subject }}{% endif %}"/>
-							{% if data.subjecterror %}<div class="error">{{ data.subjecterror }}</div>{% endif %}
-						</div>
-						<div{% if data.bodyerror %} class="errorwrap"{% endif %}>
-							<label for="{{ settings.BODY_FIELD_NAME }}">Email Body <small>(HTML won't work, URLs will be made clickable)</small></label>
-							<textarea name="{{ settings.BODY_FIELD_NAME }}" id="{{ settings.BODY_FIELD_NAME }}" rows="12" cols="30">{% if not data.body %}{{ request.GET.body }}{% else %}{{ data.body }}{% endif %}</textarea>
-							{% if data.bodyerror %}<div class="error">{{ data.bodyerror }}</div>{% endif %}
-						</div>
-						<div>
-							<input type="submit" class="save" value="Send Email"/>
-						</div>
-					</form>
-			</div>
-		</div>
+	<div class="wrp slm">
+		<h1>About &amp; Contact</h1>
+		{% if data.done %}
+			Email sent - thanks for getting in touch.
+		{% else %}
+			<p class="ctr"><br>I'm a {{ settings.BIRTH_DATE|timesince_years }} year old student living in the UK, with 1 years' industry experience in software development. My CV / résumé is available upon request, and you can also visit my <a href="http://uk.linkedin.com/in/alanedwardes/">LinkedIn profile</a> and <a href="../portfolio/">Personal Portfolio</a> to learn more.</p>
+			
+			<div class="orn wht"></div>
+			
+			<p class="ctr"><script>{% nowhitespace %}document.write(ae.print_mail()){% endnowhitespace %}</script></p>
+		{% endif %}
 	</div>
 {% endblock %}

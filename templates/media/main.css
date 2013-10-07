@@ -30,6 +30,11 @@ body{
 	width:960px;
 	margin:auto;
 }
+.slm
+{
+	padding:50px 0px;
+	width:600px;
+}
 .lft{
 	float:left;
 }
