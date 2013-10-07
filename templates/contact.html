@@ -13,11 +13,16 @@
 				{% if data.done %}
 					Email sent - thanks for getting in touch.
 				{% else %}
-					<p>I'm a {{ settings.BIRTH_DATE|timesince_years }} year old student living in the UK. I'm your typical nerd: I dabble in web design (both professionally and as a hobby), programming, and gaming (see my <a href="http://steamcommunity.com/id/alanedwardes">Steam profile</a> for my PC gaming habits).</p>
-					<p>I love alternative rock (see my <a href="http://www.last.fm/user/alanedwardes">Last.fm profile</a>), satire and American animated comedy.</p>
+					<p class="ctr"><br>I'm a {{ settings.BIRTH_DATE|timesince_years }} year old student living in the UK, with 1 years' industry experience in software development. My CV / résumé is available upon request, and you can also visit my <a href="http://uk.linkedin.com/in/alanedwardes/">LinkedIn profile</a> and <a href="../portfolio/">Personal Portfolio</a> to learn more.</p>
 					
-					<h2>Get In Touch</h2>
-				
+					<div class="orn wht"></div>
+					
+					<p class="ctr">Reach me at <script>{% nowhitespace %}document.write(ae.print_mail()){% endnowhitespace %}</script>, or use the form to the right.</p>
+				{% endif %}
+			</div>
+		</div>
+		<div class="rgt">
+			<div id="sdb">
 					{% if data.generalerror %}
 						<div class="error">{{ data.generalerror }}</div>
 					{% endif %}
@@ -47,29 +52,6 @@
 							<input type="submit" class="save" value="Send Email"/>
 						</div>
 					</form>
-				{% endif %}
-			</div>
-		</div>
-		<div class="rgt">
-			<div id="sdb">
-				<h2>Rules</h2>
-				<small class="subtitle">Use this page to get in touch.</small>
-				<ul>
-					<li>You can either use this form, or reach me at <script>{% nowhitespace %}
-						document.write(ae.print_mail());
-					{% endnowhitespace %}</script>, whichever is easier</li>
-					<li>Don't contact me if you are <a href="http://en.wikipedia.org/wiki/Brandon_Flowers">Brandon Flowers</a>*</li>
-					<li>If you make up a name, it better be cool</li>
-					<li>It also better not be Brandon Flowers*</li>
-				</ul>
-				<p><small>* Please note that in the unlikely event that Brandon Flowers does contact me and/or gives me free money, I may decide to change this policy.</small></p>
-				<div style="margin-bottom:15px"></div>
-				<p>Oh, and one more rule:</p>
-				<ul>
-					<li>Don't ask me about my irrational hatred of Brandon Flowers.</li>
-				</ul>
-				<div style="margin-bottom:15px"></div>
-				<p>&mdash; Alan.</p>
 			</div>
 		</div>
 	</div>

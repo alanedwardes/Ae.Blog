@@ -23,7 +23,6 @@ urlpatterns = patterns('',
 	(r'^posts/(?P<post_slug>.*)/$', 'blog.views.single'),
 	(r'^portfolio/$', 'blog.views.portfolio'),
 	(r'^portfolio/item/(?P<portfolio_id>.*)/$', 'blog.views.portfolio_single'),
-	(r'^portfolio/skill/(?P<skill_id>.*)/$', 'blog.views.portfolio_skill'),
 	(r'^s/(?P<file>.*)/$', 'blog.views.shot'),
 	(r'^pure/(?P<post_slug>.*)/$', 'blog.views.pure'),
 	(r'^media/(?P<path>.*)$', 'django.views.static.serve', {

@@ -5,9 +5,9 @@
 
 {% block content %}
 	<div class="wrp prt">
-		{% if skill %}
-			<h1>Projects Involving "{{ skill.name }}"</h1>
-			<p><a href="/portfolio/">&laquo; Remove Filter</a></p>
+		{% if skills %}
+			<h1>Projects Involving {% for skill in skills %}&lsquo;{{ skill.name }}&rsquo;{% if not forloop.last %}, {% endif %}{% endfor %}</h1>
+			<p><a href="./">&laquo; Remove Filter</a></p>
 		{% else %}
 			<h1>Personal Portfolio</h1>
 		{% endif %}

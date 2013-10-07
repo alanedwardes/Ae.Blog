@@ -10,6 +10,8 @@
 		{% if portfolio_item.banner %}
 			<img class="boxshadow" id="portfolio-banner" src="{% media_include portfolio_item.banner.url %}" alt="{{ portfolio_item.name }}"/>
 		{% endif %}
+		
+		<p><a href="/portfolio/">&laquo; Back to Portfolio</a></p>
 
 		{% if portfolio_item.description %}
 			<div class="lft">

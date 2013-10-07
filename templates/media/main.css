@@ -43,6 +43,15 @@ body{
 {
 	display:none;
 }
+.orn
+{
+	height:125px;
+	width:100%;
+}
+.orn.wht
+{
+	background:url(ornament.png) no-repeat center center;
+}
 .ctr
 {
 	text-align:center;
@@ -110,6 +119,14 @@ textarea{
 input{
 	width:50%;
 }
+#bdy.hme input.text, #bdy.hme textarea
+{
+	border-top:1px solid #444;
+	border-left:1px solid #444;
+	border-right:1px solid #555;
+	border-bottom:1px solid #555;
+	background:#444;
+}
 input.text, textarea{
 	box-shadow:inset 2px 2px 5px rgba(0, 0, 0, 0.1);
 	background:#fff;
@@ -121,11 +138,20 @@ input.text, textarea{
 }
 input.save{
 	width:101%;
+	border-width:0px;
 	color:#fff;
+}
+input.save:hover
+{
+	opacity:0.8;
 }
 label{
 	padding-bottom:5px;
 	display:block;
+}
+#bdy.hme label small
+{
+	color:#999;
 }
 label small{
 	color:#555;

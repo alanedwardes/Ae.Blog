@@ -63,7 +63,7 @@ class Skill(models.Model):
 	def usage_count(self):
 		return self.portfolio_set.distinct().count()
 	def get_absolute_url(self):
-		return "/portfolio/skill/%s/" % self.id
+		return "/portfolio/?skill=%s" % self.id
 	def __unicode__(self):
 		return self.name
 

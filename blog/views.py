@@ -58,31 +58,24 @@ def sitemap(request):
 def portfolio(request):
 	portfolios = Portfolio.objects.all().filter(
 		type='published'
-	).extra(
+	)
+	
+	skills = False
+	skill_id = request.GET.get('skill', False)
+	if skill_id:
+		skill_ids = request.GET.getlist('skill')
+		skills = Skill.objects.all().filter(pk__in=skill_ids)
+		portfolios = portfolios.filter(skills__in=skill_ids)
+	
+	portfolios = portfolios.extra(
 		select={'null_start': "published is not null"},
 		order_by=['null_start', '-published']
-	)
+	).distinct()
 	
 	return respond('portfolio.html', {
 		'is_index': True,
+		'skills': skills,
 		'portfolios': portfolios
-	}, request)
-	
-def portfolio_skill(request, skill_id):
-	skill = Skill.objects.get(pk=skill_id)
-	portfolios = skill.portfolio_set.all()
-	
-	portfolios_filtered = portfolios.filter(
-		type='published'
-	).extra(
-		select={'null_start': "published is not null"},
-		order_by=['null_start', '-published']
-	)
-	
-	return respond('portfolio.html', {
-		'is_index': True,
-		'skill': Skill.objects.get(pk=skill_id),
-		'portfolios': portfolios_filtered
 	}, request)
 	
 def portfolio_single(request, portfolio_id):
@@ -144,10 +137,16 @@ def contact(request):
 				'Reply-To': data['name'] + ' <' + data['email'] + '>'
 			}
 		)
-		if not error and email.send():
+		
+		try:
+			email.send()
+		except:
+			error = True
+		
+		if not error:
 			data['done'] = True
-		elif not error:
-			data['generalerror'] = 'There was a problem sending the email. Please try again'
+		else:
+			data['generalerror'] = 'There was a problem sending the email. Please try again.'
 	else:
 		data = {
 			'name': request.COOKIES.get('name',''),
@@ -155,6 +154,7 @@ def contact(request):
 		}
 	return respond('contact.html', {
 		'data': data,
+		'is_index': True
 	}, request)
 	
 def about(request):
