@@ -28,8 +28,11 @@ def respond(template, data, request, mime=None):
 	t = loader.get_template(template)
 	c = RequestContext(request, data)
 	return HttpResponse(t.render(c), content_type=mime + "; charset=utf-8")
-
+	
 def page(request, page_slug):
+	# First check if there's an appropriate redirect
+	#Redirect.objects.filter()
+
 	if request.user.is_authenticated():
 		page = get_object_or_404(Page, slug=page_slug)
 	else:

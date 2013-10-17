@@ -79,6 +79,11 @@ class Portfolio(models.Model):
 	skills = models.ManyToManyField(Skill, blank = True)
 	def get_absolute_url(self):
 		return "/portfolio/item/%s/" % self.id
+		
+class Redirect(models.Model):
+	base = models.CharField(max_length = 512)
+	redirect = models.CharField(max_length = 512)
+	is_recursive = models.BooleanField()
 
 @receiver(post_save, sender=Comment)
 @receiver(post_delete, sender=Comment)

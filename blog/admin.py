@@ -38,5 +38,6 @@ class PortfolioAdmin(admin.ModelAdmin):
 	list_display = ('name', 'summary', 'published')
 	
 admin.site.register(Portfolio, PortfolioAdmin)
+admin.site.register(Redirect)
 admin.site.register(Screenshot)
 admin.site.register(Skill)
