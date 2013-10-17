@@ -129,6 +129,3 @@ LOGGING = {
 		},
 	}
 }
-
-# Production
-ALLOWED_HOSTS = ['alan.edward.es']

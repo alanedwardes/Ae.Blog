@@ -26,3 +26,5 @@ NAME_FIELD_NAME = 'anti_spam_name_field_name'
 SUBJECT_FIELD_NAME = 'anti_spam_subject_field_name'
 URL_FIELD_NAME = 'anti_spam_url_field_name'
 BODY_FIELD_NAME = 'anti_spam_comment_field_name'
+
+ALLOWED_HOSTS = ['example.com']
