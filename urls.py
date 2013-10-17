@@ -2,7 +2,6 @@ from django.conf.urls import *
 from blog.feeds import *
 from django.conf import settings
 from django.contrib import admin
-from django.utils.encoding import iri_to_uri
 admin.autodiscover()
 
 urlpatterns = patterns('',
