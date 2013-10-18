@@ -40,6 +40,9 @@ USE_L10N = True
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
+# Append Slashes to URLs
+APPEND_SLASH = False
+
 # CSS, Images etc
 MEDIA_ROOT = os.path.join(SITE_ROOT, 'templates', 'media')
 
