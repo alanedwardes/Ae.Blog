@@ -37,7 +37,10 @@ class PortfolioAdmin(admin.ModelAdmin):
 	date_hierarchy = 'published'
 	list_display = ('name', 'summary', 'published')
 	
+class RedirectAdmin(admin.ModelAdmin):
+    list_display = ('base', 'redirect', 'is_recursive')
+	
 admin.site.register(Portfolio, PortfolioAdmin)
-admin.site.register(Redirect)
+admin.site.register(Redirect, RedirectAdmin)
 admin.site.register(Screenshot)
 admin.site.register(Skill)
