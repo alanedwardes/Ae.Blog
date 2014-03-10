@@ -7,7 +7,10 @@
 {% block content %}
 <div class="wrp">
 	{% random_item "Ciao|Hello|Salut|¡Hola|Guten tag|Aloha|Hallo|Hallå|Salam" greeting %}
-	<div id="hi"><a href="/" title="Click for a new greeting">{{ greeting }}!</a> I make things<span style="color:#777">:</span></div>
+	<div id="hi"><a href="/" title="Click for a new greeting"><script>
+		var greetings = ['Ciao', 'Hello', 'Salut', '¡Hola', 'Guten tag', 'Aloha', 'Hallo', 'Hallå', 'Salam'];
+		document.write(greetings[Math.floor(Math.random() * greetings.length)] + '!');
+	</script></a> I make things<span style="color:#777">:</span></div>
 	<div class="ban" style="background-image:url({% media_include "estranged-banner.jpg" %})">
 		<div class="blurb dbg">
 			<a href="/estranged/">Estranged</a>, a free game following the story of a lone fisherman stranded on a mysterious island during a violent storm. <a href="/estranged/">Learn more and play &raquo;</a>
