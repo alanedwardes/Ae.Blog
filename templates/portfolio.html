@@ -10,6 +10,7 @@
 			<p><a href="./">&laquo; Remove Filter</a></p>
 		{% else %}
 			<h1>Personal Portfolio</h1>
+			<p id="portfolio-all-skills">Filter: {% for skill in all_skills %} <a class="dco" href="{{ skill.get_absolute_url }}">{{ skill.name }}</a> ({{ skill.usage_count }}){% if not forloop.last %},{% endif %}{% endfor %}</p>
 		{% endif %}
 	
 		{% for portfolio_item in portfolios %}

@@ -507,6 +507,12 @@ table.horizontal-table tr
 	width:22%;
 	margin:0% 1%;
 }
+#portfolio-all-skills
+{
+	width:700px;
+	margin:auto;
+	text-align:center;
+}
 .prt h3
 {
 	text-align:left;

@@ -61,11 +61,14 @@ def portfolio(request):
 	)
 	
 	skills = False
+	all_skills = False
 	skill_id = request.GET.get('skill', False)
 	if skill_id:
 		skill_ids = request.GET.getlist('skill')
 		skills = Skill.objects.all().filter(pk__in=skill_ids)
 		portfolios = portfolios.filter(skills__in=skill_ids)
+	else:
+		all_skills = Skill.objects.all().annotate(num_usages=Count('portfolio')).filter(num_usages__gt=1).order_by('-num_usages')
 	
 	portfolios = portfolios.extra(
 		select={'null_start': "published is not null"},
@@ -75,6 +78,7 @@ def portfolio(request):
 	return respond('portfolio.html', {
 		'is_index': True,
 		'skills': skills,
+		'all_skills': all_skills,
 		'portfolios': portfolios
 	}, request)
 
