@@ -11,15 +11,39 @@
 		var greetings = ['Ciao', 'Hello', 'Salut', '¡Hola', 'Guten tag', 'Aloha', 'Hallo', 'Hallå', 'Salam'];
 		document.write(greetings[Math.floor(Math.random() * greetings.length)] + '!');
 	</script></a> I make things<span style="color:#777">:</span></div>
-	<div class="ban" style="background-image:url({% media_include "estranged-banner.jpg" %})">
-		<div class="blurb dbg">
-			<a href="/estranged/">Estranged</a>, a free game following the story of a lone fisherman stranded on a mysterious island during a violent storm. <a href="/estranged/">Learn more and play &raquo;</a>
-		</div>
-	</div>
-	<div class="tri first ban" style="background-image:url({% media_include "jw-banner.png" %})">
-		<div class="blurb dbg">
-			<span>A small 2D platformer with a JavaScript graphics &amp; physics engine. <a href="http://jw.alanedwardes.com/">View &raquo;</a></span>
-		</div>
+	{% for portfolio_item in portfolios %}
+		{% include "portfolio_item.html" %}
+	{% endfor %}
+	<div class="tri first">
+		<h2>Recent Tweets</h2>
+		<ul id="tweets"></ul>
+		<script>
+			ae.util.http.getJSONP('http://jsonpcache.alanedwardes.com/?resource=twitter_ae_timeline&arguments=2&callback=?', function(tweets){
+				function pad(num, size)
+				{
+					var s = "000000000" + num;
+					return s.substr(s.length-size);
+				}
+				
+				function month(num)
+				{
+					return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec'][num];
+				}
+			
+				for (var i in tweets)
+				{
+					var tweet = tweets[i];
+					
+					var posted = new Date(tweet.created_at);
+					
+					var li = ae.util.element('li', tweet.text + ' ', document.getElementById('tweets'));
+					var a = ae.util.element('a', {
+						href: 'https://twitter.com/AlanEdwardes/status/' + tweet.id_str,
+						innerHTML: pad(posted.getHours(), 2) + ':' + pad(posted.getMinutes(), 2) + ', ' + posted.getDate() + ' of ' + month(posted.getMonth())
+					}, li);
+				}
+			});
+		</script>
 	</div>
 	<div class="tri">
 		<h2>Latest Blog Posts</h2>

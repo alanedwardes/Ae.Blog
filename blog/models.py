@@ -70,6 +70,7 @@ class Skill(models.Model):
 class Portfolio(models.Model):
 	name = models.CharField(max_length = 100)
 	published = models.DateField(blank = True, null = True)
+	featured = models.BooleanField()
 	summary = models.CharField(max_length = 512)
 	type = models.CharField(max_length=255, choices=content_type_choices)
 	description = models.TextField(blank = True)

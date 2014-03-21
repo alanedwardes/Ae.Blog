@@ -392,7 +392,7 @@ table.horizontal-table tr
 	text-align:center;
 	font-weight:bold;
 	font-size:42px;
-	padding:15px 0px;
+	padding:15px 0px 0px 0px;
 }
 .ban
 {
@@ -422,6 +422,7 @@ table.horizontal-table tr
 	padding-bottom:5px;
 }
 .tri{
+	min-height:170px;
 	line-height:1.5;
 	width:30%;
 	float:right;
@@ -438,9 +439,8 @@ table.horizontal-table tr
 	border-bottom:1px solid transparent;
 }
 #tweets{
-	height:160px;
-	overflow-y:auto;
-	overflow-x:hidden;
+	height:100px;
+	overflow:hidden;
 }
 #steamgames{
 	display:none;

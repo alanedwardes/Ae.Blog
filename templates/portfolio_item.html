@@ -1,0 +1,12 @@
+{% load media_include %}
+
+<div class="portfolio_item boxshadow">
+	{% if portfolio_item.banner %}
+		<div class="portfolio_banner dbd" style="background-image:url({% media_include portfolio_item.banner.url %})">
+			<a href="{{ portfolio_item.get_absolute_url }}"><img src="{% media_include "tint.png" %}" alt=""/></a>
+		</div>
+	{% endif %}
+	{% if portfolio_item.summary %}
+		<a class="portfolio_summary" href="{{ portfolio_item.get_absolute_url }}">{{ portfolio_item.name }} &mdash; {{ portfolio_item.summary }}</a>
+	{% endif %}
+</div>
