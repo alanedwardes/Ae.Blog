@@ -7,17 +7,17 @@
 {% block content %}
 <div class="wrp">
 	{% random_item "Ciao|Hello|Salut|¡Hola|Guten tag|Aloha|Hallo|Hallå|Salam" greeting %}
-	<div id="hi"><a href="/" title="Click for a new greeting"><script>
+	<div id="hi"><a href="/" title="Click for a new greeting"><script>{% nowhitespace %}
 		var greetings = ['Ciao', 'Hello', 'Salut', '¡Hola', 'Guten tag', 'Aloha', 'Hallo', 'Hallå', 'Salam'];
 		document.write(greetings[Math.floor(Math.random() * greetings.length)] + '!');
-	</script></a> I make things<span style="color:#777">:</span></div>
+	{% endnowhitespace %}</script></a> I make things<span style="color:#777">:</span></div>
 	{% for portfolio_item in portfolios %}
 		{% include "portfolio_item.html" %}
 	{% endfor %}
 	<div class="tri first">
 		<h2>Recent Tweets</h2>
 		<ul id="tweets"></ul>
-		<script>
+		<script>{% nowhitespace %}
 			ae.util.http.getJSONP('http://jsonpcache.alanedwardes.com/?resource=twitter_ae_timeline&arguments=2&callback=?', function(tweets){
 				function pad(num, size)
 				{
@@ -43,7 +43,7 @@
 					}, li);
 				}
 			});
-		</script>
+		{% endnowhitespace %}</script>
 	</div>
 	<div class="tri">
 		<h2>Latest Blog Posts</h2>
