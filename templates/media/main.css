@@ -443,11 +443,10 @@ table.horizontal-table tr
 	overflow:hidden;
 }
 #steamgames{
-	display:none;
 	padding-top:10px;
 }
 #lastfm{
-	display:none;
+	padding-top:10px;
 }
 #workouts
 {
@@ -456,7 +455,6 @@ table.horizontal-table tr
 }
 .workout
 {
-	background:url(date.png) 5px 5px no-repeat;
 	width:110.5px;
 	float:left;
 	text-align:center;
@@ -554,29 +552,6 @@ table.horizontal-table tr
 	background:#151515;
 	padding:5px 0px;
 }
-.game#cover-0{
-	padding-left:0px;
-}
-.game.intro{
-	display:block;
-	padding-left:0px;
-	width:325px;
-}
-.game.intro div{
-	height:25px;
-	padding-top:7.5px;
-}
-.game.intro #first{
-	display:none;
-}
-.game.intro #second{
-	display:none;
-}
-.game.intro span{
-	width:20px;
-	text-align:center;
-	float:right;
-}
 .album img:hover, .game img:hover, .workout:hover, .boxshadow:hover, #portfolio-preview iframe:hover
 {
 	box-shadow:0px 0px 20px #000;
@@ -589,11 +564,7 @@ table.horizontal-table tr
 .game
 {
 	float:left;
-	padding-left:25px;
-}
-.game img{
-	margin-bottom:1px;
-	margin-right:1px;
+	padding-left:45px;
 }
 .album img, .game img{
 	background:url(check.png);

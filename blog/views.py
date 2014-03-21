@@ -1,4 +1,5 @@
 import glob, re, os
+from urllib.request import urlopen
 from django.conf import settings
 from django.db.models import Q, Count
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -39,10 +40,39 @@ def page(request, page_slug):
 	}, request)
 
 def index(request):
+	try:
+		twitter_data = simplejson.loads(urlopen("http://jsonpcache.alanedwardes.com/?resource=twitter_ae_timeline&arguments=2").read())
+	except:
+		twitter_data = []
+		
+	try:
+		lastfm_data = simplejson.loads(urlopen("http://jsonpcache.alanedwardes.com/?resource=lastfm_ae_albums&arguments=12").read())['topalbums']['album']
+		for album in lastfm_data:
+			for image in album['image']:
+				image['text'] = image['#text']
+	except:
+		lastfm_data = []
+		
+	try:
+		steamgames_data = simplejson.loads(urlopen("http://jsonpcache.alanedwardes.com/?resource=steam_ae_games").read())['mostPlayedGames']['mostPlayedGame']
+	except:
+		steamgames_data = []
+		
+	try:
+		mapmyrun_data = simplejson.loads(urlopen("http://jsonpcache.alanedwardes.com/?resource=mapmyfitness_runs").read())['result']['output']['workouts']
+		for workout in mapmyrun_data:
+			workout['distance_miles'] = round((float(workout['distance']) * 1.609344) * 10) / 10
+	except:
+		mapmyrun_data = []
+	
 	return respond('index.html', {
 		'is_index': True,
 		'portfolios': Portfolio.objects.all().filter(featured=True),
-		'posts': Post.objects.all().filter(type='published').order_by('-published')[:4]
+		'posts': Post.objects.all().filter(type='published').order_by('-published')[:4],
+		'twitter_data': twitter_data,
+		'lastfm_data': lastfm_data,
+		'steamgames_data': steamgames_data,
+		'mapmyrun_data': mapmyrun_data
 	}, request)
 
 def random(request):

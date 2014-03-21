@@ -16,34 +16,11 @@
 	{% endfor %}
 	<div class="tri first">
 		<h2>Recent Tweets</h2>
-		<ul id="tweets"></ul>
-		<script>{% nowhitespace %}
-			ae.util.http.getJSONP('http://jsonpcache.alanedwardes.com/?resource=twitter_ae_timeline&arguments=2&callback=?', function(tweets){
-				function pad(num, size)
-				{
-					var s = "000000000" + num;
-					return s.substr(s.length-size);
-				}
-				
-				function month(num)
-				{
-					return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec'][num];
-				}
-			
-				for (var i in tweets)
-				{
-					var tweet = tweets[i];
-					
-					var posted = new Date(tweet.created_at);
-					
-					var li = ae.util.element('li', tweet.text + ' ', document.getElementById('tweets'));
-					var a = ae.util.element('a', {
-						href: 'https://twitter.com/AlanEdwardes/status/' + tweet.id_str,
-						innerHTML: pad(posted.getHours(), 2) + ':' + pad(posted.getMinutes(), 2) + ', ' + posted.getDate() + ' of ' + month(posted.getMonth())
-					}, li);
-				}
-			});
-		{% endnowhitespace %}</script>
+		<ul>
+			{% for tweet in twitter_data %}
+				<li>{{ tweet.text }}</li>
+			{% endfor %}
+		</ul>
 	</div>
 	<div class="tri">
 		<h2>Latest Blog Posts</h2>
@@ -63,119 +40,46 @@
 		<p>I'm a {{ settings.BIRTH_DATE|timesince_years }} year old student from the UK who loves creating websites, <a href="/estranged/">making games</a>, and <a href="/posts/running/">running</a>.</p>
 		<p>e: <script>document.write(ae.print_mail());</script></p>
 	</div>
+	
 	<div class="clr"></div>
-	<script>{% nowhitespace %}
-		ae.util.http.getJSONP('http://jsonpcache.alanedwardes.com/?resource=lastfm_ae_albums&callback=?', function(albums){
-			var count = 0;
-			for (var i = 0; i < albums['topalbums']['album'].length; i++)
-			{
-				var album = albums['topalbums']['album'][i];
-				if (album.image[1]['#text'] && !album.image[1]['#text'].match(/default/g) && count < 12)
-				{
-					var div = ae.util.element('div', {
-						id: 'cover-' + count,
-						className: 'album'
-					}, document.getElementById('lastfm'));
-					var a = ae.util.element('a', {
-						target: '_blank',
-						href: album.url,
-						title: album.name + ' by ' + album.artist.name + ', played ' + album.playcount + ' times this week.'
-					}, div);
-					ae.util.element('img', {
-						width: 64,
-						height: 64,
-						src: album.image[1]['#text']
-					}, a);
-					count++;
-				}
-			}
-			document.getElementById('first').style.display = 'block';
-			document.getElementById('lastfm').style.display = 'block';
-			ae.util.element('div', { className: 'clr' }, document.getElementById('lastfm'));
-		});
-	{% endnowhitespace %}</script>
-	<div id="lastfm"></div>
-	<script>{% nowhitespace %}
-		ae.util.http.getJSONP('http://jsonpcache.alanedwardes.com/?resource=steam_ae_games&callback=?', function(games){
-			if (games && games.mostPlayedGames && games.mostPlayedGames.mostPlayedGame)
-			{
-				for (var i = 0; i < games.mostPlayedGames.mostPlayedGame.length; i++)
-				{
-					if (i > 2) break;
-					var game = games.mostPlayedGames.mostPlayedGame[i];
-					
-					var div = ae.util.element('div', {
-						style: { display: 'none' },
-						className: 'game'
-					}, document.getElementById('steamgames'));
-					var a = ae.util.element('a', {
-						target: '_blank',
-						href: game.gameLink,
-						title: game.gameName + ', played ' + game.hoursPlayed + ' hours over the past two weeks, ' + game.hoursOnRecord + ' hours total.'
-					}, div);
-					
-					var img = ae.util.element('img', {
-						width: 184,
-						height: 69,
-						src: game.gameLogo,
-						onload: (function(game_div)
-						{
-							return function()
-							{
-								game_div.style.display = 'block';
-							}
-						})(div)
-					}, a);
-				}
-				document.getElementById('second').style.display = 'block';
-				document.getElementById('steamgames').style.display = 'block';
-				ae.util.element('div', { className: 'clr' }, document.getElementById('steamgames'));
-			}
-		});
-	{% endnowhitespace %}</script>
-	<div id="steamgames">
-		<div class="game intro">
-			<div id="first"><a target="_blank" href="http://www.last.fm/user/alanedwardes/charts?subtype=albums">Albums</a> over the past week <span>&#8593;</span></div>
-			<div id="second"><a target="_blank" href="http://steamcommunity.com/id/alanedwardes/games/">Games</a> over the past two weeks <span>&#8594;</span></div>
-		</div>
+	
+	<div id="lastfm">
+		{% for album in lastfm_data %}
+			<div id="cover-{{ forloop.counter0 }}" class="album">
+				<a target="_blank"
+					href="{{ album.url }}"
+					title="{{ album.name }} by {{ album.artist.name }}, played {{ album.playcount }} times this week.">
+					<img src="{{ album.image.1.text }}" width="64" height="64"/>
+				</a>
+			</div>
+		{% endfor %}
 	</div>
-	<div id="workouts"></div>
-	<script>{% nowhitespace %}
-		ae.util.http.getJSONP('http://jsonpcache.alanedwardes.com/?resource=mapmyfitness_runs&callback=?', function(workouts){
-			function milesToKilometres(miles) { return Math.round((parseFloat(miles) * 1.609344) * 10) / 10; }
-			function prettyDate(date)
-			{
-				var date = new Date(date);
-				var month = null;
-				switch (date.getMonth() + 1)
-				{
-					case 1: month = 'Jan'; break; case 2: month = 'Feb'; break;	case 3: month = 'Mar'; break;
-					case 4: month = 'Apr'; break; case 5: month = 'May'; break;	case 6: month = 'Jun'; break;
-					case 7: month = 'Jul'; break; case 8: month = 'Aug'; break;	case 9: month = 'Sep'; break;
-					case 10: month = 'Oct'; break; case 11: month = 'Nov'; break; case 12: month = 'Dec'; break;
-				}
-				return date.getDate() + ' ' + month;
-			}
-		
-			if (workouts && workouts.result.status == 1 && workouts.result.output.workouts)
-			{
-				for (var i = 0; i < workouts.result.output.workouts.length && i < 8; i++)
-				{
-					var workout = workouts.result.output.workouts[i];
-					var div = ae.util.element('a', {
-						className: 'workout',
-						id: 'workout-' + i,
-						href: 'http://www.mapmyrun.com/workout/' + workout.workout_id,
-						target: "_blank",
-						innerHTML: prettyDate(workout.workout_date)
-					}, document.getElementById('workouts'));
-					ae.util.element('span', {
-						className: 'dbd',
-						innerHTML: 'Ran ' + milesToKilometres(workout.distance) + ' km &raquo;'
-					}, div);
-				}
-			}
-		});
-	{% endnowhitespace %}</script>
+	
+	<div class="clr"></div>
+	
+	<div id="steamgames">
+		{% for game in steamgames_data %}
+			{% if forloop.counter < 5 %}
+				<div class="game">
+					<a target="_blank" href="{{ game.gameLink }}" title="{{ game.gameName }}, played {{ game.hoursPlayed }} hours over the past two weeks, {{ game.hoursOnRecord }} hours total.">
+						<img src="{{ game.gameLogo }}" width="184" height="69"/>
+					</a>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+	
+	<div class="clr"></div>
+	
+	<div id="workouts">
+		{% for workout in mapmyrun_data %}
+			{% if forloop.counter < 9 %}
+				<a class="workout" id="workout-{{ forloop.counter0 }}" href="http://www.mapmyrun.com/workout/{{ workout.workout_id }}">
+					{{ workout.workout_date }}
+					<span class="dbd">{{ workout.distance_miles }} km</span>
+				</a>
+			{% endif %}
+		{% endfor %}
+	</div>
 </div>
 {% endblock %}
