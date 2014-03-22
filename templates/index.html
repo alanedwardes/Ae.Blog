@@ -76,7 +76,7 @@
 			{% if forloop.counter < 9 %}
 				<a class="workout" id="workout-{{ forloop.counter0 }}" href="http://www.mapmyrun.com/workout/{{ workout.workout_id }}">
 					{{ workout.workout_date }}
-					<span class="dbd">{{ workout.distance_miles }} km</span>
+					<span class="dbd">Ran {{ workout.distance_miles }} km</span>
 				</a>
 			{% endif %}
 		{% endfor %}
