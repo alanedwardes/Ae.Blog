@@ -46,9 +46,7 @@
 	<div id="lastfm">
 		{% for album in lastfm_data %}
 			<div id="cover-{{ forloop.counter0 }}" class="album">
-				<a target="_blank"
-					href="{{ album.url }}"
-					title="{{ album.name }} by {{ album.artist.name }}, played {{ album.playcount }} times this week.">
+				<a target="_blank" href="{{ album.url }}" title="{{ album.name }} by {{ album.artist.name }}, played {{ album.playcount }} times this week.">
 					<img src="{{ album.image.1.text }}" width="64" height="64"/>
 				</a>
 			</div>
@@ -74,10 +72,7 @@
 	<div id="workouts">
 		{% for workout in mapmyrun_data %}
 			{% if forloop.counter < 9 %}
-				<a class="workout" id="workout-{{ forloop.counter0 }}" href="http://www.mapmyrun.com/workout/{{ workout.workout_id }}">
-					{{ workout.workout_date }}
-					<span class="dbd">Ran {{ workout.distance_miles }} km</span>
-				</a>
+				<a class="workout" id="workout-{{ forloop.counter0 }}" href="http://www.mapmyrun.com/workout/{{ workout.workout_id }}">{{ workout.workout_date }} <span class="dbd">Ran {{ workout.distance_miles }} km</span></a>
 			{% endif %}
 		{% endfor %}
 	</div>

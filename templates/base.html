@@ -58,17 +58,6 @@
 				</div>
 			</div>
 		</div>
-		{% if post.slideshow and false %}
-			<script>{% nowhitespace %}
-				ae.background.images = '{{ post.slideshow }}'.split('|');
-				ae.background.index = ae.util.randomFromTo(0, bgImg.length - 1);
-				ae.background.replace();
-			{% endnowhitespace %}</script>
-			<div id="tbg"></div>
-			<div id="ttl">
-				<div class="wrp">{{ post.title }}</div>
-			</div>
-		{% endif %}
 		<div id="bdy" class="{% if is_index %} hme{% else %} sde{% endif %}">
 			{% block content %}{% endblock %}
 			<div style="clear:both"></div>

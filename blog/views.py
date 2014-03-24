@@ -1,6 +1,4 @@
-import glob, re, os
-#from urllib.request import urlopen
-from urllib2 import urlopen
+import glob, re, os, sys
 from django.conf import settings
 from django.db.models import Q, Count
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -13,6 +11,12 @@ from django.utils import simplejson
 from django.utils.html import strip_tags
 from django.utils.encoding import smart_text
 from blog.models import *
+
+# This lib has changed in Python 3.3
+if sys.version_info[0] < 3:
+	from urllib2 import urlopen
+else:
+	from urllib.request import urlopen
 
 def base_view_data(template_name, data, request):
 	if data is None:
@@ -199,6 +203,7 @@ def about(request):
 def archive(request):
 	return respond('archive.html', {
 		'posts': Post.objects.all().filter(type='published').order_by('-published'),
+		'is_index': True
 	}, request)
 
 def json(request, method):

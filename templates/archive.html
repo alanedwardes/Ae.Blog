@@ -5,28 +5,15 @@
 {% block title %}Archive &mdash; Alan Edwardes{% endblock %}
 
 {% block content %}
-	<div class="wrp">
-		<div class="lft">
-			<div id="cnt">
-				<h1>Archive</h1>
-				<p>All {{ posts.count }} posts on this blog starting with the most recent.</p>
-				<ul>
-				{% for post in posts %}
-					<li style="border-bottom:1px dotted #aaa;">
-						<code>{{ post.published|date:"d/m/Y" }}</code> &mdash; <a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:6 }}</a>
-						{% if post.comments %}
-							<a class="commentcount" href="{{ post.get_absolute_url }}#comments">{{ post.comments }}</a>
-						{% endif %}
-					</li>
-				{% endfor %}
-				</ul>
-			</div>
-		</div>
-		<div class="rgt">
-			<div id="sdb">
-				{% include "searchbox.html" %}
-				{% include "sidebar.html" %}
-			</div>
-		</div>
+	<div class="wrp slm">
+		<h1>Post Archive</h1>
+		<p>All {{ posts.count }} posts on this blog starting with the most recent.</p>
+		<ul>
+		{% for post in posts %}
+			<li style="border-bottom:1px dotted #aaa;">
+				<code>{{ post.published|date:"d/m/Y" }}</code> &mdash; <a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:6 }}</a>
+			</li>
+		{% endfor %}
+		</ul>
 	</div>
 {% endblock %}

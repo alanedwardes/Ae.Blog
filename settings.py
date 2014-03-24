@@ -41,7 +41,7 @@ USE_L10N = True
 STATIC_URL = '/static/'
 
 # Append Slashes to URLs
-APPEND_SLASH = False
+APPEND_SLASH = True
 
 # CSS, Images etc
 MEDIA_ROOT = os.path.join(SITE_ROOT, 'templates', 'media')

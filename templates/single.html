@@ -10,10 +10,6 @@
 		<div class="lft">
 			<div id="cnt">
 				{% include "post.html" %}
-				{% if post.comments > 0 %}
-					{% include "commentlist.html" %}
-					{% include "commentform.html" %}
-				{% endif %}
 			</div>
 		</div>
 		<div class="rgt">
@@ -38,32 +34,6 @@
 				{% if post.get_previous_by_published and post.get_previous_by_published.type == 'published' %}
 					<p class="meta-item meta-prev">prev: <a href="{{ post.get_previous_by_published.get_absolute_url }}">{{ post.get_previous_by_published.title|truncatewords:4 }}</a></p>
 				{% endif %}
-				<script>{% nowhitespace %}
-					ae.util.http.getJSONP('http://hits.alanedwardes.com/?resource=http://{{ request.get_host }}{{ request.path }}&callback=?', function(data){
-						var dynamicMeta = document.getElementById('dynamic-meta');
-						
-						var result = false;
-						var hits = data.hits;
-						t = 0;
-						for (period in hits)
-						{
-							if (result) result += ' / ';
-							else result = 'views: last ';
-							t += hits[period];
-							result += period + ' ' + hits[period];
-						}
-						
-						if (t > 0)
-						{
-							dynamicMeta.innerHTML += '<p class="meta-item meta-stats">' + result + '</p>';
-						}
-						
-						if (data.terms.length > 0)
-						{
-							dynamicMeta.innerHTML += '<p class="meta-item meta-searches">terms: ' + data.terms.join(', ').replace(/\+/g, ' ') + '.</p>';
-						}
-					});
-				{% endnowhitespace %}</script>
 				<div id="dynamic-meta"></div>
 				<p class="meta-item meta-share">{% nowhitespace %}
 					<a href="http://www.addthis.com/bookmark.php?url=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;title={{ post.title|urlencode }}">share</a>:
@@ -92,21 +62,6 @@
 						<img style="vertical-align:middle" src="/media/linkedin.png" alt="LinkedIn"/>
 					</a>
 				{% endnowhitespace %}</p>
-				{% if post.slideshow and false %}
-					<div style="margin-bottom:15px"></div>
-					<h2>Slideshow</h2>
-					<div id="slideshow"></div>
-					<div id="ssc">
-						<div id="ssp"><a href="#" onclick="lastBG()">prev image</a></div>
-						<div id="ssn"><a href="#" onclick="nextBG()">next image</a></div>
-					</div>
-				{% endif %}
-				{% if post.comments == 0 %}
-					<div style="margin-bottom:15px"></div>
-					{% include "commentform.html" %}
-				{% else %}
-					<p class="meta-item meta-addcomment"><a href="#comment-form">add</a> a comment</p>
-				{% endif %}
 			</div>
 		</div>
 	</div>

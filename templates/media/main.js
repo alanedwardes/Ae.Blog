@@ -193,7 +193,6 @@ ae =
 								output.push('<li>');
 								var result = results[i];
 								output.push('<a href="' + result.slug + '">' + result.title + '</a>');
-								output.push('<a href="' + result.slug + '#comments" class="commentcount">' + result.comments + '</a>');
 								output.push('</li>');
 							}
 							output.push('</ul>');
