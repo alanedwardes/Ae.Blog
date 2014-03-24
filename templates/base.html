@@ -36,9 +36,6 @@
 				color:#{{ theme }};
 			}
 		{% endnowhitespace %}</style>
-		{% if not user.is_authenticated %}
-			{% include "analytics.html" %}
-		{% endif %}
 	</head>
 	<body>
 		<div id="hdr">
@@ -73,6 +70,7 @@
 				<div style="clear:both"></div>
 			</div>
 		{% endnowhitespace %}</div>
+		{% if not user.is_authenticated %}{% include "analytics.html" %}{% endif %}
 	</body>
 </html>
 {% endspaceless %}
