@@ -8,10 +8,17 @@
 	<div class="wrp slm">
 		<h1>Post Archive</h1>
 		<p>All {{ posts.count }} posts on this blog starting with the most recent.</p>
-		<ul>
 		{% for post in posts %}
-			<li style="border-bottom:1px dotted #aaa;">
-				<code>{{ post.published|date:"d/m/Y" }}</code> &mdash; <a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:6 }}</a>
+			{% ifchanged post.published.year %}
+				{% if not forloop.first %}
+					</ul>
+				{% endif %}
+				
+				<h2>From {{ post.published.year }}</h2>
+				<ul>
+			{% endifchanged %}
+			<li>
+				<code>{{ post.published|date:"d/m/Y" }}</code> - <a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:6 }}</a>
 			</li>
 		{% endfor %}
 		</ul>

@@ -9,14 +9,11 @@
 		<meta name="google-site-verification" content="NCSP7ePJCNSEOH5g0NfK8--mzC-zaxHs2mgRYi0PWbA">
 		<link rel="alternate" type="application/rss+xml" href="/feeds/posts/" title="Alan Edwardes Posts">
 		<link rel="alternate" type="application/rss+xml" href="/feeds/comments/" title="Alan Edwardes Comments">
-		<link id="favicon" rel="shortcut icon" href="http://favicon.alanedwardes.com/{{ theme }}/">
+		<link rel="icon" type="image/png" href="http://favicon.alanedwardes.com/{{ theme }}/">
 		{% if is_single %}
 			<link rel="alternate" type="application/rss+xml" href="/feeds/comments/{{ post.slug }}/" title="Comments (just this post)">
 		{% endif %}
-		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Alegreya|Alegreya+SC">
-		{% if post.slideshow %}
-			<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway:100&amp;text={{ post.title|urlencode }}">
-		{% endif %}
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Alegreya%7CAlegreya+SC">
 		
 		<link rel="stylesheet" type="text/css" href="{% media_include "main.css" %}">
 		<script src="{% media_include "main.js" %}"></script>
@@ -30,7 +27,7 @@
 			{
 				background-color:#{{ theme }};
 			}
-			.dbd, input.text:focus, textarea:focus, input.error, textarea.error, #tbg, #ftr, #bdy.shw, .admin .metawrap, .save, .tri h2
+			.dbd, input.text:focus, textarea:focus, input.error, textarea.error, #tbg, #ftr, #bdy.shw, .admin .metawrap, .save, .tri h2, #bdy.hme a
 			{
 				border-color:#{{ theme }};
 			}
