@@ -1,9 +1,7 @@
 {% spaceless %}
 {% load timesince_years %}
 {% if is_single %}
-	{% if not post.slideshow %}
-		<h1>{{ post.title|escape }}</h1>
-	{% endif %}
+	<h1>{{ post.title|escape }}</h1>
 	{% if post.is_old %}
 		<div class="posthint">
 			<h4 style="margin:4px 0px">Old Content Warning</h4>
