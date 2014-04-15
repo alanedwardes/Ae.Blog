@@ -1,6 +1,4 @@
 {% spaceless %}
-{% load random_item nowhitespace media_include %}
-{% random_item 046380|A20D1E|827b00|955918|800463 theme %}
 <!DOCTYPE html>
 <html>
 	<head>
@@ -9,25 +7,22 @@
 		<meta name="google-site-verification" content="NCSP7ePJCNSEOH5g0NfK8--mzC-zaxHs2mgRYi0PWbA">
 		<link rel="alternate" type="application/rss+xml" href="/feeds/posts/" title="Alan Edwardes Posts">
 		<link rel="alternate" type="application/rss+xml" href="/feeds/comments/" title="Alan Edwardes Comments">
+		{% set theme = random(['046380', 'A20D1E', '827b00', '955918', '800463']) %}
 		<link rel="icon" type="image/png" href="http://favicon.alanedwardes.com/{{ theme }}/">
+		<meta charset="utf-8">
 		{% if is_single %}
 			<link rel="alternate" type="application/rss+xml" href="/feeds/comments/{{ post.slug }}/" title="Comments (just this post)">
 		{% endif %}
 		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Alegreya%7CAlegreya+SC">
 		
-		<link rel="stylesheet" type="text/css" href="{% media_include "main.css" %}">
-		<script src="{% media_include "main.js" %}"></script>
-		{% if request.GET.mobile %}
-			<meta name="viewport" content="width=600,initial-scale=1">
-			<link rel="stylesheet" type="text/css" href="{% media_include "mobile.css" %}">
-		{% endif %}
-		<!--[if IE 6]>{% media_include "ie6.css" %}<![endif]-->
-		<style id="theme">{% nowhitespace %}
-			.dbg, label.error, #hdr, .save, #ldg, #tbg, #ftr, body
+		<link rel="stylesheet" type="text/css" href="/assets/main.css">
+		<script src="/assets/main.js"></script>
+		<style>
+			.dbg, label.error, #hdr, .save, #ldg, #ftr, body
 			{
 				background-color:#{{ theme }};
 			}
-			.dbd, input.text:focus, textarea:focus, input.error, textarea.error, #tbg, #ftr, #bdy.shw, .admin .metawrap, .save, .tri h2, #bdy.hme a
+			.dbd, input.text:focus, textarea:focus, input.error, textarea.error, #ftr, #bdy.shw, .admin .metawrap, .save, .tri h2, #bdy.hme a
 			{
 				border-color:#{{ theme }};
 			}
@@ -35,7 +30,7 @@
 			{
 				color:#{{ theme }};
 			}
-		{% endnowhitespace %}</style>
+		</style>
 	</head>
 	<body>
 		<div id="hdr">
@@ -45,6 +40,8 @@
 					{% for page in pages %}
 						<a{% if request.path == page.get_absolute_url  %} class="current"{% endif %} href="{{ page.get_absolute_url }}">{{ page.title }}</a>
 					{% endfor %}
+					<a{% if request.path == '/portfolio/' %} class="current"{% endif %} href="/portfolio/">Portfolio</a>
+					<a{% if request.path == '/archive/' %} class="current"{% endif %} href="/archive/">Blog</a>
 					<a{% if request.path == '/contact/' %} class="current"{% endif %} href="/contact/">About &amp; Contact</a>
 				</div>
 				<div class="lft">
@@ -52,16 +49,16 @@
 				</div>
 			</div>
 		</div>
-		<div id="bdy" class="{% if is_index %} hme{% else %} sde{% endif %}">
+		<div id="bdy"{% if not is_single %} class="hme"{% endif %}>
 			{% block content %}{% endblock %}
 			<div style="clear:both"></div>
 		</div>
-		<div id="ftr">{% nowhitespace %}
+		<div id="ftr">
 			<div class="wrp">
 				<div class="lft">
-					&copy; 2006 &ndash; {% now "Y" %} <a href="/">Alan Edwardes</a> / <a href="https://github.com/alanedwardes/aeblog/blob/master/templates/{{ template_name }}">Source on GitHub</a>
-					{% if request.path == '/' %}
-						 / Data from <a href="http://twitter.com/">Twitter</a>, <a href="http://www.audioscrobbler.net/">AudioScrobbler</a>, <a href="http://steampowered.com/">Steam</a> and <a href="http://www.mapmyfitness.com/">MapmyFitness</a>
+					<span>&copy; 2006 &ndash; {{ "now"|date("Y") }} <a href="/">Alan Edwardes</a> / <a href="https://github.com/alanedwardes/aeblog/blob/master/templates/{{ template_name }}">Source on GitHub</a></span>
+					{% if template_name == 'index.html' %}
+						<span> / Data from <a href="http://twitter.com/">Twitter</a>, <a href="http://www.audioscrobbler.net/">AudioScrobbler</a>, <a href="http://steampowered.com/">Steam</a> and <a href="http://www.mapmyfitness.com/">MapmyFitness</a></span>
 					{% endif %}
 				</div>
 				<div class="rgt">
@@ -69,8 +66,7 @@
 				</div>
 				<div style="clear:both"></div>
 			</div>
-		{% endnowhitespace %}</div>
-		{% if not user.is_authenticated %}{% include "analytics.html" %}{% endif %}
+		</div>
 	</body>
 </html>
 {% endspaceless %}

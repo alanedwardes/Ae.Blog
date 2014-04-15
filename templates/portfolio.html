@@ -1,20 +1,19 @@
 {% extends "base.html" %}
-{% load specialtags media_include %}
 
 {% block title %}Personal Portfolio &mdash; Alan Edwardes{% endblock %}
 
 {% block content %}
 	<div class="wrp prt">
-		{% if skills %}
-			<h1>Projects Involving {% for skill in skills %}&lsquo;{{ skill.name }}&rsquo;{% if not forloop.last %}, {% endif %}{% endfor %}</h1>
-			<p><a href="./">&laquo; Remove Filter</a></p>
+		{% if skill %}
+			<h1>Projects Involving &lsquo;{{ skill.name }}&rsquo;</h1>
+			<p><a href="./../../">&laquo; Remove Filter</a></p>
 		{% else %}
 			<h1>Personal Portfolio</h1>
-			<p id="portfolio-all-skills">Filter: {% for skill in all_skills %} <a class="dco" href="{{ skill.get_absolute_url }}">{{ skill.name }}</a> ({{ skill.usage_count }}){% if not forloop.last %},{% endif %}{% endfor %}</p>
+			<p id="portfolio-all-skills">Filter: {% for skill in all_skills if skill.usage_count > 1 %}{% if not loop.first %},{% endif %} <a class="dco" href="./skill/{{ skill.id }}/">{{ skill.name }}</a> ({{ skill.usage_count }}){% endfor %}</p>
 		{% endif %}
 	
 		{% for portfolio_item in portfolios %}
-			{% ifchanged portfolio_item.published.month and portfolio_item.published.year %}
+			{#{% ifchanged portfolio_item.published.month and portfolio_item.published.year %}
 				<h2 class="dbd">
 					{% if portfolio_item.published %}
 						Projects from {{ portfolio_item.published|date:'F Y' }}
@@ -22,7 +21,7 @@
 						Ongoing Projects
 					{% endif %}
 				</h2>
-			{% endifchanged %}
+			{% endifchanged %}#}
 			{% include "portfolio_item.html" %}
 		{% endfor %}
 	</div>

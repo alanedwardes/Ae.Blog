@@ -5,22 +5,25 @@
 {% block title %}Archive &mdash; Alan Edwardes{% endblock %}
 
 {% block content %}
-	<div class="wrp slm">
-		<h1>Post Archive</h1>
-		<p>All {{ posts.count }} posts on this blog starting with the most recent.</p>
-		{% for post in posts %}
-			{% ifchanged post.published.year %}
-				{% if not forloop.first %}
-					</ul>
+	<div class="wrp">
+		<div id="cnt">
+			<h1>Post Archive</h1>
+			<p>All {{ posts.count }} posts on this blog starting with the most recent.</p>
+			{% for post in posts %}
+				{% if last_post.published|date('Y') != post.published|date('Y') %}
+					{% if not loop.first %}
+						</ul>
+					{% endif %}
+					
+					<h2>From {{ post.published|date('Y') }}</h2>
+					<ul>
 				{% endif %}
-				
-				<h2>From {{ post.published.year }}</h2>
-				<ul>
-			{% endifchanged %}
-			<li>
-				<code>{{ post.published|date:"d/m/Y" }}</code> - <a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:6 }}</a>
-			</li>
-		{% endfor %}
-		</ul>
+				<li>
+					<code>{{ post.published|date("d/m/Y") }}</code> - <a href="/posts/{{ post.slug }}/">{{ post.title }}</a>
+				</li>
+				{% set last_post = post %}
+			{% endfor %}
+			</ul>
+		</div>
 	</div>
 {% endblock %}

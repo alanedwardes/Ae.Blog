@@ -1,17 +1,12 @@
 {% extends "base.html" %}
-{% load timesince_years nowhitespace random_item media_include %}
 {% block description %}{% if title %}Alan Edwardes' Blog: {{ title }}{% else %}The thoughts and irrational headspew of Alan Edwardes.{% endif %}{% endblock %}
 
 {% block title %}Alan Edwardes{% endblock %}
 
 {% block content %}
 <div class="wrp">
-	{% random_item "Ciao|Hello|Salut|¡Hola|Guten tag|Aloha|Hallo|Hallå|Salam" greeting %}
-	<div id="hi"><a href="/" title="Click for a new greeting"><script>{% nowhitespace %}
-		var greetings = ['Ciao', 'Hello', 'Salut', '¡Hola', 'Guten tag', 'Aloha', 'Hallo', 'Hallå', 'Salam'];
-		document.write(greetings[Math.floor(Math.random() * greetings.length)] + '!');
-	{% endnowhitespace %}</script></a> I make things<span style="color:#777">:</span></div>
-	{% for portfolio_item in portfolios %}
+	<div id="hi">Hi! I make things:</div>
+	{% for portfolio_item in featured_portfolios %}
 		{% include "portfolio_item.html" %}
 	{% endfor %}
 	<div class="tri first">
@@ -27,7 +22,7 @@
 		<ul>
 		{% for post in posts %}
 			<li>
-				<a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:4 }}</a>
+				<a href="/posts/{{ post.slug }}/">{{ post.title }}</a>
 				{% if post.comments %}
 					<a class="commentcount" href="{{ post.get_absolute_url }}#comments">{{ post.comments }}</a>
 				{% endif %}
@@ -37,17 +32,18 @@
 	</div>
 	<div class="tri">
 		<h2>About Me</h2>
-		<p>I'm a {{ settings.BIRTH_DATE|timesince_years }} year old student from the UK who loves creating websites, <a href="/estranged/">making games</a>, and <a href="/posts/running/">running</a>.</p>
+		<p>I'm a developer from the UK who loves creating websites, <a href="http://www.iamestranged.com/">making games</a>, and <a href="/posts/running/">running</a>.</p>
 		<p>e: <script>document.write(ae.print_mail());</script></p>
+		<p>t: <a href="https://twitter.com/AlanEdwardes">@AlanEdwardes</a></p>
 	</div>
 	
 	<div class="clr"></div>
 	
 	<div id="lastfm">
 		{% for album in lastfm_data %}
-			<div id="cover-{{ forloop.counter0 }}" class="album">
+			<div id="cover-{{ loop.index0 }}" class="album">
 				<a target="_blank" href="{{ album.url }}" title="{{ album.name }} by {{ album.artist.name }}, played {{ album.playcount }} times this week.">
-					<img src="{{ album.image.1.text }}" alt="{{ album.name }} by {{ album.artist.name }} album cover" width="64" height="64"/>
+					<img src="{{ album.image.1['#text'] }}" alt="{{ album.name }} by {{ album.artist.name }} album cover" width="64" height="64"/>
 				</a>
 			</div>
 		{% endfor %}
@@ -57,7 +53,7 @@
 	
 	<div id="steamgames">
 		{% for game in steamgames_data %}
-			{% if forloop.counter < 5 %}
+			{% if loop.index < 5 %}
 				<div class="game">
 					<a target="_blank" href="{{ game.gameLink }}" title="{{ game.gameName }}, played {{ game.hoursPlayed }} hours over the past two weeks, {{ game.hoursOnRecord }} hours total.">
 						<img src="{{ game.gameLogo }}" alt="{{ game.gameName }} game cover" width="184" height="69"/>
@@ -71,8 +67,8 @@
 	
 	<div id="workouts">
 		{% for workout in mapmyrun_data %}
-			{% if forloop.counter < 9 %}
-				<a class="workout" id="workout-{{ forloop.counter0 }}" href="http://www.mapmyrun.com/workout/{{ workout.workout_id }}">{{ workout.workout_date }} <span class="dbd">Ran {{ workout.distance_miles }} km</span></a>
+			{% if loop.index < 9 %}
+				<a class="workout" id="workout-{{ loop.index0 }}" href="http://www.mapmyrun.com/workout/{{ workout.workout_id }}">{{ workout.workout_date|date('jS M \'y') }} <span class="dbd">Ran {{ ((workout.distance * (1.609344 * 10)) / 10)|round(1) }} km</span></a>
 			{% endif %}
 		{% endfor %}
 	</div>

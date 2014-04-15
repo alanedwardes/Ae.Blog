@@ -1,14 +1,13 @@
 {% extends "base.html" %}
-{% load specialtags media_include nowhitespace %}
 
 {% block title %}{{ portfolio_item.name }} &mdash; Alan Edwardes{% endblock %}
 
-{% block content %}{% nowhitespace %}
+{% block content %}
 	<div class="wrp prt">
-		<h1 class="dbd">{{ portfolio_item.name }} &mdash; {% if portfolio_item.published %}{{ portfolio_item.published|date:'F Y' }}{% else %}Ongoing Project{% endif %}</h1>
+		<h1 class="dbd">{{ portfolio_item.name }} &mdash; {% if portfolio_item.published %}{{ portfolio_item.published|date('F Y') }}{% else %}Ongoing Project{% endif %}</h1>
 		
 		{% if portfolio_item.banner %}
-			<img class="boxshadow" id="portfolio-banner" src="{% media_include portfolio_item.banner.url %}" alt="{{ portfolio_item.name }}"/>
+			<img class="boxshadow" id="portfolio-banner" src="/assets/{{ portfolio_item.banner }}" alt="{{ portfolio_item.name }}"/>
 		{% endif %}
 		
 		<p><a href="/portfolio/">&laquo; Back to Portfolio</a></p>
@@ -16,16 +15,16 @@
 		{% if portfolio_item.description %}
 			<div class="lft">
 				<h3 class="dbd">Description</h3>
-				{{ portfolio_item.description|safe }}
+				{{ portfolio_item.description|raw }}
 			</div>
 		{% endif %}
 		
 		<div class="rgt">
-			{% if portfolio_item.skills.all %}
+			{% if portfolio_item_skills %}
 				<h3 class="dbd">Skills</h3>
 				<ul>
-				{% for skill in portfolio_item.skills.all %}
-					<li><a href="{{ skill.get_absolute_url }}">{{ skill.name }}</a> ({{ skill.usage_count }})</li>
+				{% for skill in portfolio_item_skills %}
+					<li><a href="/portfolio/skill/{{ skill.id }}/">{{ skill.name }}</a> ({{ skill.usage_count }})</li>
 				{% endfor %}
 				</ul>
 			{% endif %}
@@ -45,19 +44,19 @@
 		{% if portfolio_item.preview %}
 			<div id="portfolio-preview">
 				<h3 class="dbd">Preview</h3>
-				{{ portfolio_item.preview|safe }}
+				{{ portfolio_item.preview|raw }}
 			</div>
 		{% endif %}
 		
-		{% if portfolio_item.screenshots.all %}
+		{% if portfolio_item_screenshots %}
 			<div id="portfolio-screenshots">
 				<h3 class="dbd">Screenshots</h3>
-				{% for screenshot in portfolio_item.screenshots.all %}
-					<a href="{% media_include screenshot.image.url %}" title="{{ screenshot.name }}"><img class="dbd boxshadow" src="{% media_include screenshot.image.url %}" alt="{{ screenshot.name }}"/></a>
+				{% for screenshot in portfolio_item_screenshots %}
+					<a href="/assets/{{ screenshot.image }}" title="{{ screenshot.name }}"><img class="dbd boxshadow" src="/assets/{{ screenshot.image }}" alt="{{ screenshot.name }}"/></a>
 				{% endfor %}
 			</div>
 		{% endif %}
 		
 		<p><br><a href="/portfolio/">&laquo; Back to Portfolio</a></p>
 	</div>
-{% endnowhitespace %}{% endblock %}
+{% endblock %}

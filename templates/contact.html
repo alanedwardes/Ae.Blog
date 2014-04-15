@@ -1,23 +1,25 @@
 {% extends "base.html" %}
-{% load nowhitespace timesince_years %}
 
 {% block description %}How to contact me.{% endblock %}
 
 {% block title %}Contact &mdash; Alan Edwardes{% endblock %}
 
 {% block content %}
-	<div class="wrp slm">
-		<h1>About &amp; Contact</h1>
-		{% if data.done %}
-			Email sent - thanks for getting in touch.
-		{% else %}
-			<p class="ctr">I'm a {{ settings.BIRTH_DATE|timesince_years }} year old student living in the UK, with 1 years' industry experience in software development, currently studying my final year of University.</p>
-			
-			<p class="ctr">My CV / résumé is available upon request, and you can also visit my <a href="http://uk.linkedin.com/in/alanedwardes/">LinkedIn profile</a> and <a href="../portfolio/">Personal Portfolio</a> to learn more.</p>
-			
-			<div class="orn wht"></div>
-			
-			<p class="ctr"><script>{% nowhitespace %}document.write(ae.print_mail()){% endnowhitespace %}</script></p>
-		{% endif %}
+	<div class="wrp">
+		<div id="cnt">
+			<h1>About &amp; Contact</h1>
+			{% if data.done %}
+				Email sent - thanks for getting in touch.
+			{% else %}
+				<p class="ctr">I'm a developer with 1 years' industry experience at a development house.</p>
+				
+				<p class="ctr">My CV is available upon request, and you can also visit my <a href="http://uk.linkedin.com/in/alanedwardes/">LinkedIn profile</a> and <a href="../portfolio/">portfolio</a> to learn more.</p>
+				
+				<div class="orn wht"></div>
+				
+				<p class="ctr">Email: <script>document.write(ae.print_mail())</script> / Twitter: <a href="https://twitter.com/AlanEdwardes">AlanEdwardes</a> / Steam: <a href="http://steamcommunity.com/id/alanedwardes/">alanedwardes</a></p>
+				</div>
+			{% endif %}
+		</div>
 	</div>
 {% endblock %}

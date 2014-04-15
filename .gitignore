@@ -1,8 +1,2 @@
-sensitive_settings.py
-*-merge.js
-*-main.css
-*-merge.min.js
-*-main.min.css
-*.pyc
-/db.sqlite3
-/templates/media/uploads
+config.php
+assets/uploads/

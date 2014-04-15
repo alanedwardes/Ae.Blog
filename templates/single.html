@@ -1,68 +1,21 @@
 {% extends "base.html" %}
-{% load random_post nowhitespace timesince_years humanize %}
 
-{% block description %}Posted {{ post.published|date:"d/m/Y" }} with {{ post.comments }} comments and {{ post.body|wordcount }} words.{% endblock %}
+{% block description %}Posted {{ post.published|date("d/m/Y") }}.{% endblock %}
 
 {% block title %}{{ post.title }} &mdash; Alan Edwardes{% endblock %}
 
 {% block content %}
 	<div class="wrp">
-		<div class="lft">
-			<div id="cnt">
-				{% include "post.html" %}
-			</div>
-		</div>
-		<div class="rgt">
-			<div id="sdb" {% if post.comments > 4 %}style="position:fixed"{% endif %}>
-				{% include "searchbox.html" %}
-				<p class="meta-item meta-date">{{ post.published|date:"dS \o\f F Y \a\t g:i A" }}</p>
-				<p class="meta-item meta-date">{{ post.published|timesince }} ago</p>
-				<p class="meta-item meta-author">I was {{ post.published|timesince_years:settings.BIRTH_DATE }} years old when I wrote this</p>
-				{% if request.user.is_authenticated %}
-					<p class="meta-item meta-edit">admin: <a href="http://alan.edward.es/admin/blog/post/{{ post.id }}/">edit post</a></p>
-				{% endif %}
-				<p class="meta-item meta-words">{{ post.body|wordcount|intcomma }} words</p>
-				{% if post.comments > 0 %}
-					<p class="meta-item meta-comments">{{ post.comments|intcomma }} <a href="#comments">comment{{ post.comments|pluralize }}</a> so far</p>
-					<p class="meta-item meta-rss"><a href="/feeds/comments/{{ post.slug }}/" target="_blank">feed</a> for comments on this post</p>
-				{% endif %}
-				{% random_post post.slug %}
-				<p class="meta-item meta-rand">rand: <a href="{{ random_post.get_absolute_url }}">{{ random_post.title|truncatewords:5 }}</a></p>
-				{% if post.get_next_by_published and post.get_next_by_published.type == 'published' %}
-					<p class="meta-item meta-next">next: <a href="{{ post.get_next_by_published.get_absolute_url }}">{{ post.get_next_by_published.title|truncatewords:4 }}</a></p>
-				{% endif %}
-				{% if post.get_previous_by_published and post.get_previous_by_published.type == 'published' %}
-					<p class="meta-item meta-prev">prev: <a href="{{ post.get_previous_by_published.get_absolute_url }}">{{ post.get_previous_by_published.title|truncatewords:4 }}</a></p>
-				{% endif %}
-				<div id="dynamic-meta"></div>
-				<p class="meta-item meta-share">{% nowhitespace %}
-					<a href="http://www.addthis.com/bookmark.php?url=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;title={{ post.title|urlencode }}">share</a>:
-					<a title="Share on Facebook" target="new" style="margin-left:8px" href="http://www.facebook.com/sharer.php?u=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;t={{ post.title|urlencode }}">
-						<img style="vertical-align:middle" src="/media/facebook.png" alt="Facebook"/>
-					</a>
-					<a title="Share on Twitter" target="new" style="margin-left:10px" href="http://twitter.com/share?url=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;text=Reading%20%22{{ post.title|urlencode }}%22&amp;via=AlanEdwardes">
-						<img style="vertical-align:middle" src="/media/twitter.png" alt="Twitter"/>
-					</a>
-					<a title="Submit to Reddit" target="new" style="margin-left:10px" href="http://www.reddit.com/submit?url=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;title={{ post.title|urlencode }}">
-						<img style="vertical-align:middle" src="/media/reddit.png" alt="Reddit"/>
-					</a>
-					<a title="Submit to Digg" target="new" style="margin-left:10px" href="http://digg.com/submit?url=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;title={{ post.title|urlencode }}">
-						<img style="vertical-align:middle" src="/media/digg.gif" alt="digg"/>
-					</a>
-					<a title="Submit to StumbleUpon" target="new" style="margin-left:10px" href="http://www.stumbleupon.com/submit?url=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;title={{ post.title|urlencode }}">
-						<img style="vertical-align:middle" src="/media/stumbleupon.png" alt="StumbleUpon"/>
-					</a>
-					<a title="Bookmark on Delicious" target="new" style="margin-left:10px" href="http://del.icio.us/post?url=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;title={{ post.title|urlencode }}">
-						<img style="vertical-align:middle" src="/media/delicious.png" alt="delicious"/>
-					</a>
-					<a title="Submit to Hacker News" target="new" style="margin-left:10px" href="http://news.ycombinator.com/submitlink?u=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;t={{ post.title|urlencode }}">
-						<img style="vertical-align:middle" src="/media/hnews.png" alt="Hacker News"/>
-					</a>
-					<a title="Share on LinkedIn" target="new" style="margin-left:10px" href="http://www.linkedin.com/shareArticle?url=http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}&amp;title={{ post.title|urlencode }}">
-						<img style="vertical-align:middle" src="/media/linkedin.png" alt="LinkedIn"/>
-					</a>
-				{% endnowhitespace %}</p>
-			</div>
+		<div id="cnt">
+			<h1>{{ post.title|escape }}</h1>
+			<p><small class="subtitle">Published on the {{ post.published|date('jS') }} of {{ post.published|date('F Y') }}</small></p>
+			{% if post.is_old %}
+				<div class="posthint">
+					<h4 style="margin:4px 0px">Old Content Warning</h4>
+					This post is very old (it was published in {{ post.published|date('Y') }}), so I can't vouch for its content or accuracy. It may be here for posterity. Please take its content with a pinch of salt.
+				</div>
+			{% endif %}
+			{{ post.body|raw }}
 		</div>
 	</div>
 {% endblock %}
