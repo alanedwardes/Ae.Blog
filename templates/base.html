@@ -36,13 +36,9 @@
 		<div id="hdr">
 			<div class="wrp">
 				<div class="rgt">
-					{% if request.user.is_authenticated %}<a href="/admin/">Admin</a>{% endif %}
-					{% for page in pages %}
-						<a{% if request.path == page.get_absolute_url  %} class="current"{% endif %} href="{{ page.get_absolute_url }}">{{ page.title }}</a>
-					{% endfor %}
-					<a{% if request.path == '/portfolio/' %} class="current"{% endif %} href="/portfolio/">Portfolio</a>
-					<a{% if request.path == '/archive/' %} class="current"{% endif %} href="/archive/">Blog</a>
-					<a{% if request.path == '/contact/' %} class="current"{% endif %} href="/contact/">About &amp; Contact</a>
+					<a{% if path == '/portfolio/' %} class="current"{% endif %} href="/portfolio/">Portfolio</a>
+					<a{% if path == '/archive/' %} class="current"{% endif %} href="/archive/">Blog</a>
+					<a{% if path == '/contact/' %} class="current"{% endif %} href="/contact/">About &amp; Contact</a>
 				</div>
 				<div class="lft">
 					<a href="/">&AElig; &#124; Alan Edwardes</a>

@@ -10,7 +10,8 @@ class TemplateView extends AeFramework\TwigView
 	function body($template_data = array())
 	{
 		return parent::body(array_merge(array(
-			'template_name' => $this->template
+			'template_name' => $this->template,
+			'path' => $_SERVER['REQUEST_URI']
 		), $template_data));
 	}
 	
