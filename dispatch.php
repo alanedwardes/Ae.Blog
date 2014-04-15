@@ -9,7 +9,9 @@ require_once 'views.php';
 
 $router = new ae\CachedRouter(new ae\MemcacheCache, CACHE_KEY);
 
-$router->route(new ae\RegexMapper('^/estranged.*$', new ae\PermanentRedirectView('http://www.iamestranged.com/')));
+$router->route(new ae\StringMapper('/estranged', new ae\PermanentRedirectView('http://www.iamestranged.com/')));
+
+$router->route(new ae\RegexMapper('^/estranged/(?P<path>.*)$', new ae\PermanentRedirectView('http://www.iamestranged.com/%s')));
 
 $router->route(new ae\StringMapper('/', new HomeView('templates/index.html')));
 
