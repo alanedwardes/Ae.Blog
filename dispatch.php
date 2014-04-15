@@ -8,7 +8,6 @@ require_once 'models.php';
 require_once 'views.php';
 
 $router = new ae\CachedRouter(new ae\MemcacheCache, CACHE_KEY);
-$router = new ae\Router;
 
 $router->route(new ae\RegexMapper('^/estranged.*$', new ae\PermanentRedirectView('http://www.iamestranged.com/')));
 
