@@ -7,7 +7,7 @@ require_once 'RedBeanPHP/rb.phar';
 require_once 'models.php';
 require_once 'views.php';
 
-$router = new ae\CachedRouter(new ae\MemcacheCache, CACHE_KEY);
+$router = new ae\CachedRouter(new ae\ApcCache, CACHE_KEY);
 
 $router->route(new ae\StringMapper('/estranged', new ae\PermanentRedirectView('http://www.iamestranged.com/')));
 
