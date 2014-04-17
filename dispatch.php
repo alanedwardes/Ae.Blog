@@ -9,24 +9,17 @@ require_once 'views.php';
 
 $router = new ae\CachedRouter(new ae\ApcCache, CACHE_KEY);
 
-$router->route(new ae\StringMapper('/estranged', new ae\PermanentRedirectView('http://www.iamestranged.com/')));
-
-$router->route(new ae\RegexMapper('^/estranged/(?P<path>.*)$', new ae\PermanentRedirectView('http://www.iamestranged.com/%s')));
-
-$router->route(new ae\StringMapper('/', new HomeView('templates/index.html')));
-
-$router->route(new ae\StringMapper('/archive/', new ArchiveView('templates/archive.html')));
-
-$router->route(new ae\RegexMapper('^/posts/(?P<slug>.*)/$', new SingleView('templates/single.html')));
-
-$router->route(new ae\StringMapper('/portfolio/', new PortfolioView('templates/portfolio.html')));
-
-$router->route(new ae\RegexMapper('^/portfolio/item/(?P<portfolio_id>.*)/$', new PortfolioSingleView('templates/portfolio_single.html')));
-
-$router->route(new ae\RegexMapper('^/portfolio/skill/(?P<skill_id>.*)/$', new PortfolioSkillView('templates/portfolio.html')));
-
-$router->route(new ae\StringMapper('/contact/', new ContactView('templates/contact.html')));
-
-$router->error(ae\HttpCode::NotFound, new NotFoundView('templates/404.html'));
+ae\RouteMap::map($router, [
+	['/estranged', ['AeFramework\PermanentRedirectView', ['http://www.iamestranged.com/']]],
+	['r^/estranged/(?P<path>.*)$', ['AeFramework\PermanentRedirectView', ['http://www.iamestranged.com/%s']]],
+	['/', ['HomeView', ['templates/index.html']]],
+	['/archive/', ['ArchiveView', ['templates/archive.html']]],
+	['r^/posts/(?P<slug>.*)/$', ['SingleView', ['templates/single.html']]],
+	['/portfolio/', ['PortfolioView', ['templates/portfolio.html']]],
+	['r^/portfolio/item/(?P<portfolio_id>.*)/$', ['PortfolioSingleView', ['templates/portfolio_single.html']]],
+	['r^/portfolio/skill/(?P<skill_id>.*)/$', ['PortfolioSkillView', ['templates/portfolio.html']]],
+	['/contact/', ['ContactView', ['templates/contact.html']]],
+	[ae\HttpCode::NotFound, ['NotFoundView', ['templates/404.html']]]
+]);
 
 echo $router->despatch();

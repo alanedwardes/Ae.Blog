@@ -7,7 +7,7 @@ use AeFramework as ae;
 
 class TemplateView extends AeFramework\TwigView
 {
-	function body($template_data = array())
+	function body($template_data = [])
 	{
 		return parent::body(array_merge(array(
 			'template_name' => $this->template,
@@ -26,10 +26,10 @@ class HomeView extends TemplateView
 	function getJson($url)
 	{
 		if (!$data = file_get_contents($url))
-			return array();
+			return [];
 		
 		if (!$data = json_decode($data, true))
-			return array();
+			return [];
 		
 		return $data;
 	}
@@ -61,7 +61,7 @@ class SingleView extends TemplateView
 {
 	private $post;
 
-	function map($params = array())
+	function map($params = [])
 	{
 		$this->post = R::findOne('post', 'slug LIKE ? AND is_published', [$params['slug']]);
 	}
@@ -90,7 +90,7 @@ class PortfolioSkillView extends TemplateView
 {
 	private $skill;
 
-	function map($params = array())
+	function map($params = [])
 	{
 		$this->skill = R::load('skill', $params['skill_id']);
 	}
@@ -108,7 +108,7 @@ class PortfolioSingleView extends TemplateView
 {
 	private $portfolio;
 
-	function map($params = array())
+	function map($params = [])
 	{
 		$this->portfolio = R::load('portfolio', $params['portfolio_id']);
 	}
