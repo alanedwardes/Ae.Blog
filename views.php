@@ -1,7 +1,6 @@
 <?php
 R::setup(sprintf('mysql:host=%s;dbname=%s', DB_HOST, DB_NAME), DB_USER, DB_PASS);
 R::debug(false);
-R::freeze(true);
 
 use AeFramework as ae;
 
@@ -64,6 +63,9 @@ class SingleView extends TemplateView
 	function map($params = [])
 	{
 		$this->post = R::findOne('post', 'slug LIKE ? AND is_published', [$params['slug']]);
+		
+		if (!$this->post)
+			throw new AeFramework\NotFoundException();
 	}
 
 	function body()
@@ -92,7 +94,10 @@ class PortfolioSkillView extends TemplateView
 
 	function map($params = [])
 	{
-		$this->skill = R::load('skill', $params['skill_id']);
+		$this->skill = R::findOne('skill', 'id = ?', [$params['skill_id']]);
+		
+		if (!$this->skill)
+			throw new AeFramework\NotFoundException();
 	}
 
 	function body()
@@ -110,7 +115,10 @@ class PortfolioSingleView extends TemplateView
 
 	function map($params = [])
 	{
-		$this->portfolio = R::load('portfolio', $params['portfolio_id']);
+		$this->portfolio = R::findOne('portfolio', 'id = ? AND type = "published"', [$params['portfolio_id']]);
+		
+		if (!$this->portfolio)
+			throw new AeFramework\NotFoundException();
 	}
 
 	function body()
