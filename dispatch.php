@@ -18,9 +18,9 @@ ae\Routing\RouteMap::map($router, [
 	['/portfolio/', 'PortfolioView', 'templates/portfolio.html'],
 	['r^/portfolio/item/(?P<portfolio_id>.*)/$', 'PortfolioSingleView', 'templates/portfolio_single.html'],
 	['r^/portfolio/skill/(?P<skill_id>.*)/$', 'PortfolioSkillView', 'templates/portfolio.html'],
-	['/contact/', 'ContactView', 'templates/contact.html'],
+	['/contact/', 'TemplateView', 'templates/contact.html'],
 	#['r^/admin/', 'AeFramework\Extensions\Admin\AdminRouter', new ae\ArrayAuthenticator(['alan' => 'wotsits02'])],
-	[ae\HttpCode::NotFound, 'NotFoundView', 'templates/404.html']
+	[ae\HttpCode::NotFound, 'TemplateView', 'templates/404.html']
 ]);
 
 echo $router->despatch();

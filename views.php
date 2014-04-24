@@ -4,11 +4,11 @@ R::debug(false);
 
 use AeFramework as ae;
 
-class TemplateView extends ae\Views\TwigView
+class TemplateView extends ae\Views\TemplateView implements ae\Views\ICacheable
 {
-	function body($template_data = [])
+	function response($template_data = [])
 	{
-		return parent::body(array_merge(array(
+		return parent::response(array_merge(array(
 			'template_name' => $this->template,
 			'path' => $_SERVER['REQUEST_URI']
 		), $template_data));
@@ -17,6 +17,11 @@ class TemplateView extends ae\Views\TwigView
 	function expire()
 	{
 		return 60 * 60 * 24;
+	}
+	
+	function hash()
+	{
+	
 	}
 }
 
@@ -33,9 +38,9 @@ class HomeView extends TemplateView
 		return $data;
 	}
 
-	function body()
+	function response()
 	{
-		return parent::body(array(
+		return parent::response(array(
 			'posts' => R::getAll('SELECT title, published, slug FROM post WHERE is_published ORDER BY published DESC LIMIT 4'),
 			'featured_portfolios' => R::getAll('SELECT * FROM portfolio WHERE featured'),
 			'twitter_data' => @$this->getJson('http://jsonpcache.alanedwardes.com/?resource=twitter_ae_timeline&arguments=2'),
@@ -48,9 +53,9 @@ class HomeView extends TemplateView
 
 class ArchiveView extends TemplateView
 {
-	function body()
+	function response()
 	{
-		return parent::body(array(
+		return parent::response(array(
 			'posts' => R::getAll('SELECT title, published, slug FROM post WHERE is_published ORDER BY published DESC')
 		));
 	}
@@ -60,7 +65,7 @@ class SingleView extends TemplateView
 {
 	private $post;
 
-	function map($params = [])
+	function request($verb, array $params = [])
 	{
 		$this->post = R::findOne('post', 'slug LIKE ? AND is_published', [$params['slug']]);
 		
@@ -68,9 +73,9 @@ class SingleView extends TemplateView
 			throw new ae\ErrorCodeException(ae\HttpCode::NotFound);
 	}
 
-	function body()
+	function response()
 	{
-		return parent::body(array(
+		return parent::response(array(
 			'post' => $this->post,
 			'is_single' => true
 		));
@@ -79,9 +84,9 @@ class SingleView extends TemplateView
 
 class PortfolioView extends TemplateView
 {
-	function body()
+	function response()
 	{
-		return parent::body(array(
+		return parent::response(array(
 			'all_skills' => R::findAll('skill'),
 			'portfolios' => R::findAll('portfolio')
 		));
@@ -92,7 +97,7 @@ class PortfolioSkillView extends TemplateView
 {
 	private $skill;
 
-	function map($params = [])
+	function request($verb, array $params = [])
 	{
 		$this->skill = R::findOne('skill', 'id = ?', [$params['skill_id']]);
 		
@@ -100,9 +105,9 @@ class PortfolioSkillView extends TemplateView
 			throw new ae\ErrorCodeException(ae\HttpCode::NotFound);
 	}
 
-	function body()
+	function response()
 	{
-		return parent::body(array(
+		return parent::response(array(
 			'skill' => $this->skill,
 			'portfolios' => $this->skill->sharedPortfolioList
 		));
@@ -113,7 +118,7 @@ class PortfolioSingleView extends TemplateView
 {
 	private $portfolio;
 
-	function map($params = [])
+	function request($verb, array $params = [])
 	{
 		$this->portfolio = R::findOne('portfolio', 'id = ? AND type = "published"', [$params['portfolio_id']]);
 		
@@ -121,25 +126,12 @@ class PortfolioSingleView extends TemplateView
 			throw new ae\ErrorCodeException(ae\HttpCode::NotFound);
 	}
 
-	function body()
+	function response()
 	{
-		return parent::body(array(
+		return parent::response(array(
 			'portfolio_item' => $this->portfolio,
 			'portfolio_item_skills' => $this->portfolio->sharedSkillList,
 			'portfolio_item_screenshots' => $this->portfolio->sharedScreenshotList
 		));
-	}
-}
-
-class ContactView extends TemplateView
-{
-
-}
-
-class NotFoundView extends TemplateView
-{
-	function code()
-	{
-		return ae\HttpCode::NotFound;
 	}
 }
