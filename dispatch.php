@@ -7,9 +7,9 @@ require_once 'RedBeanPHP/rb.phar';
 require_once 'models.php';
 require_once 'views.php';
 
-$router = new ae\CachedRouter(new ae\ApcCache, CACHE_KEY);
+$router = new ae\Routing\Router;
 
-ae\RouteMap::map($router, [
+ae\Routing\RouteMap::map($router, [
 	['/estranged', 'AeFramework\PermanentRedirectView', 'http://www.iamestranged.com/'],
 	['r^/estranged/(?P<path>.*)$', 'AeFramework\PermanentRedirectView', 'http://www.iamestranged.com/%s'],
 	['/', 'HomeView', 'templates/index.html'],
@@ -19,6 +19,7 @@ ae\RouteMap::map($router, [
 	['r^/portfolio/item/(?P<portfolio_id>.*)/$', 'PortfolioSingleView', 'templates/portfolio_single.html'],
 	['r^/portfolio/skill/(?P<skill_id>.*)/$', 'PortfolioSkillView', 'templates/portfolio.html'],
 	['/contact/', 'ContactView', 'templates/contact.html'],
+	#['r^/admin/', 'AeFramework\Extensions\Admin\AdminRouter', new ae\ArrayAuthenticator(['alan' => 'wotsits02'])],
 	[ae\HttpCode::NotFound, 'NotFoundView', 'templates/404.html']
 ]);
 

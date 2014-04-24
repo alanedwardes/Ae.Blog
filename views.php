@@ -4,7 +4,7 @@ R::debug(false);
 
 use AeFramework as ae;
 
-class TemplateView extends AeFramework\TwigView
+class TemplateView extends ae\Views\TwigView
 {
 	function body($template_data = [])
 	{
@@ -65,7 +65,7 @@ class SingleView extends TemplateView
 		$this->post = R::findOne('post', 'slug LIKE ? AND is_published', [$params['slug']]);
 		
 		if (!$this->post)
-			throw new AeFramework\NotFoundException();
+			throw new ae\ErrorCodeException(ae\HttpCode::NotFound);
 	}
 
 	function body()
@@ -97,7 +97,7 @@ class PortfolioSkillView extends TemplateView
 		$this->skill = R::findOne('skill', 'id = ?', [$params['skill_id']]);
 		
 		if (!$this->skill)
-			throw new AeFramework\NotFoundException();
+			throw new ae\ErrorCodeException(ae\HttpCode::NotFound);
 	}
 
 	function body()
@@ -118,7 +118,7 @@ class PortfolioSingleView extends TemplateView
 		$this->portfolio = R::findOne('portfolio', 'id = ? AND type = "published"', [$params['portfolio_id']]);
 		
 		if (!$this->portfolio)
-			throw new AeFramework\NotFoundException();
+			throw new ae\ErrorCodeException(ae\HttpCode::NotFound);
 	}
 
 	function body()
