@@ -11,7 +11,7 @@ $router = new ae\Routing\CachedRouter(new ae\Caching\ApcCache(CACHE_KEY));
 
 ae\Routing\RouteMap::map($router, [
 	['/estranged', 'AeFramework\Views\PermanentRedirectView', 'http://www.iamestranged.com/'],
-	['r^/estranged/(?P<path>.*)$', 'AeFrameworkAeFramework\Views\PermanentRedirectView', 'http://www.iamestranged.com/%s'],
+	['r^/estranged/(?P<path>.*)$', 'AeFramework\Views\PermanentRedirectView', 'http://www.iamestranged.com/%s'],
 	['/', 'HomeView', 'templates/index.html'],
 	['/archive/', 'ArchiveView', 'templates/archive.html'],
 	['r^/posts/(?P<slug>.*)/$', 'SingleView', 'templates/single.html'],
