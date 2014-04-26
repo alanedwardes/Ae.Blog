@@ -70,7 +70,7 @@ class SingleView extends TemplateView
 		$this->post = R::findOne('post', 'slug LIKE ? AND is_published', [$params['slug']]);
 		
 		if (!$this->post)
-			throw new ae\ErrorCodeException(ae\HttpCode::NotFound);
+			throw new ae\HttpCodeException(ae\HttpCode::NotFound);
 	}
 
 	function response()
@@ -102,7 +102,7 @@ class PortfolioSkillView extends TemplateView
 		$this->skill = R::findOne('skill', 'id = ?', [$params['skill_id']]);
 		
 		if (!$this->skill)
-			throw new ae\ErrorCodeException(ae\HttpCode::NotFound);
+			throw new ae\HttpCodeException(ae\HttpCode::NotFound);
 	}
 
 	function response()
@@ -123,7 +123,7 @@ class PortfolioSingleView extends TemplateView
 		$this->portfolio = R::findOne('portfolio', 'id = ? AND type = "published"', [$params['portfolio_id']]);
 		
 		if (!$this->portfolio)
-			throw new ae\ErrorCodeException(ae\HttpCode::NotFound);
+			throw new ae\HttpCodeException(ae\HttpCode::NotFound);
 	}
 
 	function response()
