@@ -2,9 +2,9 @@
 R::setup(sprintf('mysql:host=%s;dbname=%s', DB_HOST, DB_NAME), DB_USER, DB_PASS);
 R::debug(false);
 
-use AeFramework as ae;
+use AeFramework\Http as Http;
 
-class TemplateView extends ae\Views\TemplateView implements ae\Views\ICacheable
+class TemplateView extends AeFramework\Views\TemplateView implements AeFramework\Views\ICacheable
 {
 	function response($template_data = [])
 	{
@@ -70,7 +70,7 @@ class SingleView extends TemplateView
 		$this->post = R::findOne('post', 'slug LIKE ? AND is_published', [$params['slug']]);
 		
 		if (!$this->post)
-			throw new ae\HttpCodeException(ae\HttpCode::NotFound);
+			throw new Http\CodeException(Http\Code::NotFound);
 	}
 
 	function response()
@@ -102,7 +102,7 @@ class PortfolioSkillView extends TemplateView
 		$this->skill = R::findOne('skill', 'id = ?', [$params['skill_id']]);
 		
 		if (!$this->skill)
-			throw new ae\HttpCodeException(ae\HttpCode::NotFound);
+			throw new Http\CodeException(Http\Code::NotFound);
 	}
 
 	function response()
@@ -123,7 +123,7 @@ class PortfolioSingleView extends TemplateView
 		$this->portfolio = R::findOne('portfolio', 'id = ? AND type = "published"', [$params['portfolio_id']]);
 		
 		if (!$this->portfolio)
-			throw new ae\HttpCodeException(ae\HttpCode::NotFound);
+			throw new Http\CodeException(Http\Code::NotFound);
 	}
 
 	function response()

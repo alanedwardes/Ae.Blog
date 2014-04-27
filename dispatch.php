@@ -19,8 +19,8 @@ ae\Routing\RouteMap::map($router, [
 	['r^/portfolio/item/(?P<portfolio_id>.*)/$', 'PortfolioSingleView', 'templates/portfolio_single.html'],
 	['r^/portfolio/skill/(?P<skill_id>.*)/$', 'PortfolioSkillView', 'templates/portfolio.html'],
 	['/contact/', 'TemplateView', 'templates/contact.html'],
-	['r^/admin/', 'AeFramework\Extensions\Admin\AdminRouter', new ae\ArrayAuthenticator($auth_credentials)],
-	[ae\HttpCode::NotFound, 'TemplateView', 'templates/404.html']
+	['r^/admin/', 'AeFramework\Extensions\Admin\AdminRouter', new ae\Auth\ArrayAuthenticator($auth_credentials)],
+	[ae\Http\Code::NotFound, 'TemplateView', 'templates/404.html']
 ]);
 
 echo $router->despatch();
