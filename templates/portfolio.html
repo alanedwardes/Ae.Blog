@@ -6,6 +6,7 @@
 	<div class="wrp prt">
 		{% if skill %}
 			<h1>Projects Involving &lsquo;{{ skill.name }}&rsquo;</h1>
+			{% if skill.description %}<p>{{ skill.description }}</p>{% endif %}
 			<p><a href="./../../">&laquo; Remove Filter</a></p>
 		{% else %}
 			<h1>Personal Portfolio</h1>
