@@ -88,7 +88,7 @@ class PortfolioView extends TemplateView
 	{
 		return parent::response(array(
 			'all_skills' => R::findAll('skill'),
-			'portfolios' => R::find('portfolio', 'type = "published" ORDER BY published DESC')
+			'portfolios' => R::find('portfolio', 'is_published ORDER BY published DESC')
 		));
 	}
 }
@@ -109,7 +109,7 @@ class PortfolioSkillView extends TemplateView
 	{
 		return parent::response(array(
 			'skill' => $this->skill,
-			'portfolios' => $this->skill->with('ORDER BY published DESC')->sharedPortfolioList
+			'portfolios' => $this->skill->with('ORDER BY published DESC')->withCondition('is_published')->sharedPortfolioList
 		));
 	}
 }
@@ -120,7 +120,7 @@ class PortfolioSingleView extends TemplateView
 
 	function request($verb, array $params = [])
 	{
-		$this->portfolio = R::findOne('portfolio', 'id = ? AND type = "published"', [$params['portfolio_id']]);
+		$this->portfolio = R::findOne('portfolio', 'id = ? AND is_published', [$params['portfolio_id']]);
 		
 		if (!$this->portfolio)
 			throw new Http\CodeException(Http\Code::NotFound);
