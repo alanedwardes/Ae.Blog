@@ -13,16 +13,17 @@
 		{% endif %}
 	
 		{% for portfolio_item in portfolios %}
-			{#{% ifchanged portfolio_item.published.month and portfolio_item.published.year %}
+			{% if loop.first or last_portfolio_item.published|date('Y') != portfolio_item.published|date('Y') %}
 				<h2 class="dbd">
 					{% if portfolio_item.published %}
-						Projects from {{ portfolio_item.published|date:'F Y' }}
+						Projects from {{ portfolio_item.published|date('F Y') }}
 					{% else %}
 						Ongoing Projects
 					{% endif %}
 				</h2>
-			{% endifchanged %}#}
+			{% endif %}
 			{% include "portfolio_item.html" %}
+			{% set last_portfolio_item = portfolio_item %}
 		{% endfor %}
 	</div>
 {% endblock %}

@@ -7,7 +7,8 @@ require_once 'RedBeanPHP/rb.phar';
 require_once 'models.php';
 require_once 'views.php';
 
-$router = new ae\Routing\CachedRouter(new ae\Caching\ApcCache(CACHE_KEY));
+#$router = new ae\Routing\CachedRouter(new ae\Caching\ApcCache(CACHE_KEY));
+$router = new ae\Routing\Router;
 
 $authenticator = new ae\Auth\ArrayAuthenticator($auth_credentials, new ae\Sessions\PHPSessionHandler('aeblog'));
 

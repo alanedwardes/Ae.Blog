@@ -88,7 +88,7 @@ class PortfolioView extends TemplateView
 	{
 		return parent::response(array(
 			'all_skills' => R::findAll('skill'),
-			'portfolios' => R::findAll('portfolio')
+			'portfolios' => R::find('portfolio', 'type = "published" ORDER BY published DESC')
 		));
 	}
 }
