@@ -109,7 +109,7 @@ class PortfolioSkillView extends TemplateView
 	{
 		return parent::response(array(
 			'skill' => $this->skill,
-			'portfolios' => $this->skill->sharedPortfolioList
+			'portfolios' => $this->skill->with('ORDER BY published DESC')->sharedPortfolioList
 		));
 	}
 }
