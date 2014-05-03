@@ -9,7 +9,7 @@ require_once 'views.php';
 
 $router = new ae\Routing\CachedRouter(new ae\Caching\ApcCache(CACHE_KEY));
 
-$authenticator = new ae\Auth\ArrayAuthenticator($auth_credentials, new ae\Sessions\PHPSessionHandler('aeblog'));
+$authenticator = new ae\Auth\MutliFactorArrayAuthenticator($auth_credentials, new ae\Sessions\PHPSessionHandler('aeblog'));
 
 ae\Routing\RouteMap::map($router, [
 	['r^/s/(?P<dropbox_screenshot>.*)/$', 'AeFramework\Views\PermanentRedirectView', 'https://dl.dropboxusercontent.com/u/1903330/wc/%s.png'],
