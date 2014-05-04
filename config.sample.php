@@ -10,4 +10,4 @@ define('DB_NAME', '');
 define('DB_USER', '');
 define('DB_PASS', '');
 
-$auth_credentials = ['user' => 'password'];
+$auth_credentials = ['user' => ['password', 'mfa_secret']];
