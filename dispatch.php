@@ -26,4 +26,4 @@ ae\Routing\RouteMap::map($router, [
 	[ae\Http\Code::NotFound, 'TemplateView', 'templates/404.html']
 ]);
 
-echo $router->despatch();
+$router->despatch();
