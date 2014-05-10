@@ -11,6 +11,14 @@ $router = new ae\Routing\CachedRouter(new ae\Caching\ApcCache(CACHE_KEY));
 
 $authenticator = new ae\Auth\MutliFactorArrayAuthenticator($auth_credentials, new ae\Sessions\PHPSessionHandler('aeblog'));
 
+$connection = [
+	'dbname' => DB_NAME,
+	'user' => DB_USER,
+	'password' => DB_PASS,
+	'host' => DB_HOST,
+	'driver' => 'pdo_mysql'
+];
+
 ae\Routing\RouteMap::map($router, [
 	['r^/s/(?P<dropbox_screenshot>.*)/$', 'AeFramework\Views\PermanentRedirectView', 'https://dl.dropboxusercontent.com/u/1903330/wc/%s.png'],
 	['/estranged', 'AeFramework\Views\PermanentRedirectView', 'http://www.iamestranged.com/'],
@@ -22,7 +30,7 @@ ae\Routing\RouteMap::map($router, [
 	['r^/portfolio/item/(?P<portfolio_id>.*)/$', 'PortfolioSingleView', 'templates/portfolio_single.html'],
 	['r^/portfolio/skill/(?P<skill_id>.*)/$', 'PortfolioSkillView', 'templates/portfolio.html'],
 	['/contact/', 'TemplateView', 'templates/contact.html'],
-	['r^/admin/', 'AeFramework\Extensions\Admin\AdminRouter', $authenticator],
+	['r^/admin/', 'AeFramework\Extensions\Admin\AdminRouter', $authenticator, $connection],
 	[ae\Http\Code::NotFound, 'TemplateView', 'templates/404.html']
 ]);
 
