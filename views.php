@@ -2,9 +2,9 @@
 R::setup(sprintf('mysql:host=%s;dbname=%s', DB_HOST, DB_NAME), DB_USER, DB_PASS);
 R::debug(false);
 
-use AeFramework\Http as Http;
+use Carbo\Http as Http;
 
-class TemplateView extends AeFramework\Views\TemplateView implements AeFramework\Views\ICacheable
+class TemplateView extends Carbo\Views\TemplateView implements Carbo\Views\ICacheable
 {
 	function response($template_data = [])
 	{
