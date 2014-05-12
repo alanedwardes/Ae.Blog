@@ -83,9 +83,9 @@ sup{
 	font-size:xx-small;
 	vertical-align:top;
 }
-pre, code{
+pre, code, .gist{
 	font-family:'Consolas', monospace;
-	font-size:18px;
+	font-size:14px;
 }
 h1, h2, h3, h4, h5{
 	text-align:center;
