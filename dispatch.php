@@ -7,7 +7,8 @@ require_once 'views.php';
 
 $router = new Carbo\Routing\CachedRouter(new Carbo\Caching\ApcCache(CACHE_KEY));
 
-$authenticator = new Carbo\Auth\MutliFactorArrayAuthenticator($auth_credentials, new Carbo\Sessions\PHPSessionHandler('aeblog'));
+$session = new Carbo\Sessions\PHPSessionHandler('aeblog');
+$authenticator = new Carbo\Auth\MutliFactorArrayAuthenticator($auth_credentials, $session);
 
 $connection = [
 	'dbname' => DB_NAME,
@@ -15,6 +16,15 @@ $connection = [
 	'password' => DB_PASS,
 	'host' => DB_HOST,
 	'driver' => 'pdo_mysql'
+];
+
+$stats_connection = [
+	'dbname' => DB_NAME,
+	'user' => DB_USER,
+	'password' => DB_PASS,
+	'host' => DB_HOST,
+	'driver' => 'pdo_mysql',
+	'prefix' => 'ae'
 ];
 
 Carbo\Routing\RouteMap::map($router, [
@@ -28,8 +38,10 @@ Carbo\Routing\RouteMap::map($router, [
 	['r^/portfolio/item/(?P<portfolio_id>.*)/$', 'PortfolioSingleView', 'templates/portfolio_single.html'],
 	['r^/portfolio/skill/(?P<skill_id>.*)/$', 'PortfolioSkillView', 'templates/portfolio.html'],
 	['/contact/', 'TemplateView', 'templates/contact.html'],
-	['r^/admin/', 'Carbo\Extensions\Admin\AdminRouter', $authenticator, $connection],
+	['r^/admin/', 'Carbo\Extensions\Admin\AdminRouter', $authenticator, $connection, $stats_connection],
 	[Carbo\Http\Code::NotFound, 'TemplateView', 'templates/404.html']
 ]);
 
 $router->despatch();
+
+Carbo\Extensions\Statistics\Collector::collect($stats_connection, $session->id());
