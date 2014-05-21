@@ -27,7 +27,7 @@ $stats_connection = [
 	'prefix' => 'ae'
 ];
 
-Carbo\Routing\RouteMap::map($router, [
+Carbo\Mapping\Map::create($router, [
 	['r^/s/(?P<dropbox_screenshot>.*)/$', 'Carbo\Views\PermanentRedirectView', 'https://dl.dropboxusercontent.com/u/1903330/wc/%s.png'],
 	['/estranged', 'Carbo\Views\PermanentRedirectView', 'http://www.iamestranged.com/'],
 	['r^/estranged/(?P<path>.*)$', 'Carbo\Views\PermanentRedirectView', 'http://www.iamestranged.com/%s'],
