@@ -4,24 +4,29 @@ R::debug(false);
 
 use Carbo\Http as Http;
 
-class TemplateView extends Carbo\Views\TemplateView implements Carbo\Views\ICacheable
+class TemplateView extends Carbo\Views\View
 {
+	public $template;
+	protected $twig;
+
+	public function __construct($template)
+	{
+		$this->template = $template;
+		$loader = new \Twig_Loader_Filesystem('templates');
+		$this->twig = new \Twig_Environment($loader, ['cache' => '_cache']);
+	}
+	
+	public function request($verb, array $params = [])
+	{
+		$this->headers['Content-Type'] = 'text/html';
+	}
+
 	function response($template_data = [])
 	{
-		return parent::response(array_merge(array(
+		return $this->twig->render($this->template, [
 			'template_name' => $this->template,
 			'path' => $_SERVER['REQUEST_URI']
-		), $template_data));
-	}
-	
-	function expire()
-	{
-		return 60 * 60 * 24;
-	}
-	
-	function hash()
-	{
-	
+		] + $template_data);
 	}
 }
 
