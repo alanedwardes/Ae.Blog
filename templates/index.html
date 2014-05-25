@@ -53,7 +53,7 @@
 	
 	<div id="steamgames">
 		{% for game in steamgames_data %}
-			{% if loop.index < 5 %}
+			{% if loop.index < 5 and game.gameName %}
 				<div class="game">
 					<a target="_blank" href="{{ game.gameLink }}" title="{{ game.gameName }}, played {{ game.hoursPlayed }} hours over the past two weeks, {{ game.hoursOnRecord }} hours total.">
 						<img src="{{ game.gameLogo }}" alt="{{ game.gameName }} game cover" width="184" height="69"/>
