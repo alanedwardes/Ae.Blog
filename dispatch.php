@@ -30,7 +30,7 @@ $stats_connection = [
 Carbo\Mapping\Map::create($router, [
 	['r^/s/(?P<dropbox_screenshot>.*)/$', 'Carbo\Views\PermanentRedirectView', 'https://dl.dropboxusercontent.com/u/1903330/wc/%s.png'],
 	['/estranged', 'Carbo\Views\PermanentRedirectView', 'http://www.iamestranged.com/'],
-	['r^/estranged/(?P<path>.*)$', 'Carbo\Views\PermanentRedirectView', 'http://www.iamestranged.com/%s'],
+	['r^/estranged/(?P<path>.*)$', 'Carbo\Views\PermanentRedirectView', 'http://www.iamestranged.com/%s' . (isset($_SERVER['QUERY_STRING']) ? '?'. $_SERVER['QUERY_STRING'] : '')],
 	['/', 'HomeView', 'index.html'],
 	['/archive/', 'ArchiveView', 'archive.html'],
 	['r^/posts/(?P<slug>.*)/$', 'SingleView', 'single.html'],
