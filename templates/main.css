@@ -6,6 +6,12 @@ version: 2.9.0
 */
 html{color:#000;background:#FFF}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,select,p,blockquote,th,td{margin:0;padding:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}address,button,caption,cite,code,dfn,em,input,optgroup,option,select,strong,textarea,th,var{font:inherit}del,ins{text-decoration:none}li{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}q:before,q:after{content:''}abbr,acronym{border:0;font-variant:normal}sup{vertical-align:baseline}sub{vertical-align:baseline}legend{color:#000}
 
+/* Base64'd assets */
+body, #hdr, #ftr
+{
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA8AAAAABCAYAAAARiscXAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAHhJREFUeNrklTEOwDAIA+OV///X6VhFXZJC7Sbs4EMgGyRbYqEV1o21QgfqWcMtINgDgpuU9r3k+4rNiu/BEyx+ccKroPKBixFKD1mZl5QBpd6/ypGcbycVD2Kh8TwKOfizXprq7KrFjX/DRdfJT+RZERGpWl2AAQD7Zjr/e1Nf+wAAAABJRU5ErkJggg==) repeat-y center;
+}
+
 /* Document */
 html, body{
 	height:100%;
@@ -17,7 +23,6 @@ html{
 	color:#222;
 }
 body{
-	background:url(light.png) repeat-y center;
 	font-family:'Alegreya', sans-serif;
 	font-size:18px;
 }
@@ -60,7 +65,7 @@ body{
 }
 .orn.wht
 {
-	background:url(ornament.png) no-repeat center center;
+	background:url(/assets/ornament.png) no-repeat center center;
 }
 .ctr
 {
@@ -225,7 +230,6 @@ table.horizontal-table tr
 /* Header */
 #hdr{
 	box-shadow:inset 0px -5px 7.5px rgba(0, 0, 0, 0.2);
-	background:url(light.png) repeat-y center;
 	height:50px;
 	padding:5px 0px;
 }
@@ -460,7 +464,7 @@ table.horizontal-table tr
 	padding-left:45px;
 }
 .album img, .game img{
-	background:url(check.png);
+	background:url(/assets/check.png);
 }
 .album#cover-0{
 	padding-left:0px;
@@ -573,7 +577,6 @@ table.horizontal-table tr
 
 /* Footer */
 #ftr{
-	background:url(light.png) repeat-y center;
 	box-shadow:inset 0px 5px 5px rgba(0, 0, 0, 0.2);
 	background-color:#222;
 	width:100%;
