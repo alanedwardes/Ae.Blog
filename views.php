@@ -4,6 +4,35 @@ R::debug(false);
 
 use Carbo\Http as Http;
 
+class FaviconView extends Carbo\Views\View
+{
+	private $color = [0, 0, 0];
+	
+	function request($verb, array $params = [])
+	{
+		$this->headers['Content-Type'] = 'image/png';
+		$this->color = [
+			base_convert(substr($params['color'], 0, 2), 16, 10),
+			base_convert(substr($params['color'], 2, 2), 16, 10),
+			base_convert(substr($params['color'], 4, 2), 16, 10),
+		];
+	}
+	
+	function response($template_data = [])
+	{
+		$ae = imagecreatetruecolor(16, 16);
+		imagefill($ae, 0, 0, imagecolorallocatealpha($ae, 0, 0, 0, 127));
+
+		imagettftext($ae, 20, 0, 0, 13, imagecolorallocate($ae, $this->color[0], $this->color[1], $this->color[2]), './assets/ebg.ttf', chr(230));
+
+		imagesavealpha($ae, true);
+		imagealphablending($ae, true);
+
+		imagepng($ae);
+		imagedestroy($ae);
+	}
+}
+
 class TemplateView extends Carbo\Views\View
 {
 	public $template;

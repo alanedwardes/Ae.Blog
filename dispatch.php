@@ -38,6 +38,7 @@ Carbo\Mapping\Map::create($router, [
 	['r^/portfolio/item/(?P<portfolio_id>.*)/$', 'PortfolioSingleView', 'portfolio_single.html'],
 	['r^/portfolio/skill/(?P<skill_id>.*)/$', 'PortfolioSkillView', 'portfolio.html'],
 	['/contact/', 'TemplateView', 'contact.html'],
+	['r^/favicon/(?P<color>[A-Fa-z0-9]+).png$', 'FaviconView'],
 	['r^/admin/', 'Carbo\Extensions\Admin\AdminRouter', $authenticator, $connection, $stats_connection],
 	[Carbo\Http\Code::NotFound, 'TemplateView', '404.html']
 ]);
