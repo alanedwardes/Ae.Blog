@@ -43,7 +43,7 @@
 		{% for album in lastfm_data %}
 			<div id="cover-{{ loop.index0 }}" class="album">
 				<a target="_blank" href="{{ album.url }}" title="{{ album.name }} by {{ album.artist.name }}, played {{ album.playcount }} times this week.">
-					<img src="{{ album.image.1['#text'] }}" alt="{{ album.name }} by {{ album.artist.name }} album cover" width="64" height="64"/>
+					<img src="/ext/{{ album.image.1['#text'] }}" alt="{{ album.name }} by {{ album.artist.name }} album cover" width="64" height="64"/>
 				</a>
 			</div>
 		{% endfor %}
@@ -56,7 +56,7 @@
 			{% if loop.index < 5 and game.gameName %}
 				<div class="game">
 					<a target="_blank" href="{{ game.gameLink }}" title="{{ game.gameName }}, played {{ game.hoursPlayed }} hours over the past two weeks, {{ game.hoursOnRecord }} hours total.">
-						<img src="{{ game.gameLogo }}" alt="{{ game.gameName }} game cover" width="184" height="69"/>
+						<img src="/ext/{{ game.gameLogo }}" alt="{{ game.gameName }} game cover" width="184" height="69"/>
 					</a>
 				</div>
 			{% endif %}

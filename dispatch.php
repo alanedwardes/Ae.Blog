@@ -32,6 +32,7 @@ Carbo\Mapping\Map::create($router, [
 	['/estranged', 'Carbo\Views\PermanentRedirectView', 'http://www.iamestranged.com/'],
 	['r^/estranged/(?P<path>.*)$', 'Carbo\Views\PermanentRedirectView', 'http://www.iamestranged.com/%s' . (isset($_SERVER['QUERY_STRING']) ? '?'. $_SERVER['QUERY_STRING'] : '')],
 	['/', 'HomeView', 'index.html'],
+	['r^/ext/(?P<url>.*)$', 'ExternalImagesView'],
 	['/archive/', 'ArchiveView', 'archive.html'],
 	['r^/posts/(?P<slug>.*)/$', 'SingleView', 'single.html'],
 	['/portfolio/', 'PortfolioView', 'portfolio.html'],

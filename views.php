@@ -33,6 +33,38 @@ class FaviconView extends Carbo\Views\View
 	}
 }
 
+class ExternalImagesView extends Carbo\Views\View
+{
+	private $file = '';
+
+	public function request($verb, array $params = [])
+	{
+		$this->file = '_cache' . DIRECTORY_SEPARATOR . md5($params['url']);
+		if (!file_exists($this->file))
+		{
+			if ($content = @file_get_contents($params['url']))
+			{
+				$image = @imagecreatefromstring($content);
+				@imagejpeg($image, $this->file, 90);
+				@imagedestroy($image);
+			}
+		}
+	}
+
+	function response($template_data = [])
+	{
+		if (file_exists($this->file))
+		{
+			header('Content-Type: image/jpeg');
+			return readfile($this->file);
+		}
+		else
+		{
+			throw new Http\CodeException(Http\Code::NotFound);
+		}
+	}
+}
+
 class TemplateView extends Carbo\Views\View
 {
 	public $template;
