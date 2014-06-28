@@ -24,6 +24,9 @@
 				</h2>
 			{% endif %}
 			{% include "portfolio_item.html" %}
+			{% if last_portfolio_item.minor and portfolio_item.minor and last_portfolio_item.published|date('Y') == portfolio_item.published|date('Y') %}
+				<div class="clr"></div>
+			{% endif %}
 			{% set last_portfolio_item = portfolio_item %}
 		{% endfor %}
 	</div>

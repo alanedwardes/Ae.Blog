@@ -417,7 +417,7 @@ table.horizontal-table tr
 }
 .prt h2
 {
-	margin-top:60px;
+	margin-top:50px;
 	margin-bottom:20px;
 }
 .portfolio_item:hover a.portfolio_summary
@@ -427,11 +427,14 @@ table.horizontal-table tr
 }
 .portfolio_item img
 {
+	width:960px;
+	height:150px;
 	display:block;
 }
 .portfolio_banner
 {
 	background-position:top center;
+	background-size:cover;
 	border-width:0px 0px 1px 0px;
 	border-style:solid;
 }
@@ -441,13 +444,29 @@ table.horizontal-table tr
 	margin-top:30px;
 	margin-bottom:30px;
 }
+.portfolio_item.minor + .portfolio_item.minor
+{
+	margin-left:60px;
+}
+.portfolio_item.minor
+{
+	margin-top:10px;
+	margin-bottom:10px;
+	width:450px;
+	float:left;
+}
+.portfolio_item.minor img
+{
+	width:450px;
+	height:70px;
+}
 #bdy.hme .portfolio_item a.portfolio_summary
 {
 	display:block;
-	color:#aaa;
+	color:white;
 	text-decoration:none;
 	background:#151515;
-	padding:5px 0px;
+	padding:2.5px 0px;
 }
 .album img:hover, .game img:hover, .workout:hover, .boxshadow:hover, #portfolio-preview iframe:hover
 {
