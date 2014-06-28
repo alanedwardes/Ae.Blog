@@ -75,6 +75,11 @@ class TemplateView extends Carbo\Views\View
 		$this->template = $template;
 		$loader = new \Twig_Loader_Filesystem('templates');
 		$this->twig = new \Twig_Environment($loader, ['cache' => '_cache']);
+		
+		$links_clickable_filter = new Twig_SimpleFilter('links_clickable', function ($string) {
+			return preg_replace('!(((f|ht)tp(s)?://)[-a-zA-Zа-яА-Я()0-9@:%_+.~#?&;//=]+)!i', '<a href="$1">$1</a>', $string);
+		});
+		$this->twig->addFilter($links_clickable_filter);
 	}
 	
 	public function request($verb, array $params = [])

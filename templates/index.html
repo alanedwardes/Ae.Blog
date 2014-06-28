@@ -13,7 +13,7 @@
 		<h2>Recent Tweets</h2>
 		<ul>
 			{% for tweet in twitter_data %}
-				<li>{{ tweet.text }}</li>
+				<li>{{ tweet.text|links_clickable|raw }}</li>
 			{% endfor %}
 		</ul>
 	</div>
