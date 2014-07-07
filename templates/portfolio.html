@@ -12,13 +12,18 @@
 			<h1>Personal Portfolio</h1>
 			<p id="portfolio-all-skills">Filter: {% for skill in all_skills if skill.usage_count > 1 %}{% if not loop.first %},{% endif %} <a class="dco" href="./skill/{{ skill.id }}/">{{ skill.name }}</a> ({{ skill.usage_count }}){% endfor %}</p>
 		{% endif %}
-	
+		
+		{% set should_clear = false %}
+		
 		{% for portfolio_item in portfolios %}
 			{% include "portfolio_item.html" %}
-			{% if last_portfolio_item.minor and portfolio_item.minor and last_portfolio_item.published|date('Y') == portfolio_item.published|date('Y') %}
+			
+			{% if should_clear %}
 				<div class="clr"></div>
+				{% set should_clear = false %}
+			{% elseif portfolio_item.minor %}
+				{% set should_clear = true %}
 			{% endif %}
-			{% set last_portfolio_item = portfolio_item %}
 		{% endfor %}
 	</div>
 {% endblock %}

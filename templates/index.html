@@ -5,20 +5,20 @@
 
 {% block content %}
 <div class="wrp">
-	<div id="hi">Hi! I make things:</div>
+	<div id="hi">Hello! I make things<span style="color:#777;">:</span></div>
 	{% for portfolio_item in featured_portfolios %}
 		{% include "portfolio_item.html" %}
 	{% endfor %}
 	<div class="tri first">
-		<h2>Recent Tweets</h2>
+		<h2>Tweets</h2>
 		<ul>
 			{% for tweet in twitter_data %}
-				<li>{{ tweet.text|links_clickable|raw }}</li>
+				<li>{{ tweet.text|links_clickable|raw }} <a href="https://twitter.com/AlanEdwardes/status/{{ tweet.id }}">&infin;</a></li>
 			{% endfor %}
 		</ul>
 	</div>
 	<div class="tri">
-		<h2>Latest Blog Posts</h2>
+		<h2>Blog Posts</h2>
 		<ul>
 		{% for post in posts %}
 			<li>
@@ -32,7 +32,7 @@
 	</div>
 	<div class="tri">
 		<h2>About Me</h2>
-		<p>I'm a developer from the UK who loves creating websites, <a href="http://www.iamestranged.com/">making games</a>, and <a href="/posts/running/">running</a>.</p>
+		<p>I'm a developer from the UK who loves <a href="http://www.iamestranged.com/">making games</a>, creating websites, and <a href="/posts/running/">running</a>.</p>
 		<p>e: <span id="email"></span><script>ae.print_mail('email')</script></p>
 		<p>t: <a href="https://twitter.com/AlanEdwardes">@AlanEdwardes</a></p>
 	</div>

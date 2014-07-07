@@ -71,6 +71,14 @@ body{
 {
 	text-align:center;
 }
+.txtlft
+{
+	text-align:left;
+}
+.txtrgt
+{
+	text-align:right;
+}
 a{
 	text-decoration:none;
 }
@@ -313,7 +321,7 @@ table.horizontal-table tr
 	text-align:center;
 	font-weight:bold;
 	font-size:42px;
-	padding:15px 0px 0px 0px;
+	padding:15px 0px 15px 0px;
 }
 .tri p{
 	padding-bottom:5px;
@@ -324,6 +332,7 @@ table.horizontal-table tr
 	line-height:1.5;
 	width:30%;
 	float:right;
+	margin-top:10px;
 	margin-left:5%;
 }
 .tri.first{
@@ -440,32 +449,51 @@ table.horizontal-table tr
 }
 .portfolio_item
 {
-	margin-top:30px;
-	margin-bottom:30px;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+.portfolio_item a.portfolio_summary span
+{
+	display:block;
+}
+.portfolio_item .name
+{
+	float:left;
+	text-align:left;
+}
+.portfolio_item .date
+{
+	float:right;
+	color:#555;
+	text-align:right;
+}
+.portfolio_item + .portfolio_item
+{
+	margin-top:20px;
 }
 .list .portfolio_item.minor + .portfolio_item.minor
 {
-	margin-left:60px;
+	float:right;
 }
 .list .portfolio_item.minor
 {
 	margin-top:10px;
 	margin-bottom:10px;
-	width:450px;
+	width:470px;
 	float:left;
 }
 .list .portfolio_item.minor img
 {
-	width:450px;
-	height:70px;
+	width:470px;
+	height:73px;
 }
 #bdy.hme .portfolio_item a.portfolio_summary
 {
 	display:block;
-	color:white;
+	font-variant:small-caps;
 	text-decoration:none;
 	background:#151515;
-	padding:2.5px 5px;
+	padding:2.5px 7.5px;
 }
 .album img:hover, .game img:hover, .workout:hover, .boxshadow:hover, #portfolio-preview iframe:hover
 {

@@ -5,6 +5,10 @@
 		</div>
 	{% endif %}
 	{% if portfolio_item.summary %}
-		<a class="portfolio_summary" href="/portfolio/item/{{ portfolio_item.id }}/">{{ portfolio_item.published|date("M Y") }} &mdash; {{ portfolio_item.name }}</a>
+		<a class="portfolio_summary" href="/portfolio/item/{{ portfolio_item.id }}/">
+			<span class="name">{{ portfolio_item.name }} &raquo;</span>
+			<span class="date">{{ portfolio_item.published|date("M Y") }}</span>
+			<span class="clr"></span>
+		</a>
 	{% endif %}
 </div>
