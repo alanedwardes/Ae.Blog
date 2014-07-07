@@ -144,7 +144,7 @@ ae =
 			}
 		}
 	},
-	print_mail: function()
+	print_mail: function(id)
 	{
 		var mt = 'mailto';
 		var ae = 'alanedwardes';
@@ -152,7 +152,7 @@ ae =
 		var cm = 'com';
 		var at = '\u0040';
 		var co = 'alan';
-		return '<a href="' + mt + ':' + co + at + ae + pe + cm + '">' + co + at + ae + pe + cm + '</a>';
+		document.getElementById(id).innerHTML = '<a href="' + mt + ':' + co + at + ae + pe + cm + '">' + co + at + ae + pe + cm + '</a>';
 	},
 	konami: function()
 	{

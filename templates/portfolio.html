@@ -3,7 +3,7 @@
 {% block title %}Personal Portfolio &mdash; Alan Edwardes{% endblock %}
 
 {% block content %}
-	<div class="wrp prt">
+	<div class="wrp prt {{ skill ? '' : 'list' }}">
 		{% if skill %}
 			<h1>Projects Involving &lsquo;{{ skill.name }}&rsquo;</h1>
 			{% if skill.description %}<p>{{ skill.description }}</p>{% endif %}
@@ -14,15 +14,6 @@
 		{% endif %}
 	
 		{% for portfolio_item in portfolios %}
-			{% if loop.first or last_portfolio_item.published|date('Y') != portfolio_item.published|date('Y') %}
-				<h2 class="dbd">
-					{% if portfolio_item.published %}
-						Projects from {{ portfolio_item.published|date('F Y') }}
-					{% else %}
-						Ongoing Projects
-					{% endif %}
-				</h2>
-			{% endif %}
 			{% include "portfolio_item.html" %}
 			{% if last_portfolio_item.minor and portfolio_item.minor and last_portfolio_item.published|date('Y') == portfolio_item.published|date('Y') %}
 				<div class="clr"></div>

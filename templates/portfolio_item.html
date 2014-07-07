@@ -5,6 +5,6 @@
 		</div>
 	{% endif %}
 	{% if portfolio_item.summary %}
-		<a class="portfolio_summary" href="/portfolio/item/{{ portfolio_item.id }}/">{{ portfolio_item.name }}{% if not portfolio_item.minor %} &mdash; {{ portfolio_item.summary }}{% endif %}</a>
+		<a class="portfolio_summary" href="/portfolio/item/{{ portfolio_item.id }}/">{{ portfolio_item.published|date("M Y") }} &mdash; {{ portfolio_item.name }}</a>
 	{% endif %}
 </div>
