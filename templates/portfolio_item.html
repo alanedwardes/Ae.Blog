@@ -1,11 +1,11 @@
 <div class="portfolio_item boxshadow {{ portfolio_item.minor ? 'minor' }}">
 	{% if portfolio_item.banner %}
 		<div class="portfolio_banner dbd" style="background-image:url(/assets/{{ portfolio_item.banner }})">
-			<a href="/portfolio/item/{{ portfolio_item.id }}/"><img src="/assets/tint.png" alt=""/></a>
+			<a href="/portfolio/item/{{ portfolio_item.id }}/" title="{{ portfolio_item.summary }}"><img src="/assets/tint.png" alt="{{ portfolio_item.summary }}"/></a>
 		</div>
 	{% endif %}
 	{% if portfolio_item.summary %}
-		<a class="portfolio_summary" href="/portfolio/item/{{ portfolio_item.id }}/">
+		<a class="portfolio_summary" href="/portfolio/item/{{ portfolio_item.id }}/" title="{{ portfolio_item.summary }}">
 			<span class="name">{{ portfolio_item.name }} &raquo;</span>
 			<span class="date">{{ portfolio_item.published|date("M Y") }}</span>
 			<span class="clr"></span>

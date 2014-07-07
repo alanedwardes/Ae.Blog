@@ -13,9 +13,15 @@
 			<p id="portfolio-all-skills">Filter: {% for skill in all_skills if skill.usage_count > 1 %}{% if not loop.first %},{% endif %} <a class="dco" href="./skill/{{ skill.id }}/">{{ skill.name }}</a> ({{ skill.usage_count }}){% endfor %}</p>
 		{% endif %}
 		
+		{% for portfolio_item in portfolios if portfolio_item.featured %}
+			{% if loop.first %}<h2>Featured</h2>{% endif %}
+			{% include "portfolio_item.html" %}
+		{% endfor %}
+		
 		{% set should_clear = false %}
 		
-		{% for portfolio_item in portfolios %}
+		{% for portfolio_item in portfolios if not portfolio_item.featured %}
+			{% if loop.first %}<h2>Other Work</h2>{% endif %}
 			{% include "portfolio_item.html" %}
 			
 			{% if should_clear %}
