@@ -263,14 +263,8 @@ ae =
 			var image = ae.util.element('img', {
 				onerror: function(e)
 				{
-					if (confirm('Error loading "' + link.href + '".\n\nDo you want to try and open it normally?'))
-					{
-						document.location = link.href;
-					}
-					else
-					{
-						ae.lightbox.close();
-					}
+					ae.lightbox.close();
+					document.location = link.href;
 				},
 				onload: function(e)
 				{
