@@ -1,5 +1,5 @@
 <?php
-R::setup(sprintf('mysql:host=%s;dbname=%s', DB_HOST, DB_NAME), DB_USER, DB_PASS);
+R::setup(sprintf('mysql:host=%s;port=%s;dbname=%s', DB_HOST, DB_PORT, DB_NAME), DB_USER, DB_PASS);
 R::debug(false);
 
 use Carbo\Http as Http;
@@ -98,8 +98,10 @@ class TemplateView extends Carbo\Views\View
 
 class HomeView extends TemplateView
 {
-	function getJson($url)
+	function getJson($resource, $arguments = null)
 	{
+		$url = 'http://jsonpcache.alanedwardes.com/?resource=' . $resource . ($arguments === null ? '' : '&arguments=' . $arguments);
+		
 		if (!$data = file_get_contents($url))
 			return [];
 		
@@ -111,13 +113,16 @@ class HomeView extends TemplateView
 
 	function response()
 	{
+		$run_stats = @end($this->getJson('mapmyfitness_stats')['_embedded']['stats']);
+		
 		return parent::response(array(
 			'posts' => R::getAll('SELECT title, published, slug FROM post WHERE is_published ORDER BY published DESC LIMIT 4'),
 			'featured_portfolios' => R::getAll('SELECT * FROM portfolio WHERE featured'),
-			'twitter_data' => @$this->getJson('http://jsonpcache.alanedwardes.com/?resource=twitter_ae_timeline&arguments=2'),
-			'lastfm_data' => @$this->getJson('http://jsonpcache.alanedwardes.com/?resource=lastfm_ae_albums&arguments=12')['topalbums']['album'],
-			'steamgames_data' => @$this->getJson('http://jsonpcache.alanedwardes.com/?resource=steam_ae_games')['mostPlayedGames']['mostPlayedGame'],
-			'mapmyrun_data' => @$this->getJson('http://jsonpcache.alanedwardes.com/?resource=mapmyfitness_runs')['result']['output']['workouts']
+			'twitter_data' => @$this->getJson('twitter_ae_timeline', 2),
+			'lastfm_data' => @$this->getJson('lastfm_ae_albums', 12)['topalbums']['album'],
+			'steamgames_data' => @$this->getJson('steam_ae_games')['mostPlayedGames']['mostPlayedGame'],
+			'mapmyrun_data' => @array_reverse($this->getJson('mapmyfitness_runs', ($run_stats['activity_count'] - 20))['_embedded']['routes']),
+			'mapmyrun_stats' => $run_stats
 		));
 	}
 }

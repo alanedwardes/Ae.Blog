@@ -65,12 +65,18 @@
 	
 	<div class="clr"></div>
 	
-	<div id="workouts">
-		{% for workout in mapmyrun_data %}
-			{% if loop.index < 9 %}
-				<a class="workout" id="workout-{{ loop.index0 }}" href="http://www.mapmyrun.com/workout/{{ workout.workout_id }}">{{ workout.workout_date|date('jS M \'y') }} <span class="dbd">Ran {{ ((workout.distance * (1.609344 * 10)) / 10)|round(1) }} km</span></a>
+	<h3>Recent Runs - {{ (mapmyrun_stats.distance / 1000)|round|number_format }} km since March 2012</h3>
+	
+	<div id="routes">
+		{% for route in mapmyrun_data %}
+			{% if loop.index <= 8 %}
+				<div class="route dbd" style="background-image:url(/ext/http:{{ route['_links'].thumbnail[0].href }})">
+					{{ (route.distance / 1000)|round(1) }} km - {{ route.created_datetime|date('jS M') }}
+				</div>
 			{% endif %}
 		{% endfor %}
 	</div>
+	
+	<div class="clr"></div>
 </div>
 {% endblock %}

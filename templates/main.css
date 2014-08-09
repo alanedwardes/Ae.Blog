@@ -355,30 +355,23 @@ table.horizontal-table tr
 #lastfm{
 	padding-top:10px;
 }
-#workouts
+#routes
 {
-	margin-top:10px;
-	height:60px;
+	padding-top:10px;
 }
-.workout
+.route
 {
-	width:110.5px;
 	float:left;
-	text-align:center;
-	margin-left:10px;
-	color:white;
-}
-.workout span
-{
-	background:#333;
-	display:block;
-	border-width:2px 0px 0px 0px;
-	border-style:solid;
-	color:white;
-}
-.workout#workout-0
-{
-	margin-left:0px;
+	background-repeat:no-repeat;
+	background-position:left center;
+	background-size:contain;
+	background-color:#222;
+	padding:5px 10px 5px 50px;
+	text-align:left;
+	width:167.5px;
+	margin:5px;
+	background-color:#252525;
+	border:1px solid transparent;
 }
 #portfolio-banner
 {
@@ -495,11 +488,11 @@ table.horizontal-table tr
 	background:#151515;
 	padding:2.5px 7.5px;
 }
-.album img:hover, .game img:hover, .workout:hover, .boxshadow:hover, #portfolio-preview iframe:hover
+.album img:hover, .game img:hover, .route:hover, .boxshadow:hover, #portfolio-preview iframe:hover
 {
 	box-shadow:0px 0px 20px #000;
 }
-.album img, .game img, .workout, .boxshadow, #portfolio-preview iframe
+.album img, .game img, .route, .boxshadow, #portfolio-preview iframe
 {
 	transition:box-shadow 150ms;
 	box-shadow:0px 0px 10px #111;
