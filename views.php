@@ -121,7 +121,7 @@ class HomeView extends TemplateView
 			'twitter_data' => @$this->getJson('twitter_ae_timeline', 2),
 			'lastfm_data' => @$this->getJson('lastfm_ae_albums', 12)['topalbums']['album'],
 			'steamgames_data' => @$this->getJson('steam_ae_games')['mostPlayedGames']['mostPlayedGame'],
-			'mapmyrun_data' => @array_reverse($this->getJson('mapmyfitness_runs', ($run_stats['activity_count'] - 20))['_embedded']['routes']),
+			'mapmyrun_data' => @array_reverse($this->getJson('mapmyfitness_runs', ($run_stats['activity_count'] - 10))['_embedded']['routes']),
 			'mapmyrun_stats' => $run_stats
 		));
 	}
