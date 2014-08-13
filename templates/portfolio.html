@@ -6,30 +6,26 @@
 	<div class="wrp prt {{ skill ? '' : 'list' }}">
 		{% if skill %}
 			<h1>Projects Involving &lsquo;{{ skill.name }}&rsquo;</h1>
-			{% if skill.description %}<p>{{ skill.description }}</p>{% endif %}
 			<p><a href="./../../">&laquo; Remove Filter</a></p>
 		{% else %}
-			<h1>Personal Portfolio</h1>
-			<p id="portfolio-all-skills">Filter: {% for skill in all_skills if skill.usage_count > 1 %}{% if not loop.first %},{% endif %} <a class="dco" href="./skill/{{ skill.id }}/">{{ skill.name }}</a> ({{ skill.usage_count }}){% endfor %}</p>
+			<h1>Portfolio</h1>
 		{% endif %}
 		
-		{% for portfolio_item in portfolios if portfolio_item.featured %}
-			{% if loop.first %}<h2>Featured</h2>{% endif %}
-			{% include "portfolio_item.html" %}
-		{% endfor %}
-		
-		{% set should_clear = false %}
-		
-		{% for portfolio_item in portfolios if not portfolio_item.featured %}
-			{% if loop.first %}<h2>Other Work</h2>{% endif %}
-			{% include "portfolio_item.html" %}
+		{% for category in categories %}
 			
-			{% if should_clear %}
-				<div class="clr"></div>
-				{% set should_clear = false %}
-			{% elseif portfolio_item.minor %}
-				{% set should_clear = true %}
-			{% endif %}
+			
+			{% for portfolio_item in portfolios if portfolio_item.category_id == category.id %}
+				{% if loop.first %}
+					<h2>{{ category.name }}</h2>
+				{% endif %}
+			
+				{% include "portfolio_item.html" %}
+				
+				{% if loop.index0 % 2 %}
+					<div class="clr"></div>
+				{% endif %}
+			{% endfor %}
+			<div class="clr"></div>
 		{% endfor %}
 	</div>
 {% endblock %}

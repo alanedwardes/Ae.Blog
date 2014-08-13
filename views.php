@@ -163,7 +163,7 @@ class PortfolioView extends TemplateView
 	function response()
 	{
 		return parent::response(array(
-			'all_skills' => R::findAll('skill'),
+			'categories' => R::find('category', 'is_published ORDER BY ordering ASC'),
 			'portfolios' => R::find('portfolio', 'is_published ORDER BY published DESC')
 		));
 	}
@@ -185,6 +185,7 @@ class PortfolioSkillView extends TemplateView
 	{
 		return parent::response(array(
 			'skill' => $this->skill,
+			'categories' => R::find('category', 'is_published ORDER BY ordering ASC'),
 			'portfolios' => $this->skill->with('ORDER BY published DESC')->withCondition('is_published')->sharedPortfolioList
 		));
 	}

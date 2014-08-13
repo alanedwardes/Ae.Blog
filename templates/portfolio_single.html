@@ -48,15 +48,18 @@
 			</div>
 		{% endif %}
 		
-		{% if portfolio_item_screenshots %}
-			<div id="portfolio-screenshots">
+		<div class="portfolio-screenshots">
+			{% if portfolio_item_screenshots %}
 				<h3 class="dbd">Screenshots</h3>
 				{% for screenshot in portfolio_item_screenshots %}
+					{% if loop.index0 is divisible by(4) %}
+						</div><div class="portfolio-screenshots">
+					{% endif %}
 					<a href="/assets/{{ screenshot.image }}" title="{{ screenshot.name }}"><img class="dbd boxshadow" src="/assets/{{ screenshot.image }}" alt="{{ screenshot.name }}"/></a>
 				{% endfor %}
-			</div>
-		{% endif %}
-		
+			{% endif %}
+		</div>
+	
 		<p><br><a href="/portfolio/">&laquo; Back to Portfolio</a></p>
 	</div>
 {% endblock %}

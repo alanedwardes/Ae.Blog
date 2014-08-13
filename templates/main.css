@@ -103,7 +103,7 @@ pre, code, .gist{
 h1, h2, h3, h4, h5{
 	text-align:center;
 	font-family:'Alegreya SC', Georgia, serif;
-	text-shadow:1px 1px 1px #ccc;
+	text-shadow:1px 1px 0px #ccc;
 	line-height:1;
 }
 h1 a, h2 a, h3 a, h4 a, h5 a{
@@ -252,7 +252,7 @@ table.horizontal-table tr
 	font-size:100px;
 	font-family:'Raleway', Georgia, sans-serif;
 	padding-top:10px;
-	text-shadow: 0px 0px 10px #555;
+	text-shadow: 1px 1px 0px #555;
 }
 #hdr #bio{
 	position:absolute;
@@ -287,7 +287,7 @@ table.horizontal-table tr
 }
 #hdr .wrp{
 	font-family:'Alegreya SC';
-	text-shadow:0px 0px 4px #222;
+	text-shadow:1px 1px 0px #222;
 }
 #hdr .rgt a{
 	margin-left:20px;
@@ -388,16 +388,16 @@ table.horizontal-table tr
 	width:960px;
 	height:540px;
 }
-#portfolio-screenshots
+.portfolio-screenshots
 {
 	margin:20px 0px;
 	text-align:center;
 }
-#portfolio-screenshots h3
+.portfolio-screenshots h3
 {
 	margin-bottom:30px;
 }
-#portfolio-screenshots img
+.portfolio-screenshots img
 {
 	border-width:1px;
 	border-style:solid;
@@ -419,8 +419,7 @@ table.horizontal-table tr
 }
 .prt h2
 {
-	margin-top:50px;
-	margin-bottom:20px;
+	text-align:left;
 }
 .portfolio_item:hover a.portfolio_summary
 {
