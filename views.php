@@ -55,6 +55,8 @@ class ExternalImagesView extends Carbo\Views\View
 	{
 		if (file_exists($this->file))
 		{
+			header('Pragma: public');
+			header('Cache-Control: max-age=2592000, public');
 			header('Content-Type: image/jpeg');
 			return readfile($this->file);
 		}
@@ -68,6 +70,7 @@ class ExternalImagesView extends Carbo\Views\View
 class TemplateView extends Carbo\Views\View
 {
 	public $template;
+	public $params;
 	protected $twig;
 
 	public function __construct($template)
@@ -84,12 +87,14 @@ class TemplateView extends Carbo\Views\View
 	
 	public function request($verb, array $params = [])
 	{
+		$this->params = $params;
 		$this->headers['Content-Type'] = 'text/html';
 	}
 
 	function response($template_data = [])
 	{
 		return $this->twig->render($this->template, [
+			'params' => $this->params,
 			'template_name' => $this->template,
 			'path' => $_SERVER['REQUEST_URI']
 		] + $template_data);
