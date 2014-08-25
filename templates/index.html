@@ -66,7 +66,7 @@
 	<div class="clr"></div>
 	
 	{% if mapmyrun_stats and mapmyrun_data %}
-		<h3>Recent Runs - {{ (mapmyrun_stats.distance / 1000)|round|number_format }} km since March 2012</h3>
+		<h3>Recent Runs</h3>
 		
 		<div id="routes">
 			{% for route in mapmyrun_data %}
@@ -76,6 +76,8 @@
 					</div>
 				{% endif %}
 			{% endfor %}
+			
+			<p class="ctr"><small>{{ (mapmyrun_stats.distance / 1000)|round|number_format }} km since March 2012. That's {{ (mapmyrun_stats.distance / 7232000)|round(2) }} times around Pluto, {{ (mapmyrun_stats.distance / 10917000)|round(2) }} times around the moon, {{ (mapmyrun_stats.distance / 40075000)|round(2) }} times around Earth.</small></p>
 		</div>
 		
 		<div class="clr"></div>
