@@ -323,27 +323,33 @@ table.horizontal-table tr
 	font-size:42px;
 	padding:15px 0px 15px 0px;
 }
-.tri p{
+.tri p, .duo p{
 	padding-bottom:5px;
 }
-.tri{
+.duo, .tri{
 	word-wrap:break-word;
 	min-height:170px;
 	line-height:1.5;
-	width:30%;
 	float:right;
 	margin-top:10px;
+}
+.duo{
+	width:50%;
+}
+.tri{
+	width:30%;
 	margin-left:5%;
 }
-.tri.first{
+.tri.first, .duo.first{
 	float:left;
 	margin-left:0px;
 }
-.tri h2{
+.tri h2, .duo h2{
 	padding-bottom:5px;
 	margin-bottom:10px;
 	margin-top:0px;
-	border-bottom:1px solid transparent;
+	border-style:solid;
+	border-width:0 0 1px 0;
 }
 #tweets{
 	height:100px;

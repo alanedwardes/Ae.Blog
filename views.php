@@ -118,16 +118,11 @@ class HomeView extends TemplateView
 
 	function response()
 	{
-		$run_stats = @end($this->getJson('mapmyfitness_stats')['_embedded']['stats']);
-		
 		return parent::response(array(
 			'posts' => R::getAll('SELECT title, published, slug FROM post WHERE is_published ORDER BY published DESC LIMIT 4'),
 			'featured_portfolios' => R::getAll('SELECT * FROM portfolio WHERE featured'),
-			'twitter_data' => @$this->getJson('twitter_ae_timeline', 2),
 			'lastfm_data' => @$this->getJson('lastfm_ae_albums', 12)['topalbums']['album'],
 			'steamgames_data' => @$this->getJson('steam_ae_games')['mostPlayedGames']['mostPlayedGame'],
-			'mapmyrun_data' => @array_reverse($this->getJson('mapmyfitness_runs', ($run_stats['activity_count'] - 10))['_embedded']['routes']),
-			'mapmyrun_stats' => $run_stats
 		));
 	}
 }
