@@ -88,6 +88,7 @@ class TemplateView extends Carbo\Views\View
 	public function request($verb, array $params = [])
 	{
 		$this->params = $params;
+		$this->headers['Strict-Transport-Security'] = 'max-age=31536000';
 		$this->headers['Content-Type'] = 'text/html';
 	}
 
