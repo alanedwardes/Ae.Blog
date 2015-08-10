@@ -1,0 +1,62 @@
+﻿@using AeBlog.Display
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>@ViewBag.Title</title>
+        @{ var theme = ThemePicker.PickRandomTheme(); }
+		<link rel="icon" type="image/png" href="/favicon/{{ theme }}.png">
+        <link rel="stylesheet" type="text/css" href="/Assets/main.css"/>
+		<style>
+			{% include "main.css" %}
+			.dbg, label.error, #hdr, .save, #ldg, #ftr, body
+			{
+				background-color:#@theme;
+			}
+			.dbd, input.text:focus, textarea:focus, input.error, textarea.error, #ftr, #bdy.shw, .admin .metawrap, .save, #bdy.hme a
+			{
+				border-color:#@theme;
+			}
+			.dco, a
+			{
+				color:#@theme;
+			}
+		</style>
+		<script>
+            var theme = '@theme';
+            WebFontConfig = { google: { families: ['Alegreya', 'Alegreya SC'] } };
+		</script>
+		<script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js" async></script>
+	</head>
+	<body>
+		<div id="hdr">
+			<div class="wrp">
+				<div class="rgt">
+					<a{% if path starts with '/archive/' or path starts with '/posts/' %} class="current"{% endif %} href="/archive/">Blog</a>
+					<a{% if path starts with '/portfolio/' %} class="current"{% endif %} href="/portfolio/">Portfolio</a>
+				</div>
+				<div class="lft">
+					<a href="/">&AElig; &#124; Alan Edwardes</a>
+				</div>
+			</div>
+		</div>
+        <div id="bdy"@if (!ViewBag.IsSingle) { Html.Raw(" class=\"hme\""); }>
+            @RenderBody()
+			<div style="clear:both"></div>
+		</div>
+		<div id="ftr">
+			<div class="wrp">
+				<div class="lft">
+					<span>&copy; 2006 &ndash; @DateTime.UtcNow.ToString("yyyy") <a href="/">Alan Edwardes</a> / <a href="https://github.com/alanedwardes/aeblog">Source on GitHub</a></span>
+					{% if template_name == 'index.html' %}
+						<span> / Data from <a href="http://www.audioscrobbler.net/">AudioScrobbler</a>, <a href="http://steampowered.com/">Steam</a></span>
+					{% endif %}
+				</div>
+				<div class="rgt">
+					<a href="#" onclick="window.scrollTo(0);return false;">Top</a> &#8593;
+				</div>
+				<div style="clear:both"></div>
+			</div>
+		</div>
+	</body>
+</html>

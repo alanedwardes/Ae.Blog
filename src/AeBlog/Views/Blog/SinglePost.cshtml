@@ -1,0 +1,15 @@
+﻿@using AeBlog.Data
+@model Post
+@{
+    Layout = "/Views/Layout.cshtml";
+    ViewBag.Title = Model.title;
+    ViewBag.IsSingle = true;
+}
+
+<div class="wrp">
+    <div id="cnt">
+        <h1>@Model.title</h1>
+        <p><small class="subtitle">Published on @Model.published.ToString("dd") of @Model.published.ToString("MMMM yyyy")</small></p>
+        @Html.Raw(Model.body)
+    </div>
+</div>
