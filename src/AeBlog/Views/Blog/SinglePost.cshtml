@@ -1,15 +1,16 @@
 ﻿@using AeBlog.Data
-@model Post
+@using AeBlog.Display;
+@using AeBlog.ViewModels;
+@model SinglePostViewModel
 @{
+    ViewBag.LayoutParameters = new LayoutParameters { Title = Model.Post.title + " &mdash; Alan Edwardes", ViewType = ViewType.Single };
     Layout = "/Views/Layout.cshtml";
-    ViewBag.Title = Model.title;
-    ViewBag.IsSingle = true;
 }
 
 <div class="wrp">
     <div id="cnt">
-        <h1>@Model.title</h1>
-        <p><small class="subtitle">Published on @Model.published.ToString("dd") of @Model.published.ToString("MMMM yyyy")</small></p>
-        @Html.Raw(Model.body)
+        <h1>@Model.Post.title</h1>
+        <p><small class="subtitle">Published on @Model.Post.published.ToString("dd") of @Model.Post.published.ToString("MMMM yyyy")</small></p>
+        @Html.Raw(Model.Post.body)
     </div>
 </div>

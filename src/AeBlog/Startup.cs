@@ -10,6 +10,7 @@ namespace AeBlog
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddLogging();
             services.AddTransient<IDocumentStore, DocumentStore>();
             services.AddTransient<IPostManager, PostManager>();
         }
@@ -18,6 +19,7 @@ namespace AeBlog
         {
             loggerFactory.AddConsole();
             app.UseStaticFiles();
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
             app.UseMvc();
         }
     }

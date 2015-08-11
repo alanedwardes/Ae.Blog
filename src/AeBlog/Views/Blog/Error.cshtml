@@ -1,0 +1,13 @@
+﻿@using AeBlog.Display;
+@using AeBlog.ViewModels;
+@model ErrorViewModel
+@{
+    ViewBag.LayoutParameters = new LayoutParameters { Title = Model.Title + " &mdash; Alan Edwardes", ViewType = ViewType.Home };
+    Layout = "/Views/Layout.cshtml";
+}
+
+<div class="wrp slm">
+    <h1>@Model.Title</h1>
+    <p class="ctr">@Model.Description</p>
+    <div class="orn wht"></div>
+</div>

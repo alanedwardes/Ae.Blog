@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,7 +27,12 @@ namespace AeBlog.Data
 
         public Task<Post> GetPostBySlug(string slug, CancellationToken ctx = default(CancellationToken))
         {
-            return documentStore.GetItemAsync<Post>(slug, PostTable);
+            return documentStore.GetItem<Post>(slug, PostTable, ctx);
+        }
+
+        public Task<IEnumerable<Post>> GetPosts(CancellationToken ctx = default(CancellationToken))
+        {
+            return documentStore.GetItems<Post>(PostTable, ctx);
         }
     }
 }

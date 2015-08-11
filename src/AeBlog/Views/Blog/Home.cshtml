@@ -1,0 +1,45 @@
+﻿@using AeBlog.Display;
+@using AeBlog.ViewModels;
+@model HomeViewModel
+@{
+    ViewBag.LayoutParameters = new LayoutParameters { Title = "Alan Edwardes", ViewType = ViewType.Home };
+    Layout = "/Views/Layout.cshtml";
+}
+
+<div class="wrp">
+    <div id="hi">Hello! I make things<span style="color:#777;">:</span></div>
+    {% for portfolio_item in featured_portfolios %}
+    {% include "portfolio_item.html" %}
+    {% endfor %}
+    <div class="duo">
+        <h2 class="dbd">Blog Posts</h2>
+        <ul>
+            @foreach (var post in Model.Posts.Take(5))
+            {
+                <li>
+                    <a href="/posts/@post.slug/">@post.title</a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="duo">
+        <h2 class="dbd">About Me</h2>
+        <p>I'm a developer from the UK who loves <a href="http://www.iamestranged.com/">making games</a>, creating websites, and <a href="/posts/running/">running</a>.</p>
+        <p>e: alan@@alanedwardes.com</p>
+        <p>t: <a href="https://twitter.com/AlanEdwardes">@@AlanEdwardes</a></p>
+    </div>
+
+    <div class="clr"></div>
+
+    <div id="lastfm">
+        {% for album in lastfm_data %}
+        <div id="cover-{{ loop.index0 }}" class="album">
+            <a target="_blank" href="{{ album.url }}" title="{{ album.name }} by {{ album.artist.name }}, played {{ album.playcount }} times this week.">
+                <img src="/ext/{{ album.image.1['#text'] }}" alt="{{ album.name }} by {{ album.artist.name }} album cover" width="64" height="64" />
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="clr"></div>
+</div>

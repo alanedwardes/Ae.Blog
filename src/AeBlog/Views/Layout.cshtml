@@ -1,10 +1,15 @@
 ﻿@using AeBlog.Display
+@{ 
+    var layoutParameters = (LayoutParameters)ViewBag.LayoutParameters;
+
+    var theme = ThemePicker.PickRandomTheme();
+    var path = Context.Request.Path.ToString();
+}
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>@ViewBag.Title</title>
-        @{ var theme = ThemePicker.PickRandomTheme(); }
+		<title>@layoutParameters.Title</title>
 		<link rel="icon" type="image/png" href="/favicon/{{ theme }}.png">
         <link rel="stylesheet" type="text/css" href="/Assets/main.css"/>
 		<style>
@@ -32,15 +37,15 @@
 		<div id="hdr">
 			<div class="wrp">
 				<div class="rgt">
-					<a{% if path starts with '/archive/' or path starts with '/posts/' %} class="current"{% endif %} href="/archive/">Blog</a>
-					<a{% if path starts with '/portfolio/' %} class="current"{% endif %} href="/portfolio/">Portfolio</a>
+					<a @if (path.StartsWith("/archive/") || path.StartsWith("/posts/")) { Html.Raw("class=\"current\""); } href="/archive/">Blog</a>
+					<a @if (path.StartsWith("/portfolio/")) { Html.Raw("class=\"current\""); } href="/portfolio/">Portfolio</a>
 				</div>
 				<div class="lft">
 					<a href="/">&AElig; &#124; Alan Edwardes</a>
 				</div>
 			</div>
 		</div>
-        <div id="bdy"@if (!ViewBag.IsSingle) { Html.Raw(" class=\"hme\""); }>
+        <div id="bdy"@if (layoutParameters.ViewType == ViewType.Home) { Html.Raw(" class=\"hme\""); }>
             @RenderBody()
 			<div style="clear:both"></div>
 		</div>
@@ -48,9 +53,9 @@
 			<div class="wrp">
 				<div class="lft">
 					<span>&copy; 2006 &ndash; @DateTime.UtcNow.ToString("yyyy") <a href="/">Alan Edwardes</a> / <a href="https://github.com/alanedwardes/aeblog">Source on GitHub</a></span>
-					{% if template_name == 'index.html' %}
+                    @if (layoutParameters.ViewType == ViewType.Home) {
 						<span> / Data from <a href="http://www.audioscrobbler.net/">AudioScrobbler</a>, <a href="http://steampowered.com/">Steam</a></span>
-					{% endif %}
+                    }
 				</div>
 				<div class="rgt">
 					<a href="#" onclick="window.scrollTo(0);return false;">Top</a> &#8593;
