@@ -6,14 +6,13 @@
         {
             Title = title;
             ViewType = viewType;
+            Theme = ThemePicker.PickRandomTheme();
         }
-
-        private string title;
 
         public string Title { get; }
 
         public ViewType ViewType { get; }
 
-        public string Theme => ThemePicker.PickRandomTheme();
+        public string Theme { get; }
     }
 }
