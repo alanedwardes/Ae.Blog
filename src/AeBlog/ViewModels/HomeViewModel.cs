@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace AeBlog.ViewModels
 {
-    public class HomeViewModel
+    public class HomeViewModel : ArchiveViewModel
     {
-        public HomeViewModel(IEnumerable<Post> posts)
+        public HomeViewModel(IEnumerable<Post> posts, IEnumerable<Album> albums) : base(posts)
         {
-            Posts = posts;
+            Albums = albums;
         }
 
-        public IEnumerable<Post> Posts { get; }
+        public IEnumerable<Album> Albums { get; }
     }
 }

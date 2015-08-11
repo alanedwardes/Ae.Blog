@@ -1,0 +1,26 @@
+﻿@using AeBlog.Display;
+@using AeBlog.ViewModels;
+@model ArchiveViewModel
+@{
+    ViewBag.LayoutParameters = new LayoutParameters("Archive", ViewType.Page);
+    Layout = "/Views/Layout.cshtml";
+}
+
+<div class="wrp">
+    <div id="cnt">
+        <h1>Post Archive</h1>
+        <p>All posts on this blog starting with the most recent.</p>
+        @foreach (var groupedPosts in Model.Posts.GroupBy(p => p.Published.Year))
+        {
+            <h2>From @groupedPosts.Key</h2>
+            <ul>
+                @foreach (var post in groupedPosts)
+                {
+                    <li>
+                        <code>@post.Published.ToString("dd/MM/yyyy")</code> - <a href="/posts/@post.Slug/">@post.Title</a>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>

@@ -4,6 +4,7 @@
     {
         Single,
         Home,
-        Error
+        Error,
+        Page
     }
 }

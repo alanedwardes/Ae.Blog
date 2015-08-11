@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,11 +8,12 @@ namespace AeBlog.Data
 {
     public class Post
     {
-        public string body { get; set; }
-        public bool is_published { get; set; }
-        public DateTime published { get; set; }
-        public string slug { get; set; }
-        public string title { get; set; }
+        public string Body { get; set; }
+        [JsonProperty("is_published")]
+        public bool IsPublished { get; set; }
+        public DateTime Published { get; set; }
+        public string Slug { get; set; }
+        public string Title { get; set; }
     }
 
     public class PostManager : IPostManager

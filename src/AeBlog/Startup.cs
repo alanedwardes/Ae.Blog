@@ -13,6 +13,7 @@ namespace AeBlog
             services.AddLogging();
             services.AddTransient<IDocumentStore, DocumentStore>();
             services.AddTransient<IPostManager, PostManager>();
+            services.AddTransient<ILastfmDataProvider, LastfmDataProvider>();
         }
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)

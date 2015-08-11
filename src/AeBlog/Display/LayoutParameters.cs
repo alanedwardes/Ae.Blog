@@ -15,5 +15,7 @@
         public string Title => string.IsNullOrWhiteSpace(title) ? SiteTitle : $"{title} &mdash; {SiteTitle}";
 
         public ViewType ViewType { get; }
+
+        public string Theme => ThemePicker.PickRandomTheme();
     }
 }

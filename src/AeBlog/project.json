@@ -17,6 +17,7 @@
     "Microsoft.AspNet.Razor": "4.0.0-beta6",
     "Microsoft.Framework.Logging.Console": "1.0.0-beta6",
     "Microsoft.Framework.DependencyInjection": "1.0.0-beta6",
+    "Microsoft.Net.Http":  "2.2.29",
     "Newtonsoft.Json": "6.0.6"
   },
 
