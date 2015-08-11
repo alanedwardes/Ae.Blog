@@ -5,6 +5,8 @@
         Single,
         Home,
         Error,
-        Page
+        Page,
+        Archive,
+        Portfolio
     }
 }

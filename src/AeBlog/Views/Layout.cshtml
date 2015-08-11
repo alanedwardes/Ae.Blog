@@ -1,28 +1,27 @@
 ﻿@using AeBlog.Display
 @{ 
-    var layoutParameters = (LayoutParameters)ViewBag.LayoutParameters;
-    var path = Context.Request.Path.ToString();
+    var layout = (LayoutParameters)ViewBag.LayoutParameters;
 }
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>@Html.Raw(layoutParameters.Title)</title>
-		<link rel="icon" type="image/png" href="/favicon/@(layoutParameters.Theme).png">
+        @if (layout.Title == null) { <title>Alan Edwardes</title> } else { <title>@layout.Title &mdash; Alan Edwardes</title> }
+		<link rel="icon" type="image/png" href="/favicon/@(layout.Theme).png">
         <link rel="stylesheet" type="text/css" href="/Assets/main.css"/>
 		<style>
 			{% include "main.css" %}
 			.dbg, label.error, #hdr, .save, #ldg, #ftr, body
 			{
-				background-color:#@(layoutParameters.Theme);
+				background-color:#@(layout.Theme);
 			}
 			.dbd, input.text:focus, textarea:focus, input.error, textarea.error, #ftr, #bdy.shw, .admin .metawrap, .save, #bdy.hme a
 			{
-				border-color:#@(layoutParameters.Theme);
+				border-color:#@(layout.Theme);
 			}
 			.dco, a
 			{
-				color:#@(layoutParameters.Theme);
+				color:#@(layout.Theme);
 			}
 		</style>
 		<script>
@@ -34,15 +33,15 @@
 		<div id="hdr">
 			<div class="wrp">
 				<div class="rgt">
-					<a @if (path.StartsWith("/archive/") || path.StartsWith("/posts/")) { @Html.Raw("class='current'"); } href="/archive/">Blog</a>
-					<a @if (path.StartsWith("/portfolio/")) { @Html.Raw("class='current'"); } href="/portfolio/">Portfolio</a>
+					<a @if (layout.ViewType == ViewType.Single || layout.ViewType == ViewType.Archive) { @Html.Raw("class='current'"); } href="/archive/">Blog</a>
+					<a @if (layout.ViewType == ViewType.Portfolio) { @Html.Raw("class='current'"); } href="/portfolio/">Portfolio</a>
 				</div>
 				<div class="lft">
 					<a href="/">&AElig; &#124; Alan Edwardes</a>
 				</div>
 			</div>
 		</div>
-        <div id="bdy" @if (layoutParameters.ViewType == ViewType.Home) { @Html.Raw("class='hme'"); }>
+        <div id="bdy" @if (layout.ViewType == ViewType.Home) { @Html.Raw("class='hme'"); }>
             @RenderBody()
 			<div style="clear:both"></div>
 		</div>
@@ -50,9 +49,7 @@
 			<div class="wrp">
 				<div class="lft">
 					<span>&copy; 2006 &ndash; @(DateTime.UtcNow.Year) <a href="/">Alan Edwardes</a> / <a href="https://github.com/alanedwardes/aeblog">Source on GitHub</a></span>
-                    @if (layoutParameters.ViewType == ViewType.Home) {
-						<span> / Data from <a href="http://www.audioscrobbler.net/">AudioScrobbler</a>, <a href="http://steampowered.com/">Steam</a></span>
-                    }
+                    @if (layout.ViewType == ViewType.Home) { <span> / Data from <a href="http://www.audioscrobbler.net/">AudioScrobbler</a>, <a href="http://steampowered.com/">Steam</a></span> }
 				</div>
 				<div class="rgt">
 					<a href="#" onclick="window.scrollTo(0);return false;">Top</a> &#8593;
