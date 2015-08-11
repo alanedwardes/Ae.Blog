@@ -26,7 +26,7 @@ namespace AeBlog.Controllers
         [Route("/")]
         public async Task<IActionResult> Home(CancellationToken ctx = default(CancellationToken))
         {
-            var albums = await lastfmDataProvider.GetTopAlbumsForUser("alanedwardes", "", "7day");
+            var albums = await lastfmDataProvider.GetTopAlbumsForUser("alanedwardes", "", "7day", ctx);
 
             var posts = await postManager.GetPosts(ctx);
 
@@ -38,7 +38,9 @@ namespace AeBlog.Controllers
         {
             var posts = await postManager.GetPosts(ctx);
 
-            return View(new ArchiveViewModel(posts));
+            var published = posts.Where(p => p.IsPublished);
+
+            return View(new ArchiveViewModel(published));
         }
 
         [Route("/posts/{slug}/")]
@@ -46,6 +48,11 @@ namespace AeBlog.Controllers
         {
             var post = await postManager.GetPostBySlug(slug, ctx);
             if (post == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (!post.IsPublished)
             {
                 return HttpNotFound();
             }
