@@ -3,7 +3,7 @@
 @using AeBlog.ViewModels;
 @model SinglePostViewModel
 @{
-    ViewBag.LayoutParameters = new LayoutParameters { Title = Model.Post.title + " &mdash; Alan Edwardes", ViewType = ViewType.Single };
+    ViewBag.LayoutParameters = new LayoutParameters(Model.Post.title, ViewType.Single);
     Layout = "/Views/Layout.cshtml";
 }
 

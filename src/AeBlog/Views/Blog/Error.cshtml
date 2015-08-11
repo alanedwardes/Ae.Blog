@@ -2,7 +2,7 @@
 @using AeBlog.ViewModels;
 @model ErrorViewModel
 @{
-    ViewBag.LayoutParameters = new LayoutParameters { Title = Model.Title + " &mdash; Alan Edwardes", ViewType = ViewType.Home };
+    ViewBag.LayoutParameters = new LayoutParameters(Model.Title, ViewType.Error);
     Layout = "/Views/Layout.cshtml";
 }
 

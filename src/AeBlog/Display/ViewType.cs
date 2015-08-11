@@ -3,6 +3,7 @@
     public enum ViewType
     {
         Single,
-        Home
+        Home,
+        Error
     }
 }
