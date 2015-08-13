@@ -50,23 +50,47 @@ namespace AeBlog.Data
 
             IEnumerable<TItem> result = new List<TItem>();
 
-            do
-            {
-                var items = await query.GetNextSetAsync();
-                result = result.Concat(items.Select(DocumentToType<TItem>).Where(i => i != null));
-            }
-            while (!query.IsDone);
+            var items = await PerformSearch(query, ctx);
 
-            return result;
+            return items.Select(DocumentToType<TItem>).Where(i => i != null);
         }
 
-        public async Task<TItem> GetItem<TItem>(string key, string tableName, CancellationToken ctx = default(CancellationToken)) where TItem : class
+        public async Task<IEnumerable<TItem>> GetItems<TItem>(string tableName, string key, object value, string index, CancellationToken ctx = default(CancellationToken)) where TItem : class
         {
             logger.LogVerbose($"Getting {typeof(TItem).Name} with the key {key} from {tableName}");
 
             var table = Table.LoadTable(dynamo, tableName);
-            var item = await table.GetItemAsync(new Primitive(key), ctx);
-            return DocumentToType<TItem>(item);
+
+            QueryFilter queryFilter;
+            if (value is int || value is long)
+            {
+                queryFilter = new QueryFilter(key, QueryOperator.Equal, (int)value);
+            }
+            else
+            {
+                queryFilter = new QueryFilter(key, QueryOperator.Equal, (string)value);
+            }
+
+            var op = new QueryOperationConfig { IndexName = index, Filter = queryFilter };
+
+            var search = table.Query(op);
+
+            var items = await PerformSearch(search, ctx);
+            return items.Select(DocumentToType<TItem>).Where(i => i != null);
+        }
+
+        public async Task<IEnumerable<Document>> PerformSearch(Search search, CancellationToken ctx = default(CancellationToken))
+        {
+            var result = new List<Document>();
+
+            do
+            {
+                var items = await search.GetNextSetAsync(ctx);
+                result.AddRange(items);
+            }
+            while (!search.IsDone);
+
+            return result;
         }
     }
 }

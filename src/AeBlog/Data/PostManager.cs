@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace AeBlog.Data
 {
@@ -19,6 +20,9 @@ namespace AeBlog.Data
     public class PostManager : IPostManager
     {
         private const string PostTable = "Aeblog.Post";
+        private const string HashKey = "slug";
+        private const string IsPublishedKey = "is_published";
+        private const string IsPublishedIndex = "is_published-index";
 
         private readonly IDocumentStore documentStore;
 
@@ -27,14 +31,14 @@ namespace AeBlog.Data
             this.documentStore = documentStore;
         }
 
-        public Task<Post> GetPostBySlug(string slug, CancellationToken ctx = default(CancellationToken))
+        public async Task<Post> GetPostBySlug(string slug, CancellationToken ctx = default(CancellationToken))
         {
-            return documentStore.GetItem<Post>(slug, PostTable, ctx);
+            return (await documentStore.GetItems<Post>(PostTable, HashKey, slug, null, ctx)).SingleOrDefault();
         }
 
-        public Task<IEnumerable<Post>> GetPosts(CancellationToken ctx = default(CancellationToken))
+        public Task<IEnumerable<Post>> GetPublishedPosts(CancellationToken ctx = default(CancellationToken))
         {
-            return documentStore.GetItems<Post>(PostTable, ctx);
+            return documentStore.GetItems<Post>(PostTable, IsPublishedKey, 1, IsPublishedIndex, ctx);
         }
     }
 }

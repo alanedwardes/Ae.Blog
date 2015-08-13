@@ -1,0 +1,14 @@
+﻿@using AeBlog.Data;
+@model Portfolio
+<div class="portfolio_item boxshadow minor">
+    <div class="portfolio_banner dbd" style="background-image:url(/assets/@Model.Banner)">
+        <a href="/portfolio/item/@Model.Id/" title="@Model.Name">
+            <img src="/assets/tint.png" alt="@Model.Name" />
+        </a>
+    </div>
+    <a class="portfolio_summary" href="/portfolio/item/@Model.Id/">
+        <span class="name">@Model.Name &raquo;</span>
+        <span class="date">@Model.Published.ToString("MMM yyyy")</span>
+        <span class="clr"></span>
+    </a>
+</div>

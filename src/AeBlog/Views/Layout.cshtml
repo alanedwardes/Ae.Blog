@@ -25,6 +25,7 @@
 			}
 		</style>
 		<script>
+            var theme = "@(layout.Theme)";
             WebFontConfig = { google: { families: ['Alegreya', 'Alegreya SC'] } };
 		</script>
 		<script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js" async></script>
@@ -41,7 +42,7 @@
 				</div>
 			</div>
 		</div>
-        <div id="bdy" @if (layout.ViewType == ViewType.Home) { @Html.Raw("class='hme'"); }>
+        <div id="bdy" @if (layout.ViewType == ViewType.Home || layout.ViewType == ViewType.Portfolio) { @Html.Raw("class='hme'"); }>
             @RenderBody()
 			<div style="clear:both"></div>
 		</div>
@@ -49,7 +50,7 @@
 			<div class="wrp">
 				<div class="lft">
 					<span>&copy; 2006 &ndash; @(DateTime.UtcNow.Year) <a href="/">Alan Edwardes</a> / <a href="https://github.com/alanedwardes/aeblog">Source on GitHub</a></span>
-                    @if (layout.ViewType == ViewType.Home) { <span> / Data from <a href="http://www.audioscrobbler.net/">AudioScrobbler</a>, <a href="http://steampowered.com/">Steam</a></span> }
+                    @if (layout.ViewType == ViewType.Home) { <span> / Data from <a href="http://www.audioscrobbler.net/">AudioScrobbler</a></span> }
 				</div>
 				<div class="rgt">
 					<a href="#" onclick="window.scrollTo(0);return false;">Top</a> &#8593;

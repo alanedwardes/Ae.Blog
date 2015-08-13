@@ -72,7 +72,7 @@ namespace AeBlog.Data
         {
             var json = string.Empty;
 
-            using (var client = new HttpClient())
+            using (var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) })
             {
                 try
                 {
@@ -87,6 +87,11 @@ namespace AeBlog.Data
                 catch (HttpRequestException ex)
                 {
                     logger.LogError("Error getting last.fm albums", ex);
+                    return Enumerable.Empty<Album>();
+                }
+                catch (TaskCanceledException ex)
+                {
+                    logger.LogError("Cancelled getting last.fm albums", ex);
                     return Enumerable.Empty<Album>();
                 }
             }

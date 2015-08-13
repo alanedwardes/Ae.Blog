@@ -2,6 +2,8 @@
 using Microsoft.AspNet.Builder;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace AeBlog
 {
@@ -13,6 +15,8 @@ namespace AeBlog
             services.AddLogging();
             services.AddTransient<IDocumentStore, DocumentStore>();
             services.AddTransient<IPostManager, PostManager>();
+            services.AddTransient<IPortfolioManager, PortfolioManager>();
+            services.AddTransient<ICategoryManager, CategoryManager>();
             services.AddTransient<ILastfmDataProvider, LastfmDataProvider>();
         }
 
