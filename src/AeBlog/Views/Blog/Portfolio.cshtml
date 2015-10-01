@@ -9,10 +9,10 @@
 
 <div class="wrp prt list">
     <h1>Portfolio</h1>
-    @foreach (var category in Model.Categories.OrderBy(c => c.Ordering))
+    @foreach (var category in Model.Portfolios.Select(p => p.Category).Distinct())
     {
-        <h2>@category.Name</h2>
-        foreach (var portfolio in Model.Portfolios.Where(p => p.CategoryId == category.Id).Select((p, i) => new KeyValuePair<int, Portfolio>(i, p)))
+        <h2>@category</h2>
+        foreach (var portfolio in Model.Portfolios.Where(p => p.Category == category).Select((p, i) => new KeyValuePair<int, Portfolio>(i, p)))
         {
             @Html.Partial("PortfolioItem", portfolio.Value)
             if (portfolio.Key % 2 != 0) {

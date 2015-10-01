@@ -5,13 +5,11 @@ namespace AeBlog.ViewModels
 {
     public class PortfolioViewModel
     {
-        public PortfolioViewModel(IEnumerable<Portfolio> portfolios, IEnumerable<Category> categories)
+        public PortfolioViewModel(IEnumerable<Portfolio> portfolios)
         {
             Portfolios = portfolios;
-            Categories = categories;
         }
 
-        public IEnumerable<Category> Categories { get; }
         public IEnumerable<Portfolio> Portfolios { get; }
     }
 }

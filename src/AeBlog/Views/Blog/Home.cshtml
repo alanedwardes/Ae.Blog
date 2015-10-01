@@ -36,16 +36,12 @@
     <div class="clr"></div>
 
     <div id="lastfm">
-        @foreach (var album in Model.Albums.Take(12))
+        @foreach (var album in Model.Albums.Where(a => a.Image.Any(i => i.Size == AlbumImageSize.Medium && i.Url != null)).Take(12))
         {
-            var image = album.Image.Single(img => img.Size == AlbumImageSize.Medium).Url.LocalPath;
-            if (!image.StartsWith("/serve/"))
-            {
-                continue;
-            }
-            <div id="cover-@(album.Attributes.Rank - 1)" class="album">
-                <a target="_blank" href="@album.Url" title="#@(album.Attributes.Rank): @album.Name by @album.Artist.Name, played @album.Playcount times this week.">
-                    <img src="@(image)" alt="@album.Name by @album.Artist.Name album cover" width="64" height="64" />
+            var cover = album.Image.Single(i => i.Size == AlbumImageSize.Medium).Url;
+            <div class="album">
+                <a target="_blank" href="@(album.Url)" title="#@(album.Attributes.Rank): @(album.Name) by @(album.Artist.Name), played @(album.Playcount) times this week.">
+                    <img src="/ext/?url=@Html.UrlEncoder.UrlEncode(cover.AbsoluteUri)" alt="@(album.Name) by @(album.Artist.Name) album cover" width="64" height="64" />
                 </a>
             </div>
         }

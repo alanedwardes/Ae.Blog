@@ -8,6 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.Framework.Logging;
+using System.IO;
+using AeBlog.Clients;
 
 namespace AeBlog.Data
 {
@@ -16,13 +18,13 @@ namespace AeBlog.Data
         private readonly IAmazonDynamoDB dynamo;
         private readonly ILogger<DocumentStore> logger;
 
-        public DocumentStore(ILogger<DocumentStore> logger)
+        public DocumentStore(ILogger<DocumentStore> logger, IDynamoClientFactory dynamoClientFactory)
         {
             this.logger = logger;
-            dynamo = new AmazonDynamoDBClient(new EnvironmentAWSCredentials(), RegionEndpoint.EUWest1);
+            this.dynamo = dynamoClientFactory.CreateDynamoClient();
         }
 
-        public TDocument DocumentToType<TDocument>(Document document) where TDocument : class
+        public TType DocumentToType<TType>(Document document) where TType : class
         {
             if (document == null)
             {
@@ -31,13 +33,64 @@ namespace AeBlog.Data
 
             try
             {
-                return JsonConvert.DeserializeObject<TDocument>(document.ToJson());
+                return JsonConvert.DeserializeObject<TType>(document.ToJson());
             }
             catch (JsonSerializationException)
             {
-                logger.LogError($"Unable to deserialise document into {typeof(TDocument).Name}:\n{document.ToJsonPretty()}");
+                logger.LogError($"Unable to deserialise document into {typeof(TType).Name}:\n{document.ToJsonPretty()}");
                 return null;
             }
+        }
+
+        public Document TypeToDocument<TItem>(TItem type) where TItem : class
+        {
+            return Document.FromJson(JsonConvert.SerializeObject(type));
+        }
+
+        public async Task StoreBinaryItem<TItem>(string tableName, TItem item, string key, byte[] bytes) where TItem : class
+        {
+            var document = TypeToDocument(item);
+            document.Add(key, new Primitive { Type = DynamoDBEntryType.Binary, Value = bytes });
+            var table = Table.LoadTable(dynamo, tableName);
+            await table.PutItemAsync(document);
+        }
+
+        public async Task<TItem> GetBinaryItem<TItem>(string tableName, string key, object value, string binaryKey, Stream stream) where TItem : class
+        {
+            Primitive primitive;
+            if (value is int)
+            {
+                primitive = new Primitive(value.ToString(), true);
+            }
+            else
+            {
+                primitive = new Primitive(value.ToString(), false);
+            }
+
+            var table = Table.LoadTable(dynamo, tableName);
+            var document = await table.GetItemAsync(new Dictionary<string, DynamoDBEntry>
+            {
+                { key, primitive } 
+            });
+
+            if (document == null)
+            {
+                return null;
+            }
+
+            DynamoDBEntry entry;
+            if (!document.TryGetValue(binaryKey, out entry))
+            {
+                return null;
+            }
+
+            var bytes = entry.AsByteArray();
+            await stream.WriteAsync(bytes, 0, bytes.Length);
+            stream.Seek(0, SeekOrigin.Begin);
+
+            document.Remove(binaryKey);
+
+            return DocumentToType<TItem>(document);
         }
 
         public async Task<IEnumerable<TItem>> GetItems<TItem>(string tableName, CancellationToken ctx = default(CancellationToken)) where TItem : class

@@ -510,12 +510,12 @@ table.horizontal-table tr
 .album img, .game img{
 	background:url(/assets/check.png);
 }
-.album#cover-0{
-	padding-left:0px;
+.album + .album
+{
+	padding-left:17px;
 }
 .album{
 	float:left;
-	padding-left:17px;
 }
 #bdy{
 	background-color:#fff;

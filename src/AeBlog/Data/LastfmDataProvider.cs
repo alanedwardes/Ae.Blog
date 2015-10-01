@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -70,40 +71,24 @@ namespace AeBlog.Data
 
         public async Task<IEnumerable<Album>> GetTopAlbumsForUser(string user, string api_key, string period, CancellationToken ctx = default(CancellationToken))
         {
-            var json = string.Empty;
+            var parameters = new Dictionary<string, object> {
+                { "method", "user.gettopalbums" },
+                { "user", user },
+                { "api_key", api_key },
+                { "period", period },
+                { "format", "json" }
+            };
 
-            using (var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) })
+            using (var client = new HttpClient())
             {
-                try
+                using (var stream = await client.GetStreamAsync(new Uri("https://ws.audioscrobbler.com/2.0/").AddQueryParameters(parameters)))
                 {
-                    json = await client.GetStringAsync(new Uri("https://ws.audioscrobbler.com/2.0/").AddQueryParameters(new Dictionary<string, object> {
-                        { "method", "user.gettopalbums" },
-                        { "user", user },
-                        { "api_key", api_key },
-                        { "period", period },
-                        { "format", "json" }
-                    }));
+                    using (var sr = new StreamReader(stream))
+                    using (var jsonTextReader = new JsonTextReader(sr))
+                    {
+                        return new JsonSerializer().Deserialize<TopAlbumsResponse>(jsonTextReader)?.TopAlbums?.Albums ?? Enumerable.Empty<Album>();
+                    }
                 }
-                catch (HttpRequestException ex)
-                {
-                    logger.LogError("Error getting last.fm albums", ex);
-                    return Enumerable.Empty<Album>();
-                }
-                catch (TaskCanceledException ex)
-                {
-                    logger.LogError("Cancelled getting last.fm albums", ex);
-                    return Enumerable.Empty<Album>();
-                }
-            }
-
-            try
-            {
-                return JsonConvert.DeserializeObject<TopAlbumsResponse>(json)?.TopAlbums?.Albums ?? Enumerable.Empty<Album>();
-            }
-            catch (JsonSerializationException ex)
-            {
-                logger.LogError("Error deserialising last.fm albums", ex);
-                return Enumerable.Empty<Album>();
             }
         }
     }

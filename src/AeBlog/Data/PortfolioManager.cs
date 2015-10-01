@@ -12,16 +12,15 @@ namespace AeBlog.Data
         public int Id { get; set; }
         public string Name { get; set; }
         public string Banner { get; set; }
-        [JsonProperty("category_id")]
-        public int CategoryId { get; set; }
+        public string Category { get; set; }
         public string Preview { get; set; }
         public string Description { get; set; }
         [JsonProperty("is_featured")]
         public bool IsFeatured { get; set; }
         [JsonProperty("is_published")]
         public bool IsPublished { get; set; }
-        public DateTime Published { get; set; }
-        public IList<int> Skills { get; set; }
+        public DateTime? Published { get; set; }
+        public IList<string> Skills { get; set; }
         public IList<string> Screenshots { get; set; }
     }
 

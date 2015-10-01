@@ -7,7 +7,7 @@
 }
 
 <div class="wrp prt">
-    <h1 class="dbd">@Model.Portfolio.Name &mdash; {% if portfolio_item.published %}{{ portfolio_item.published|date('F Y') }}{% else %}Ongoing Project{% endif %}</h1>
+    <h1 class="dbd">@Model.Portfolio.Name &mdash; @(Model.Portfolio.Published.HasValue ? Model.Portfolio.Published.Value.ToString("MMM yyyy") : "Ongoing Project")</h1>
 
     <img class="boxshadow" id="portfolio-banner" src="/assets/@Model.Portfolio.Banner" alt="@Model.Portfolio.Name" />
 
@@ -21,23 +21,16 @@
     }
 
     <div class="rgt">
-        {% if portfolio_item_skills %}
-        <h3 class="dbd">Skills</h3>
-        <ul>
-            {% for skill in portfolio_item_skills %}
-            <li><a href="/portfolio/skill/{{ skill.id }}/">{{ skill.name }}</a> ({{ skill.usage_count }})</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-
-        {% if related_items %}
-        <h3 class="dbd">Related Projects by Skill</h3>
-        <ul>
-            {% for related_item in related_items %}
-            <li><a href="{{ related_item.get_absolute_url }}">{{ related_item.name }}</a> ({{ related_item.count }})</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
+        @if (Model.Portfolio.Skills.Any())
+        {
+            <h3 class="dbd">Skills</h3>
+            <ul>
+                @foreach (var skill in Model.Portfolio.Skills)
+                {
+                    <li><a href="/portfolio/skill/@Html.UrlEncoder.UrlEncode(skill)/">@skill</a></li>
+                }
+            </ul>
+        }
     </div>
 
     <div class="clr"></div>

@@ -1,38 +1,36 @@
 ﻿using AeBlog.Data;
+using AeBlog.Options;
 using AeBlog.ViewModels;
 using Microsoft.AspNet.Mvc;
+using Microsoft.Framework.OptionsModel;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace AeBlog.Controllers
 {
-    [Route("/")]
     public class BlogController : Controller
     {
         private readonly IPostManager postManager;
         private readonly ILastfmDataProvider lastfmDataProvider;
         private readonly IPortfolioManager portfolioManager;
-        private readonly ICategoryManager categoryManager;
+        private readonly ICacheProvider cacheProvider;
 
-        public BlogController(IPostManager postManager, IPortfolioManager portfolioManager, ILastfmDataProvider lastfmDataProvider, ICategoryManager categoryManager)
+        public BlogController(IPostManager postManager, IPortfolioManager portfolioManager, ILastfmDataProvider lastfmDataProvider, ICacheProvider cacheProvider)
         {
+            this.cacheProvider = cacheProvider;
             this.postManager = postManager;
             this.portfolioManager = portfolioManager;
             this.lastfmDataProvider = lastfmDataProvider;
-            this.categoryManager = categoryManager;
         }
 
         [Route("/assets/uploads/{section}/{file}")]
         public IActionResult AssetsUploads(string section, string file)
         {
             return Redirect($"https://d2tboyarufvoyl.cloudfront.net/uploads/{section}/{file}");
-        }
-
-        [Route("/serve/{size}/{file}")]
-        public IActionResult ServeLastfm(string size, string file)
-        {
-            return Redirect($"https://d2tboyarufvoyl.cloudfront.net/serve/{size}/{file}");
         }
 
         [Route("/")]
@@ -42,8 +40,7 @@ namespace AeBlog.Controllers
 
             var portfolios = await portfolioManager.GetFeaturedPortfolios(ctx);
 
-            var albums = await lastfmDataProvider.GetTopAlbumsForUser("alanedwardes", "", "7day", ctx);
-            //var albums = Enumerable.Empty<Album>();
+            var albums = await cacheProvider.Get<IEnumerable<Album>>("albums");
 
             return View(new HomeViewModel(posts, portfolios, albums));
         }
@@ -53,9 +50,7 @@ namespace AeBlog.Controllers
         {
             var portfolios = await portfolioManager.GetPublishedPortfolios(ctx);
 
-            var categories = await categoryManager.GetPublishedCategories(ctx);
-
-            return View(new PortfolioViewModel(portfolios, categories));
+            return View(new PortfolioViewModel(portfolios));
         }
 
         [Route("/portfolio/item/{id}/")]
@@ -72,6 +67,33 @@ namespace AeBlog.Controllers
             var posts = await postManager.GetPublishedPosts(ctx);
 
             return View(new ArchiveViewModel(posts));
+        }
+
+        [Route("/ext/")]
+        public async Task<IActionResult> External()
+        {
+            string[] ValidDomains = new[] { "img2-ak.lst.fm" };
+
+            var url = Request.Query.Get("url");
+
+            Uri uri;
+            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
+            {
+                return HttpNotFound();
+            }
+
+            if (!ValidDomains.Any(d => d == uri.Host))
+            {
+                return HttpNotFound();
+            }
+
+            using (var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) })
+            {
+                var response = await client.GetAsync(uri);
+                var contentType = response.Content.Headers.ContentType;
+                var bytes = await response.Content.ReadAsByteArrayAsync();
+                return File(bytes, contentType.MediaType);
+            }
         }
 
         [Route("/posts/{slug}/")]
