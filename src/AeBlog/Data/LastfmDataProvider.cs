@@ -69,7 +69,7 @@ namespace AeBlog.Data
             this.logger = logger;
         }
 
-        public async Task<IList<Album>> GetTopAlbumsForUser(string user, string api_key, string period, CancellationToken ctx = default(CancellationToken))
+        public async Task<IList<Album>> GetTopAlbumsForUser(string user, string api_key, string period, CancellationToken ctx)
         {
             var parameters = new Dictionary<string, object> {
                 { "method", "user.gettopalbums" },

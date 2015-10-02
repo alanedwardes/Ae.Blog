@@ -93,7 +93,7 @@ namespace AeBlog.Data
             return DocumentToType<TItem>(document);
         }
 
-        public async Task<IEnumerable<TItem>> GetItems<TItem>(string tableName, CancellationToken ctx = default(CancellationToken)) where TItem : class
+        public async Task<IEnumerable<TItem>> GetItems<TItem>(string tableName, CancellationToken ctx) where TItem : class
         {
             logger.LogVerbose($"Getting all {typeof(TItem).Name} from {tableName}");
 
@@ -108,7 +108,7 @@ namespace AeBlog.Data
             return items.Select(DocumentToType<TItem>).Where(i => i != null);
         }
 
-        public async Task<IEnumerable<TItem>> GetItems<TItem>(string tableName, string key, object value, string index, CancellationToken ctx = default(CancellationToken)) where TItem : class
+        public async Task<IEnumerable<TItem>> GetItems<TItem>(string tableName, string key, object value, string index, CancellationToken ctx) where TItem : class
         {
             logger.LogVerbose($"Getting {typeof(TItem).Name} with the key {key} from {tableName}");
 
@@ -132,7 +132,7 @@ namespace AeBlog.Data
             return items.Select(DocumentToType<TItem>).Where(i => i != null);
         }
 
-        public async Task<IEnumerable<Document>> PerformSearch(Search search, CancellationToken ctx = default(CancellationToken))
+        public async Task<IEnumerable<Document>> PerformSearch(Search search, CancellationToken ctx)
         {
             var result = new List<Document>();
 

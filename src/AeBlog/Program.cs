@@ -43,9 +43,17 @@ namespace AeBlog
             var logging = provider.GetService<ILoggerFactory>();
             logging.AddConsole();
 
+            var cancellationSource = new CancellationTokenSource();
+
             var taskRunner = new TaskRunner(logging.CreateLogger<TaskRunner>(), provider);
 
-            var tasks = taskRunner.RunTasksFromAssembly(typeof(Program).GetTypeInfo().Assembly, default(CancellationToken));
+            var tasks = taskRunner.RunTasksFromAssembly(typeof(Program).GetTypeInfo().Assembly, cancellationSource.Token);
+
+            Console.CancelKeyPress += (sender, e) =>
+            {
+                Console.WriteLine("Caught cancel, exiting...");
+                cancellationSource.Cancel();
+            };
 
             await Task.WhenAll(tasks);
         }

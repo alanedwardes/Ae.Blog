@@ -6,7 +6,7 @@ namespace AeBlog.Data
 {
     public interface IPostManager
     {
-        Task<Post> GetPostBySlug(string slug, CancellationToken ctx = default(CancellationToken));
-        Task<IEnumerable<Post>> GetPublishedPosts(CancellationToken ctx = default(CancellationToken));
+        Task<Post> GetPostBySlug(string slug, CancellationToken ctx);
+        Task<IEnumerable<Post>> GetPublishedPosts(CancellationToken ctx);
     }
 }

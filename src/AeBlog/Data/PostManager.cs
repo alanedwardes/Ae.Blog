@@ -31,12 +31,12 @@ namespace AeBlog.Data
             this.documentStore = documentStore;
         }
 
-        public async Task<Post> GetPostBySlug(string slug, CancellationToken ctx = default(CancellationToken))
+        public async Task<Post> GetPostBySlug(string slug, CancellationToken ctx)
         {
             return (await documentStore.GetItems<Post>(PostTable, HashKey, slug, null, ctx)).SingleOrDefault();
         }
 
-        public Task<IEnumerable<Post>> GetPublishedPosts(CancellationToken ctx = default(CancellationToken))
+        public Task<IEnumerable<Post>> GetPublishedPosts(CancellationToken ctx)
         {
             return documentStore.GetItems<Post>(PostTable, IsPublishedKey, 1, IsPublishedIndex, ctx);
         }

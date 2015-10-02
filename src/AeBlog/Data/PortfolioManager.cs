@@ -40,17 +40,17 @@ namespace AeBlog.Data
             this.documentStore = documentStore;
         }
 
-        public async Task<Portfolio> GetPortfolioById(int id, CancellationToken ctx = default(CancellationToken))
+        public async Task<Portfolio> GetPortfolioById(int id, CancellationToken ctx)
         {
             return (await documentStore.GetItems<Portfolio>(PortfolioTable, HashKey, id, null, ctx)).SingleOrDefault();
         }
 
-        public Task<IEnumerable<Portfolio>> GetFeaturedPortfolios(CancellationToken ctx = default(CancellationToken))
+        public Task<IEnumerable<Portfolio>> GetFeaturedPortfolios(CancellationToken ctx)
         {
             return documentStore.GetItems<Portfolio>(PortfolioTable, FeaturedKey, 1, FeaturedIndex, ctx);
         }
 
-        public Task<IEnumerable<Portfolio>> GetPublishedPortfolios(CancellationToken ctx = default(CancellationToken))
+        public Task<IEnumerable<Portfolio>> GetPublishedPortfolios(CancellationToken ctx)
         {
             return documentStore.GetItems<Portfolio>(PortfolioTable, PublishedKey, 1, PublishedIndex, ctx);
         }

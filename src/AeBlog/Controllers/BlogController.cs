@@ -32,7 +32,7 @@ namespace AeBlog.Controllers
         }
 
         [Route("/")]
-        public async Task<IActionResult> Home(CancellationToken ctx = default(CancellationToken))
+        public async Task<IActionResult> Home(CancellationToken ctx)
         {
             var posts = await postManager.GetPublishedPosts(ctx);
 
@@ -44,7 +44,7 @@ namespace AeBlog.Controllers
         }
 
         [Route("/portfolio/")]
-        public async Task<IActionResult> Portfolio(CancellationToken ctx = default(CancellationToken))
+        public async Task<IActionResult> Portfolio(CancellationToken ctx)
         {
             var portfolios = await portfolioManager.GetPublishedPortfolios(ctx);
 
@@ -52,7 +52,7 @@ namespace AeBlog.Controllers
         }
 
         [Route("/portfolio/item/{id}/")]
-        public async Task<IActionResult> SinglePortfolio(int id, CancellationToken ctx = default(CancellationToken))
+        public async Task<IActionResult> SinglePortfolio(int id, CancellationToken ctx)
         {
             var portfolio = await portfolioManager.GetPortfolioById(id, ctx);
 
@@ -60,7 +60,7 @@ namespace AeBlog.Controllers
         }
 
         [Route("/archive/")]
-        public async Task<IActionResult> Archive(CancellationToken ctx = default(CancellationToken))
+        public async Task<IActionResult> Archive(CancellationToken ctx)
         {
             var posts = await postManager.GetPublishedPosts(ctx);
 
@@ -95,7 +95,7 @@ namespace AeBlog.Controllers
         }
 
         [Route("/posts/{slug}/")]
-        public async Task<IActionResult> SinglePost(string slug, CancellationToken ctx = default(CancellationToken))
+        public async Task<IActionResult> SinglePost(string slug, CancellationToken ctx)
         {
             var post = await postManager.GetPostBySlug(slug, ctx);
             if (post == null)
