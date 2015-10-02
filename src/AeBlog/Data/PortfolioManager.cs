@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using AeBlog.Caching;
+using AeBlog.Extensions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,33 +28,36 @@ namespace AeBlog.Data
 
     public class PortfolioManager : IPortfolioManager
     {
-        private const string PortfolioTable = "Aeblog.Portfolio";
-        private const string HashKey = "id";
-        private const string FeaturedKey = "is_featured";
-        private const string FeaturedIndex = "is_featured-index";
-        private const string PublishedKey = "is_published";
-        private const string PublishedIndex = "is_published-index";
+        private readonly ICacheProvider cacheProvider;
 
-        private readonly IDocumentStore documentStore;
-
-        public PortfolioManager(IDocumentStore documentStore)
+        public PortfolioManager(ICacheProvider cacheProvider)
         {
-            this.documentStore = documentStore;
+            this.cacheProvider = cacheProvider;
+        }
+
+        private async Task<IEnumerable<Portfolio>> GetPortfolios(CancellationToken ctx)
+        {
+            return await cacheProvider.Get<IList<Portfolio>>("portfolios", ctx) ?? Enumerable.Empty<Portfolio>();
         }
 
         public async Task<Portfolio> GetPortfolioById(int id, CancellationToken ctx)
         {
-            return (await documentStore.GetItems<Portfolio>(PortfolioTable, HashKey, id, null, ctx)).SingleOrDefault();
+            return (await GetPortfolios(ctx)).Where(p => p.Id == id && p.IsPublished).SingleOrDefault();
         }
 
-        public Task<IEnumerable<Portfolio>> GetFeaturedPortfolios(CancellationToken ctx)
+        public async Task<IEnumerable<Portfolio>> GetFeaturedPortfolios(CancellationToken ctx)
         {
-            return documentStore.GetItems<Portfolio>(PortfolioTable, FeaturedKey, 1, FeaturedIndex, ctx);
+            return (await GetPortfolios(ctx)).Where(p => p.IsFeatured && p.IsPublished);
         }
 
-        public Task<IEnumerable<Portfolio>> GetPublishedPortfolios(CancellationToken ctx)
+        public async Task<IEnumerable<Portfolio>> GetPublishedPortfolios(CancellationToken ctx)
         {
-            return documentStore.GetItems<Portfolio>(PortfolioTable, PublishedKey, 1, PublishedIndex, ctx);
+            return (await GetPortfolios(ctx)).Where(p => p.IsPublished);
+        }
+
+        public async Task<IEnumerable<Portfolio>> GetPortfoliosBySkillSlug(string slug, CancellationToken ctx)
+        {
+            return (await GetPortfolios(ctx)).Where(p => p.Skills.Any(s => s.ToSlug() == slug));
         }
     }
 }

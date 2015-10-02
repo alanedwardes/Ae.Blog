@@ -1,5 +1,6 @@
 ﻿@using AeBlog.ViewModels;
 @using AeBlog.Display;
+@using AeBlog.Extensions;
 @model SinglePortfolioViewModel
 @{
     ViewBag.LayoutParameters = new LayoutParameters(Model.Portfolio.Name, ViewType.Portfolio);
@@ -27,7 +28,7 @@
             <ul>
                 @foreach (var skill in Model.Portfolio.Skills)
                 {
-                    <li><a href="/portfolio/skill/@Html.UrlEncoder.UrlEncode(skill)/">@skill</a></li>
+                    <li><a href="/portfolio/skill/@skill.ToSlug()/">@skill</a></li>
                 }
             </ul>
         }

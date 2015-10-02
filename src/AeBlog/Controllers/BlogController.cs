@@ -1,12 +1,11 @@
 ﻿using AeBlog.Caching;
+using AeBlog.Clients;
 using AeBlog.Data;
-using AeBlog.Options;
+using AeBlog.Extensions;
 using AeBlog.ViewModels;
 using Microsoft.AspNet.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,7 +37,7 @@ namespace AeBlog.Controllers
 
             var portfolios = await portfolioManager.GetFeaturedPortfolios(ctx);
 
-            var albums = await cacheProvider.Get<IList<Album>>("albums") ?? Enumerable.Empty<Album>();
+            var albums = await cacheProvider.Get<IList<Album>>("albums", ctx) ?? Enumerable.Empty<Album>();
 
             return View(new HomeViewModel(posts, portfolios, albums));
         }
@@ -59,39 +58,26 @@ namespace AeBlog.Controllers
             return View(new SinglePortfolioViewModel(portfolio));
         }
 
+        [Route("/portfolio/skill/{slug}/")]
+        public async Task<IActionResult> SingleSkill(string slug, CancellationToken ctx)
+        {
+            var portfolios = await portfolioManager.GetPortfoliosBySkillSlug(slug, ctx);
+            if (!portfolios.Any())
+            {
+                return HttpNotFound();
+            }
+
+            var skill = portfolios.First().Skills.Single(s => s.ToSlug() == slug);
+
+            return View(new SingleSkillViewModel(portfolios, skill));
+        }
+
         [Route("/archive/")]
         public async Task<IActionResult> Archive(CancellationToken ctx)
         {
             var posts = await postManager.GetPublishedPosts(ctx);
 
             return View(new ArchiveViewModel(posts));
-        }
-
-        [Route("/ext/")]
-        public async Task<IActionResult> External()
-        {
-            string[] ValidDomains = new[] { "img2-ak.lst.fm" };
-
-            var url = Request.Query.Get("url");
-
-            Uri uri;
-            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
-            {
-                return HttpNotFound();
-            }
-
-            if (!ValidDomains.Any(d => d == uri.Host))
-            {
-                return HttpNotFound();
-            }
-
-            using (var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) })
-            {
-                var response = await client.GetAsync(uri);
-                var contentType = response.Content.Headers.ContentType;
-                var bytes = await response.Content.ReadAsByteArrayAsync();
-                return File(bytes, contentType.MediaType);
-            }
         }
 
         [Route("/posts/{slug}/")]

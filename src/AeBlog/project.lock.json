@@ -40,6 +40,18 @@
           "lib/dnxcore50/DynamoDBv2.dll": {}
         }
       },
+      "AWSSDK.S3/3.2.0.0-beta": {
+        "type": "package",
+        "dependencies": {
+          "AWSSDK.Core": "[3.2.0.0-beta, 3.3-beta)"
+        },
+        "compile": {
+          "lib/dnxcore50/S3.dll": {}
+        },
+        "runtime": {
+          "lib/dnxcore50/S3.dll": {}
+        }
+      },
       "Microsoft.AspNet.Antiforgery/1.0.0-beta7": {
         "type": "package",
         "dependencies": {
@@ -2453,6 +2465,29 @@
         "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid10+xamarinios10+MonoTouch10/AWSSDK.DynamoDBv2.dll",
         "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid10+xamarinios10+MonoTouch10/AWSSDK.DynamoDBv2.pdb",
         "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid10+xamarinios10+MonoTouch10/AWSSDK.DynamoDBv2.XML",
+        "tools/net35/install.ps1",
+        "tools/net45/install.ps1"
+      ]
+    },
+    "AWSSDK.S3/3.2.0.0-beta": {
+      "type": "package",
+      "sha512": "L4ZYtfsDnwVZZ4JDtrTDbMfyoTgUUs6wwts49fR9mf90s2NgtJlpMBDGq89cZyoXWCiF/WhRyY+f9szeT20URg==",
+      "files": [
+        "AWSSDK.S3.3.2.0-beta.nupkg",
+        "AWSSDK.S3.3.2.0-beta.nupkg.sha512",
+        "AWSSDK.S3.nuspec",
+        "lib/dnxcore50/S3.dll",
+        "lib/dnxcore50/S3.pdb",
+        "lib/dnxcore50/S3.xml",
+        "lib/net35/AWSSDK.S3.dll",
+        "lib/net35/AWSSDK.S3.pdb",
+        "lib/net35/AWSSDK.S3.XML",
+        "lib/net45/AWSSDK.S3.dll",
+        "lib/net45/AWSSDK.S3.pdb",
+        "lib/net45/AWSSDK.S3.XML",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid10+xamarinios10+MonoTouch10/AWSSDK.S3.dll",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid10+xamarinios10+MonoTouch10/AWSSDK.S3.pdb",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid10+xamarinios10+MonoTouch10/AWSSDK.S3.XML",
         "tools/net35/install.ps1",
         "tools/net45/install.ps1"
       ]
@@ -5472,6 +5507,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
+      "AWSSDK.S3 >= 3.2.0-beta",
       "AWSSDK.DynamoDBv2 >= 3.2.0-beta",
       "Microsoft.AspNet.Diagnostics >= 1.0.0-*",
       "Microsoft.AspNet.Hosting >= 1.0.0-*",

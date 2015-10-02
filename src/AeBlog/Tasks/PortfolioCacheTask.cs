@@ -1,7 +1,11 @@
 ﻿using AeBlog.Caching;
 using AeBlog.Clients;
-using Amazon.DynamoDBv2.Model;
+using AeBlog.Data;
+using AeBlog.Extensions;
+using Amazon.DynamoDBv2.DocumentModel;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,6 +15,7 @@ namespace AeBlog.Tasks
     {
         private readonly ICacheProvider cacheProvider;
         private readonly IDynamoClientFactory dynamoclientFactory;
+        private readonly string PortfolioTable = "Aeblog.Portfolio";
 
         public PortfolioCacheTask(IDynamoClientFactory dynamoclientFactory, ICacheProvider cacheProvider)
         {
@@ -22,9 +27,21 @@ namespace AeBlog.Tasks
         {
             var client = dynamoclientFactory.CreateDynamoClient();
 
-            var portfolios = await client.ScanAsync(new ScanRequest { TableName = "Aeblog.Portfolio" }, ctx);
+            var portfolioTable = Table.LoadTable(client, PortfolioTable);
 
-            await cacheProvider.Set("portfolios", portfolios);
+            var search = portfolioTable.Scan(new ScanFilter());
+
+            var documents = new List<Document>();
+
+            do
+            {
+                documents.AddRange(await search.GetNextSetAsync(ctx));
+            }
+            while (!search.IsDone);
+
+            var portfolios = documents.Deserialize<Portfolio>().ToList();
+
+            await cacheProvider.Set("portfolios", portfolios, ctx);
 
             return TimeSpan.FromMinutes(5);
         }

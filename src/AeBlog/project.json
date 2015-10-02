@@ -8,6 +8,7 @@
   "webroot": "webroot",
 
   "dependencies": {
+    "AWSSDK.S3": "3.2.0-beta",
     "AWSSDK.DynamoDBv2": "3.2.0-beta",
     "Microsoft.AspNet.Diagnostics": "1.0.0-*",
     "Microsoft.AspNet.Hosting": "1.0.0-*",

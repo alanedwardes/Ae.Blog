@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AeBlog.Caching
@@ -13,7 +14,7 @@ namespace AeBlog.Caching
 
         private IDictionary<string, object> cache = new Dictionary<string, object>();
 
-        public Task<TObject> Get<TObject>(string key)
+        public Task<TObject> Get<TObject>(string key, CancellationToken ctx)
         {
             if (!cache.ContainsKey(key))
             {
@@ -23,7 +24,7 @@ namespace AeBlog.Caching
             return Task.FromResult((TObject)cache[key]);
         }
 
-        public Task Set<TObject>(string key, TObject value)
+        public Task Set<TObject>(string key, TObject value, CancellationToken ctx)
         {
             lock (cache)
             {

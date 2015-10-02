@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+using AeBlog.Caching;
 
 namespace AeBlog.Data
 {
@@ -19,26 +20,26 @@ namespace AeBlog.Data
 
     public class PostManager : IPostManager
     {
-        private const string PostTable = "Aeblog.Post";
-        private const string HashKey = "slug";
-        private const string IsPublishedKey = "is_published";
-        private const string IsPublishedIndex = "is_published-index";
+        private readonly ICacheProvider cacheProvider;
 
-        private readonly IDocumentStore documentStore;
-
-        public PostManager(IDocumentStore documentStore)
+        public PostManager(ICacheProvider cacheProvider)
         {
-            this.documentStore = documentStore;
+            this.cacheProvider = cacheProvider;
+        }
+
+        private async Task<IEnumerable<Post>> GetPosts(CancellationToken ctx)
+        {
+            return await cacheProvider.Get<IList<Post>>("posts", ctx) ?? Enumerable.Empty<Post>();
         }
 
         public async Task<Post> GetPostBySlug(string slug, CancellationToken ctx)
         {
-            return (await documentStore.GetItems<Post>(PostTable, HashKey, slug, null, ctx)).SingleOrDefault();
+            return (await GetPosts(ctx)).Where(p => p.Slug == slug && p.IsPublished).SingleOrDefault();
         }
 
-        public Task<IEnumerable<Post>> GetPublishedPosts(CancellationToken ctx)
+        public async Task<IEnumerable<Post>> GetPublishedPosts(CancellationToken ctx)
         {
-            return documentStore.GetItems<Post>(PostTable, IsPublishedKey, 1, IsPublishedIndex, ctx);
+            return (await GetPosts(ctx)).Where(p => p.IsPublished);
         }
     }
 }

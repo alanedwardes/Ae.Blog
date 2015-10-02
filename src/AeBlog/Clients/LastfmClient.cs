@@ -8,9 +8,9 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AeBlog.Data
+namespace AeBlog.Clients
 {
-    public enum AlbumImageSize
+    public enum JsonAlbumImageSize
     {
         Small,
         Medium,
@@ -18,7 +18,7 @@ namespace AeBlog.Data
         ExtraLarge
     }
 
-    public class AlbumArtist
+    public class JsonAlbumArtist
     {
         public string Name { get; set; }
         public Guid? mbid { get; set; }
@@ -29,52 +29,66 @@ namespace AeBlog.Data
     {
         public string Name { get; set; }
         public int Playcount { get; set; }
-        public Guid? Mbid { get; set; }
         public Uri Url { get; set; }
-        public AlbumArtist Artist { get; set; }
-        public IList<AlbumImage> Image { get; set; }
-        [JsonProperty("@attr")]
-        public AlbumAttributes Attributes { get; set; }
+        public JsonAlbumArtist Artist { get; set; }
+        public Uri Thumbnail { get; set; }
+        public int Rank { get; set; }
+
+        public override string ToString() => Artist == null ? Name : Name + " by " + Artist.Name;
     }
 
-    public class AlbumImage
+    public class JsonAlbum
+    {
+        public string Name { get; set; }
+        public int Playcount { get; set; }
+        public Guid? Mbid { get; set; }
+        public Uri Url { get; set; }
+        public JsonAlbumArtist Artist { get; set; }
+        public IList<JsonAlbumImage> Image { get; set; }
+        [JsonProperty("@attr")]
+        public JsonAlbumAttributes Attributes { get; set; }
+    }
+
+    public class JsonAlbumImage
     {
         [JsonProperty("#text")]
         public Uri Url { get; set; }
-        public AlbumImageSize Size { get; set; }
+        public JsonAlbumImageSize Size { get; set; }
     }
 
-    public class AlbumAttributes
+    public class JsonAlbumAttributes
     {
         public int Rank { get; set; }
     }
 
-    public class TopAlbums
+    public class JsonTopAlbums
     {
         [JsonProperty("album")]
-        public IList<Album> Albums { get; set; }
+        public IList<JsonAlbum> Albums { get; set; }
     }
 
-    public class TopAlbumsResponse
+    public class JsonTopAlbumsResponse
     {
-        public TopAlbums TopAlbums { get; set; }
+        public JsonTopAlbums TopAlbums { get; set; }
     }
 
-    public class LastfmDataProvider : ILastfmDataProvider
+    public class LastfmClient : ILastfmClient
     {
-        private readonly ILogger<LastfmDataProvider> logger;
+        private readonly string apiKey;
+        private readonly string username;
 
-        public LastfmDataProvider(ILogger<LastfmDataProvider> logger)
+        public LastfmClient(string apiKey, string username)
         {
-            this.logger = logger;
+            this.apiKey = apiKey;
+            this.username = username;
         }
 
-        public async Task<IList<Album>> GetTopAlbumsForUser(string user, string api_key, string period, CancellationToken ctx)
+        public async Task<IList<JsonAlbum>> GetTopAlbumsForUser(string period, CancellationToken ctx)
         {
             var parameters = new Dictionary<string, object> {
                 { "method", "user.gettopalbums" },
-                { "user", user },
-                { "api_key", api_key },
+                { "user", username },
+                { "api_key", apiKey },
                 { "period", period },
                 { "format", "json" }
             };
@@ -86,7 +100,7 @@ namespace AeBlog.Data
                     using (var sr = new StreamReader(stream))
                     using (var jsonTextReader = new JsonTextReader(sr))
                     {
-                        return new JsonSerializer().Deserialize<TopAlbumsResponse>(jsonTextReader)?.TopAlbums?.Albums;
+                        return new JsonSerializer().Deserialize<JsonTopAlbumsResponse>(jsonTextReader)?.TopAlbums?.Albums;
                     }
                 }
             }
