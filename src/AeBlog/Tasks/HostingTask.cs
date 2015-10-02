@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Hosting;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,12 +14,18 @@ namespace AeBlog.Tasks
             this.serviceProvider = serviceProvider;
         }
 
-        public Task<TimeSpan> DoWork(CancellationToken ctx)
+        public async Task<TimeSpan> DoWork(CancellationToken ctx)
         {
-            return Task.Run(() => {
-                new Microsoft.AspNet.Hosting.Program(serviceProvider).Main(new[] { "--config", "hosting.ini" });
-                return TimeSpan.FromSeconds(0);
-            });
+            var builder = new WebHostBuilder(serviceProvider);
+            builder.UseServer("Microsoft.AspNet.Server.Kestrel");
+            var engine = builder.Build();
+
+            using (engine.Start())
+            {
+                await Task.Delay(Timeout.Infinite, ctx);
+            }
+
+            return TimeSpan.Zero;
         }
     }
 }
