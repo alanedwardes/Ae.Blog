@@ -5521,6 +5521,8 @@
       "Microsoft.Net.Http >= 2.2.29",
       "Microsoft.Framework.Configuration.Json >= 1.0.0-beta7"
     ],
-    "DNXCore,Version=v5.0": []
+    "DNXCore,Version=v5.0": [
+      "System.Console >= 4.0.0-beta-23220"
+    ]
   }
 }

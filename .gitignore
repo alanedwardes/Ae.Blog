@@ -1,3 +1,4 @@
 .suo
 credentials.json
 .vs/config/applicationhost.config
+project.lock.json
