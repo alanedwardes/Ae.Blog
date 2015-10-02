@@ -21,16 +21,10 @@ namespace AeBlog.Tasks
             this.logger = logger;
         }
 
-        private IEnumerable<Type> GetScheduledTaskTypes(Assembly assembly)
-        {
-            return assembly.GetTypes().Where(t => typeof(IScheduledTask).IsAssignableFrom(t) && t.GetTypeInfo().IsClass);
-        }
-
         public IEnumerable<Task> RunTasksFromAssembly(Assembly assembly, CancellationToken ctx)
         {
-            var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
-
-            foreach (var type in GetScheduledTaskTypes(assembly))
+            var scheduledTasks = assembly.GetTypes().Where(t => typeof(IScheduledTask).IsAssignableFrom(t) && t.GetTypeInfo().IsClass);
+            foreach (var type in scheduledTasks)
             {
                 yield return WorkTask(type, ctx);
             }
@@ -47,7 +41,6 @@ namespace AeBlog.Tasks
                 try
                 {
                     var delay = await scheduler.DoWork(ctx);
-                    sw.Stop();
                     logger.LogInformation($"Task {type.Name} completed in {sw.Elapsed.TotalSeconds} seconds. Next run: {DateTime.Now + delay}");
                     await Task.Delay(delay, ctx);
                 }
@@ -57,8 +50,6 @@ namespace AeBlog.Tasks
                     {
                         throw;
                     }
-
-                    sw.Stop();
                     logger.LogError($"Exception from {type.Name} in {sw.Elapsed.TotalSeconds} seconds. Trying again in 30 seconds.", ex);
                     await Task.Delay(TimeSpan.FromSeconds(30), ctx);
                 }
