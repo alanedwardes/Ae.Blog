@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace AeBlog
+namespace AeBlog.Caching
 {
     public interface ICacheProvider
     {

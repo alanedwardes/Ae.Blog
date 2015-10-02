@@ -1,14 +1,14 @@
 ﻿using Microsoft.Dnx.Runtime;
 using System.Threading.Tasks;
-using System.Linq;
 using System.Reflection;
 using Microsoft.Framework.DependencyInjection;
-using System.Collections.Generic;
 using AeBlog.Options;
 using Microsoft.Framework.Configuration;
 using System;
 using Microsoft.Framework.Logging;
 using System.Threading;
+using AeBlog.Tasks;
+using AeBlog.Caching;
 
 namespace AeBlog
 {
@@ -43,7 +43,9 @@ namespace AeBlog
             var logging = provider.GetService<ILoggerFactory>();
             logging.AddConsole();
 
-            var tasks = new TaskRunner().RunTasksFromAssembly(typeof(Program).GetTypeInfo().Assembly, provider, default(CancellationToken));
+            var taskRunner = new TaskRunner(logging.CreateLogger<TaskRunner>(), provider);
+
+            var tasks = taskRunner.RunTasksFromAssembly(typeof(Program).GetTypeInfo().Assembly, default(CancellationToken));
 
             await Task.WhenAll(tasks);
         }

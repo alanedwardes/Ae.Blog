@@ -1,9 +1,9 @@
-﻿using Microsoft.Framework.Logging;
+﻿using AeBlog.Extensions;
+using Microsoft.Framework.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -69,7 +69,7 @@ namespace AeBlog.Data
             this.logger = logger;
         }
 
-        public async Task<IEnumerable<Album>> GetTopAlbumsForUser(string user, string api_key, string period, CancellationToken ctx = default(CancellationToken))
+        public async Task<IList<Album>> GetTopAlbumsForUser(string user, string api_key, string period, CancellationToken ctx = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object> {
                 { "method", "user.gettopalbums" },
@@ -86,7 +86,7 @@ namespace AeBlog.Data
                     using (var sr = new StreamReader(stream))
                     using (var jsonTextReader = new JsonTextReader(sr))
                     {
-                        return new JsonSerializer().Deserialize<TopAlbumsResponse>(jsonTextReader)?.TopAlbums?.Albums ?? Enumerable.Empty<Album>();
+                        return new JsonSerializer().Deserialize<TopAlbumsResponse>(jsonTextReader)?.TopAlbums?.Albums;
                     }
                 }
             }

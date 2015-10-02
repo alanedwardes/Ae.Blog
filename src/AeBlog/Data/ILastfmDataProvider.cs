@@ -6,6 +6,6 @@ namespace AeBlog.Data
 {
     public interface ILastfmDataProvider
     {
-        Task<IEnumerable<Album>> GetTopAlbumsForUser(string user, string api_key, string period, CancellationToken ctx = default(CancellationToken));
+        Task<IList<Album>> GetTopAlbumsForUser(string user, string api_key, string period, CancellationToken ctx = default(CancellationToken));
     }
 }

@@ -1,8 +1,8 @@
-﻿using AeBlog.Data;
+﻿using AeBlog.Caching;
+using AeBlog.Data;
 using AeBlog.Options;
 using AeBlog.ViewModels;
 using Microsoft.AspNet.Mvc;
-using Microsoft.Framework.OptionsModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +15,14 @@ namespace AeBlog.Controllers
     public class BlogController : Controller
     {
         private readonly IPostManager postManager;
-        private readonly ILastfmDataProvider lastfmDataProvider;
         private readonly IPortfolioManager portfolioManager;
         private readonly ICacheProvider cacheProvider;
 
-        public BlogController(IPostManager postManager, IPortfolioManager portfolioManager, ILastfmDataProvider lastfmDataProvider, ICacheProvider cacheProvider)
+        public BlogController(IPostManager postManager, IPortfolioManager portfolioManager, ICacheProvider cacheProvider)
         {
             this.cacheProvider = cacheProvider;
             this.postManager = postManager;
             this.portfolioManager = portfolioManager;
-            this.lastfmDataProvider = lastfmDataProvider;
         }
 
         [Route("/assets/uploads/{section}/{file}")]
@@ -40,7 +38,7 @@ namespace AeBlog.Controllers
 
             var portfolios = await portfolioManager.GetFeaturedPortfolios(ctx);
 
-            var albums = await cacheProvider.Get<IEnumerable<Album>>("albums");
+            var albums = await cacheProvider.Get<IList<Album>>("albums") ?? Enumerable.Empty<Album>();
 
             return View(new HomeViewModel(posts, portfolios, albums));
         }

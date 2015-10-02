@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AeBlog
+namespace AeBlog.Tasks
 {
     public class HostingTask : IScheduledTask
     {

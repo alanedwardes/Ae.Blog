@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace AeBlog
+namespace AeBlog.Extensions
 {
     public static class EnumerableExtensions
     {

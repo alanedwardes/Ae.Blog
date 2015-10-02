@@ -1,5 +1,4 @@
-﻿using AeBlog.Clients;
-using AeBlog.Data;
+﻿using AeBlog.Caching;
 using AeBlog.Options;
 using Microsoft.AspNet.Builder;
 using Microsoft.Dnx.Runtime;
