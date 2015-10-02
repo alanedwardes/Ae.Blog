@@ -26,7 +26,7 @@ namespace AeBlog
         public async Task Main()
         {
             var credentials = new ConfigurationBuilder(environment.ApplicationBasePath)
-                .AddJsonFile("credentials.json")
+                .AddJsonFile("credentials.json", true)
                 .AddEnvironmentVariables("AeBlog")
                 .Build();
 
