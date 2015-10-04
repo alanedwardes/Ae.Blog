@@ -11,6 +11,8 @@ namespace AeBlog.Data
 {
     public class Portfolio
     {
+        public static string TableName { get; } = "Aeblog.Portfolio";
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string Banner { get; set; }
@@ -37,7 +39,7 @@ namespace AeBlog.Data
 
         private async Task<IEnumerable<Portfolio>> GetPortfolios(CancellationToken ctx)
         {
-            return await cacheProvider.Get<IList<Portfolio>>("portfolios", ctx) ?? Enumerable.Empty<Portfolio>();
+            return await cacheProvider.Get<IList<Portfolio>>(Portfolio.TableName, ctx) ?? Enumerable.Empty<Portfolio>();
         }
 
         public async Task<Portfolio> GetPortfolioById(int id, CancellationToken ctx)
@@ -57,7 +59,7 @@ namespace AeBlog.Data
 
         public async Task<IEnumerable<Portfolio>> GetPortfoliosBySkillSlug(string slug, CancellationToken ctx)
         {
-            return (await GetPortfolios(ctx)).Where(p => p.Skills.Any(s => s.ToSlug() == slug));
+            return (await GetPortfolios(ctx)).Where(p => p.Skills.Any(s => s.ToSlug() == slug) && p.IsPublished);
         }
     }
 }

@@ -10,6 +10,8 @@ namespace AeBlog.Data
 {
     public class Post
     {
+        public static string TableName { get; } = "Aeblog.Post";
+
         public string Body { get; set; }
         [JsonProperty("is_published")]
         public bool IsPublished { get; set; }
@@ -29,7 +31,7 @@ namespace AeBlog.Data
 
         private async Task<IEnumerable<Post>> GetPosts(CancellationToken ctx)
         {
-            return await cacheProvider.Get<IList<Post>>("posts", ctx) ?? Enumerable.Empty<Post>();
+            return await cacheProvider.Get<IList<Post>>(Post.TableName, ctx) ?? Enumerable.Empty<Post>();
         }
 
         public async Task<Post> GetPostBySlug(string slug, CancellationToken ctx)

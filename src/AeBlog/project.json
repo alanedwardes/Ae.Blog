@@ -8,6 +8,7 @@
   "webroot": "webroot",
 
   "dependencies": {
+    "AWSSDK.SQS": "3.2.0-beta",
     "AWSSDK.S3": "3.2.0-beta",
     "AWSSDK.DynamoDBv2": "3.2.0-beta",
     "Microsoft.AspNet.Mvc": "6.0.0-beta7",
