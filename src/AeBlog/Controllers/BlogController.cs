@@ -54,6 +54,10 @@ namespace AeBlog.Controllers
         public async Task<IActionResult> SinglePortfolio(int id, CancellationToken ctx)
         {
             var portfolio = await portfolioManager.GetPortfolioById(id, ctx);
+            if (portfolio == null)
+            {
+                return HttpNotFound();
+            }
 
             return View(new SinglePortfolioViewModel(portfolio));
         }
