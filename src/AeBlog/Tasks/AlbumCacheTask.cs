@@ -1,18 +1,14 @@
 ﻿using AeBlog.Caching;
 using AeBlog.Clients;
-using AeBlog.Data;
 using AeBlog.Extensions;
-using AeBlog.Options;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Framework.Logging;
-using Microsoft.Framework.OptionsModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
