@@ -65,7 +65,7 @@ body{
 }
 .orn.wht
 {
-	background:url(/assets/ornament.png) no-repeat center center;
+	background:url(/static/ornament.png) no-repeat center center;
 }
 .ctr
 {
@@ -508,7 +508,7 @@ table.horizontal-table tr
 	padding-left:45px;
 }
 .album img, .game img{
-	background:url(/assets/check.png);
+	background:url(/static/check.png);
 }
 .album + .album
 {
