@@ -7,6 +7,6 @@ Uses Amazon SQS to prompt local DynamoDB cache refreshes.
 
 ## Versions
 This website has been through several iterations:
-* `18 Jul 2015` DNX + Asp.Net 5 [`master`](https://github.com/alanedwardes/aeblog/tree/master)
+* `18 Jul 2015` C# + Asp.Net 5 [`master`](https://github.com/alanedwardes/aeblog/tree/master)
 * `24 Mar 2014` PHP + Carbo, branch [`php-carbo`](https://github.com/alanedwardes/aeblog/tree/php-carbo)
 * `16 Nov 2011` Python + Django, branch [`python-django`](https://github.com/alanedwardes/aeblog/tree/python-django)
