@@ -34,7 +34,10 @@ namespace AeBlog.Tasks
 
             if (!response.Messages.Any())
             {
-                return TimeSpan.Zero;
+                // If SQS responds immediately
+                // for some reason, delay it a bit
+                // to stop crazy CPU usage
+                return TimeSpan.FromMilliseconds(500);
             }
 
             logger.LogInformation($"Processing {response.Messages.Count} messages from SQS");
@@ -52,10 +55,7 @@ namespace AeBlog.Tasks
             // Then run all process tasks in parallel
             await Task.WhenAll(processTasks);
 
-            // If SQS responds immediately
-            // for some reason, delay it a bit
-            // to stop crazy CPU usage
-            return TimeSpan.FromMilliseconds(500);
+            return TimeSpan.Zero;
         }
     }
 }
