@@ -21,32 +21,32 @@ namespace AeBlog.Tasks
     public class AlbumCacheTask : IScheduledTask
     {
         private readonly ICacheProvider cacheProvider;
-        private readonly ILastfmClientFactory lastfmFactory;
-        private readonly IS3ClientFactory s3Factory;
+        private readonly ILastfmClient lastfmClient;
+        private readonly IAmazonS3 s3Client;
         private readonly ILogger<AlbumCacheTask> logger;
 
         private static readonly string BucketName = "ae-lastfm-art";
 
         public AlbumCacheTask(ILastfmClientFactory lastfmFactory, IS3ClientFactory s3Factory, ICacheProvider cacheProvider, ILogger<AlbumCacheTask> logger)
         {
-            this.s3Factory = s3Factory;
+            this.s3Client = s3Factory.CreateS3Client();
+            this.lastfmClient = lastfmFactory.CreateLastfmClient();
             this.cacheProvider = cacheProvider;
-            this.lastfmFactory = lastfmFactory;
             this.logger = logger;
         }
 
         public async Task<TimeSpan> DoWork(CancellationToken ctx)
         {
-            var lastfmClient = lastfmFactory.CreateLastfmClient();
-
             var jsonAlbums = await lastfmClient.GetTopAlbumsForUser("7day", ctx);
-            var s3Client = s3Factory.CreateS3Client();
+
+            var listResponse = await s3Client.ListObjectsAsync(BucketName, ctx);
+
+            var currentCacheList = listResponse.S3Objects.Select(o => o.Key).ToList();
 
             IList<Album> albums;
-
             using (var client = new HttpClient())
             {
-                var tasks = jsonAlbums.Select(j => CacheAlbum(client, s3Client, j, ctx));
+                var tasks = jsonAlbums.Select(j => CacheAlbum(client, s3Client, j, currentCacheList, ctx));
 
                 albums = await Task.WhenAll(tasks);
             }
@@ -56,7 +56,7 @@ namespace AeBlog.Tasks
             return TimeSpan.FromHours(1);
         }
 
-        private async Task<Album> CacheAlbum(HttpClient httpClient, IAmazonS3 s3Client, JsonAlbum jsonAlbum, CancellationToken ctx)
+        private async Task<Album> CacheAlbum(HttpClient httpClient, IAmazonS3 s3Client, JsonAlbum jsonAlbum, IList<string> cachedObjects, CancellationToken ctx)
         {
             var image = jsonAlbum.Image.Where(i => i.Size == JsonAlbumImageSize.Medium && i.Url != null).SingleOrDefault();
             if (image == null)
@@ -72,27 +72,21 @@ namespace AeBlog.Tasks
                 Rank = jsonAlbum.Attributes.Rank,
                 Url = jsonAlbum.Url
             };
-            album.Thumbnail = new Uri("https://s3-eu-west-1.amazonaws.com/ae-lastfm-art/" + album.ToString().ToSlug());
+            var objectKey = album.ToString().ToSlug();
 
-            try
+            album.Thumbnail = new Uri($"https://s3-eu-west-1.amazonaws.com/{BucketName}/{objectKey}");
+
+            // If the album art was cached already, return
+            if (cachedObjects.Any(k => k == objectKey))
             {
-                var meta = await s3Client.GetObjectMetadataAsync(BucketName, album.ToString().ToSlug(), ctx);
-                logger.LogVerbose($"Found existing cache of art for {album}");
                 return album;
-            }
-            catch (AmazonS3Exception ex)
-            {
-                if (!ex.ErrorCode.Equals("forbidden", StringComparison.OrdinalIgnoreCase))
-                {
-                    throw;
-                }
             }
 
             string mediaType;
             byte[] imageBytes;
             try
             {
-                logger.LogVerbose($"Downloading art for {album}");
+                logger.LogInformation($"Downloading art for {album}");
                 var response = await httpClient.GetAsync(image.Url, ctx);
                 mediaType = response.Content.Headers?.ContentType?.MediaType;
                 imageBytes = await response.Content.ReadAsByteArrayAsync();
@@ -113,7 +107,7 @@ namespace AeBlog.Tasks
                     BucketName = BucketName,
                     ContentType = mediaType,
                     InputStream = ms,
-                    Key = album.ToString().ToSlug(),
+                    Key = objectKey,
                     StorageClass = S3StorageClass.ReducedRedundancy,
                     CannedACL = S3CannedACL.PublicRead
                 }, ctx);
