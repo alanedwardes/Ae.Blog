@@ -42,7 +42,7 @@
 				</div>
 			</div>
 		</div>
-        <div id="bdy" @if (layout.ViewType == ViewType.Home || layout.ViewType == ViewType.Portfolio) { @Html.Raw("class='hme'"); }>
+        <div id="bdy" @if (layout.ViewType == ViewType.Home || layout.ViewType == ViewType.Portfolio || layout.ViewType == ViewType.Error) { @Html.Raw("class='hme'"); }>
             @RenderBody()
 			<div style="clear:both"></div>
 		</div>
