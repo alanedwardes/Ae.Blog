@@ -1,6 +1,7 @@
 ﻿using AeBlog.Extensions;
 using Microsoft.Framework.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -61,17 +62,6 @@ namespace AeBlog.Clients
         public int Rank { get; set; }
     }
 
-    public class JsonTopAlbums
-    {
-        [JsonProperty("album")]
-        public IList<JsonAlbum> Albums { get; set; }
-    }
-
-    public class JsonTopAlbumsResponse
-    {
-        public JsonTopAlbums TopAlbums { get; set; }
-    }
-
     public class LastfmClient : ILastfmClient
     {
         private readonly string apiKey;
@@ -95,14 +85,9 @@ namespace AeBlog.Clients
 
             using (var client = new HttpClient())
             {
-                using (var stream = await client.GetStreamAsync(new Uri("https://ws.audioscrobbler.com/2.0/").AddQueryParameters(parameters)))
-                {
-                    using (var sr = new StreamReader(stream))
-                    using (var jsonTextReader = new JsonTextReader(sr))
-                    {
-                        return new JsonSerializer().Deserialize<JsonTopAlbumsResponse>(jsonTextReader)?.TopAlbums?.Albums;
-                    }
-                }
+                var response = await client.GetStringAsync(new Uri("https://ws.audioscrobbler.com/2.0/").AddQueryParameters(parameters));
+                var json = JToken.Parse(response)["topalbums"]["album"];
+                return json.ToObject<IList<JsonAlbum>>();
             }
         }
     }
