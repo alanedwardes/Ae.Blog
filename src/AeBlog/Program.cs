@@ -9,6 +9,7 @@ using Microsoft.Framework.Logging;
 using System.Threading;
 using AeBlog.Tasks;
 using AeBlog.Caching;
+using AeBlog.Logging;
 
 namespace AeBlog
 {
@@ -25,22 +26,18 @@ namespace AeBlog
 
         public async Task Main()
         {
-            var credentials = new ConfigurationBuilder(environment.ApplicationBasePath)
-                .AddJsonFile("credentials.json", true)
-                .AddEnvironmentVariables("AeBlog")
-                .Build();
-
             var services = new ServiceCollection();
             services.AddDefaultServices(defaultProvider);
             services.AddAssembly(typeof(Program).GetTypeInfo().Assembly);
-            services.Configure<Credentials>(credentials);
             services.AddOptions();
             services.AddSingleton(x => MemoryCache.INSTANCE);
             services.AddLogging();
+            services.AddGlobalConfiguration(environment);
 
             var provider = services.BuildServiceProvider();
 
             var logging = provider.GetService<ILoggerFactory>();
+            logging.AddProvider(provider.GetService<ISNSLoggerProvider>());
             logging.AddConsole();
 
             var cancellationSource = new CancellationTokenSource();
