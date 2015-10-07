@@ -3,7 +3,9 @@ using AeBlog.Clients;
 using AeBlog.Data;
 using AeBlog.Extensions;
 using AeBlog.ViewModels;
+using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Mvc;
+using Microsoft.Framework.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -16,9 +18,11 @@ namespace AeBlog.Controllers
         private readonly IPostManager postManager;
         private readonly IPortfolioManager portfolioManager;
         private readonly ICacheProvider cacheProvider;
+        private readonly ILogger<BlogController> logger;
 
-        public BlogController(IPostManager postManager, IPortfolioManager portfolioManager, ICacheProvider cacheProvider)
+        public BlogController(ILogger<BlogController> logger, IPostManager postManager, IPortfolioManager portfolioManager, ICacheProvider cacheProvider)
         {
+            this.logger = logger;
             this.cacheProvider = cacheProvider;
             this.postManager = postManager;
             this.portfolioManager = portfolioManager;
@@ -104,6 +108,10 @@ namespace AeBlog.Controllers
         [Route("/errors/{code}")]
         public IActionResult Error(int code)
         {
+            var context = Context.GetFeature<IStatusCodeReExecuteFeature>();
+
+            logger.LogWarning($"Error {code} for {Request.Method} {context.OriginalPath}{Request.QueryString.Value}");
+
             switch (code)
             {
                 case 404:
