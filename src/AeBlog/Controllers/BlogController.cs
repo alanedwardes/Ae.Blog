@@ -8,6 +8,7 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.Logging;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -110,7 +111,14 @@ namespace AeBlog.Controllers
         {
             var context = Context.GetFeature<IStatusCodeReExecuteFeature>();
 
-            logger.LogWarning($"Error {code} for {Request.Method} {context.OriginalPath}{Request.QueryString.Value}");
+            var logBuilder = new StringBuilder();
+            logBuilder.AppendLine($"Error {code} for {Request.Method} {context.OriginalPath}{Request.QueryString.Value}\n");
+            foreach (var header in Request.Headers)
+            {
+                logBuilder.AppendLine($"{header.Key}: {string.Join(",", header.Value)}");
+            }
+
+            logger.LogWarning(logBuilder.ToString());
 
             switch (code)
             {
