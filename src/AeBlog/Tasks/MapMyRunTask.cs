@@ -2,6 +2,7 @@
 using Microsoft.Framework.OptionsModel;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -45,7 +46,20 @@ namespace AeBlog.Tasks
                 request.Headers.Add("Api-Key", credentials.Options.UnderArmourClientId);
                 var response2 = await client.SendAsync(request);
 
-                var userdata = await response2.Content.ReadAsStringAsync();
+                var json = await response2.Content.ReadAsStringAsync();
+                var userdata = JToken.Parse(json);
+
+                var lifetime = userdata["_links"]["stats"].Where(j => j["name"].ToObject<string>() == "lifetime").Single()["href"].ToObject<string>();
+
+                {
+
+                    var req = new HttpRequestMessage(HttpMethod.Get, new Uri("https://api.ua.com" + lifetime));
+                    req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    req.Headers.Add("Api-Key", credentials.Options.UnderArmourClientId);
+                    var res = await client.SendAsync(req);
+
+                    var c = await res.Content.ReadAsStringAsync();
+                }
             }
 
             return Timeout.InfiniteTimeSpan;
