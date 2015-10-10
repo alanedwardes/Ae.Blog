@@ -1,5 +1,8 @@
 ﻿using AeBlog.Caching;
+using AeBlog.Logging;
+using AeBlog.Options;
 using Microsoft.AspNet.Builder;
+using Microsoft.Dnx.Runtime;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
 using System.Reflection;
@@ -8,17 +11,26 @@ namespace AeBlog
 {
     public class Startup
     {
+        private readonly IApplicationEnvironment environment;
+
+        public Startup(IApplicationEnvironment environment)
+        {
+            this.environment = environment;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
             services.AddLogging();
-            services.AddAssembly(typeof(Program).GetTypeInfo().Assembly);
+            services.AddAssembly(typeof(Startup).GetTypeInfo().Assembly);
             services.AddSingleton(x => MemoryCache.INSTANCE);
+            services.AddGlobalConfiguration(environment);
         }
 
-        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, ILoggerFactory logger)
         {
-            loggerFactory.AddConsole();
+            logger.AddConsole();
+            logger.AddProvider(app.ApplicationServices.GetService<ISNSLoggerProvider>());
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
             app.UseStaticFiles();
             app.UseErrorPage();
