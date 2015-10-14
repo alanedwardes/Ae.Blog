@@ -118,15 +118,16 @@ namespace AeBlog.Controllers
                 logBuilder.AppendLine($"{header.Key}: {string.Join(",", header.Value)}");
             }
 
-            logger.LogWarning(logBuilder.ToString());
-
             switch (code)
             {
                 case 404:
+                    logger.LogInformation(logBuilder.ToString());
                     return View(new ErrorViewModel("Not Found", "Sorry, the page you were looking for wasn't found."));
                 case 500:
+                    logger.LogWarning(logBuilder.ToString());
                     return View(new ErrorViewModel("Internal Server Error", "Sorry, this page encountered a problem."));
                 default:
+                    logger.LogWarning(logBuilder.ToString());
                     return View(new ErrorViewModel($"Error {code}", "Sorry, this page encountered a problem."));
             }
         }
