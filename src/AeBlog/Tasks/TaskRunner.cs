@@ -34,14 +34,13 @@ namespace AeBlog.Tasks
         {
             do
             {
-                logger.LogInformation($"Performing task {type.Name}");
                 var sw = new Stopwatch();
                 sw.Start();
                 var scheduler = (IScheduledTask)ActivatorUtilities.CreateInstance(provider, type);
                 try
                 {
                     var delay = await scheduler.DoWork(ctx);
-                    logger.LogInformation($"Task {type.Name} completed in {sw.Elapsed.TotalSeconds} seconds. Next run: {DateTime.Now + delay}");
+                    logger.LogInformation($"Task {type.Name} completed in {Math.Round(sw.Elapsed.TotalSeconds, 2)} seconds. Next run in {Math.Round(delay.TotalMinutes, 2)} minutes");
                     await Task.Delay(delay, ctx);
                 }
                 catch (Exception ex)
