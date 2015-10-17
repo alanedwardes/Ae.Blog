@@ -15,7 +15,8 @@ namespace AeBlog.Options
         public static IServiceCollection AddGlobalConfiguration<TServiceCollection>(this TServiceCollection services, IApplicationEnvironment environment)
             where TServiceCollection : IServiceCollection
         {
-            var config = new ConfigurationBuilder(environment.ApplicationBasePath)
+            var config = new ConfigurationBuilder()
+                .SetBasePath(environment.ApplicationBasePath)
                 .AddGlobalConfigSources()
                 .Build();
 

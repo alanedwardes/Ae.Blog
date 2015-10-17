@@ -4,6 +4,7 @@ using AeBlog.Data;
 using AeBlog.Extensions;
 using AeBlog.ViewModels;
 using Microsoft.AspNet.Diagnostics;
+using Microsoft.AspNet.Http.Features;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.Logging;
 using System.Collections.Generic;
@@ -38,6 +39,8 @@ namespace AeBlog.Controllers
         [Route("/")]
         public async Task<IActionResult> Home(CancellationToken ctx)
         {
+            throw new System.Exception();
+
             var posts = await postManager.GetPublishedPosts(ctx);
 
             var portfolios = await portfolioManager.GetFeaturedPortfolios(ctx);
@@ -109,10 +112,10 @@ namespace AeBlog.Controllers
         [Route("/errors/{code}")]
         public IActionResult Error(int code)
         {
-            var context = Context.GetFeature<IStatusCodeReExecuteFeature>();
+            var context = HttpContext.Features.Get<IStatusCodeReExecuteFeature>();
 
             var logBuilder = new StringBuilder();
-            logBuilder.AppendLine($"Error {code} for {Request.Method} {context.OriginalPath}{Request.QueryString.Value}\n");
+            logBuilder.AppendLine($"Error {code} for {Request.Method} {context?.OriginalPath ?? Request.Path.Value}{Request.QueryString.Value}\n");
             foreach (var header in Request.Headers)
             {
                 logBuilder.AppendLine($"{header.Key}: {string.Join(",", header.Value)}");

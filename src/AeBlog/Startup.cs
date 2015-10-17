@@ -33,7 +33,7 @@ namespace AeBlog
             logger.AddProvider(app.ApplicationServices.GetService<ISNSLoggerProvider>());
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
             app.UseStaticFiles();
-            app.UseErrorPage();
+            app.UseExceptionHandler("/errors/500");
             app.UseMvc();
         }
     }

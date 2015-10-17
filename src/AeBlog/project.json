@@ -12,16 +12,16 @@
     "AWSSDK.SQS": "3.2.0-beta",
     "AWSSDK.S3": "3.2.0-beta",
     "AWSSDK.DynamoDBv2": "3.2.0-beta",
-    "Microsoft.AspNet.Mvc": "6.0.0-beta7",
-    "Microsoft.AspNet.Razor": "4.0.0-beta7",
-    "Microsoft.AspNet.Hosting": "1.0.0-beta7",
-    "Microsoft.AspNet.Routing": "1.0.0-beta7",
-    "Microsoft.AspNet.StaticFiles": "1.0.0-beta7",
-    "Microsoft.AspNet.Diagnostics": "1.0.0-beta7",
-    "Microsoft.AspNet.Server.Kestrel": "1.0.0-beta7",
-    "Microsoft.Framework.Logging.Console": "1.0.0-beta7",
-    "Microsoft.Framework.Configuration.Json": "1.0.0-beta7",
-    "Microsoft.Framework.DependencyInjection": "1.0.0-beta7"
+    "Microsoft.AspNet.Mvc": "6.0.0-beta8",
+    "Microsoft.AspNet.Razor": "4.0.0-beta8",
+    "Microsoft.AspNet.Hosting": "1.0.0-beta8",
+    "Microsoft.AspNet.Routing": "1.0.0-beta8",
+    "Microsoft.AspNet.StaticFiles": "1.0.0-beta8",
+    "Microsoft.AspNet.Diagnostics": "1.0.0-beta8",
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-beta8",
+    "Microsoft.Framework.Logging.Console": "1.0.0-beta8",
+    "Microsoft.Framework.Configuration.Json": "1.0.0-beta8",
+    "Microsoft.Framework.DependencyInjection": "1.0.0-beta8"
   },
 
   "commands": {
@@ -32,7 +32,7 @@
     "dnxcore50": {
       "dependencies": {
         "System.Console": "4.0.0-beta-23225",
-        "System.Net.Http": "4.0.0-beta-23019"
+        "System.Net.Http": "4.0.1-beta-23409"
       }
     }
   }

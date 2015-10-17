@@ -14,7 +14,7 @@ namespace AeBlog.Clients
 
         public ILastfmClient CreateLastfmClient()
         {
-            return new LastfmClient(credentials.Options.LastFmApiKey, credentials.Options.LastFmUsername);
+            return new LastfmClient(credentials.Value.LastFmApiKey, credentials.Value.LastFmUsername);
         }
     }
 }

@@ -17,8 +17,8 @@ namespace AeBlog.Clients
 
         public IAmazonDynamoDB CreateDynamoClient()
         {
-            var awsCredentials = new BasicAWSCredentials(credentials.Options.AwsAccessKey, credentials.Options.AwsSecretKey);
-            return new AmazonDynamoDBClient(awsCredentials, RegionEndpoint.GetBySystemName(credentials.Options.AwsRegion));
+            var awsCredentials = new BasicAWSCredentials(credentials.Value.AwsAccessKey, credentials.Value.AwsSecretKey);
+            return new AmazonDynamoDBClient(awsCredentials, RegionEndpoint.GetBySystemName(credentials.Value.AwsRegion));
         }
     }
 }

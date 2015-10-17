@@ -21,7 +21,8 @@ namespace AeBlog.Tasks
 
         public async Task<TimeSpan> DoWork(CancellationToken ctx)
         {
-            var configuration = new ConfigurationBuilder(environment.ApplicationBasePath)
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(environment.ApplicationBasePath)
                 .AddGlobalConfigSources()
                 .Build();
 

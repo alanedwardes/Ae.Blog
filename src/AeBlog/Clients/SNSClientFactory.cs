@@ -17,8 +17,8 @@ namespace AeBlog.Clients
 
         public IAmazonSimpleNotificationService CreateSimpleNotificationClient()
         {
-            var awsCredentials = new BasicAWSCredentials(credentials.Options.AwsAccessKey, credentials.Options.AwsSecretKey);
-            return new AmazonSimpleNotificationServiceClient(awsCredentials, RegionEndpoint.GetBySystemName(credentials.Options.AwsRegion));
+            var awsCredentials = new BasicAWSCredentials(credentials.Value.AwsAccessKey, credentials.Value.AwsSecretKey);
+            return new AmazonSimpleNotificationServiceClient(awsCredentials, RegionEndpoint.GetBySystemName(credentials.Value.AwsRegion));
         }
     }
 }

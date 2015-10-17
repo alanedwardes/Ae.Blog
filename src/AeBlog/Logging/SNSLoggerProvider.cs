@@ -19,7 +19,7 @@ namespace AeBlog.Logging
 
         public ILogger CreateLogger(string name)
         {
-            return new SNSLogger(client, name, general.Options.SnsErrorsTopic);
+            return new SNSLogger(client, name, general.Value.SnsErrorsTopic);
         }
 
         public void Dispose()

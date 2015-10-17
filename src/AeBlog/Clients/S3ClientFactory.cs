@@ -17,8 +17,8 @@ namespace AeBlog.Clients
 
         public IAmazonS3 CreateS3Client()
         {
-            var awsCredentials = new BasicAWSCredentials(credentials.Options.AwsAccessKey, credentials.Options.AwsSecretKey);
-            return new AmazonS3Client(awsCredentials, RegionEndpoint.GetBySystemName(credentials.Options.AwsRegion));
+            var awsCredentials = new BasicAWSCredentials(credentials.Value.AwsAccessKey, credentials.Value.AwsSecretKey);
+            return new AmazonS3Client(awsCredentials, RegionEndpoint.GetBySystemName(credentials.Value.AwsRegion));
         }
     }
 }
