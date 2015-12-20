@@ -23,7 +23,7 @@ namespace AeBlog.Tasks
 
         public IEnumerable<Task> RunTasksFromAssembly(Assembly assembly, CancellationToken ctx)
         {
-            var scheduledTasks = assembly.GetTypes().Where(t => typeof(IScheduledTask).IsAssignableFrom(t) && t.GetTypeInfo().IsClass);
+            var scheduledTasks = assembly.GetTypes().Where(t => typeof(ITask).IsAssignableFrom(t) && t.GetTypeInfo().IsClass);
             foreach (var type in scheduledTasks)
             {
                 yield return Task.Run(async () => await WorkTask(type, ctx));
@@ -37,12 +37,18 @@ namespace AeBlog.Tasks
             {
                 var sw = new Stopwatch();
                 sw.Start();
-                var scheduler = (IScheduledTask)ActivatorUtilities.CreateInstance(provider, type);
+                var task = (ITask)ActivatorUtilities.CreateInstance(provider, type);
                 try
                 {
-                    var delay = await scheduler.DoWork(ctx);
-                    logger.LogInformation($"Task {type.Name} completed in {Math.Round(sw.Elapsed.TotalSeconds, 2)} seconds. Next run in {Math.Round(delay.TotalMinutes, 2)} minutes");
-                    await Task.Delay(delay, ctx);
+                    await task.DoWork(ctx);
+                    var schedule = task as IScheduledTask;
+                    if (schedule == null)
+                    {
+                        logger.LogInformation($"Task {type.Name} completed in {Math.Round(sw.Elapsed.TotalSeconds, 2)} seconds");
+                        return;
+                    }
+                    logger.LogInformation($"Task {type.Name} completed in {Math.Round(sw.Elapsed.TotalSeconds, 2)} seconds. Next run in {Math.Round(schedule.Schedule.TotalMinutes, 2)} minutes");
+                    await Task.Delay(schedule.Schedule);
                 }
                 catch (Exception ex)
                 {

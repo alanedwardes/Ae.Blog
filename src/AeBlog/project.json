@@ -19,7 +19,6 @@
         "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final",
         "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1-final",
         "Microsoft.Extensions.DependencyInjection": "1.0.0-rc1-final",
-        "AWSSDK.DynamoDBv2": "3.2.1-beta",
         "AWSSDK.SimpleNotificationService": "3.2.1-beta",
         "AWSSDK.SQS": "3.2.1-beta"
     },

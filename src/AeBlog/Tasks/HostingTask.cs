@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace AeBlog.Tasks
 {
-    public class HostingTask : IScheduledTask
+    public class HostingTask : ITask
     {
         private readonly IApplicationEnvironment environment;
 
@@ -17,7 +17,7 @@ namespace AeBlog.Tasks
             this.environment = environment;
         }
 
-        public async Task<TimeSpan> DoWork(CancellationToken ctx)
+        public async Task DoWork(CancellationToken ctx)
         {
             var configuration = new ConfigurationBuilder()
                 .AddGlobalConfigSources()
@@ -30,8 +30,6 @@ namespace AeBlog.Tasks
             {
                 await Task.Delay(Timeout.Infinite, ctx);
             }
-
-            return TimeSpan.Zero;
         }
     }
 }

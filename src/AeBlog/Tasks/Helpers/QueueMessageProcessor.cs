@@ -1,7 +1,12 @@
 ﻿using AeBlog.Data;
 using Amazon.SQS.Model;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,34 +14,34 @@ namespace AeBlog.Tasks.Helpers
 {
     public class QueueMessageProcessor : IQueueMessageProcessor
     {
-        private readonly IDynamoTableRetriever dynamoTableRetriever;
-
-        private const string SourceARNKey = "eventSourceARN";
         private readonly ILogger<QueueMessageProcessor> logger;
+        private readonly IServiceProvider provider;
 
-        public QueueMessageProcessor(ILogger<QueueMessageProcessor> logger, IDynamoTableRetriever dynamoTableRetriever)
+        public QueueMessageProcessor(ILogger<QueueMessageProcessor> logger, IServiceProvider provider)
         {
             this.logger = logger;
-            this.dynamoTableRetriever = dynamoTableRetriever;
+            this.provider = provider;
         }
 
         public async Task ProcessMessage(Message message, CancellationToken ctx)
         {
-            var eventSource = JToken.Parse(message.Body)[SourceARNKey].ToString();
+            var type = typeof(QueueMessageProcessor).GetTypeInfo().Assembly.GetTypes()
+                .Where(t => typeof(ITask).IsAssignableFrom(t) && t.GetTypeInfo().IsClass)
+                .Where(t => t.Name == message.Body)
+                .SingleOrDefault();
 
-            if (eventSource.Contains(Portfolio.TableName))
+            if (type == null)
             {
-                logger.LogInformation("Received event from SQS, refreshing portfolio table");
-                await dynamoTableRetriever.RetrieveTable<Portfolio>(Portfolio.TableName, ctx);
-            }
-            else if (eventSource.Contains(Post.TableName))
-            {
-                logger.LogInformation("Received event from SQS, refreshing posts table");
-                await dynamoTableRetriever.RetrieveTable<Post>(Post.TableName, ctx);
+                return;
             }
             else
             {
-                logger.LogError($"Unhandled message from {eventSource}");
+                var sw = new Stopwatch();
+                var task = (ITask)ActivatorUtilities.CreateInstance(provider, type);
+                logger.LogInformation($"Received event from SQS, running task {type.Name}");
+                sw.Start();
+                await task.DoWork(ctx);
+                logger.LogInformation($"Triggered task {type.Name} completed in {sw.Elapsed.TotalSeconds} seconds");
             }
         }
     }

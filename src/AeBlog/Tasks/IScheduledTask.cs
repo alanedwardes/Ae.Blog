@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace AeBlog.Tasks
 {
-    public interface IScheduledTask
+    public interface IScheduledTask : ITask
     {
-        Task<TimeSpan> DoWork(CancellationToken ctx);
+        TimeSpan Schedule { get; }
     }
 }

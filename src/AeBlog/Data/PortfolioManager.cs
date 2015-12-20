@@ -11,7 +11,7 @@ namespace AeBlog.Data
 {
     public class Portfolio
     {
-        public static string TableName { get; } = "Aeblog.Portfolio";
+        public static string TableName { get; } = "portfolio";
 
         public int Id { get; set; }
         public string Name { get; set; }

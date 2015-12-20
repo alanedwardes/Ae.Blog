@@ -10,7 +10,7 @@ namespace AeBlog.Data
 {
     public class Post
     {
-        public static string TableName { get; } = "Aeblog.Post";
+        public static string TableName { get; } = "post";
 
         public string Body { get; set; }
         [JsonProperty("is_published")]

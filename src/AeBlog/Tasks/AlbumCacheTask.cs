@@ -23,6 +23,8 @@ namespace AeBlog.Tasks
 
         private static readonly string BucketName = "ae-lastfm-art";
 
+        public TimeSpan Schedule => TimeSpan.FromHours(1);
+
         public AlbumCacheTask(ILastfmClientFactory lastfmFactory, IS3ClientFactory s3Factory, ICacheProvider cacheProvider, ILogger<AlbumCacheTask> logger)
         {
             this.s3Client = s3Factory.CreateS3Client();
@@ -31,7 +33,7 @@ namespace AeBlog.Tasks
             this.logger = logger;
         }
 
-        public async Task<TimeSpan> DoWork(CancellationToken ctx)
+        public async Task DoWork(CancellationToken ctx)
         {
             var jsonAlbums = await lastfmClient.GetTopAlbumsForUser("7day", ctx);
 
@@ -48,8 +50,6 @@ namespace AeBlog.Tasks
             }
 
             await cacheProvider.Set("albums", albums.Where(a => a != null).ToList(), ctx);
-
-            return TimeSpan.FromHours(1);
         }
 
         private async Task<Album> CacheAlbum(HttpClient httpClient, IAmazonS3 s3Client, JsonAlbum jsonAlbum, IList<string> cachedObjects, CancellationToken ctx)

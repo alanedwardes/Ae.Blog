@@ -6,19 +6,18 @@ using System.Threading.Tasks;
 
 namespace AeBlog.Tasks
 {
-    public class PortfolioCacheTask : IScheduledTask
+    public class PortfolioCacheTask : ITask
     {
-        private readonly IDynamoTableRetriever dynamoTableRetriever;
+        private readonly IDocumentRetriever dynamoTableRetriever;
 
-        public PortfolioCacheTask(IDynamoTableRetriever dynamoTableRetriever)
+        public PortfolioCacheTask(IDocumentRetriever dynamoTableRetriever)
         {
             this.dynamoTableRetriever = dynamoTableRetriever;
         }
 
-        public async Task<TimeSpan> DoWork(CancellationToken ctx)
+        public async Task DoWork(CancellationToken ctx)
         {
-            await dynamoTableRetriever.RetrieveTable<Portfolio>(Portfolio.TableName, ctx);
-            return TimeSpan.FromHours(1);
+            await dynamoTableRetriever.RetrieveDocuments<Portfolio>(Portfolio.TableName, ctx);
         }
     }
 }

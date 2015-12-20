@@ -18,6 +18,8 @@ namespace AeBlog.Tasks
 
         private const string SQSQueueUrl = "https://sqs.eu-west-1.amazonaws.com/687908690092/AeBlogMessages";
 
+        public TimeSpan Schedule => TimeSpan.FromSeconds(1);
+
         public QueuePollingTask(ILogger<QueuePollingTask> logger, IQueueMessageProcessor processor, ISQSClientFactory sqsClientFactory)
         {
             this.logger = logger;
@@ -25,22 +27,16 @@ namespace AeBlog.Tasks
             sqsClient = sqsClientFactory.CreateSQSClient();
         }
 
-        public async Task<TimeSpan> DoWork(CancellationToken ctx)
+        public async Task DoWork(CancellationToken ctx)
         {
-            var response = await sqsClient.ReceiveMessageAsync(new ReceiveMessageRequest
-            {
-                QueueUrl = SQSQueueUrl
-            }, ctx);
+            var response = await sqsClient.ReceiveMessageAsync(new ReceiveMessageRequest { QueueUrl = SQSQueueUrl }, ctx);
 
             if (!response.Messages.Any())
             {
-                // If SQS responds immediately
-                // for some reason, delay it a bit
-                // to stop crazy CPU usage
-                return TimeSpan.FromMilliseconds(500);
+                return;
             }
 
-            logger.LogInformation($"Processing {response.Messages.Count} messages from SQS");
+            logger.LogInformation($"Processing {response.Messages.Count} messages from SQS ({string.Join(", ", response.Messages.Select(m => m.MessageId))})");
 
             // Delete the messages first
             var deleteBatch = new DeleteMessageBatchRequest { QueueUrl = SQSQueueUrl };
@@ -50,12 +46,8 @@ namespace AeBlog.Tasks
             }
             await sqsClient.DeleteMessageBatchAsync(deleteBatch, ctx);
 
-            var processTasks = response.Messages.Select(m => processor.ProcessMessage(m, ctx));
-
             // Then run all process tasks in parallel
-            await Task.WhenAll(processTasks);
-
-            return TimeSpan.Zero;
+            await Task.WhenAll(response.Messages.Select(m => processor.ProcessMessage(m, ctx)));
         }
     }
 }
