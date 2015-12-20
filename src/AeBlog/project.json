@@ -1,10 +1,11 @@
 {
-  "version": "1.0.0-*",
-  "description": "AeBlog Class Library",
-  "authors": [ "Alan" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
+    "version": "1.0.0-*",
+    "description": "AeBlog Class Library",
+    "authors": [ "Alan" ],
+    "tags": [ "" ],
+    "projectUrl": "",
+    "licenseUrl": "",
+    "webroot": "webroot",
 
     "dependencies": {
         "AWSSDK.S3": "3.2.1-beta",
@@ -23,11 +24,11 @@
         "AWSSDK.SQS": "3.2.1-beta"
     },
 
-  "commands": {
-    "run": "AeBlog"
-  },
+    "commands": {
+        "run": "AeBlog"
+    },
 
-  "frameworks": {
-    "dnxcore50": { }
-  }
+    "frameworks": {
+        "dnxcore50": { }
+    }
 }
