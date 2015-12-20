@@ -1,6 +1,6 @@
-﻿using Microsoft.Dnx.Runtime;
-using Microsoft.Framework.Configuration;
-using Microsoft.Framework.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace AeBlog.Options
 {
@@ -16,7 +16,6 @@ namespace AeBlog.Options
             where TServiceCollection : IServiceCollection
         {
             var config = new ConfigurationBuilder()
-                .SetBasePath(environment.ApplicationBasePath)
                 .AddGlobalConfigSources()
                 .Build();
 

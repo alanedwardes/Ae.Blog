@@ -1,32 +1,29 @@
 ﻿using Microsoft.AspNet.Hosting;
-using Microsoft.Dnx.Runtime;
-using Microsoft.Framework.Configuration;
 using System;
 using AeBlog.Options;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.Extensions.Configuration;
 
 namespace AeBlog.Tasks
 {
     public class HostingTask : IScheduledTask
     {
         private readonly IApplicationEnvironment environment;
-        private readonly IServiceProvider serviceProvider;
 
-        public HostingTask(IServiceProvider serviceProvider, IApplicationEnvironment environment)
+        public HostingTask(IApplicationEnvironment environment)
         {
-            this.serviceProvider = serviceProvider;
             this.environment = environment;
         }
 
         public async Task<TimeSpan> DoWork(CancellationToken ctx)
         {
             var configuration = new ConfigurationBuilder()
-                .SetBasePath(environment.ApplicationBasePath)
                 .AddGlobalConfigSources()
                 .Build();
 
-            var builder = new WebHostBuilder(serviceProvider, configuration.GetSection("Hosting"));
+            var builder = new WebHostBuilder(configuration.GetSection("Hosting"));
             var engine = builder.Build();
 
             using (engine.Start())

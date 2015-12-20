@@ -1,6 +1,6 @@
 ﻿using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
-using Microsoft.Framework.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace AeBlog.Logging

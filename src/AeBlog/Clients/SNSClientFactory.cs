@@ -2,7 +2,7 @@
 using Amazon;
 using Amazon.Runtime;
 using Amazon.SimpleNotificationService;
-using Microsoft.Framework.OptionsModel;
+using Microsoft.Extensions.OptionsModel;
 
 namespace AeBlog.Clients
 {

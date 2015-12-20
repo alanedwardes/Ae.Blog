@@ -1,6 +1,6 @@
 ﻿using AeBlog.Data;
 using Amazon.SQS.Model;
-using Microsoft.Framework.Logging;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.Threading.Tasks;

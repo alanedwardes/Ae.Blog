@@ -1,8 +1,8 @@
 ﻿using AeBlog.Clients;
 using AeBlog.Options;
 using Amazon.SimpleNotificationService;
-using Microsoft.Framework.Logging;
-using Microsoft.Framework.OptionsModel;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.OptionsModel;
 
 namespace AeBlog.Logging
 {

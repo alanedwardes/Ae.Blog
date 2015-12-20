@@ -1,5 +1,5 @@
 ﻿using AeBlog.Options;
-using Microsoft.Framework.OptionsModel;
+using Microsoft.Extensions.OptionsModel;
 
 namespace AeBlog.Clients
 {

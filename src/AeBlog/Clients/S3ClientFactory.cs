@@ -1,8 +1,8 @@
 ﻿using Amazon.S3;
-using Microsoft.Framework.OptionsModel;
 using AeBlog.Options;
 using Amazon.Runtime;
 using Amazon;
+using Microsoft.Extensions.OptionsModel;
 
 namespace AeBlog.Clients
 {

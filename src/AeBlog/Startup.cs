@@ -2,9 +2,9 @@
 using AeBlog.Logging;
 using AeBlog.Options;
 using Microsoft.AspNet.Builder;
-using Microsoft.Dnx.Runtime;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.PlatformAbstractions;
 using System.Reflection;
 
 namespace AeBlog

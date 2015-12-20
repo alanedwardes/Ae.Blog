@@ -3,7 +3,7 @@ using AeBlog.Clients;
 using AeBlog.Extensions;
 using Amazon.S3;
 using Amazon.S3.Model;
-using Microsoft.Framework.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;

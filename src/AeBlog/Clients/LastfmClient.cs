@@ -1,10 +1,8 @@
 ﻿using AeBlog.Extensions;
-using Microsoft.Framework.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;

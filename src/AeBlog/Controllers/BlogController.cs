@@ -6,7 +6,7 @@ using AeBlog.ViewModels;
 using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Http.Features;
 using Microsoft.AspNet.Mvc;
-using Microsoft.Framework.Logging;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,8 +39,6 @@ namespace AeBlog.Controllers
         [Route("/")]
         public async Task<IActionResult> Home(CancellationToken ctx)
         {
-            throw new System.Exception();
-
             var posts = await postManager.GetPublishedPosts(ctx);
 
             var portfolios = await portfolioManager.GetFeaturedPortfolios(ctx);

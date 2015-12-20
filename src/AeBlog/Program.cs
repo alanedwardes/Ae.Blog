@@ -1,15 +1,14 @@
-﻿using Microsoft.Dnx.Runtime;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Reflection;
-using Microsoft.Framework.DependencyInjection;
 using AeBlog.Options;
-using Microsoft.Framework.Configuration;
 using System;
-using Microsoft.Framework.Logging;
 using System.Threading;
 using AeBlog.Tasks;
 using AeBlog.Caching;
 using AeBlog.Logging;
+using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace AeBlog
 {

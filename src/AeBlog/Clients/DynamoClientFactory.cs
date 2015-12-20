@@ -2,7 +2,7 @@
 using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.Runtime;
-using Microsoft.Framework.OptionsModel;
+using Microsoft.Extensions.OptionsModel;
 
 namespace AeBlog.Clients
 {

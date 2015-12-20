@@ -1,5 +1,5 @@
-﻿using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,12 +26,13 @@ namespace AeBlog.Tasks
             var scheduledTasks = assembly.GetTypes().Where(t => typeof(IScheduledTask).IsAssignableFrom(t) && t.GetTypeInfo().IsClass);
             foreach (var type in scheduledTasks)
             {
-                yield return WorkTask(type, ctx);
+                yield return Task.Run(async () => await WorkTask(type, ctx));
             }
         }
 
         public async Task WorkTask(Type type, CancellationToken ctx)
         {
+            logger.LogInformation($"Started task {type.FullName} in thread {Thread.CurrentThread.ManagedThreadId}");
             do
             {
                 var sw = new Stopwatch();

@@ -2,7 +2,7 @@
 using AeBlog.Tasks.Helpers;
 using Amazon.SQS;
 using Amazon.SQS.Model;
-using Microsoft.Framework.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading;
