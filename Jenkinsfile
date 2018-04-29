@@ -16,7 +16,7 @@ node("linux") {
 					env.AWS_REGION = 'eu-west-1'
 					sh "dotnet lambda deploy-serverless" +
 					   " --disable-interactive True" +
-					   " --project-location src/AeBlog/AeBlog.csproj" +
+					   " --template serverless.template" +
 					   " --stack-name AeBlog" +
 					   " --s3-bucket ae-temp"
 				}
