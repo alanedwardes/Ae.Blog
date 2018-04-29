@@ -13,10 +13,10 @@ node("linux") {
 				withCredentials([
 					[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'JenkinsAeBlog']
 				]) {
-					env.AWS_REGION = 'eu-west-1'
 					sh "dotnet lambda deploy-serverless" +
 					   " --disable-interactive True" +
 					   " --template serverless.template" +
+					   " --region eu-west-1" +
 					   " --stack-name AeBlog" +
 					   " --s3-bucket ae-temp"
 				}
