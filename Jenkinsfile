@@ -19,6 +19,7 @@ node("linux") {
 					   " --region eu-west-1" +
 					   " --stack-name AeBlog" +
 					   " --configuration Release" +
+					   " --framework netcoreapp2.0" +
 					   " --s3-bucket ae-temp"
 				}
 			}
