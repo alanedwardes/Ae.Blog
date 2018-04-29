@@ -10,7 +10,10 @@ node("linux") {
 
 		stage ("Deploy") {
 			dir ("src/AeBlog") {
-				sh "dotnet lambda deploy-serverless"
+				sh "dotnet lambda deploy-serverless" +
+				   " --disable-interactive True" +
+				   " --stack-name AeBlog" +
+				   " --s3-bucket ae-temp"
 			}
 		}
 	}
