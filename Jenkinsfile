@@ -18,6 +18,7 @@ node("linux") {
 					   " --template serverless.template" +
 					   " --region eu-west-1" +
 					   " --stack-name AeBlog" +
+					   " --configuration Release" +
 					   " --s3-bucket ae-temp"
 				}
 			}
