@@ -8,7 +8,7 @@
         <title>@(ViewData["Title"] == null ? "Alan Edwardes" : $"{ViewData["Title"]} - Alan Edwardes")</title>
     </head>
     <body>
-        <div class="@ViewData["Class"]">
+        <div class="@this.ViewContext.RouteData.Values["controller"]">
             <header>
                 <section>
                     <div class="left">

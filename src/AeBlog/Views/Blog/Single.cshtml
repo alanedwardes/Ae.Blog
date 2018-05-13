@@ -8,5 +8,19 @@
     @await Html.PartialAsync("Sidebar", Model.Archive)
     <aside>
         @await Html.PartialAsync("Post", Model.Single)
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function () {
+                this.page.url = "https://alanedwardes.com" + "@Model.Single.Url";
+                this.page.identifier = "@Model.Single.Slug";
+            };
+            (function() {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://alanedwardes.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
     </aside>
 </section>
