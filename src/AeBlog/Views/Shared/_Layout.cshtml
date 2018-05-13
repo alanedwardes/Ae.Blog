@@ -16,16 +16,16 @@
                         <small><a href="/blog/category/cloud-software/">Cloud Software</a> &amp; <a href="/blog/category/game-development/">Game Development</a></small>
                     </div>
                     <ul>
-                        <li>
+                        <li class=@(Context.Request.Path.Value == "/" ? "selected" : string.Empty)>
                             <a alt="About me, an introduction to what I do" href="/">About</a>
                         </li>
-                        <li>
+                        <li class=@(Context.Request.Path.Value.StartsWith("/projects/") ? "selected" : string.Empty)>
                             <a alt="A list of projects I'm involved with" href="/projects/">Projects</a>
                         </li>
-                        <li>
+                        <li class=@(Context.Request.Path.Value.StartsWith("/contact/") ? "selected" : string.Empty)>
                             <a alt="Contact information and social media links" href="/contact/">Contact</a>
                         </li>
-                        <li>
+                        <li class=@(Context.Request.Path.Value.StartsWith("/blog/") ? "selected" : string.Empty)>
                             <a alt="Posts about cloud software and game development" href="/blog/">Blog</a>
                         </li>
                     </ul>

@@ -1,0 +1,13 @@
+﻿@using Humanizer
+@model AeBlog.Models.BlogModel
+@{
+    ViewData["Title"] = "Blog";
+}
+
+<section>
+    @await Html.PartialAsync("Sidebar", Model.Archive)
+    @foreach (var post in Model.Posts)
+    {
+        @await Html.PartialAsync("Post", post)
+    }
+</section>

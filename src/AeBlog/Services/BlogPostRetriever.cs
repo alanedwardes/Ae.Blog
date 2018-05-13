@@ -44,11 +44,13 @@ namespace AeBlog.Services
                     }
                 }
 
-                return Tuple.Create(!sr.EndOfStream, sb.ToString());
+                var content = CommonMark.CommonMarkConverter.Convert(sb.ToString());
+
+                return Tuple.Create(!sr.EndOfStream, content);
             }
         }
 
-        public async Task<PostSummary> GetPost(string slug, CancellationToken token)
+        public async Task<Post> GetPost(string slug, CancellationToken token)
         {
             var metaTask = amazonDynamoDb.GetItemAsync("BlogPosts", new Dictionary<string, AttributeValue>
             {
@@ -59,7 +61,7 @@ namespace AeBlog.Services
 
             var post = (await metaTask).Item;
             var content = await contentTask;
-            return new PostSummary
+            return new Post
             {
                 Category = post["Category"].S,
                 Published = DateTime.Parse(post["Published"].S),
@@ -71,7 +73,72 @@ namespace AeBlog.Services
             };
         }
 
-        public async Task<IEnumerable<PostSummary>> GetPosts(CancellationToken token)
+        public async Task<Post[]> GetPosts(CancellationToken token)
+        {
+            return await GetPostsInternal(new QueryRequest
+            {
+                TableName = "BlogPosts",
+                IndexName = "Type-Published-index",
+                KeyConditionExpression = "#type = :published",
+                ScanIndexForward = false,
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
+                    {":published", new AttributeValue { S =  "published" }}
+                },
+                ExpressionAttributeNames = new Dictionary<string, string>
+                {
+                    { "#type", "Type" }
+                }
+            }, token);
+        }
+
+        private async Task<Post[]> GetPostsInternal(QueryRequest query, CancellationToken token)
+        {
+            var response = await amazonDynamoDb.QueryAsync(query, token);
+
+            var contentTasks = response.Items.Select(async item => {
+                var post = ItemToPost(item);
+                var content = await GetPostContent(post.Slug, false, token);
+
+                post.HasMore = content.Item1;
+                post.Content = content.Item2;
+
+                return post;
+            });
+
+            return await Task.WhenAll(contentTasks);
+        }
+
+        private Post ItemToPost(IDictionary<string, AttributeValue> item)
+        {
+            return new Post
+            {
+                Category = item["Category"].S,
+                Published = DateTime.Parse(item["Published"].S),
+                Slug = item["Slug"].S,
+                Title = item["Title"].S,
+                Type = item["Type"].S
+            };
+        }
+
+        public async Task<Post[]> GetPostsForCategory(string category, CancellationToken token)
+        {
+            return await GetPostsInternal(new QueryRequest
+            {
+                TableName = "BlogPosts",
+                IndexName = "Category-Published-index",
+                KeyConditionExpression = "#category = :category",
+                ScanIndexForward = false,
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
+                    {":category", new AttributeValue { S =  category }}
+                },
+                ExpressionAttributeNames = new Dictionary<string, string>
+                {
+                    { "#category", "Category" }
+                }
+            }, token);
+        }
+
+        public async Task<PostSummary[]> GetPostSummaries(CancellationToken token)
         {
             var response = await amazonDynamoDb.QueryAsync(new QueryRequest
             {
@@ -88,23 +155,7 @@ namespace AeBlog.Services
                 }
             }, token);
 
-            var contentTasks = response.Items.Select(async post => {
-                var slug = post["Slug"].S;
-                var content = await GetPostContent(slug, false, token);
-
-                return new PostSummary
-                {
-                    Category = post["Category"].S,
-                    Published = DateTime.Parse(post["Published"].S),
-                    Slug = post["Slug"].S,
-                    Title = post["Title"].S,
-                    Type = post["Type"].S,
-                    Content = CommonMark.CommonMarkConverter.Convert(content.Item2),
-                    HasMore = content.Item1
-                };
-            });
-
-            return await Task.WhenAll(contentTasks);
+            return response.Items.Select(ItemToPost).ToArray();
         }
     }
 }

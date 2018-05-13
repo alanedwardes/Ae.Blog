@@ -1,0 +1,7 @@
+﻿@using Humanizer
+@model AeBlog.Models.Post
+<article>
+    <h2><a href="/blog/posts/@Model.Slug/">@Model.Title</a></h2>
+    <p class="meta">Posted on @Model.Published.ToOrdinalWords() in <a href="/blog/category/@Model.Category/">@Model.Category</a></p>
+    @Html.Raw(Model.Content)
+</article>

@@ -1,0 +1,21 @@
+﻿@using Humanizer
+@model AeBlog.Models.PostSummary[]
+<aside class="right">
+    <div class="sidebar">
+        <h3>About the Author</h3>
+        <p>Alan is a hobbyist <a href="https://iamestranged.com/">Game Developer</a> and a Software Engineer at <a href="https://www.autodesk.com/">Autodesk</a>.</p>
+        <div>
+            @foreach (var month in Model.GroupBy(x => new DateTime(x.Published.Year, x.Published.Month, 1)))
+            {
+                <h4>@month.Key</h4>
+                <ul>
+                    @foreach (var post in month)
+                    {
+
+                        <li>@post.Title <a href="/blog/posts/@post.Slug">on the @post.Published.Day.Days()</a></li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+</aside>

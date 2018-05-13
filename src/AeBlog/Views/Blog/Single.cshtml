@@ -1,0 +1,9 @@
+﻿@using Humanizer
+@model AeBlog.Models.BlogModel
+@{
+    ViewData["Title"] = Model.Single.Title;
+}
+
+<section>
+    @await Html.PartialAsync("Post", Model.Single)
+</section>
