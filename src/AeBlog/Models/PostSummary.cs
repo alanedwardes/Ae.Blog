@@ -9,5 +9,7 @@ namespace AeBlog.Models
         public DateTime Published { get; set; }
         public string Title { get; set; }
         public string Type { get; set; }
+
+        public string Url => $"/blog/posts/{Slug}/";
     }
 }

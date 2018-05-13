@@ -5,5 +5,8 @@
 }
 
 <section>
-    @await Html.PartialAsync("Post", Model.Single)
+    @await Html.PartialAsync("Sidebar", Model.Archive)
+    <aside>
+        @await Html.PartialAsync("Post", Model.Single)
+    </aside>
 </section>

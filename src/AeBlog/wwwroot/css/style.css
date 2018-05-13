@@ -203,3 +203,22 @@ article .meta {
 article img, article video {
     max-width: 100%;
 }
+
+.sidebar ul {
+    padding-left: 20px;
+}
+
+.sidebar .meta {
+    color: #757575;
+}
+
+.sidebar {
+    font-size: .9em;
+    line-height: 1.5em;
+    margin-left: 20px;
+    max-width: 220px;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background: #252525;
+    border: 2px solid #333;
+}

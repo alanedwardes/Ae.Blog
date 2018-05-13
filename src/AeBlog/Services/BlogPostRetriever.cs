@@ -59,18 +59,12 @@ namespace AeBlog.Services
 
             var contentTask = GetPostContent(slug, true, token);
 
-            var post = (await metaTask).Item;
+            var post = ItemToPost((await metaTask).Item);
+
             var content = await contentTask;
-            return new Post
-            {
-                Category = post["Category"].S,
-                Published = DateTime.Parse(post["Published"].S),
-                Slug = post["Slug"].S,
-                Title = post["Title"].S,
-                Type = post["Type"].S,
-                Content = CommonMark.CommonMarkConverter.Convert(content.Item2),
-                HasMore = false
-            };
+            post.Content = content.Item2;
+            post.IsSingle = true;
+            return post;
         }
 
         public async Task<Post[]> GetPosts(CancellationToken token)

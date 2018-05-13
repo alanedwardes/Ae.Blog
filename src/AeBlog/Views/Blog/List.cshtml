@@ -6,8 +6,10 @@
 
 <section>
     @await Html.PartialAsync("Sidebar", Model.Archive)
-    @foreach (var post in Model.Posts)
-    {
-        @await Html.PartialAsync("Post", post)
-    }
+    <aside>
+        @foreach (var post in Model.Posts)
+        {
+            @await Html.PartialAsync("Post", post)
+        }
+    </aside>
 </section>

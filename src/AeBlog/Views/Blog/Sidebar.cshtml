@@ -7,12 +7,12 @@
         <div>
             @foreach (var month in Model.GroupBy(x => new DateTime(x.Published.Year, x.Published.Month, 1)))
             {
-                <h4>@month.Key</h4>
+            <h4>Posts in @month.Key.ToString("MMMM") @month.Key.Year</h4>
                 <ul>
                     @foreach (var post in month)
                     {
 
-                        <li>@post.Title <a href="/blog/posts/@post.Slug">on the @post.Published.Day.Days()</a></li>
+                        <li>@post.Title <a href="@post.Url">on the @post.Published.Day.Ordinalize()</a></li>
                     }
                 </ul>
             }
