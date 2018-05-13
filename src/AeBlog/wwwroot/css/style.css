@@ -183,6 +183,7 @@ article pre, article code, article a {
 article pre, article code {
     background: #282b2e;
     color: #e0e2e4 !important;
+    line-height: 1.5em;
 }
 
 article pre {

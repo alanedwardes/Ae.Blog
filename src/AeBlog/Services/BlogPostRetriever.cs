@@ -17,11 +17,35 @@ namespace AeBlog.Services
     {
         private readonly IAmazonDynamoDB amazonDynamoDb;
         private readonly IAmazonS3 amazonS3;
+        private const string MoreMarker = "---";
 
         public BlogPostRetriever(IAmazonDynamoDB amazonDynamoDb, IAmazonS3 amazonS3)
         {
             this.amazonDynamoDb = amazonDynamoDb;
             this.amazonS3 = amazonS3;
+        }
+
+        public async Task<Tuple<bool, string>> GetPostContent(string slug, bool isFullPost, CancellationToken token)
+        {
+            var response = await amazonS3.GetObjectStreamAsync("ae-posts", slug + ".md", null, token);
+            using (var sr = new StreamReader(response))
+            {
+                var sb = new StringBuilder();
+                while (!sr.EndOfStream)
+                {
+                    string line = await sr.ReadLineAsync();
+                    if (line != MoreMarker)
+                    {
+                        sb.AppendLine(line);
+                    }
+                    else if (!isFullPost)
+                    {
+                        break;
+                    }
+                }
+
+                return Tuple.Create(!sr.EndOfStream, sb.ToString());
+            }
         }
 
         public async Task<PostSummary> GetPost(string slug, CancellationToken token)
@@ -31,19 +55,10 @@ namespace AeBlog.Services
                 { "Slug", new AttributeValue(slug) }
             }, token);
 
-            async Task<string> getContent()
-            {
-                var response = await amazonS3.GetObjectStreamAsync("ae-posts", slug + ".md", null, token);
-                using (var sr = new StreamReader(response))
-                {
-                    return await sr.ReadToEndAsync();
-                }
-            };
-
-            var getContentTask = getContent();
+            var contentTask = GetPostContent(slug, true, token);
 
             var post = (await metaTask).Item;
-            var content = await getContentTask;
+            var content = await contentTask;
             return new PostSummary
             {
                 Category = post["Category"].S,
@@ -51,7 +66,7 @@ namespace AeBlog.Services
                 Slug = post["Slug"].S,
                 Title = post["Title"].S,
                 Type = post["Type"].S,
-                Content = CommonMark.CommonMarkConverter.Convert(content),
+                Content = CommonMark.CommonMarkConverter.Convert(content.Item2),
                 HasMore = false
             };
         }
@@ -75,27 +90,18 @@ namespace AeBlog.Services
 
             var contentTasks = response.Items.Select(async post => {
                 var slug = post["Slug"].S;
-                var objectResponse = await amazonS3.GetObjectAsync("ae-posts", slug + ".md", token);
-                using (var sr = new StreamReader(objectResponse.ResponseStream))
-                {
-                    var sb = new StringBuilder();
-                    string line;
-                    while (!sr.EndOfStream && (line = await sr.ReadLineAsync()) != "---")
-                    {
-                        sb.AppendLine(line);
-                    }
+                var content = await GetPostContent(slug, false, token);
 
-                    return new PostSummary
-                    {
-                        Category = post["Category"].S,
-                        Published = DateTime.Parse(post["Published"].S),
-                        Slug = post["Slug"].S,
-                        Title = post["Title"].S,
-                        Type = post["Type"].S,
-                        Content = CommonMark.CommonMarkConverter.Convert(sb.ToString()),
-                        HasMore = !sr.EndOfStream
-                    };
-                }
+                return new PostSummary
+                {
+                    Category = post["Category"].S,
+                    Published = DateTime.Parse(post["Published"].S),
+                    Slug = post["Slug"].S,
+                    Title = post["Title"].S,
+                    Type = post["Type"].S,
+                    Content = CommonMark.CommonMarkConverter.Convert(content.Item2),
+                    HasMore = content.Item1
+                };
             });
 
             return await Task.WhenAll(contentTasks);
