@@ -184,6 +184,7 @@ article pre, article code {
     background: #282b2e;
     color: #e0e2e4 !important;
     line-height: 1.5em;
+    font-family: 'Consolas', monospace;
 }
 
 article pre {
