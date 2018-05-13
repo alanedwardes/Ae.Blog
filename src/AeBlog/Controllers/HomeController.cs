@@ -2,7 +2,7 @@
 
 namespace AeBlog.Controllers
 {
-    public class AboutController : Controller
+    public class HomeController : Controller
     {
         public IActionResult Index()
         {

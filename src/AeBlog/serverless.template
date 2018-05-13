@@ -1,5 +1,15 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
+	"Parameters": {
+		"TwitterConsumerKey": {
+			"Type": "AWS::SSM::Parameter::Value<String>",
+			"Default": "TwitterConsumerKey"
+		},
+		"TwitterConsumerSecret": {
+			"Type": "AWS::SSM::Parameter::Value<String>",
+			"Default": "TwitterConsumerSecret"
+		}
+	},
     "Resources": {
         "ProxyFunction": {
             "Properties": {
@@ -8,7 +18,14 @@
                     "S3Key": ""
                 },
                 "Environment": {
-                    "Variables": {}
+                    "Variables": {
+						"TWITTER_CONSUMER_KEY": {
+							"Ref": "TwitterConsumerKey"
+						},
+						"TWITTER_CONSUMER_SECRET": {
+							"Ref": "TwitterConsumerSecret"
+						}
+					}
                 },
                 "Handler": "AeBlog::AeBlog.LambdaEntryPoint::FunctionHandlerAsync",
                 "MemorySize": 512,
