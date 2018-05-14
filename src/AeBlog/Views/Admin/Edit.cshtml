@@ -1,0 +1,16 @@
+﻿@model AeBlog.Models.AdminModel
+@{
+	ViewData["Title"] = "Edit \"" + Model.Post.Title + '"';
+}
+
+<section>
+	<h2>Editing "@Model.Post.Title"</h2>
+	<form action="" method="POST">
+		<label for="title">Title</label>
+		<input name="title" id="title" value="@Model.Post.Title"/>
+		<label for="category">Category</label>
+		<input name="category" id="category" value="@Model.Post.Category"/>
+		<label for="content">Content</label>
+		<textarea name="content" id="content">@Model.Post.Content.Markdown</textarea>
+	</form>
+</section>

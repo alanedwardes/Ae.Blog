@@ -44,9 +44,7 @@ namespace AeBlog.Services
                     }
                 }
 
-                var content = CommonMark.CommonMarkConverter.Convert(sb.ToString());
-
-                return Tuple.Create(!sr.EndOfStream, content);
+                return Tuple.Create(!sr.EndOfStream, sb.ToString());
             }
         }
 
@@ -62,7 +60,7 @@ namespace AeBlog.Services
             var post = ItemToPost((await metaTask).Item);
 
             var content = await contentTask;
-            post.Content = content.Item2;
+            post.Content = new PostContent { Markdown = content.Item2 };
             post.IsSingle = true;
             return post;
         }
@@ -94,7 +92,7 @@ namespace AeBlog.Services
                 var content = await GetPostContent(post.Slug, false, token);
 
                 post.HasMore = content.Item1;
-                post.Content = content.Item2;
+                post.Content = new PostContent { Markdown = content.Item2 };
 
                 return post;
             });
