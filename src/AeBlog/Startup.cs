@@ -3,6 +3,8 @@ using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.S3;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Twitter;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +25,8 @@ namespace AeBlog
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
                     {
-                        options.LoginPath = "/admin/login";
+                        options.LoginPath = "/session/login";
+                        options.AccessDeniedPath = "/session/denied";
                     })
                     .AddTwitter(options =>
                     {
@@ -31,6 +34,14 @@ namespace AeBlog
                         options.ConsumerSecret = Environment.GetEnvironmentVariable("TWITTER_CONSUMER_SECRET");
                     });
 
+            services.AddAuthorization(options =>
+            {
+                var isAlanPolicy = new AuthorizationPolicyBuilder(new[] { TwitterDefaults.AuthenticationScheme })
+                    .RequireClaim("urn:twitter:userid", "14201790")
+                    .Build();
+
+                options.AddPolicy("IsAdmin", isAlanPolicy);
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
