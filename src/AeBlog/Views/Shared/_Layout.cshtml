@@ -1,5 +1,5 @@
 ﻿@{
-    var controller = (string)this.ViewContext.RouteData.Values["controller"];
+    var controller = ((string)this.ViewContext.RouteData.Values["controller"]).ToLower();
 }
 <!DOCTYPE html>
 <html>
