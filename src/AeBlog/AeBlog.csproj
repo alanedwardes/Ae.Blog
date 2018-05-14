@@ -7,7 +7,6 @@
   <ItemGroup>
   <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="2.0.3" />
   <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.8" />
-  <PackageReference Include="AWSSDK.S3" Version="3.3.18.2" />
   <PackageReference Include="CommonMark.NET" Version="0.15.1" />
   <PackageReference Include="Humanizer.Core" Version="2.2.0" />
   <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />

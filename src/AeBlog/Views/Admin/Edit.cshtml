@@ -1,16 +1,27 @@
-﻿@model AeBlog.Models.AdminModel
+﻿@model AeBlog.Models.Admin.EditPostModel
 @{
-	ViewData["Title"] = "Edit \"" + Model.Post.Title + '"';
+	ViewData["Title"] = "Editing \"" + Model.Title + '"';
 }
 
 <section>
-	<h2>Editing "@Model.Post.Title"</h2>
-	<form action="" method="POST">
-		<label for="title">Title</label>
-		<input name="title" id="title" value="@Model.Post.Title"/>
-		<label for="category">Category</label>
-		<input name="category" id="category" value="@Model.Post.Category"/>
-		<label for="content">Content</label>
-		<textarea name="content" id="content">@Model.Post.Content.Markdown</textarea>
-	</form>
+    <h2>Editing "@Model.Title"</h2>
+    <form asp-controller="admin" asp-action="edit" method="post">
+        <p>
+            <label asp-for="Title">Title</label>
+            <input asp-for="Title" />
+        </p>
+        <p>
+            <label asp-for="IsPublished">Published</label>
+            <input asp-for="IsPublished" />
+        </p>
+        <p>
+            <label asp-for="Content">Category</label>
+            <input asp-for="Category" />
+        </p>
+
+        <textarea asp-for="Content"></textarea>
+        <p>
+            <button type="submit">Save</button>
+        </p>
+    </form>
 </section>

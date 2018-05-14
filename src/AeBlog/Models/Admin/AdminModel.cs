@@ -1,4 +1,4 @@
-﻿namespace AeBlog.Models
+﻿namespace AeBlog.Models.Admin
 {
     public class AdminModel
     {

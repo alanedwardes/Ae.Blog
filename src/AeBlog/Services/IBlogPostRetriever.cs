@@ -10,5 +10,6 @@ namespace AeBlog.Services
         Task<Post[]> GetPostsForCategory(string category, CancellationToken token);
         Task<Post[]> GetPosts(CancellationToken token);
         Task<Post> GetPost(string slug, CancellationToken token);
+        Task PutPost(Post post, CancellationToken token);
     }
 }

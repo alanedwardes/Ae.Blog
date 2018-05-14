@@ -1,12 +1,10 @@
 ﻿using AeBlog.Models;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
-using Amazon.S3;
+using Amazon.Lambda.Core;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,51 +14,41 @@ namespace AeBlog.Services
     public class BlogPostRetriever : IBlogPostRetriever
     {
         private readonly IAmazonDynamoDB amazonDynamoDb;
-        private readonly IAmazonS3 amazonS3;
         private const string MoreMarker = "---";
 
-        public BlogPostRetriever(IAmazonDynamoDB amazonDynamoDb, IAmazonS3 amazonS3)
+        public BlogPostRetriever(IAmazonDynamoDB amazonDynamoDb)
         {
             this.amazonDynamoDb = amazonDynamoDb;
-            this.amazonS3 = amazonS3;
         }
 
-        public async Task<Tuple<bool, string>> GetPostContent(string slug, bool isFullPost, CancellationToken token)
+        public async Task PutPost(Post post, CancellationToken token)
         {
-            var response = await amazonS3.GetObjectStreamAsync("ae-posts", slug + ".md", null, token);
-            using (var sr = new StreamReader(response))
-            {
-                var sb = new StringBuilder();
-                while (!sr.EndOfStream)
-                {
-                    string line = await sr.ReadLineAsync();
-                    if (line != MoreMarker)
-                    {
-                        sb.AppendLine(line);
-                    }
-                    else if (!isFullPost)
-                    {
-                        break;
-                    }
-                }
+            LambdaLogger.Log(post.Title);
+            LambdaLogger.Log(post.Category);
+            LambdaLogger.Log(post.Type);
+            LambdaLogger.Log(post.Content.Markdown);
+            LambdaLogger.Log(post.Slug);
+            LambdaLogger.Log(post.Published.ToString("o"));
 
-                return Tuple.Create(!sr.EndOfStream, sb.ToString());
-            }
+            await amazonDynamoDb.PutItemAsync("BlogPosts", new Dictionary<string, AttributeValue>
+            {
+                { "Title", new AttributeValue(post.Title) },
+                { "Category", new AttributeValue(post.Category) },
+                { "Type", new AttributeValue(post.Type) },
+                { "Content", new AttributeValue(post.Content.Markdown) },
+                { "Slug", new AttributeValue(post.Slug) },
+                { "Published", new AttributeValue(post.Published.ToString("o")) }
+            }, token);
         }
 
         public async Task<Post> GetPost(string slug, CancellationToken token)
         {
-            var metaTask = amazonDynamoDb.GetItemAsync("BlogPosts", new Dictionary<string, AttributeValue>
+            var item = await amazonDynamoDb.GetItemAsync("BlogPosts", new Dictionary<string, AttributeValue>
             {
                 { "Slug", new AttributeValue(slug) }
             }, token);
 
-            var contentTask = GetPostContent(slug, true, token);
-
-            var post = ItemToPost((await metaTask).Item);
-
-            var content = await contentTask;
-            post.Content = new PostContent { Markdown = content.Item2 };
+            var post = ItemToPost(item.Item);
             post.IsSingle = true;
             return post;
         }
@@ -87,17 +75,7 @@ namespace AeBlog.Services
         {
             var response = await amazonDynamoDb.QueryAsync(query, token);
 
-            var contentTasks = response.Items.Select(async item => {
-                var post = ItemToPost(item);
-                var content = await GetPostContent(post.Slug, false, token);
-
-                post.HasMore = content.Item1;
-                post.Content = new PostContent { Markdown = content.Item2 };
-
-                return post;
-            });
-
-            return await Task.WhenAll(contentTasks);
+            return response.Items.Select(ItemToPost).ToArray();
         }
 
         private Post ItemToPost(IDictionary<string, AttributeValue> item)
@@ -108,8 +86,9 @@ namespace AeBlog.Services
                 Published = DateTime.Parse(item["Published"].S),
                 Slug = item["Slug"].S,
                 Title = item["Title"].S,
-                Type = item["Type"].S
-            };
+                Type = item["Type"].S,
+                Content = new PostContent { Markdown = item["Content"].S }
+        };
         }
 
         public async Task<Post[]> GetPostsForCategory(string category, CancellationToken token)

@@ -1,7 +1,6 @@
 using AeBlog.Services;
 using Amazon;
 using Amazon.DynamoDBv2;
-using Amazon.S3;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Twitter;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +19,6 @@ namespace AeBlog
             services.AddMvc();
             services.AddSingleton<IBlogPostRetriever, BlogPostRetriever>();
             services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(RegionEndpoint.EUWest1));
-            services.AddSingleton<IAmazonS3>(new AmazonS3Client(RegionEndpoint.EUWest1));
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>

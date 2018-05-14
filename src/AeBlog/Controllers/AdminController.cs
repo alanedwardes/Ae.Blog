@@ -1,4 +1,5 @@
 ﻿using AeBlog.Models;
+using AeBlog.Models.Admin;
 using AeBlog.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,13 +28,32 @@ namespace AeBlog.Controllers
             });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id, EditPostModel model)
+        {
+            var post = await blogPostRetriever.GetPost(id, CancellationToken.None);
+
+            post.Content = new PostContent { Markdown = model.Content };
+            post.Category = model.Category;
+            post.Type = model.IsPublished ? "published" : "draft";
+            post.Title = model.Title;
+
+            await blogPostRetriever.PutPost(post, CancellationToken.None);
+
+            return Redirect("/admin/");
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
             var post = await blogPostRetriever.GetPost(id, CancellationToken.None);
 
-            return View(new AdminModel
+            return View(new EditPostModel
             {
-                Post = post
+                Title = post.Title,
+                Category = post.Category,
+                Content = post.Content.Markdown,
+                IsPublished = post.Type == "published"
             });
         }
     }
