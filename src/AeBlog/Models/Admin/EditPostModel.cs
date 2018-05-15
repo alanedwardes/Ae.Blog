@@ -12,6 +12,9 @@ namespace AeBlog.Models.Admin
         [MaxLength(256)]
         [DataType(DataType.Text)]
         public string Category { get; set; }
+        [MaxLength(256)]
+        [DataType(DataType.Text)]
+        public string Slug { get; set; }
         [Required]
         public bool IsPublished { get; set; }
         [Required]

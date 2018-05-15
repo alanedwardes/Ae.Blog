@@ -1,5 +1,4 @@
-﻿@using Humanizer
-@model AeBlog.Models.Post
+﻿@model AeBlog.Models.Post
 <article>
     @if (Model.IsSingle)
     {
@@ -10,7 +9,7 @@
         <h2><a href="@Model.Url">@Model.Title</a></h2>
     }
     <p class="meta">Posted on @Model.Published.ToOrdinalWords() in <a href="/blog/category/@Model.Category/">@Model.Category</a></p>
-    @Html.Raw(Model.Content.Html)
+    @Html.Raw(CommonMark.CommonMarkConverter.Convert(Model.Content))
     @if (Model.HasMore)
     {
         <p><a href="@Model.Url">Continue Reading &raquo;</a></p>

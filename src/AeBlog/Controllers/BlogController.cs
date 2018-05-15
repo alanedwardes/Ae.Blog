@@ -20,8 +20,8 @@ namespace AeBlog.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var summariesTask = blogPostRetriever.GetPostSummaries(CancellationToken.None);
-            var postsTask = blogPostRetriever.GetPosts(CancellationToken.None);
+            var summariesTask = blogPostRetriever.GetPublishedPostSummaries(CancellationToken.None);
+            var postsTask = blogPostRetriever.GetPublishedPosts(CancellationToken.None);
 
             return View("List", new BlogModel
             {
@@ -32,7 +32,7 @@ namespace AeBlog.Controllers
 
         public async Task<IActionResult> Posts(string id)
         {
-            var summariesTask = blogPostRetriever.GetPostSummaries(CancellationToken.None);
+            var summariesTask = blogPostRetriever.GetPublishedPostSummaries(CancellationToken.None);
             var singleTask = blogPostRetriever.GetPost(id, CancellationToken.None);
 
             return View("Single", new BlogModel
@@ -44,7 +44,7 @@ namespace AeBlog.Controllers
 
         public async Task<IActionResult> Category(string id)
         {
-            var summariesTask = blogPostRetriever.GetPostSummaries(CancellationToken.None);
+            var summariesTask = blogPostRetriever.GetPublishedPostSummaries(CancellationToken.None);
             var postsTask = blogPostRetriever.GetPostsForCategory(id, CancellationToken.None);
 
             return View("List", new BlogModel

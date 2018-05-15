@@ -3,6 +3,7 @@ using AeBlog.Models.Admin;
 using AeBlog.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace AeBlog.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var summaries = await blogPostRetriever.GetPostSummaries(CancellationToken.None);
+            var summaries = await blogPostRetriever.GetAllPostSummaries(CancellationToken.None);
 
             return View(new AdminModel
             {
@@ -29,11 +30,35 @@ namespace AeBlog.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> New(EditPostModel model)
+        {
+            var post = new Post
+            {
+                Content = model.Content,
+                Type = model.IsPublished ? "published" : "draft",
+                Title = model.Title,
+                Category = model.Category,
+                Published = DateTime.UtcNow,
+                Slug = model.Slug
+            };
+
+            await blogPostRetriever.PutPost(post, CancellationToken.None);
+
+            return Redirect("/admin/");
+        }
+
+        [HttpGet]
+        public IActionResult New()
+        {
+            return View("Edit");
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Edit(string id, EditPostModel model)
         {
             var post = await blogPostRetriever.GetPost(id, CancellationToken.None);
 
-            post.Content = new PostContent { Markdown = model.Content };
+            post.Content = model.Content;
             post.Category = model.Category;
             post.Type = model.IsPublished ? "published" : "draft";
             post.Title = model.Title;
@@ -52,7 +77,7 @@ namespace AeBlog.Controllers
             {
                 Title = post.Title,
                 Category = post.Category,
-                Content = post.Content.Markdown,
+                Content = post.Content,
                 IsPublished = post.Type == "published"
             });
         }

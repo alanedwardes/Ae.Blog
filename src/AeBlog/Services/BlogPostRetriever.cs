@@ -23,19 +23,12 @@ namespace AeBlog.Services
 
         public async Task PutPost(Post post, CancellationToken token)
         {
-            LambdaLogger.Log(post.Title);
-            LambdaLogger.Log(post.Category);
-            LambdaLogger.Log(post.Type);
-            LambdaLogger.Log(post.Content.Markdown);
-            LambdaLogger.Log(post.Slug);
-            LambdaLogger.Log(post.Published.ToString("o"));
-
             await amazonDynamoDb.PutItemAsync("BlogPosts", new Dictionary<string, AttributeValue>
             {
                 { "Title", new AttributeValue(post.Title) },
                 { "Category", new AttributeValue(post.Category) },
                 { "Type", new AttributeValue(post.Type) },
-                { "Content", new AttributeValue(post.Content.Markdown) },
+                { "Content", new AttributeValue(post.Content) },
                 { "Slug", new AttributeValue(post.Slug) },
                 { "Published", new AttributeValue(post.Published.ToString("o")) }
             }, token);
@@ -53,7 +46,20 @@ namespace AeBlog.Services
             return post;
         }
 
-        public async Task<Post[]> GetPosts(CancellationToken token)
+        public async Task<PostSummary[]> GetAllPostSummaries(CancellationToken token)
+        {
+            return (await amazonDynamoDb.ScanAsync(new ScanRequest
+            {
+                TableName = "BlogPosts",
+                ProjectionExpression = "Slug,Category,Published,Title,#Type",
+                ExpressionAttributeNames = new Dictionary<string, string>
+                {
+                    { "#Type", "Type" }
+                }
+            })).Items.Select(ItemToPost).OrderByDescending(x => x.Published).ToArray();
+        }
+
+        public async Task<Post[]> GetPublishedPosts(CancellationToken token)
         {
             return await GetPostsInternal(new QueryRequest
             {
@@ -80,15 +86,21 @@ namespace AeBlog.Services
 
         private Post ItemToPost(IDictionary<string, AttributeValue> item)
         {
-            return new Post
+            var post = new Post
             {
                 Category = item["Category"].S,
                 Published = DateTime.Parse(item["Published"].S),
                 Slug = item["Slug"].S,
                 Title = item["Title"].S,
-                Type = item["Type"].S,
-                Content = new PostContent { Markdown = item["Content"].S }
-        };
+                Type = item["Type"].S
+            };
+
+            if (item.ContainsKey("Content"))
+            {
+                post.Content = item["Content"].S;
+            }
+
+            return post;
         }
 
         public async Task<Post[]> GetPostsForCategory(string category, CancellationToken token)
@@ -109,7 +121,7 @@ namespace AeBlog.Services
             }, token);
         }
 
-        public async Task<PostSummary[]> GetPostSummaries(CancellationToken token)
+        public async Task<PostSummary[]> GetPublishedPostSummaries(CancellationToken token)
         {
             var response = await amazonDynamoDb.QueryAsync(new QueryRequest
             {
