@@ -3,47 +3,58 @@
 }
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
-        <link href="~/css/style.css" rel="stylesheet" />
-        <title>@(ViewData["Title"] == null ? "Alan Edwardes" : $"{ViewData["Title"]} - Alan Edwardes")</title>
-    </head>
-    <body>
-        <div class="@controller">
-            <header>
-                <section>
-                    <div class="left">
-                        <h1><a href="/">Alan Edwardes</a></h1>
-                        <small><a href="/blog/category/cloud-software/">Cloud Software</a> &amp; <a href="/blog/category/game-development/">Game Development</a></small>
-                    </div>
-                    <ul>
-                        <li class=@(controller == "home" ? "selected" : string.Empty)>
-                            <a alt="About me, an introduction to what I do" href="/">About</a>
-                        </li>
-                        <li class=@(controller == "projects" ? "selected" : string.Empty)>
-                            <a alt="A list of projects I'm involved with" href="/projects/">Projects</a>
-                        </li>
-                        <li class=@(controller == "contact" ? "selected" : string.Empty)>
-                            <a alt="Contact information and social media links" href="/contact/">Contact</a>
-                        </li>
-                        <li class=@(controller == "blog" ? "selected" : string.Empty)>
-                            <a alt="Posts about cloud software and game development" href="/blog/">Blog</a>
-                        </li>
-                    </ul>
-                    <div class="clear"></div>
-                </section>
-            </header>
-            <main>
-                @RenderBody()
-            </main>
-            <footer>
-                <section>
-                    <p class="ligature">&AElig;</p>
-                    <p>&copy; @DateTime.UtcNow.Year Alan Edwardes</p>
-                </section>
-            </footer>
-        </div>
-    </body>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    @if (controller == "blog")
+    {
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>
+            hljs.configure({
+                classPrefix: 'language-'
+            });
+            hljs.initHighlightingOnLoad();
+        </script>
+    }
+    <title>@(ViewData["Title"] == null ? "Alan Edwardes" : $"{ViewData["Title"]} - Alan Edwardes")</title>
+</head>
+<body>
+    <div class="@controller">
+        <header>
+            <section>
+                <div class="left">
+                    <h1><a href="/">Alan Edwardes</a></h1>
+                    <small><a href="/blog/category/cloud-software/">Cloud Software</a> &amp; <a href="/blog/category/game-development/">Game Development</a></small>
+                </div>
+                <ul>
+                    <li class=@(controller == "home" ? "selected" : string.Empty)>
+                        <a alt="About me, an introduction to what I do" href="/">About</a>
+                    </li>
+                    <li class=@(controller == "projects" ? "selected" : string.Empty)>
+                        <a alt="A list of projects I'm involved with" href="/projects/">Projects</a>
+                    </li>
+                    <li class=@(controller == "contact" ? "selected" : string.Empty)>
+                        <a alt="Contact information and social media links" href="/contact/">Contact</a>
+                    </li>
+                    <li class=@(controller == "blog" ? "selected" : string.Empty)>
+                        <a alt="Posts about cloud software and game development" href="/blog/">Blog</a>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </section>
+        </header>
+        <main>
+            @RenderBody()
+        </main>
+        <footer>
+            <section>
+                <p class="ligature">&AElig;</p>
+                <p>&copy; @DateTime.UtcNow.Year Alan Edwardes</p>
+            </section>
+        </footer>
+    </div>
+</body>
 </html>
