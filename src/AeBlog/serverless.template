@@ -24,6 +24,9 @@
 						},
 						"TWITTER_CONSUMER_SECRET": {
 							"Ref": "TwitterConsumerSecret"
+						},
+						"SESSION_BUCKET": {
+							"Ref": "SessionBucket"
 						}
 					}
                 },
@@ -114,6 +117,9 @@
                 "StageName": "prod"
             },
             "Type": "AWS::ApiGateway::Deployment"
+        },
+		"SessionBucket": {
+            "Type": "AWS::S3::Bucket"
         }
     }
 }

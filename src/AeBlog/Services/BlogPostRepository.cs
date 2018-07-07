@@ -1,7 +1,6 @@
 ﻿using AeBlog.Models;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
-using Amazon.Lambda.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +10,12 @@ using System.Threading.Tasks;
 namespace AeBlog.Services
 {
 
-    public class BlogPostRetriever : IBlogPostRetriever
+    public class BlogPostRepository : IBlogPostRepository
     {
         private readonly IAmazonDynamoDB amazonDynamoDb;
         private const string MoreMarker = "---";
 
-        public BlogPostRetriever(IAmazonDynamoDB amazonDynamoDb)
+        public BlogPostRepository(IAmazonDynamoDB amazonDynamoDb)
         {
             this.amazonDynamoDb = amazonDynamoDb;
         }
@@ -139,6 +138,18 @@ namespace AeBlog.Services
             }, token);
 
             return response.Items.Select(ItemToPost).ToArray();
+        }
+
+        public async Task DeletePost(string slug, CancellationToken token)
+        {
+            await amazonDynamoDb.DeleteItemAsync(new DeleteItemRequest
+            {
+                TableName = "BlogPosts",
+                Key = new Dictionary<string, AttributeValue>
+                {
+                    { "Slug", new AttributeValue(slug) }
+                }
+            }, token);
         }
     }
 }

@@ -12,9 +12,9 @@ namespace AeBlog.Controllers
     [Authorize(Policy = "IsAdmin")]
     public class AdminController : Controller
     {
-        private readonly IBlogPostRetriever blogPostRetriever;
+        private readonly IBlogPostRepository blogPostRetriever;
 
-        public AdminController(IBlogPostRetriever blogPostRetriever)
+        public AdminController(IBlogPostRepository blogPostRetriever)
         {
             this.blogPostRetriever = blogPostRetriever;
         }
@@ -80,6 +80,13 @@ namespace AeBlog.Controllers
                 Content = post.Content,
                 IsPublished = post.Type == "published"
             });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await blogPostRetriever.DeletePost(id, CancellationToken.None);
+            return Redirect(Url.Action(nameof(Index)));
         }
     }
 }

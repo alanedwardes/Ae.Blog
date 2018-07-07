@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace AeBlog.Services
 {
-    public interface IBlogPostRetriever
+    public interface IBlogPostRepository
     {
         Task<PostSummary[]> GetPublishedPostSummaries(CancellationToken token);
         Task<Post[]> GetPostsForCategory(string category, CancellationToken token);
@@ -12,5 +12,6 @@ namespace AeBlog.Services
         Task<PostSummary[]> GetAllPostSummaries(CancellationToken token);
         Task<Post> GetPost(string slug, CancellationToken token);
         Task PutPost(Post post, CancellationToken token);
+        Task DeletePost(string slug, CancellationToken token);
     }
 }

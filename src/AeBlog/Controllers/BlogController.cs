@@ -10,9 +10,9 @@ namespace AeBlog.Controllers
     public class BlogController : Controller
     {
         private readonly ILogger<BlogController> logger;
-        private readonly IBlogPostRetriever blogPostRetriever;
+        private readonly IBlogPostRepository blogPostRetriever;
 
-        public BlogController(ILogger<BlogController> logger, IBlogPostRetriever blogPostRetriever)
+        public BlogController(ILogger<BlogController> logger, IBlogPostRepository blogPostRetriever)
         {
             this.logger = logger;
             this.blogPostRetriever = blogPostRetriever;

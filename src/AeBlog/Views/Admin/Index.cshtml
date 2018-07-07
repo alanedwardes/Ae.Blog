@@ -17,11 +17,21 @@
 		<tbody>
 			@foreach (var post in Model.Posts)
 			{
-				<tr>
-					<td><a href="@post.Url">@post.Title</a></td>
-					<td>@post.Published.ToOrdinalWords()</td>
-					<td><a href="/admin/edit/@post.Slug/">Edit</a><td>
-				</tr>
+            <tr>
+                <td><a href="@post.Url">@post.Title</a></td>
+                <td>@post.Published.ToOrdinalWords()</td>
+                <td>
+                    <form method="get" action="/admin/edit/@post.Slug/">
+                        <button type="submit">Edit</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post" action="/admin/delete/@post.Slug/" onsubmit="return confirm('Are you sure you want to delete the post @post.Title?');">
+                        <input type="hidden" name="slug" value="@post.Slug" />
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
 			}
 		</tbody>
 	</table>

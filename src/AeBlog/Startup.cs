@@ -1,10 +1,13 @@
 using AeBlog.Services;
 using Amazon;
 using Amazon.DynamoDBv2;
+using Amazon.S3;
+using AspNetCore.DataProtection.Aws.S3;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Twitter;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -17,8 +20,9 @@ namespace AeBlog
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddSingleton<IBlogPostRetriever, BlogPostRetriever>();
+            services.AddSingleton<IBlogPostRepository, BlogPostRepository>();
             services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(RegionEndpoint.EUWest1));
+            services.AddSingleton<IAmazonS3>(new AmazonS3Client(RegionEndpoint.EUWest1));
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
@@ -40,6 +44,13 @@ namespace AeBlog
 
                 options.AddPolicy("IsAdmin", isAlanPolicy);
             });
+
+            services.AddDataProtection()
+                    .SetApplicationName(nameof(AeBlog))
+                    .PersistKeysToAwsS3(new S3XmlRepositoryConfig
+                    {
+                        Bucket = Environment.GetEnvironmentVariable("SESSION_BUCKET")
+                    });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
