@@ -1,5 +1,5 @@
 {
-    "AWSTemplateFormatVersion": "2010-09-09",
+	"AWSTemplateFormatVersion": "2010-09-09",
 	"Parameters": {
 		"TwitterConsumerKey": {
 			"Type": "AWS::SSM::Parameter::Value<String>",
@@ -10,15 +10,15 @@
 			"Default": "TwitterConsumerSecret"
 		}
 	},
-    "Resources": {
-        "ProxyFunction": {
-            "Properties": {
-                "Code": {
-                    "S3Bucket": "",
-                    "S3Key": ""
-                },
-                "Environment": {
-                    "Variables": {
+	"Resources": {
+		"ProxyFunction": {
+			"Properties": {
+				"Code": {
+					"S3Bucket": "",
+					"S3Key": ""
+				},
+				"Environment": {
+					"Variables": {
 						"TWITTER_CONSUMER_KEY": {
 							"Ref": "TwitterConsumerKey"
 						},
@@ -27,99 +27,214 @@
 						},
 						"SESSION_BUCKET": {
 							"Ref": "SessionBucket"
+						},
+						"POSTS_TABLE": {
+							"Ref": "PostsTable"
 						}
 					}
-                },
-                "Handler": "AeBlog::AeBlog.LambdaEntryPoint::FunctionHandlerAsync",
-                "MemorySize": 512,
-                "Role": {
-                    "Fn::Sub": "${ProxyFunctionRole.Arn}"
-                },
-                "Runtime": "dotnetcore2.0",
-                "Timeout": 30
-            },
-            "Type": "AWS::Lambda::Function"
-        },
-        "ProxyFunctionPutResourcePermissionProd": {
-            "Properties": {
-                "Action": "lambda:invokeFunction",
-                "FunctionName": { "Fn::Sub":  "${ProxyFunction}" },
-                "Principal": "apigateway.amazonaws.com",
-                "SourceArn": {
-                    "Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ServerlessRestApi}/prod/ANY/*"
-                }
-            },
-            "Type": "AWS::Lambda::Permission",
-            "DependsOn": ["ProxyFunction"]
-        },
-        "ProxyFunctionRole": {
-            "Properties": {
-                "AssumeRolePolicyDocument": {
-                    "Statement": [
-                        {
-                            "Action": [
-                                "sts:AssumeRole"
-                            ],
-                            "Effect": "Allow",
-                            "Principal": {
-                                "Service": [
-                                    "lambda.amazonaws.com"
-                                ]
-                            }
-                        }
-                    ],
-                    "Version": "2012-10-17"
-                },
-                "ManagedPolicyArns": [
-                    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-                    "arn:aws:iam::aws:policy/AWSLambdaFullAccess"
-                ]
-            },
-            "Type": "AWS::IAM::Role"
-        },
-        "ServerlessRestApi": {
-            "Type": "AWS::ApiGateway::RestApi",
-            "Properties": {
-                "Body": {
-                    "info": {
-                        "title": { "Fn::Sub": "${AWS::StackName}" },
-                        "version": "1.0"
-                    },
-                    "paths": {
-                        "/": {
-                            "x-amazon-apigateway-any-method": {
-                                "responses": {},
-                                "x-amazon-apigateway-integration": {
-                                    "httpMethod": "POST",
-                                    "type": "aws_proxy",
-                                    "uri": { "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ProxyFunction.Arn}/invocations" }
-                                }
-                            }
-                        },
-                        "/{proxy+}": {
-                            "x-amazon-apigateway-any-method": {
-                                "responses": {},
-                                "x-amazon-apigateway-integration": {
-                                    "httpMethod": "POST",
-                                    "type": "aws_proxy",
-                                    "uri": { "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ProxyFunction.Arn}/invocations" }
-                                }
-                            }
-                        }
-                    },
-                    "swagger": "2.0"
-                }
-            }
-        },
-        "ServerlessRestApiDeployment26c551a2f2": {
-            "Properties": {
-                "RestApiId": { "Fn::Sub": "${ServerlessRestApi}" },
-                "StageName": "prod"
-            },
-            "Type": "AWS::ApiGateway::Deployment"
-        },
+				},
+				"Handler": "AeBlog::AeBlog.LambdaEntryPoint::FunctionHandlerAsync",
+				"MemorySize": 512,
+				"Role": {
+					"Fn::Sub": "${ProxyFunctionRole.Arn}"
+				},
+				"Runtime": "dotnetcore2.0",
+				"Timeout": 30
+			},
+			"Type": "AWS::Lambda::Function"
+		},
+		"ProxyFunctionPutResourcePermissionProd": {
+			"Properties": {
+				"Action": "lambda:invokeFunction",
+				"FunctionName": {
+					"Fn::Sub": "${ProxyFunction}"
+				},
+				"Principal": "apigateway.amazonaws.com",
+				"SourceArn": {
+					"Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ServerlessRestApi}/prod/ANY/*"
+				}
+			},
+			"Type": "AWS::Lambda::Permission",
+			"DependsOn": [
+				"ProxyFunction"
+			]
+		},
+		"ProxyFunctionRole": {
+			"Properties": {
+				"AssumeRolePolicyDocument": {
+					"Statement": [
+						{
+							"Action": [
+								"sts:AssumeRole"
+							],
+							"Effect": "Allow",
+							"Principal": {
+								"Service": [
+									"lambda.amazonaws.com"
+								]
+							}
+						}
+					],
+					"Version": "2012-10-17"
+				},
+				"ManagedPolicyArns": [
+					"arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+					"arn:aws:iam::aws:policy/AWSLambdaFullAccess"
+				],
+				"Policies": [
+					{
+						"PolicyName": "root",
+						"PolicyDocument": {
+							"Version": "2012-10-17",
+							"Statement": [
+								{
+									"Effect": "Allow",
+									"Action": [
+										"dynamodb:Query",
+										"dynamodb:GetItem",
+										"dynamodb:PutItem",
+										"dynamodb:DeleteItem"
+									],
+									"Resource": {
+										"Fn::GetAtt": [
+											"PostsTable",
+											"Arn"
+										]
+									}
+								}
+							]
+						}
+					}
+				]
+			},
+			"Type": "AWS::IAM::Role"
+		},
+		"ServerlessRestApi": {
+			"Type": "AWS::ApiGateway::RestApi",
+			"Properties": {
+				"Body": {
+					"info": {
+						"title": {
+							"Fn::Sub": "${AWS::StackName}"
+						},
+						"version": "1.0"
+					},
+					"paths": {
+						"/": {
+							"x-amazon-apigateway-any-method": {
+								"responses": {},
+								"x-amazon-apigateway-integration": {
+									"httpMethod": "POST",
+									"type": "aws_proxy",
+									"uri": {
+										"Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ProxyFunction.Arn}/invocations"
+									}
+								}
+							}
+						},
+						"/{proxy+}": {
+							"x-amazon-apigateway-any-method": {
+								"responses": {},
+								"x-amazon-apigateway-integration": {
+									"httpMethod": "POST",
+									"type": "aws_proxy",
+									"uri": {
+										"Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ProxyFunction.Arn}/invocations"
+									}
+								}
+							}
+						}
+					},
+					"swagger": "2.0"
+				}
+			}
+		},
+		"ServerlessRestApiDeployment26c551a2f2": {
+			"Properties": {
+				"RestApiId": {
+					"Fn::Sub": "${ServerlessRestApi}"
+				},
+				"StageName": "prod"
+			},
+			"Type": "AWS::ApiGateway::Deployment"
+		},
 		"SessionBucket": {
-            "Type": "AWS::S3::Bucket"
-        }
-    }
+			"Type": "AWS::S3::Bucket"
+		},
+		"PostsTable": {
+			"Type": "AWS::DynamoDB::Table",
+			"Properties": {
+				"AttributeDefinitions": [
+					{
+						"AttributeName": "Slug",
+						"AttributeType": "S"
+					},
+					{
+						"AttributeName": "Type",
+						"AttributeType": "S"
+					},
+					{
+						"AttributeName": "Category",
+						"AttributeType": "S"
+					},
+					{
+						"AttributeName": "Published",
+						"AttributeType": "S"
+					}
+				],
+				"KeySchema": [
+					{
+						"AttributeName": "Slug",
+						"KeyType": "HASH"
+					}
+				],
+				"ProvisionedThroughput": {
+					"ReadCapacityUnits": "5",
+					"WriteCapacityUnits": "5"
+				},
+				"GlobalSecondaryIndexes": [
+					{
+						"IndexName": "Category-Published-index",
+						"KeySchema": [
+							{
+								"AttributeName": "Category",
+								"KeyType": "HASH"
+							},
+							{
+								"AttributeName": "Published",
+								"KeyType": "RANGE"
+							}
+						],
+						"Projection": {
+							"ProjectionType": "ALL"
+						},
+						"ProvisionedThroughput": {
+							"ReadCapacityUnits": "5",
+							"WriteCapacityUnits": "5"
+						}
+					},
+					{
+						"IndexName": "Type-Published-index",
+						"KeySchema": [
+							{
+								"AttributeName": "Type",
+								"KeyType": "HASH"
+							},
+							{
+								"AttributeName": "Published",
+								"KeyType": "RANGE"
+							}
+						],
+						"Projection": {
+							"ProjectionType": "ALL"
+						},
+						"ProvisionedThroughput": {
+							"ReadCapacityUnits": "5",
+							"WriteCapacityUnits": "5"
+						}
+					}
+				]
+			}
+		}
+	}
 }

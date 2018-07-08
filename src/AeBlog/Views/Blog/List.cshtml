@@ -7,6 +7,11 @@
 <section>
     @await Html.PartialAsync("Sidebar", Model.Archive)
     <aside>
+        @if (!string.IsNullOrWhiteSpace(Model.Category))
+        {
+            <h2>Category "@Model.Category"</h2>
+            <p>Viewing subset of posts filtered by category.</p>
+        }
         @foreach (var post in Model.Posts)
         {
             @await Html.PartialAsync("Post", post)

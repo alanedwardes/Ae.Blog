@@ -1,8 +1,10 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AeBlog.Models;
 using AeBlog.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace AeBlog.Controllers
@@ -11,17 +13,31 @@ namespace AeBlog.Controllers
     {
         private readonly ILogger<BlogController> logger;
         private readonly IBlogPostRepository blogPostRetriever;
+        private readonly IMemoryCache memoryCache;
 
-        public BlogController(ILogger<BlogController> logger, IBlogPostRepository blogPostRetriever)
+        public BlogController(ILogger<BlogController> logger, IBlogPostRepository blogPostRetriever, IMemoryCache memoryCache)
         {
             this.logger = logger;
             this.blogPostRetriever = blogPostRetriever;
+            this.memoryCache = memoryCache;
+        }
+
+        public async Task<PostSummary[]> GetPostSummaries(CancellationToken token)
+        {
+            return await memoryCache.GetOrCreateAsync("GetPublishedPostSummaries", entry => {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
+                return blogPostRetriever.GetPublishedPostSummaries(CancellationToken.None);
+            });
         }
 
         public async Task<IActionResult> Index()
         {
-            var summariesTask = blogPostRetriever.GetPublishedPostSummaries(CancellationToken.None);
-            var postsTask = blogPostRetriever.GetPublishedPosts(CancellationToken.None);
+            var summariesTask = GetPostSummaries(CancellationToken.None);
+            var postsTask = memoryCache.GetOrCreateAsync("GetPublishedPosts", entry =>
+            {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1);
+                return blogPostRetriever.GetPublishedPosts(CancellationToken.None);
+            });
 
             return View("List", new BlogModel
             {
@@ -32,8 +48,12 @@ namespace AeBlog.Controllers
 
         public async Task<IActionResult> Posts(string id)
         {
-            var summariesTask = blogPostRetriever.GetPublishedPostSummaries(CancellationToken.None);
-            var singleTask = blogPostRetriever.GetPost(id, CancellationToken.None);
+            var summariesTask = GetPostSummaries(CancellationToken.None);
+            var singleTask = memoryCache.GetOrCreateAsync("GetPost" + id, entry =>
+            {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1);
+                return blogPostRetriever.GetPost(id, CancellationToken.None);
+            });
 
             return View("Single", new BlogModel
             {
@@ -44,11 +64,16 @@ namespace AeBlog.Controllers
 
         public async Task<IActionResult> Category(string id)
         {
-            var summariesTask = blogPostRetriever.GetPublishedPostSummaries(CancellationToken.None);
-            var postsTask = blogPostRetriever.GetPostsForCategory(id, CancellationToken.None);
+            var summariesTask = GetPostSummaries(CancellationToken.None);
+            var postsTask = memoryCache.GetOrCreateAsync("GetPostsForCategory" + id, entry =>
+            {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1);
+                return blogPostRetriever.GetPostsForCategory(id, CancellationToken.None);
+            });
 
             return View("List", new BlogModel
             {
+                Category = id,
                 Archive = await summariesTask,
                 Posts = await postsTask
             });

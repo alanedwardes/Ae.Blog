@@ -20,9 +20,11 @@ namespace AeBlog.Services
             this.amazonDynamoDb = amazonDynamoDb;
         }
 
+        public string TableName => Environment.GetEnvironmentVariable("POSTS_TABLE");
+
         public async Task PutPost(Post post, CancellationToken token)
         {
-            await amazonDynamoDb.PutItemAsync("BlogPosts", new Dictionary<string, AttributeValue>
+            await amazonDynamoDb.PutItemAsync(TableName, new Dictionary<string, AttributeValue>
             {
                 { "Title", new AttributeValue(post.Title) },
                 { "Category", new AttributeValue(post.Category) },
@@ -35,7 +37,7 @@ namespace AeBlog.Services
 
         public async Task<Post> GetPost(string slug, CancellationToken token)
         {
-            var item = await amazonDynamoDb.GetItemAsync("BlogPosts", new Dictionary<string, AttributeValue>
+            var item = await amazonDynamoDb.GetItemAsync(TableName, new Dictionary<string, AttributeValue>
             {
                 { "Slug", new AttributeValue(slug) }
             }, token);
@@ -49,7 +51,7 @@ namespace AeBlog.Services
         {
             return (await amazonDynamoDb.ScanAsync(new ScanRequest
             {
-                TableName = "BlogPosts",
+                TableName = TableName,
                 ProjectionExpression = "Slug,Category,Published,Title,#Type",
                 ExpressionAttributeNames = new Dictionary<string, string>
                 {
@@ -62,7 +64,7 @@ namespace AeBlog.Services
         {
             return await GetPostsInternal(new QueryRequest
             {
-                TableName = "BlogPosts",
+                TableName = TableName,
                 IndexName = "Type-Published-index",
                 KeyConditionExpression = "#type = :published",
                 ScanIndexForward = false,
@@ -106,7 +108,7 @@ namespace AeBlog.Services
         {
             return await GetPostsInternal(new QueryRequest
             {
-                TableName = "BlogPosts",
+                TableName = TableName,
                 IndexName = "Category-Published-index",
                 KeyConditionExpression = "#category = :category",
                 ScanIndexForward = false,
@@ -124,7 +126,7 @@ namespace AeBlog.Services
         {
             var response = await amazonDynamoDb.QueryAsync(new QueryRequest
             {
-                TableName = "BlogPosts",
+                TableName = TableName,
                 IndexName = "Type-Published-index",
                 KeyConditionExpression = "#type = :published",
                 ScanIndexForward = false,
@@ -144,7 +146,7 @@ namespace AeBlog.Services
         {
             await amazonDynamoDb.DeleteItemAsync(new DeleteItemRequest
             {
-                TableName = "BlogPosts",
+                TableName = TableName,
                 Key = new Dictionary<string, AttributeValue>
                 {
                     { "Slug", new AttributeValue(slug) }

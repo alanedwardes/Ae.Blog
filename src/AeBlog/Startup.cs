@@ -45,6 +45,8 @@ namespace AeBlog
                 options.AddPolicy("IsAdmin", isAlanPolicy);
             });
 
+            services.AddMemoryCache();
+
             services.AddDataProtection()
                     .SetApplicationName(nameof(AeBlog))
                     .PersistKeysToAwsS3(new S3XmlRepositoryConfig
