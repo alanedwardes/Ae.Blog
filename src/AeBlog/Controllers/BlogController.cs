@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AeBlog.Models;
@@ -6,6 +7,7 @@ using AeBlog.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 
 namespace AeBlog.Controllers
 {
@@ -24,18 +26,39 @@ namespace AeBlog.Controllers
 
         public async Task<PostSummary[]> GetPostSummaries(CancellationToken token)
         {
-            return await memoryCache.GetOrCreateAsync("GetPublishedPostSummaries", entry => {
-                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
+            return await GetOrCreateAsync("GetPublishedPostSummaries", expiry => {
+                expiry.Time = TimeSpan.FromHours(1);
                 return blogPostRetriever.GetPublishedPostSummaries(CancellationToken.None);
+            });
+        }
+
+        public class CacheExpiry
+        {
+            public TimeSpan Time { get; set; }
+        }
+
+        private async Task<TItem> GetOrCreateAsync<TItem>(object key, Func<CacheExpiry, Task<TItem>> factory)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return await factory(new CacheExpiry());
+            }
+
+            return await memoryCache.GetOrCreateAsync(key, async entry =>
+            {
+                var expiry = new CacheExpiry();
+                var item = await factory(expiry);
+                entry.AbsoluteExpirationRelativeToNow = expiry.Time;
+                return item;
             });
         }
 
         public async Task<IActionResult> Index()
         {
             var summariesTask = GetPostSummaries(CancellationToken.None);
-            var postsTask = memoryCache.GetOrCreateAsync("GetPublishedPosts", entry =>
+            var postsTask = GetOrCreateAsync("GetPublishedPosts", expiry =>
             {
-                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1);
+                expiry.Time = TimeSpan.FromMinutes(1);
                 return blogPostRetriever.GetPublishedPosts(CancellationToken.None);
             });
 
@@ -49,9 +72,9 @@ namespace AeBlog.Controllers
         public async Task<IActionResult> Posts(string id)
         {
             var summariesTask = GetPostSummaries(CancellationToken.None);
-            var singleTask = memoryCache.GetOrCreateAsync("GetPost" + id, entry =>
+            var singleTask = GetOrCreateAsync("GetPost" + id, expiry =>
             {
-                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1);
+                expiry.Time = TimeSpan.FromMinutes(1);
                 return blogPostRetriever.GetPost(id, CancellationToken.None);
             });
 
@@ -65,9 +88,9 @@ namespace AeBlog.Controllers
         public async Task<IActionResult> Category(string id)
         {
             var summariesTask = GetPostSummaries(CancellationToken.None);
-            var postsTask = memoryCache.GetOrCreateAsync("GetPostsForCategory" + id, entry =>
+            var postsTask = GetOrCreateAsync("GetPostsForCategory" + id, expiry =>
             {
-                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1);
+                expiry.Time = TimeSpan.FromMinutes(1);
                 return blogPostRetriever.GetPostsForCategory(id, CancellationToken.None);
             });
 
