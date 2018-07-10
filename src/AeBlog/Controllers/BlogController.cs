@@ -69,12 +69,18 @@ namespace AeBlog.Controllers
 
         public async Task<IActionResult> Posts(string id)
         {
-            var summariesTask = GetPostSummaries(CancellationToken.None);
             var singleTask = GetOrCreateAsync("GetPost" + id, expiry =>
             {
                 expiry.Time = TimeSpan.FromMinutes(1);
                 return blogPostRetriever.GetPost(id, CancellationToken.None);
             });
+
+            if (Request.Query.ContainsKey("amp"))
+            {
+                return View("AmpSingle", await singleTask);
+            }
+
+            var summariesTask = GetPostSummaries(CancellationToken.None);
 
             return View("Single", new BlogModel
             {
