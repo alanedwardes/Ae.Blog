@@ -1,7 +1,13 @@
-﻿@using Humanizer
-@model AeBlog.Models.BlogModel
+﻿@model AeBlog.Models.BlogModel
 @{
-    ViewData["Title"] = "Blog";
+    if (!string.IsNullOrWhiteSpace(Model.Category))
+    {
+        ViewData["Title"] = $"Posts in \"{Model.Category}\"";
+    }
+    else
+    {
+        ViewData["Title"] = "Blog";
+    }
 }
 
 <section>

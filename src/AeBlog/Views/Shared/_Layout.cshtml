@@ -7,14 +7,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
-    <link href="~/css/style.css" rel="stylesheet" />
-    @if (controller == "blog")
+    <link href="/css/style.css" rel="stylesheet" />
+    @if (ViewData["Header"] != null)
     {
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
-        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>
-            hljs.initHighlightingOnLoad();
-        </script>
+        @Html.Raw(ViewData["Header"]);
     }
     <title>@(ViewData["Title"] == null ? "Alan Edwardes" : $"{ViewData["Title"]} - Alan Edwardes")</title>
 </head>
@@ -27,16 +23,16 @@
                     <small><a href="/blog/category/cloud-software/">Cloud Software</a> &amp; <a href="/blog/category/game-development/">Game Development</a></small>
                 </div>
                 <ul>
-                    <li class=@(controller == "home" ? "selected" : string.Empty)>
+                    <li class="@(controller == "home" ? "selected" : "unselected")">
                         <a alt="About me, an introduction to what I do" href="/">About</a>
                     </li>
-                    <li class=@(controller == "projects" ? "selected" : string.Empty)>
+                    <li class="@(controller == "projects" ? "selected" : "unselected")">
                         <a alt="A list of projects I'm involved with" href="/projects/">Projects</a>
                     </li>
-                    <li class=@(controller == "contact" ? "selected" : string.Empty)>
+                    <li class="@(controller == "contact" ? "selected" : "unselected")">
                         <a alt="Contact information and social media links" href="/contact/">Contact</a>
                     </li>
-                    <li class=@(controller == "blog" ? "selected" : string.Empty)>
+                    <li class="@(controller == "blog" ? "selected" : "unselected")">
                         <a alt="Posts about cloud software and game development" href="/blog/">Blog</a>
                     </li>
                 </ul>
