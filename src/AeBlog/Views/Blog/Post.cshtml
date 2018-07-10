@@ -1,4 +1,5 @@
-﻿@model AeBlog.Models.Post
+﻿@using CommonMark;
+@model AeBlog.Models.Post
 <article>
     @if (Model.IsSingle)
     {
@@ -11,12 +12,12 @@
     <p class="meta">Posted on @Model.Published.ToOrdinalWords() in <a href="/blog/category/@Model.Category/">@Model.Category</a></p>
     @if (Model.IsSingle)
     {
-        @Html.Raw(CommonMark.CommonMarkConverter.Convert(Model.Content.Replace("---", string.Empty)));
+        @Html.Raw(CommonMarkConverter.Convert(Model.Content.Replace("---", string.Empty)));
     }
     else
     {
         var parts = Model.Content.Split("---");
-        @Html.Raw(CommonMark.CommonMarkConverter.Convert(parts[0]));
+        @Html.Raw(CommonMarkConverter.Convert(parts[0]));
 
         if (parts.Length > 1)
         {

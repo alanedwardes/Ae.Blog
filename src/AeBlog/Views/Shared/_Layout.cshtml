@@ -1,13 +1,19 @@
-﻿@{
+﻿@using Amazon.Lambda.Core;
+@using Amazon.Lambda.AspNetCoreServer;
+@{
     var controller = ((string)this.ViewContext.RouteData.Values["controller"]).ToLower();
+    var lambdaContext = (ILambdaContext)this.ViewContext.HttpContext.Items[APIGatewayProxyFunction.LAMBDA_CONTEXT];
+    var executionId = Guid.Parse(lambdaContext.LogStreamName.Substring(lambdaContext.LogStreamName.Length - 32));
 }
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
-    <link href="~/css/style.css" rel="stylesheet" />
+
+    <link href="~/css/style.css?execution=@executionId" rel="stylesheet" />
+    <link rel="alternate" type="application/rss+xml" href="~/rss.xml" />
     @if (ViewData["Header"] != null)
     {
         @Html.Raw(ViewData["Header"]);
@@ -24,16 +30,16 @@
                 </div>
                 <ul>
                     <li class="@(controller == "home" ? "selected" : "unselected")">
-                        <a alt="About me, an introduction to what I do" href="/">About</a>
+                        <a title="About me, an introduction to what I do" href="/">About</a>
                     </li>
                     <li class="@(controller == "projects" ? "selected" : "unselected")">
-                        <a alt="A list of projects I'm involved with" href="/projects/">Projects</a>
+                        <a title="A list of projects I'm involved with" href="/projects/">Projects</a>
                     </li>
                     <li class="@(controller == "contact" ? "selected" : "unselected")">
-                        <a alt="Contact information and social media links" href="/contact/">Contact</a>
+                        <a title="Contact information and social media links" href="/contact/">Contact</a>
                     </li>
                     <li class="@(controller == "blog" ? "selected" : "unselected")">
-                        <a alt="Posts about cloud software and game development" href="/blog/">Blog</a>
+                        <a title="Posts about cloud software and game development" href="/blog/">Blog</a>
                     </li>
                 </ul>
                 <div class="clear"></div>
