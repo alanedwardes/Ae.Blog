@@ -1,9 +1,5 @@
-﻿@using Amazon.Lambda.Core;
-@using Amazon.Lambda.AspNetCoreServer;
-@{
+﻿@{
     var controller = ((string)this.ViewContext.RouteData.Values["controller"]).ToLower();
-    var lambdaContext = (ILambdaContext)this.ViewContext.HttpContext.Items[APIGatewayProxyFunction.LAMBDA_CONTEXT];
-    var executionId = Guid.Parse(lambdaContext.LogStreamName.Substring(lambdaContext.LogStreamName.Length - 32));
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -11,8 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
-
-    <link href="~/css/style.css?execution=@executionId" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" inline />
     <link rel="alternate" type="application/rss+xml" href="~/rss.xml" />
     @if (ViewData["Header"] != null)
     {

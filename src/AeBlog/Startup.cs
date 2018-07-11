@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using WebOptimizer;
 
 namespace AeBlog
 {
@@ -46,6 +47,11 @@ namespace AeBlog
             });
 
             services.AddMemoryCache();
+            services.AddWebOptimizer();
+            services.Configure<WebOptimizerOptions>(config =>
+            {
+                config.EnableDiskCache = false;
+            });
 
             services.AddDataProtection()
                     .SetApplicationName(nameof(AeBlog))
@@ -69,6 +75,7 @@ namespace AeBlog
 
             loggerFactory.AddLambdaLogger();
 
+            app.UseWebOptimizer();
             app.UseStaticFiles();
             app.UseStatusCodePagesWithReExecute("/error");
             app.UseAuthentication();
