@@ -7,7 +7,250 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
-    <link href="~/css/style.css" rel="stylesheet" inline />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            line-height: 1.5em;
+            background: #111;
+            height: 100%;
+            overflow-y: scroll;
+        }
+
+        hr {
+            color: orange;
+            background-color: orange;
+            height: 2px;
+            border: 0;
+        }
+
+        body, textarea, button, input {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.1em;
+        }
+
+        body, a, button, textarea, input {
+            color: #ccc;
+        }
+
+        a {
+            border-bottom: 2px solid orange;
+        }
+
+            a:hover {
+                border-bottom: 2px solid gold;
+            }
+
+        main {
+            background: #222;
+        }
+
+        section {
+            padding: 20px 20px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        input, textarea {
+            background: #333;
+            padding: 2.5px 5px;
+            border: 1px solid #333;
+        }
+
+        button {
+            background: #333;
+            padding: 5px 10px;
+            border: 0;
+            width: 100%;
+        }
+
+            button:hover {
+                background: #444;
+            }
+
+        @@media (max-width: 800px) {
+            .right {
+                display: none;
+            }
+        }
+
+        .right {
+            float: right;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        h1, h2, h3, h4, h5 {
+            line-height: 1.4em;
+            font-weight: normal;
+            color: white;
+            margin: 0;
+        }
+
+        article h3 {
+            background: #111;
+            display: inline-block;
+            padding: 5px 10px;
+        }
+
+        header {
+            border-bottom: 5px solid orange;
+            color: #aaa;
+            background: white;
+        }
+
+            header .left {
+                float: left;
+            }
+
+            header h1, header p {
+                margin: 0
+            }
+
+            header section h1 a {
+                color: #444;
+            }
+
+            header section a {
+                color: #777;
+            }
+
+            header ul a {
+                color: #555;
+            }
+
+            header ul {
+                text-transform: uppercase;
+                float: right;
+                list-style-type: none;
+                margin: 20px 0 0 0;
+                padding: 0;
+            }
+
+            header li {
+                padding: 0 10px;
+                float: left;
+            }
+
+            header a, header a:hover {
+                border: 0;
+            }
+
+            header li.selected a {
+                border-bottom: 2px solid sandybrown;
+            }
+
+        footer {
+            background: #111;
+        }
+
+            footer, footer a {
+                color: #aaa;
+            }
+
+                footer p {
+                    margin: 0;
+                }
+
+                footer .ligature {
+                    float: right;
+                }
+
+        .home main section {
+            font-size: 1.25em;
+            line-height: 1.75em;
+        }
+
+        .projects article h2 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .projects article {
+            margin: 40px 0;
+        }
+
+            .projects article + article {
+                margin: 80px 0 40px 0;
+            }
+
+            .projects article .images {
+                text-align: center;
+            }
+
+                .projects article .images img {
+                    margin: 5px 10px;
+                    box-shadow: 0px 0px 5px black;
+                }
+
+        article pre, article code, article a {
+            white-space: pre-wrap !important;
+            word-wrap: break-word !important;
+        }
+
+        article pre, article code {
+            line-height: 1.5em;
+            font-family: 'Consolas', monospace;
+        }
+
+        article pre {
+            font-size: .9em;
+        }
+
+            article pre code {
+                display: block;
+            }
+
+                article pre code:not(.hljs) {
+                    padding: .5em;
+                    background: #282b2e;
+                    color: #e0e2e4;
+                }
+
+        article p code, article ul code {
+            padding: 2.5px 5px;
+        }
+
+        article .meta {
+            color: #757575;
+        }
+
+        article img, article video {
+            max-width: 100%;
+        }
+
+        .sidebar ul {
+            padding-left: 20px;
+        }
+
+        .sidebar .meta {
+            color: #757575;
+        }
+
+        .sidebar {
+            font-size: .9em;
+            line-height: 1.5em;
+            margin-left: 20px;
+            max-width: 220px;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background: #252525;
+            border: 2px solid #333;
+        }
+
+        textarea {
+            width: 100%;
+            height: 512px;
+            display: block;
+        }
+    </style>
     <link rel="alternate" type="application/rss+xml" href="~/rss.xml" />
     @if (ViewData["Header"] != null)
     {
