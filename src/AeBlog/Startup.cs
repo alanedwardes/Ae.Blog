@@ -20,6 +20,7 @@ namespace AeBlog
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddSingleton<IImageRepository, ImageRepository>();
             services.AddSingleton<IBlogPostRepository, BlogPostRepository>();
             services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(RegionEndpoint.EUWest1));
             services.AddSingleton<IAmazonS3>(new AmazonS3Client(RegionEndpoint.EUWest1));

@@ -30,6 +30,9 @@
 						},
 						"POSTS_TABLE": {
 							"Ref": "PostsTable"
+						},
+						"IMAGES_TABLE": {
+							"Ref": "ImagesTable"
 						}
 					}
 				},
@@ -95,12 +98,17 @@
 										"dynamodb:PutItem",
 										"dynamodb:DeleteItem"
 									],
-									"Resource": {
+									"Resource": [{
 										"Fn::GetAtt": [
 											"PostsTable",
 											"Arn"
 										]
-									}
+									},{
+										"Fn::GetAtt": [
+											"ImagesTable",
+											"Arn"
+										]
+									}]
 								}
 							]
 						}
@@ -234,6 +242,27 @@
 						}
 					}
 				]
+			}
+		},
+		"ImagesTable": {
+			"Type": "AWS::DynamoDB::Table",
+			"Properties": {
+				"AttributeDefinitions": [
+					{
+						"AttributeName": "Url",
+						"AttributeType": "S"
+					}
+				],
+				"KeySchema": [
+					{
+						"AttributeName": "Url",
+						"KeyType": "HASH"
+					}
+				],
+				"ProvisionedThroughput": {
+					"ReadCapacityUnits": "5",
+					"WriteCapacityUnits": "5"
+				}
 			}
 		}
 	}

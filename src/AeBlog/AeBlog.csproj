@@ -13,6 +13,7 @@
   <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
   <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="2.0.4" />
   <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.1" />
+  <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-dev001659" />
   </ItemGroup>
   
   <ItemGroup>

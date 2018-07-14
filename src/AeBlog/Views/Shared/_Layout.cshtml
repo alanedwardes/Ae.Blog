@@ -6,7 +6,6 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
     <style>
         body {
             margin: 0;
@@ -26,7 +25,7 @@
         }
 
         body, textarea, button, input {
-            font-family: 'Roboto', sans-serif;
+            font-family: sans-serif;
             font-size: 1.1em;
         }
 
@@ -293,5 +292,9 @@
             </section>
         </footer>
     </div>
+    @if (ViewData["Footer"] != null)
+    {
+        @Html.Raw(ViewData["Footer"]);
+    }
 </body>
 </html>

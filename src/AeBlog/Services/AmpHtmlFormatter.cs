@@ -1,14 +1,21 @@
 ﻿using CommonMark;
 using CommonMark.Formatters;
 using CommonMark.Syntax;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.IO;
+using System.Threading;
 
 namespace AeBlog.Services
 {
+
     public class AmpHtmlFormatter : HtmlFormatter
     {
-        public AmpHtmlFormatter(TextWriter target, CommonMarkSettings settings) : base(target, settings)
+        private readonly IImageRepository imageRepository;
+
+        public AmpHtmlFormatter(IServiceProvider provider, TextWriter target, CommonMarkSettings settings) : base(target, settings)
         {
+            imageRepository = provider.GetRequiredService<IImageRepository>();
         }
 
         protected override void WriteInline(Inline inline, bool isOpening, bool isClosing, out bool ignoreChildNodes)
@@ -19,8 +26,7 @@ namespace AeBlog.Services
 
                 if (isOpening)
                 {
-                    Write("<div class=\"image-container\">");
-                    Write("<amp-img class=\"contain\" layout=\"fill\" src=\"");
+                    Write("<amp-img layout=\"responsive\" src=\"");
                     var uriResolver = Settings.UriResolver;
                     if (uriResolver != null)
                     {
@@ -31,7 +37,18 @@ namespace AeBlog.Services
                         WriteEncodedUrl(inline.TargetUrl);
                     }
 
-                    Write("\" alt=\"");
+                    Write("\"");
+
+                    try
+                    {
+                        var dimensions = imageRepository.GetImageDimensions(inline.TargetUrl, CancellationToken.None).GetAwaiter().GetResult();
+                        Write($" width=\"{dimensions.Item1}\" height=\"{dimensions.Item2}\"");
+                    }
+                    catch (Exception)
+                    {
+                    }
+
+                    Write(" alt=\"");
 
                     if (!isClosing)
                     {
@@ -54,7 +71,6 @@ namespace AeBlog.Services
                         WritePositionAttribute(inline);
                     }
                     Write("></amp-img>");
-                    Write("</div>");
                 }
             }
             else
