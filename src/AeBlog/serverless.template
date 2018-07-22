@@ -121,6 +121,7 @@
 			"Type": "AWS::ApiGateway::RestApi",
 			"Properties": {
 				"Body": {
+					"swagger": "2.0",
 					"info": {
 						"title": {
 							"Fn::Sub": "${AWS::StackName}"
@@ -153,7 +154,9 @@
 							}
 						}
 					},
-					"swagger": "2.0"
+					"x-amazon-apigateway-binary-media-types": [
+						"*/*"
+					]
 				}
 			}
 		},

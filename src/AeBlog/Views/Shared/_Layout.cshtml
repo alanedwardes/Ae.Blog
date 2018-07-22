@@ -14,6 +14,20 @@
     <title>@(ViewData["Title"] == null ? "Alan Edwardes" : $"{ViewData["Title"]} - Alan Edwardes")</title>
 </head>
 <body>
+    <script type="application/ld+json">
+        {
+            "@@context": "http://schema.org",
+            "@@type": "Person",
+            "name": "Alan Edwardes",
+            "url": "https://alanedwardes.com/",
+            "sameAs": [
+                "https://www.linkedin.com/in/alanedwardes/",
+                "https://plus.google.com/+AlanEdwardes",
+                "https://twitter.com/AlanEdwardes",
+                "https://www.youtube.com/AlanEdwardes"
+            ]
+        }
+    </script>
     <header>
         @await Html.PartialAsync("_Header")
     </header>

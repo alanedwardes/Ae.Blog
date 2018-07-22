@@ -11,6 +11,7 @@ namespace AeBlog
     {
         protected override void Init(IWebHostBuilder builder)
         {
+            RegisterResponseContentEncodingForContentType("image/x-icon", ResponseContentEncoding.Base64);
             builder.UseStartup<Startup>();
         }
 
