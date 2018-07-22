@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
+using System.IO;
+using System.Net.Http;
 
 namespace AeBlog
 {
@@ -25,6 +27,14 @@ namespace AeBlog
             services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(RegionEndpoint.EUWest1));
             services.AddSingleton<IAmazonS3>(new AmazonS3Client(RegionEndpoint.EUWest1));
 
+            var configuration = new ConfigurationBuilder()
+                .AddEnvironmentVariables()
+                .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "config.json"), true)
+                .Build();
+
+            services.AddSingleton<IConfiguration>(configuration);
+            services.AddSingleton(new HttpClient());
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
                     {
@@ -33,8 +43,8 @@ namespace AeBlog
                     })
                     .AddTwitter(options =>
                     {
-                        options.ConsumerKey = Environment.GetEnvironmentVariable("TWITTER_CONSUMER_KEY");
-                        options.ConsumerSecret = Environment.GetEnvironmentVariable("TWITTER_CONSUMER_SECRET");
+                        options.ConsumerKey = configuration["TWITTER_CONSUMER_KEY"];
+                        options.ConsumerSecret = configuration["TWITTER_CONSUMER_SECRET"];
                     });
 
             services.AddAuthorization(options =>
@@ -52,7 +62,7 @@ namespace AeBlog
                     .SetApplicationName(nameof(AeBlog))
                     .PersistKeysToAwsS3(new S3XmlRepositoryConfig
                     {
-                        Bucket = Environment.GetEnvironmentVariable("SESSION_BUCKET")
+                        Bucket = configuration["SESSION_BUCKET"]
                     });
         }
 

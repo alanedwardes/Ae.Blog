@@ -1,5 +1,6 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
+using Microsoft.Extensions.Configuration;
 using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
@@ -13,15 +14,17 @@ namespace AeBlog.Services
     public class ImageRepository : IImageRepository
     {
         private readonly IAmazonDynamoDB dynamo;
+        private readonly IConfiguration configuration;
         private readonly HttpClient client;
 
-        public ImageRepository(IAmazonDynamoDB dynamo)
+        public ImageRepository(IAmazonDynamoDB dynamo, IConfiguration configuration, HttpClient client)
         {
             this.dynamo = dynamo;
-            client = new HttpClient();
+            this.configuration = configuration;
+            this.client = client;
         }
 
-        private string TableName => Environment.GetEnvironmentVariable("IMAGES_TABLE");
+        private string TableName => configuration["IMAGES_TABLE"];
 
         public async Task<Tuple<int, int>> GetImageDimensions(string url, CancellationToken token)
         {

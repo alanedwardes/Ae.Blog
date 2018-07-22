@@ -1,6 +1,7 @@
 ﻿using AeBlog.Models;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +10,19 @@ using System.Threading.Tasks;
 
 namespace AeBlog.Services
 {
-
     public class BlogPostRepository : IBlogPostRepository
     {
         private readonly IAmazonDynamoDB amazonDynamoDb;
+        private readonly IConfiguration configuration;
         private const string MoreMarker = "---";
 
-        public BlogPostRepository(IAmazonDynamoDB amazonDynamoDb)
+        public BlogPostRepository(IAmazonDynamoDB amazonDynamoDb, IConfiguration configuration)
         {
             this.amazonDynamoDb = amazonDynamoDb;
+            this.configuration = configuration;
         }
 
-        public string TableName => Environment.GetEnvironmentVariable("POSTS_TABLE");
+        public string TableName => configuration["POSTS_TABLE"];
 
         public async Task PutPost(Post post, CancellationToken token)
         {
