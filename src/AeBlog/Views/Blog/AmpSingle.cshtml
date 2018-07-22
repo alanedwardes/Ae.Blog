@@ -6,17 +6,19 @@
     ViewData["Canonical"] = $"https://alanedwardes.com/blog/posts/{Model.Slug}/";
     ViewData["Title"] = $"{Model.Title} - Alan Edwardes";
 }
-<article>
-    <h2>@Model.Title</h2>
-    <p>Posted on @Model.Published.ToOrdinalWords() in @Model.Category</p>
-    <p><a href="@ViewData["Canonical"]">View non-AMP version at alanedwardes.com</a></p>
-    @{
-        var ampSettings = CommonMarkSettings.Default.Clone();
-        ampSettings.OutputDelegate = (doc, output, settings) =>
-        {
-            new AmpHtmlFormatter(Context.RequestServices, output, settings).WriteDocument(doc); ;
-        };
-    }
-    @Html.Raw(CommonMarkConverter.Convert(Model.Content, ampSettings))
-    <p><a href="@ViewData["Canonical"]#comments">View article comments</a></p>
-</article>
+<section>
+    <article>
+        <h2>@Model.Title</h2>
+        <p class="meta">Posted on @Model.Published.ToOrdinalWords() in <a href="/blog/category/@Model.Category/">@Model.Category</a></p>
+        <p><a href="@ViewData["Canonical"]">View non-AMP version at alanedwardes.com</a></p>
+        @{
+            var ampSettings = CommonMarkSettings.Default.Clone();
+            ampSettings.OutputDelegate = (doc, output, settings) =>
+            {
+                new AmpHtmlFormatter(Context.RequestServices, output, settings).WriteDocument(doc); ;
+            };
+        }
+        @Html.Raw(CommonMarkConverter.Convert(Model.Content, ampSettings))
+        <p><a href="@ViewData["Canonical"]#comments">View article comments</a></p>
+    </article>
+</section>

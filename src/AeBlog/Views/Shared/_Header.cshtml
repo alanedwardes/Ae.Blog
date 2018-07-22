@@ -1,0 +1,24 @@
+﻿@{
+    var controller = ((string)this.ViewContext.RouteData.Values["controller"]).ToLower();
+}
+<section>
+    <div class="left">
+        <h1><a href="/">Alan Edwardes</a></h1>
+        <small><a href="/blog/category/cloud-software/">Cloud Software</a> &amp; <a href="/blog/category/game-development/">Game Development</a></small>
+    </div>
+    <ul>
+        <li class="@(controller == "home" ? "selected" : "unselected")">
+            <a title="About me, an introduction to what I do" href="/">About</a>
+        </li>
+        <li class="@(controller == "projects" ? "selected" : "unselected")">
+            <a title="A list of projects I'm involved with" href="/projects/">Projects</a>
+        </li>
+        <li class="@(controller == "contact" ? "selected" : "unselected")">
+            <a title="Contact information and social media links" href="/contact/">Contact</a>
+        </li>
+        <li class="@(controller == "blog" ? "selected" : "unselected")">
+            <a title="Posts about cloud software and game development" href="/blog/">Blog</a>
+        </li>
+    </ul>
+    <div class="clear"></div>
+</section>
