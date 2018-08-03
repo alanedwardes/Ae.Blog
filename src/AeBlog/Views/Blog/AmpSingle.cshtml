@@ -15,7 +15,7 @@
             var ampSettings = CommonMarkSettings.Default.Clone();
             ampSettings.OutputDelegate = (doc, output, settings) =>
             {
-                new AmpHtmlFormatter(Context.RequestServices, output, settings).WriteDocument(doc); ;
+                new AmpHtmlFormatter(Context.RequestServices, output, settings).WriteDocument(doc);
             };
         }
         @Html.Raw(CommonMarkConverter.Convert(Model.Content, ampSettings))

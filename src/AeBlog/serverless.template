@@ -201,7 +201,7 @@
 				],
 				"ProvisionedThroughput": {
 					"ReadCapacityUnits": "5",
-					"WriteCapacityUnits": "5"
+					"WriteCapacityUnits": "1"
 				},
 				"GlobalSecondaryIndexes": [
 					{
@@ -221,7 +221,7 @@
 						},
 						"ProvisionedThroughput": {
 							"ReadCapacityUnits": "5",
-							"WriteCapacityUnits": "5"
+							"WriteCapacityUnits": "1"
 						}
 					},
 					{
@@ -241,7 +241,7 @@
 						},
 						"ProvisionedThroughput": {
 							"ReadCapacityUnits": "5",
-							"WriteCapacityUnits": "5"
+							"WriteCapacityUnits": "1"
 						}
 					}
 				]
