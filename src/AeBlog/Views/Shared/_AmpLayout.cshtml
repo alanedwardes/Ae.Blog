@@ -1,7 +1,21 @@
 ﻿<!doctype html>
 <html amp lang="en">
 <head>
-    @await Html.PartialAsync("_CommonHead")
+    <amp-analytics type="googleanalytics">
+    <script type="application/json">
+    {
+        "vars": {
+            "account": "UA-15615611-10"
+        },
+        "triggers": {
+            "trackPageview": {
+                "on": "visible",
+                "request": "pageview"
+            }
+        }
+    }
+    </script>
+    </amp-analytics>
     <meta charset="utf-8">
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <title>@ViewData["Title"]</title>
