@@ -1,8 +1,9 @@
 workflow "Build and deploy on push" {
   on = "push"
-  resolves = ["new-action"]
+  resolves = ["Hello World"]
 }
 
-action "new-action" {
-  uses = "owner/repo/path@ref"
+action "Hello World" {
+  uses = "./build"
+  secrets = ["AWS_ACCESS_KEY", "AWS_SECRET_ACCESS_KEY"]
 }
