@@ -6,11 +6,11 @@
   
   <ItemGroup>
   <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="4.0.0" />
-  <PackageReference Include="AspNetCore.DataProtection.Aws.S3" Version="2.1.0" />
+  <PackageReference Include="AspNetCore.DataProtection.Aws.S3" Version="2.0.2" />
   <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.101.84" />
   <PackageReference Include="CommonMark.NET" Version="0.15.1" />
   <PackageReference Include="Humanizer.Core" Version="2.7.9" />
-  <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.13" />
+  <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0" />
   <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="2.1.2" />
   <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.2" />
   <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-dev001659" />
