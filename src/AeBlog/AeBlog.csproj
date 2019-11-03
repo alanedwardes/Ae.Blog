@@ -15,8 +15,4 @@
   <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.1" />
   <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-dev001659" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <DotNetCliToolReference Include="Amazon.Lambda.Tools" Version="2.1.4" />
-  </ItemGroup>
 </Project>
