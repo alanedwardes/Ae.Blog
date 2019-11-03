@@ -199,10 +199,7 @@
 						"KeyType": "HASH"
 					}
 				],
-				"ProvisionedThroughput": {
-					"ReadCapacityUnits": "1",
-					"WriteCapacityUnits": "1"
-				},
+				"BillingMode": "PAY_PER_REQUEST",
 				"GlobalSecondaryIndexes": [
 					{
 						"IndexName": "Category-Published-index",
@@ -218,10 +215,6 @@
 						],
 						"Projection": {
 							"ProjectionType": "ALL"
-						},
-						"ProvisionedThroughput": {
-							"ReadCapacityUnits": "1",
-							"WriteCapacityUnits": "1"
 						}
 					},
 					{
@@ -238,10 +231,6 @@
 						],
 						"Projection": {
 							"ProjectionType": "ALL"
-						},
-						"ProvisionedThroughput": {
-							"ReadCapacityUnits": "1",
-							"WriteCapacityUnits": "1"
 						}
 					}
 				]
@@ -262,10 +251,7 @@
 						"KeyType": "HASH"
 					}
 				],
-				"ProvisionedThroughput": {
-					"ReadCapacityUnits": "1",
-					"WriteCapacityUnits": "1"
-				}
+				"BillingMode": "PAY_PER_REQUEST",
 			}
 		}
 	}
