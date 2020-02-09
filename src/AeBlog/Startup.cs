@@ -49,11 +49,11 @@ namespace AeBlog
 
             services.AddAuthorization(options =>
             {
-                var isAlanPolicy = new AuthorizationPolicyBuilder(new[] { TwitterDefaults.AuthenticationScheme })
+                var isAdminPolicy = new AuthorizationPolicyBuilder(new[] { TwitterDefaults.AuthenticationScheme })
                     .RequireClaim("urn:twitter:userid", "14201790")
                     .Build();
 
-                options.AddPolicy("IsAdmin", isAlanPolicy);
+                options.AddPolicy("IsAdmin", isAdminPolicy);
             });
 
             services.AddMemoryCache();
@@ -76,13 +76,13 @@ namespace AeBlog
             else
             {
                 app.UseExceptionHandler("/error");
+                app.UseAuthentication();
             }
 
             loggerFactory.AddLambdaLogger();
 
             app.UseStaticFiles();
             app.UseStatusCodePagesWithReExecute("/error");
-            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
         }
     }
