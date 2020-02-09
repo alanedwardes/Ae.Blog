@@ -1,4 +1,4 @@
-﻿@using CommonMark;
+﻿@using AeBlog.Extensions;
 @model AeBlog.Models.Post
 <article>
     @if (Model.IsSingle)
@@ -10,18 +10,9 @@
         <h2><a href="@Model.Url">@Model.Title</a></h2>
     }
     <p class="meta">Posted on @Model.Published.ToOrdinalWords() in <a href="/blog/category/@Model.Category/">@Model.Category</a></p>
-    @if (Model.IsSingle)
+    @Html.Raw(Model.GetMarkdown())
+    @if (Model.HasSummary)
     {
-        @Html.Raw(CommonMarkConverter.Convert(Model.Content.Replace("---", string.Empty)));
-    }
-    else
-    {
-        var parts = Model.Content.Split("---");
-        @Html.Raw(CommonMarkConverter.Convert(parts[0]));
-
-        if (parts.Length > 1)
-        {
-            <p><a href="@Model.Url">Continue Reading &raquo;</a></p>
-        }
+        <p><a href="@Model.Url">Continue Reading &raquo;</a></p>
     }
 </article>
