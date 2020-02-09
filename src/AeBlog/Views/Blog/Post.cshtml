@@ -11,7 +11,7 @@
     }
     <p class="meta">Posted on @Model.Published.ToOrdinalWords() in <a href="/blog/category/@Model.Category/">@Model.Category</a></p>
     @Html.Raw(Model.GetMarkdown())
-    @if (Model.HasSummary && Model.IsSingle)
+    @if (Model.HasSummary && !Model.IsSingle)
     {
         <p><a href="@Model.Url">Continue Reading &raquo;</a></p>
     }
