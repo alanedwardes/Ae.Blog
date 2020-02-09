@@ -1,4 +1,6 @@
-﻿namespace AeBlog.Models
+﻿using System;
+
+namespace AeBlog.Models
 {
     public class Post : PostSummary
     {
@@ -8,6 +10,7 @@
         public bool HasSummary => Content.Contains(MoreMarker);
         public string ContentAll => Content.Replace(MoreMarker, string.Empty);
         public string ContentSummary => Content.Split(MoreMarker)[0];
+        public string ContentFirstLine => Content.Split(new[] { "\r\n\r\n", "\n\n" }, StringSplitOptions.RemoveEmptyEntries)[0];
         public bool IsSingle { get; set; }
     }
 }

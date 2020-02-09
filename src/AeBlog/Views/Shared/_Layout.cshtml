@@ -14,6 +14,11 @@
         @await Html.PartialAsync("_CommonCss")
     </style>
     <link rel="alternate" type="application/rss+xml" href="~/rss.xml" />
+    @if (ViewData["Description"] != null)
+    {
+    <meta name="description" content="@ViewData["Description"]">
+    }
+    <meta property="og:image" content="https://avatars.githubusercontent.com/u/110954?s=460&amp;v=4">
     @if (ViewData["Header"] != null)
     {
         @Html.Raw(ViewData["Header"]);
