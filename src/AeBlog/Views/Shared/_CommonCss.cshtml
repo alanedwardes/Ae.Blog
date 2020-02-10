@@ -1,23 +1,35 @@
-﻿body {
+﻿@using Microsoft.Extensions.DependencyInjection
+@using AeBlog.Services;
+@{ 
+    var colourRepository = Context.RequestServices.GetRequiredService<IColourRepository>();
+    var highlightColour = colourRepository.GetHighlightColour();
+    var highlightColourHex = '#' + highlightColour.ToHex();
+    var lighterHighlightColourHex = '#' + highlightColour.WithAlpha(.5f).ToHex();
+}
+body {
     margin: 0;
     padding: 0;
     height: 100%;
     line-height: 1.5em;
     background: #111;
     height: 100%;
+    font-size: 1.2em;
     overflow-y: scroll;
 }
 
 hr {
-    color: orange;
-    background-color: orange;
+    color: @highlightColourHex;
+    background-color: @highlightColourHex;
     height: 2px;
     border: 0;
 }
 
 body, textarea, button, input {
+    font-family: "Georgia", sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
     font-family: sans-serif;
-    font-size: 1.1em;
 }
 
 body, a, button, textarea, input {
@@ -25,11 +37,12 @@ body, a, button, textarea, input {
 }
 
 a {
-    border-bottom: 2px solid orange;
+    color: #eee;
+    border-bottom: 2px solid @highlightColourHex;
 }
 
     a:hover {
-        border-bottom: 2px solid gold;
+        border-bottom: 2px solid @lighterHighlightColourHex;
     }
 
 main {
@@ -91,8 +104,9 @@ article h3 {
 }
 
 header {
-    border-bottom: 5px solid orange;
+    border-bottom: 5px solid @highlightColourHex;
     color: #aaa;
+    font-size:1.1em;
     background: white;
 }
 
@@ -117,10 +131,10 @@ header {
     }
 
     header ul {
-        text-transform: uppercase;
+        font-variant: small-caps;
         float: right;
         list-style-type: none;
-        margin: 20px 0 0 0;
+        margin: 1.1em 0 0 0;
         padding: 0;
     }
 
@@ -134,7 +148,7 @@ header {
     }
 
     header li.selected a {
-        border-bottom: 2px solid sandybrown;
+        border-bottom: 2px solid @lighterHighlightColourHex;
     }
 
 footer {
@@ -217,7 +231,7 @@ article img, article video {
 }
 
 .sidebar {
-    font-size: .9em;
+    font-size:.9em;
     line-height: 1.5em;
     margin-left: 20px;
     max-width: 220px;
