@@ -17,45 +17,43 @@
 
 <section>
     @await Html.PartialAsync("Sidebar", Model.Archive)
-    <aside>
-        <script type="application/ld+json">
-            {
-                "@@context": "http://schema.org",
-                "@@type": "BreadcrumbList",
-                "itemListElement": [
-                    {
-                        "@@type": "ListItem",
-                        "position": 1,
-                        "item": {
-                            "@@id": "https://alanedwardes.com/blog/",
-                            "name": "Blog"
-                        }
-                    },
-                    {
-                        "@@type": "ListItem",
-                        "position": 2,
-                        "item": {
-                            "@@id": "https://alanedwardes.com@(Model.Single.Url)",
-                            "name": "@Model.Single.Title"
-                        }
+    <script type="application/ld+json">
+        {
+            "@@context": "http://schema.org",
+            "@@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@@type": "ListItem",
+                    "position": 1,
+                    "item": {
+                        "@@id": "https://alanedwardes.com/blog/",
+                        "name": "Blog"
                     }
-                ]
-            }
-        </script>
-        @await Html.PartialAsync("Post", Model.Single)
-        <h2 id="comments">Comments</h2>
-        <div id="disqus_thread"></div>
-        <script>
-            var disqus_config = function () {
-                this.page.url = "https://alanedwardes.com" + "@Model.Single.Url";
-                this.page.identifier = "@Model.Single.Slug";
-            };
-            (function() {
-            var d = document, s = d.createElement('script');
-            s.src = 'https://alanedwardes.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-            })();
-        </script>
-    </aside>
+                },
+                {
+                    "@@type": "ListItem",
+                    "position": 2,
+                    "item": {
+                        "@@id": "https://alanedwardes.com@(Model.Single.Url)",
+                        "name": "@Model.Single.Title"
+                    }
+                }
+            ]
+        }
+    </script>
+    @await Html.PartialAsync("Post", Model.Single)
+    <h2 id="comments">Comments</h2>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function () {
+            this.page.url = "https://alanedwardes.com" + "@Model.Single.Url";
+            this.page.identifier = "@Model.Single.Slug";
+        };
+        (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://alanedwardes.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+    </script>
 </section>
