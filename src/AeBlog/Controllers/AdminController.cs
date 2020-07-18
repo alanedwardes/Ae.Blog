@@ -60,6 +60,7 @@ namespace AeBlog.Controllers
 
             post.Content = model.Content;
             post.Category = model.Category;
+            post.Updated = DateTime.UtcNow;
             post.Type = model.IsPublished ? "published" : "draft";
             post.Title = model.Title;
 

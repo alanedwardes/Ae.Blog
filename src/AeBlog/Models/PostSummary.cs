@@ -7,6 +7,7 @@ namespace AeBlog.Models
         public string Slug { get; set; }
         public string Category { get; set; }
         public DateTime Published { get; set; }
+        public DateTime? Updated { get; set; }
         public string Title { get; set; }
         public string Type { get; set; }
 
