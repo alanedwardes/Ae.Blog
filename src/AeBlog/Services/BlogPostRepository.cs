@@ -33,7 +33,8 @@ namespace AeBlog.Services
                 { "Type", new AttributeValue(post.Type) },
                 { "Content", new AttributeValue(post.Content) },
                 { "Slug", new AttributeValue(post.Slug) },
-                { "Published", new AttributeValue(post.Published.ToString("o")) }
+                { "Published", new AttributeValue(post.Published.ToString("o")) },
+                { "Updated", new AttributeValue(post.Updated?.ToString("o")) }
             }, token);
         }
 
@@ -89,10 +90,13 @@ namespace AeBlog.Services
 
         private Post ItemToPost(IDictionary<string, AttributeValue> item)
         {
+            bool hasUpdated = item.ContainsKey("Updated") && item["Updated"].S != null;
+
             var post = new Post
             {
                 Category = item["Category"].S,
                 Published = DateTime.Parse(item["Published"].S),
+                Updated = hasUpdated ? DateTime.Parse(item["Updated"].S) : new DateTime?(),
                 Slug = item["Slug"].S,
                 Title = item["Title"].S,
                 Type = item["Type"].S
