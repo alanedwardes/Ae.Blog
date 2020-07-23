@@ -2,7 +2,7 @@
     "region" : "eu-west-1",
     "profile" : "default",
     "configuration" : "Release",
-    "framework"     : "netcoreapp2.1",
+    "framework"     : "netcoreapp3.1",
     "s3-bucket"     : "ae-temp",
     "template"      : "serverless.template",
     "stack-name"    : "AeBlog",

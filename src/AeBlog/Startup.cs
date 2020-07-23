@@ -1,14 +1,10 @@
 using AeBlog.Services;
 using Amazon;
 using Amazon.DynamoDBv2;
-using Amazon.S3;
-using AspNetCore.DataProtection.Aws.S3;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Twitter;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -26,7 +22,6 @@ namespace AeBlog
             services.AddSingleton<IColourRepository, ColourRepository>();
             services.AddSingleton<IBlogPostRepository, BlogPostRepository>();
             services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(RegionEndpoint.EUWest1));
-            services.AddSingleton<IAmazonS3>(new AmazonS3Client(RegionEndpoint.EUWest1));
 
             var configuration = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
@@ -60,31 +55,28 @@ namespace AeBlog
             services.AddMemoryCache();
 
             services.AddDataProtection()
-                    .SetApplicationName(nameof(AeBlog))
-                    .PersistKeysToAwsS3(new S3XmlRepositoryConfig
-                    {
-                        Bucket = configuration["SESSION_BUCKET"]
-                    });
+                    .PersistKeysToAWSSystemsManager("/aeblog/dataprotection");
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
-            }
-            else
-            {
-                app.UseExceptionHandler("/error");
-                app.UseAuthentication();
-            }
+            app.UseExceptionHandler("/error");
 
             loggerFactory.AddLambdaLogger();
 
             app.UseStaticFiles();
             app.UseStatusCodePagesWithReExecute("/error");
-            app.UseMvcWithDefaultRoute();
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapDefaultControllerRoute();
+            });
         }
     }
 }

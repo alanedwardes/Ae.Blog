@@ -41,7 +41,7 @@
 				"Role": {
 					"Fn::Sub": "${ProxyFunctionRole.Arn}"
 				},
-				"Runtime": "dotnetcore2.1",
+				"Runtime": "dotnetcore3.1",
 				"Timeout": 30
 			},
 			"Type": "AWS::Lambda::Function"
@@ -82,7 +82,8 @@
 				},
 				"ManagedPolicyArns": [
 					"arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-					"arn:aws:iam::aws:policy/AWSLambdaFullAccess"
+					"arn:aws:iam::aws:policy/AWSLambdaFullAccess",
+					"arn:aws:iam::aws:policy/AmazonSSMFullAccess"
 				],
 				"Policies": [
 					{
