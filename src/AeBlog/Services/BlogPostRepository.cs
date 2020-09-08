@@ -14,7 +14,6 @@ namespace AeBlog.Services
     {
         private readonly IAmazonDynamoDB amazonDynamoDb;
         private readonly IConfiguration configuration;
-        private const string MoreMarker = "---";
 
         public BlogPostRepository(IAmazonDynamoDB amazonDynamoDb, IConfiguration configuration)
         {
@@ -26,16 +25,22 @@ namespace AeBlog.Services
 
         public async Task PutPost(Post post, CancellationToken token)
         {
-            await amazonDynamoDb.PutItemAsync(TableName, new Dictionary<string, AttributeValue>
+            var attributeValues = new Dictionary<string, AttributeValue>
             {
                 { "Title", new AttributeValue(post.Title) },
                 { "Category", new AttributeValue(post.Category) },
                 { "Type", new AttributeValue(post.Type) },
                 { "Content", new AttributeValue(post.Content) },
                 { "Slug", new AttributeValue(post.Slug) },
-                { "Published", new AttributeValue(post.Published.ToString("o")) },
-                { "Updated", new AttributeValue(post.Updated?.ToString("o")) }
-            }, token);
+                { "Published", new AttributeValue(post.Published.ToString("o")) }
+            };
+
+            if (post.Updated.HasValue)
+            {
+                attributeValues.Add("Updated", new AttributeValue(post.Updated.Value.ToString("o")));
+            }
+
+            await amazonDynamoDb.PutItemAsync(TableName, attributeValues, token);
         }
 
         public async Task<Post> GetPost(string slug, CancellationToken token)
