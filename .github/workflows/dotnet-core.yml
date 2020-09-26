@@ -24,4 +24,4 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
         AWS_DEFAULT_REGION: eu-west-1 
-      run: dotnet lambda deploy-serverless --project-location src/AeBlog
+      run: dotnet lambda deploy-serverless --project-location src/AeBlog --msbuild-parameters "/p:PublishReadyToRun=true --self-contained false"
