@@ -19,13 +19,9 @@ jobs:
         dotnet-version: 3.1.301
     - name: Install tools
       run: dotnet tool install --global Amazon.Lambda.Tools
-    #- name: Install dependencies
-    #  run: dotnet restore
-    #- name: Build
-    #  run: dotnet build --configuration Release --no-restore
     - name: Deploy
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
-        AWS_REGION: eu-west-1 
+        AWS_DEFAULT_REGION: eu-west-1 
       run: dotnet lambda deploy-serverless --project-location src/AeBlog
