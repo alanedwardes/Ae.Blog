@@ -20,7 +20,7 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Install tools
-      run: dotnet tool install Amazon.Lambda.Tools
+      run: dotnet tool install --global Amazon.Lambda.Tools
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Deploy
