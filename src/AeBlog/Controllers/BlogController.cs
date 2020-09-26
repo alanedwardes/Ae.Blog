@@ -26,7 +26,7 @@ namespace AeBlog.Controllers
         {
             return await GetOrCreateAsync("GetPublishedPostSummaries", expiry => {
                 expiry.Time = TimeSpan.FromHours(1);
-                return blogPostRetriever.GetPublishedPostSummaries(CancellationToken.None);
+                return blogPostRetriever.GetPublishedPostSummaries(token);
             });
         }
 
@@ -74,11 +74,6 @@ namespace AeBlog.Controllers
                 expiry.Time = TimeSpan.FromMinutes(1);
                 return blogPostRetriever.GetPost(id, CancellationToken.None);
             });
-
-            if (Request.Query.ContainsKey("amp"))
-            {
-                return View("AmpSingle", await singleTask);
-            }
 
             var summariesTask = GetPostSummaries(CancellationToken.None);
 
