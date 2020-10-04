@@ -12,7 +12,7 @@
                     @foreach (var post in month)
                     {
 
-                        <li>@post.Title <a href="@post.Url">on the @post.Published.Day.Ordinalize()</a></li>
+                        <li>@post.Title <a href="@post.Url">on @post.Published.Day.Ordinalize() of @post.Published.ToString("MMM")</a></li>
                     }
                 </ul>
             }
