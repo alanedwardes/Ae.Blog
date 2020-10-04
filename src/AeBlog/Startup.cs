@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Twitter;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Net.Http;
@@ -58,7 +60,7 @@ namespace AeBlog
                     .PersistKeysToAWSSystemsManager("/aeblog/dataprotection");
         }
 
-        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IWebHostEnvironment environment)
         {
             app.UseExceptionHandler("/error");
 
@@ -69,8 +71,11 @@ namespace AeBlog
 
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            if (!environment.IsDevelopment())
+            {
+                app.UseAuthentication();
+                app.UseAuthorization();
+            }
 
             app.UseEndpoints(endpoints =>
             {
