@@ -22,7 +22,7 @@ namespace AeBlog.Extensions
 
         public static string GetFirstLineText(this Post post)
         {
-            return Markdown.ToHtml(post.ContentFirstLine, markdownPipeline).Trim();
+            return Markdown.ToPlainText(post.ContentFirstLine, markdownPipeline).Trim();
         }
     }
 }

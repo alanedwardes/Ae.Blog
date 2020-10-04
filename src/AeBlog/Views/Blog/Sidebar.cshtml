@@ -5,9 +5,9 @@
         <h3>About the Author</h3>
         <p>Alan is a hobbyist <a href="https://iamestranged.com/">Game Developer</a> and a Software Engineer at <a href="https://www.autodesk.com/">Autodesk</a>.</p>
         <div>
-            @foreach (var month in Model.GroupBy(x => new DateTime(x.Published.Year, x.Published.Month, 1)))
+            @foreach (var month in Model.GroupBy(x => x.Published.Year.ToString()))
             {
-            <h4>Posts in @month.Key.ToString("MMMM") @month.Key.Year</h4>
+            <h4>Posts in @month.Key</h4>
                 <ul>
                     @foreach (var post in month)
                     {

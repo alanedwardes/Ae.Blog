@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = Model.Single.Title;
     ViewData["Description"] = Model.Single.GetFirstLineText();
-    ViewData["Header"] = $"<link rel=\"amphtml\" href=\"https://alanedwardes.com/blog/posts/{Model.Single.Slug}/?amp\">";
     ViewData["Footer"] = "<script src=\"//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js\"></script>" +
                          "<script>" +
                          "var hljsThemeLink = document.createElement('link');" +
