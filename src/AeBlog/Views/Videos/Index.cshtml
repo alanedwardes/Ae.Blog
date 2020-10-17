@@ -1,0 +1,26 @@
+﻿@{
+    @model Google.Apis.YouTube.v3.Data.SearchListResponse
+    ViewData["Header"] = "<style>" +
+                ".videos{display:flex;flex-wrap: wrap;justify-content: center;}" +
+                ".video{width:240px;}" +
+                ".video .thumbnail{background-size:cover;background-position:center;height:135px;}" +
+                ".video .title{height:96px;overflow:hidden}" +
+                "</style>";
+}
+<section>
+    <h2>Videos</h2>
+    <div class="videos">
+        @foreach (var item in Model.Items)
+        {
+            var thumbnail = item.Snippet.Thumbnails.High ??
+                            item.Snippet.Thumbnails.Medium ??
+                            item.Snippet.Thumbnails.Default__;
+            <div class="video">
+                <div style="background-image:url(@thumbnail.Url)" class="thumbnail"></div>
+                <div class="title">
+                    <a href="https://www.youtube.com/watch?v=@item.Id.VideoId">@item.Snippet.Title</a>
+                </div>
+            </div>
+        }
+    </div>
+</section>

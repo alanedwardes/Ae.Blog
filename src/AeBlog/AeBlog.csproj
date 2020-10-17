@@ -14,5 +14,6 @@
   <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.8" />
   <PackageReference Include="SixLabors.ImageSharp" Version="1.0.1" />
   <PackageReference Include="Markdig" Version="0.21.1" />
+  <PackageReference Include="Google.Apis.YouTube.v3" Version="1.49.0.2112" />
   </ItemGroup>
 </Project>

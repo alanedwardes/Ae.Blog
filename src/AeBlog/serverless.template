@@ -8,6 +8,10 @@
 		"TwitterConsumerSecret": {
 			"Type": "AWS::SSM::Parameter::Value<String>",
 			"Default": "TwitterConsumerSecret"
+		},
+		"YouTubeApiKey": {
+			"Type": "AWS::SSM::Parameter::Value<String>",
+			"Default": "YouTubeApiKey"
 		}
 	},
 	"Resources": {
@@ -24,6 +28,9 @@
 						},
 						"TWITTER_CONSUMER_SECRET": {
 							"Ref": "TwitterConsumerSecret"
+						},
+						"YOUTUBE_API_KEY": {
+							"Ref": "YouTubeApiKey"
 						},
 						"SESSION_BUCKET": {
 							"Ref": "SessionBucket"

@@ -1,6 +1,8 @@
 using AeBlog.Services;
 using Amazon;
 using Amazon.DynamoDBv2;
+using Google.Apis.Services;
+using Google.Apis.YouTube.v3;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Twitter;
 using Microsoft.AspNetCore.Authorization;
@@ -28,10 +30,17 @@ namespace AeBlog
             var configuration = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
                 .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "config.json"), true)
+                .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "config.secret.json"), true)
                 .Build();
 
             services.AddSingleton<IConfiguration>(configuration);
             services.AddSingleton(new HttpClient());
+
+            services.AddSingleton(new YouTubeService(new BaseClientService.Initializer()
+            {
+                ApiKey = configuration["YOUTUBE_API_KEY"],
+                ApplicationName = "aeblog"
+            }));
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
