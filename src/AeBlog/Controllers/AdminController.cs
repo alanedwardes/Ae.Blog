@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 
 namespace AeBlog.Controllers
 {
-    [Route("/admin/")]
     [Authorize(Policy = "IsAdmin")]
     public class AdminController : Controller
     {
