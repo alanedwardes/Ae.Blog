@@ -45,11 +45,12 @@ namespace AeBlog
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
                     {
-                        options.LoginPath = "/session/login";
-                        options.AccessDeniedPath = "/session/denied";
+                        options.LoginPath = "/admin/login";
+                        options.AccessDeniedPath = "/admin/denied";
                     })
                     .AddTwitter(options =>
                     {
+                        options.CallbackPath = "/admin/auth/twitter-signin";
                         options.ConsumerKey = configuration["TWITTER_CONSUMER_KEY"];
                         options.ConsumerSecret = configuration["TWITTER_CONSUMER_SECRET"];
                     });

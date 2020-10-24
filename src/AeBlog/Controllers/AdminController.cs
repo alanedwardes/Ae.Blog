@@ -1,6 +1,9 @@
 ﻿using AeBlog.Models;
 using AeBlog.Models.Admin;
 using AeBlog.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Twitter;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -27,6 +30,29 @@ namespace AeBlog.Controllers
             {
                 Posts = summaries
             });
+        }
+
+        [AllowAnonymous]
+        public IActionResult Login() => Challenge(new AuthenticationProperties
+        {
+            RedirectUri = "/admin/auth/twitter-challenge"
+        }, TwitterDefaults.AuthenticationScheme);
+
+        public IActionResult Denied() => Content("Unathorized");
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return Redirect("/");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Twitter()
+        {
+            var authenticateResult = await HttpContext.AuthenticateAsync(TwitterDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, authenticateResult.Principal);
+            return Redirect("/");
         }
 
         [HttpPost]
