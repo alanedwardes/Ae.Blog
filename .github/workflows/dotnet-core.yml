@@ -10,28 +10,26 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+      AWS_DEFAULT_REGION: eu-west-1 
 
     steps:
     - uses: actions/checkout@v2
+      
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
     - name: Install tools
       run: dotnet tool install --global Amazon.Lambda.Tools
+      
     - name: Deploy
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
-        AWS_DEFAULT_REGION: eu-west-1 
       run: dotnet lambda deploy-serverless --project-location src/AeBlog --msbuild-parameters "/p:PublishReadyToRun=true --self-contained false"
-
-  invalidate:
-    runs-on: amazon/aws-cli
-    steps:
-      - name: Invalidate cache
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
-          AWS_DEFAULT_REGION: eu-west-1 
-        run: aws cloudfront create-invalidation --distribution-id E295SAMVLG12SQ --paths "*"
+      
+    - uses: chrislennon/action-aws-cli@1.1
+      
+    - name: Invalidate cache
+      run: aws cloudfront create-invalidation --distribution-id E295SAMVLG12SQ --paths "*"
