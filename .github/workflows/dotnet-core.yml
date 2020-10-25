@@ -25,3 +25,8 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
         AWS_DEFAULT_REGION: eu-west-1 
       run: dotnet lambda deploy-serverless --project-location src/AeBlog --msbuild-parameters "/p:PublishReadyToRun=true --self-contained false"
+
+  invalidate:
+    runs-on: amazon/aws-cli
+    steps:
+      - run: aws cloudfront create-invalidation --distribution-id E295SAMVLG12SQ --paths "*"
