@@ -23,6 +23,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
+    
     - name: Install tools
       run: dotnet tool install --global Amazon.Lambda.Tools
       
@@ -32,4 +33,4 @@ jobs:
     - uses: chrislennon/action-aws-cli@1.1
       
     - name: Invalidate cache
-      run: aws cloudfront create-invalidation --distribution-id E295SAMVLG12SQ --paths "\*"
+      run: aws cloudfront create-invalidation --distribution-id E295SAMVLG12SQ --paths /\*
