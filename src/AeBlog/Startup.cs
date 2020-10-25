@@ -55,7 +55,7 @@ namespace AeBlog
                         options.ConsumerSecret = configuration["TWITTER_CONSUMER_SECRET"];
                     });
 
-            services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddRouting(options => options.AppendTrailingSlash = true);
 
             services.AddAuthorization(options =>
             {
