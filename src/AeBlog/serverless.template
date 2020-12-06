@@ -12,6 +12,10 @@
 		"YouTubeApiKey": {
 			"Type": "AWS::SSM::Parameter::Value<String>",
 			"Default": "YouTubeApiKey"
+		},
+		"CloudFrontDistribution": {
+			"Type": "String",
+			"Default": "E295SAMVLG12SQ"
 		}
 	},
 	"Resources": {
@@ -23,6 +27,9 @@
 				},
 				"Environment": {
 					"Variables": {
+						"CLOUDFRONT_DISTRIBUTION": {
+							"Ref": "CloudFrontDistribution"
+						},
 						"TWITTER_CONSUMER_KEY": {
 							"Ref": "TwitterConsumerKey"
 						},
@@ -31,9 +38,6 @@
 						},
 						"YOUTUBE_API_KEY": {
 							"Ref": "YouTubeApiKey"
-						},
-						"SESSION_BUCKET": {
-							"Ref": "SessionBucket"
 						},
 						"POSTS_TABLE": {
 							"Ref": "PostsTable"
@@ -104,19 +108,37 @@
 										"dynamodb:Query",
 										"dynamodb:GetItem",
 										"dynamodb:PutItem",
-										"dynamodb:DeleteItem"
+										"dynamodb:DeleteItem",
+										"cloudfront:CreateInvalidation"
 									],
-									"Resource": [{
-										"Fn::GetAtt": [
-											"PostsTable",
-											"Arn"
-										]
-									},{
-										"Fn::GetAtt": [
-											"ImagesTable",
-											"Arn"
-										]
-									}]
+									"Resource": [
+										{
+											"Fn::GetAtt": [
+												"PostsTable",
+												"Arn"
+											]
+										},
+										{
+											"Fn::GetAtt": [
+												"ImagesTable",
+												"Arn"
+											]
+										},
+										{
+										  "Fn::Join": [
+											"", [
+													"arn:aws:cloudfront::",
+													{
+														"Ref": "AWS::AccountId"
+													},
+													":distribution/",
+													{
+														"Ref": "CloudFrontDistribution"
+													}
+												]
+											]
+										}
+									]
 								}
 							]
 						}
@@ -176,9 +198,6 @@
 				"StageName": "prod"
 			},
 			"Type": "AWS::ApiGateway::Deployment"
-		},
-		"SessionBucket": {
-			"Type": "AWS::S3::Bucket"
 		},
 		"PostsTable": {
 			"Type": "AWS::DynamoDB::Table",

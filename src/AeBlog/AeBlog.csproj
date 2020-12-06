@@ -6,14 +6,15 @@
   </PropertyGroup>
   
   <ItemGroup>
-  <PackageReference Include="Amazon.AspNetCore.DataProtection.SSM" Version="1.1.0" />
-  <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="5.1.6" />
-  <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.106.47" />
+  <PackageReference Include="Amazon.AspNetCore.DataProtection.SSM" Version="2.0.0" />
+  <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="5.2.0" />
+  <PackageReference Include="AWSSDK.CloudFront" Version="3.5.5.17" />
+  <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.5.4.5" />
   <PackageReference Include="Humanizer.Core" Version="2.8.26" />
-  <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="3.1.8" />
-  <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.8" />
-  <PackageReference Include="SixLabors.ImageSharp" Version="1.0.1" />
-  <PackageReference Include="Markdig" Version="0.21.1" />
-  <PackageReference Include="Google.Apis.YouTube.v3" Version="1.49.0.2112" />
+  <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="3.1.10" />
+  <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.10" />
+  <PackageReference Include="SixLabors.ImageSharp" Version="1.0.2" />
+  <PackageReference Include="Markdig" Version="0.22.1" />
+  <PackageReference Include="Google.Apis.YouTube.v3" Version="1.49.0.2162" />
   </ItemGroup>
 </Project>

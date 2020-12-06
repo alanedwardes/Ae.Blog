@@ -2,8 +2,6 @@
 using AeBlog.Models.Admin;
 using AeBlog.Services;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Twitter;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,43 +14,31 @@ namespace AeBlog.Controllers
     public class AdminController : Controller
     {
         private readonly IBlogPostRepository blogPostRetriever;
+        private readonly ICloudFrontInvalidator cloudFrontInvalidator;
 
-        public AdminController(IBlogPostRepository blogPostRetriever)
+        public AdminController(IBlogPostRepository blogPostRetriever, ICloudFrontInvalidator cloudFrontInvalidator)
         {
             this.blogPostRetriever = blogPostRetriever;
+            this.cloudFrontInvalidator = cloudFrontInvalidator;
         }
 
         public async Task<IActionResult> Index()
         {
             var summaries = await blogPostRetriever.GetAllPostSummaries(CancellationToken.None);
 
-            return View(new AdminModel
-            {
-                Posts = summaries
-            });
+            return View(new AdminModel{Posts = summaries});
         }
 
         [AllowAnonymous]
-        public IActionResult Login() => Challenge(new AuthenticationProperties
-        {
-            RedirectUri = "/admin/auth/twitter-challenge"
-        }, TwitterDefaults.AuthenticationScheme);
-
-        public IActionResult Denied() => Content("Unathorized");
+        public IActionResult Login() => Challenge();
 
         [AllowAnonymous]
+        public IActionResult Denied() => Content("Unathorized");
+
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-            return Redirect("/");
-        }
-
-        [Authorize]
-        public async Task<IActionResult> Twitter()
-        {
-            var authenticateResult = await HttpContext.AuthenticateAsync(TwitterDefaults.AuthenticationScheme);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, authenticateResult.Principal);
-            return Redirect("/");
+            return Redirect(Url.Action(nameof(Index), nameof(HomeController)));
         }
 
         [HttpPost]
@@ -70,7 +56,7 @@ namespace AeBlog.Controllers
 
             await blogPostRetriever.PutPost(post, CancellationToken.None);
 
-            return Redirect("/admin/");
+            return Redirect(Url.Action(nameof(Index)));
         }
 
         [HttpGet]
@@ -92,7 +78,9 @@ namespace AeBlog.Controllers
 
             await blogPostRetriever.PutPost(post, CancellationToken.None);
 
-            return Redirect("/admin/");
+            await cloudFrontInvalidator.InvalidatePost(post);
+
+            return Redirect(Url.Action(nameof(Index)));
         }
 
         [HttpGet]
