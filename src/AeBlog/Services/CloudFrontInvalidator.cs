@@ -28,8 +28,13 @@ namespace AeBlog.Services
                     CallerReference = Guid.NewGuid().ToString(),
                     Paths = new Paths
                     {
-                        Items = new List<string> { postSummary.Url },
-                        Quantity = 1
+                        Items = new List<string>
+                        {
+                            "/blog/",
+                            postSummary.Url,
+                            postSummary.CategoryUrl
+                        },
+                        Quantity = 3
                     }
                 }
             });

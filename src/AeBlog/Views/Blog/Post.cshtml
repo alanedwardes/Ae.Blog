@@ -12,11 +12,11 @@
 
     @if (Model.Updated.HasValue)
     {
-        <p class="meta">Posted @Model.Published.ToOrdinalWords(), last updated @Model.Updated.Value.ToOrdinalWords() in <a href="/blog/category/@Model.Category/">@Model.Category</a></p>
+        <p class="meta">Posted @Model.Published.ToOrdinalWords(), last updated @Model.Updated.Value.ToOrdinalWords() in <a href="@Model.CategoryUrl">@Model.Category</a></p>
     }
     else
     {
-        <p class="meta">Posted @Model.Published.ToOrdinalWords() in <a href="/blog/category/@Model.Category/">@Model.Category</a></p>
+        <p class="meta">Posted @Model.Published.ToOrdinalWords() in <a href="@Model.CategoryUrl">@Model.Category</a></p>
     }
 
     @Html.Raw(Model.GetMarkdown())

@@ -64,7 +64,7 @@ namespace AeBlog.Services
                 ExpressionAttributeNames = new Dictionary<string, string>
                 {
                     { "#Type", "Type" }
-                }
+                },
             })).Items.Select(ItemToPost).OrderByDescending(x => x.Published).ToArray();
         }
 
@@ -123,13 +123,17 @@ namespace AeBlog.Services
                 IndexName = "Category-Published-index",
                 KeyConditionExpression = "#category = :category",
                 ScanIndexForward = false,
-                ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
-                    {":category", new AttributeValue { S =  category }}
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                {
+                    {":category", new AttributeValue { S = category }},
+                    {":type", new AttributeValue { S = "published" }}
                 },
                 ExpressionAttributeNames = new Dictionary<string, string>
                 {
-                    { "#category", "Category" }
-                }
+                    { "#category", "Category" },
+                    { "#type", "Type" }
+                },
+                FilterExpression = "#type = :type"
             }, token);
         }
 
@@ -141,7 +145,8 @@ namespace AeBlog.Services
                 IndexName = "Type-Published-index",
                 KeyConditionExpression = "#type = :published",
                 ScanIndexForward = false,
-                ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                {
                     {":published", new AttributeValue { S =  "published" }}
                 },
                 ExpressionAttributeNames = new Dictionary<string, string>

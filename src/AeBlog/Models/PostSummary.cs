@@ -12,5 +12,6 @@ namespace AeBlog.Models
         public string Type { get; set; }
 
         public string Url => $"/blog/posts/{Slug}/";
+        public string CategoryUrl => $"/blog/category/{Category}/";
     }
 }
