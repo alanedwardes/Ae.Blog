@@ -23,16 +23,42 @@ hr {
     border: 0;
 }
 
-body, textarea, button, input {
+body {
     font-size: 1.2em;
     font-family: "Georgia", sans-serif;
 }
+
+textarea, button, input {
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    background: #333;
+    border: 1px solid #333;
+}
+
+input, textarea {
+    padding: 2.5px 5px;
+}
+
+input[type=text] {
+    min-width:100%;
+}
+
+button {
+    padding: 5px 10px;
+    border: 0;
+    width: 100%;
+}
+
+    button:hover {
+        background: #444;
+    }
 
 h1, h2, h3, h4, h5 {
     font-family: sans-serif;
 }
 
-body, a, button, textarea, input {
+body, a {
     color: #ccc;
 }
 
@@ -54,27 +80,6 @@ section {
     max-width: 960px;
     margin: 0 auto;
 }
-
-input, textarea {
-    background: #333;
-    padding: 2.5px 5px;
-    border: 1px solid #333;
-}
-
-input[type=text] {
-    min-width:100%;
-}
-
-button {
-    background: #333;
-    padding: 5px 10px;
-    border: 0;
-    width: 100%;
-}
-
-    button:hover {
-        background: #444;
-    }
 
 @@media (max-width: 800px) {
     .right {
