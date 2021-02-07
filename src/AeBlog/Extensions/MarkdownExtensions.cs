@@ -8,6 +8,7 @@ namespace AeBlog.Extensions
         private static readonly MarkdownPipeline markdownPipeline = new MarkdownPipelineBuilder()
                 .UseEmphasisExtras()
                 .UseAutoIdentifiers()
+                .UseMediaLinks()
                 .Build();
 
         public static string GetMarkdown(this Post post)
