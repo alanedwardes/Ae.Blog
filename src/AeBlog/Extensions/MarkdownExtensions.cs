@@ -1,5 +1,6 @@
 ﻿using AeBlog.Models;
 using Markdig;
+using Markdig.Extensions.MediaLinks;
 
 namespace AeBlog.Extensions
 {
@@ -8,7 +9,7 @@ namespace AeBlog.Extensions
         private static readonly MarkdownPipeline markdownPipeline = new MarkdownPipelineBuilder()
                 .UseEmphasisExtras()
                 .UseAutoIdentifiers()
-                .UseMediaLinks()
+                .UseMediaLinks(new MediaOptions{Width = "960",Height = "540"})
                 .Build();
 
         public static string GetMarkdown(this Post post)

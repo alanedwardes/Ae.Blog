@@ -15,7 +15,10 @@
 }
 
 <section>
-    @await Html.PartialAsync("Sidebar", Model.Archive)
+    @if (!Model.Single.GetMarkdown().Contains("<video")) // Hack: make this a post option
+    {
+        @await Html.PartialAsync("Sidebar", Model.Archive)
+    }
     <script type="application/ld+json">
         {
             "@@context": "http://schema.org",
