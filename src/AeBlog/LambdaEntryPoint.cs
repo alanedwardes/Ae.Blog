@@ -14,14 +14,5 @@ namespace AeBlog
             RegisterResponseContentEncodingForContentType("image/x-icon", ResponseContentEncoding.Base64);
             builder.UseStartup<Startup>();
         }
-
-        protected override void PostMarshallRequestFeature(IHttpRequestFeature aspNetCoreRequestFeature, APIGatewayProxyRequest apiGatewayRequest, ILambdaContext lambdaContext)
-        {
-            if (apiGatewayRequest.Headers.ContainsKey("x-ae-domain") && apiGatewayRequest.Headers["x-ae-domain"] == "alanedwardes.com")
-            {
-                aspNetCoreRequestFeature.PathBase = string.Empty;
-                aspNetCoreRequestFeature.Headers["Host"] = new StringValues("alanedwardes.com");
-            }
-        }
     }
 }
