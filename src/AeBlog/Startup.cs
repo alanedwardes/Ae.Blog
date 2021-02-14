@@ -37,6 +37,8 @@ namespace AeBlog
                 .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "config.secret.json"), true)
                 .Build();
 
+            services.AddHttpClient();
+
             services.AddFreezer()
                     .AddSingleton<IWebsiteResourceWriter>(x =>
                     {
