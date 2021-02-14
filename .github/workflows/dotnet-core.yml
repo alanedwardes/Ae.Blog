@@ -29,8 +29,3 @@ jobs:
       
     - name: Deploy
       run: dotnet lambda deploy-serverless --project-location src/AeBlog --msbuild-parameters "/p:PublishReadyToRun=true --self-contained false"
-      
-    - uses: chrislennon/action-aws-cli@1.1
-      
-    - name: Invalidate cache
-      run: aws cloudfront create-invalidation --distribution-id E295SAMVLG12SQ --paths /\*
