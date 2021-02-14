@@ -14,12 +14,10 @@ namespace AeBlog.Controllers
     public class AdminController : Controller
     {
         private readonly IBlogPostRepository blogPostRetriever;
-        private readonly ICloudFrontInvalidator cloudFrontInvalidator;
 
-        public AdminController(IBlogPostRepository blogPostRetriever, ICloudFrontInvalidator cloudFrontInvalidator)
+        public AdminController(IBlogPostRepository blogPostRetriever)
         {
             this.blogPostRetriever = blogPostRetriever;
-            this.cloudFrontInvalidator = cloudFrontInvalidator;
         }
 
         public async Task<IActionResult> Index()
@@ -77,8 +75,6 @@ namespace AeBlog.Controllers
             post.Title = model.Title;
 
             await blogPostRetriever.PutPost(post, CancellationToken.None);
-
-            await cloudFrontInvalidator.InvalidatePost(post);
 
             return Redirect(Url.Action(nameof(Index)));
         }

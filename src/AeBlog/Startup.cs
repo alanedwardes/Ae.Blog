@@ -41,8 +41,6 @@ namespace AeBlog
                 ApplicationName = "aeblog"
             }));
 
-            services.AddSingleton<ICloudFrontInvalidator>(x => new CloudFrontInvalidator(configuration["CLOUDFRONT_DISTRIBUTION"], x.GetRequiredService<IAmazonCloudFront>()));
-
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
                     {
