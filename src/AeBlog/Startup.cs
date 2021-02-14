@@ -60,8 +60,6 @@ namespace AeBlog
 
             services.AddRouting(options => options.AppendTrailingSlash = true);
 
-            services.AddMemoryCache();
-
             services.AddDataProtection()
                     .PersistKeysToAWSSystemsManager("/aeblog/dataprotection");
         }
