@@ -1,7 +1,11 @@
+using Ae.Freezer;
+using Ae.Freezer.Aws;
+using Ae.Freezer.Writers;
 using AeBlog.Services;
 using Amazon;
 using Amazon.CloudFront;
 using Amazon.DynamoDBv2;
+using Amazon.S3;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -25,12 +29,27 @@ namespace AeBlog
             services.AddSingleton<IBlogPostRepository, BlogPostRepository>();
             services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(RegionEndpoint.EUWest1));
             services.AddSingleton<IAmazonCloudFront>(new AmazonCloudFrontClient());
+            services.AddSingleton<IAmazonS3>(new AmazonS3Client());
 
             var configuration = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
                 .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "config.json"), true)
                 .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "config.secret.json"), true)
                 .Build();
+
+            services.AddFreezer()
+                    .AddSingleton<IWebsiteResourceWriter>(x =>
+                    {
+                        var config = new AmazonS3WebsiteResourceWriterConfiguration
+                        {
+                            BucketName = configuration["S3_BUCKET"],
+                            DistributionId = configuration["CLOUDFRONT_DISTRIBUTION"],
+                            ShouldInvalidateCloudFrontCache = true,
+                            ShouldCleanUnmatchedObjects = true
+                        };
+
+                        return new AmazonS3WebsiteResourceWriter(x.GetRequiredService<ILogger<AmazonS3WebsiteResourceWriter>>(), x.GetRequiredService<IAmazonS3>(), x.GetRequiredService<IAmazonCloudFront>(), config);
+                    });
 
             services.AddSingleton<IConfiguration>(configuration);
             services.AddSingleton(new HttpClient());

@@ -1,9 +1,14 @@
-﻿using AeBlog.Models;
+﻿using Ae.Freezer;
+using Ae.Freezer.Aws;
+using Ae.Freezer.Writers;
+using AeBlog.Models;
 using AeBlog.Models.Admin;
 using AeBlog.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,10 +19,12 @@ namespace AeBlog.Controllers
     public class AdminController : Controller
     {
         private readonly IBlogPostRepository blogPostRetriever;
+        private readonly IFreezer freezer;
 
-        public AdminController(IBlogPostRepository blogPostRetriever)
+        public AdminController(IBlogPostRepository blogPostRetriever, IFreezer freezer)
         {
             this.blogPostRetriever = blogPostRetriever;
+            this.freezer = freezer;
         }
 
         public async Task<IActionResult> Index()
@@ -97,6 +104,17 @@ namespace AeBlog.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             await blogPostRetriever.DeletePost(id, CancellationToken.None);
+            return Redirect(Url.Action(nameof(Index)));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Flush()
+        {
+            await freezer.Freeze(new FreezerConfiguration
+            {
+                BaseAddress = new Uri("https://uncached.alanedwardes.com"),
+                ResourceWriter = x => x.GetRequiredService<IWebsiteResourceWriter>()
+            }, CancellationToken.None);
             return Redirect(Url.Action(nameof(Index)));
         }
     }
