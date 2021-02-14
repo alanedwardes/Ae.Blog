@@ -46,8 +46,8 @@ namespace AeBlog
                         {
                             BucketName = configuration["S3_BUCKET"],
                             DistributionId = configuration["CLOUDFRONT_DISTRIBUTION"],
-                            ShouldInvalidateCloudFrontCache = true,
-                            ShouldCleanUnmatchedObjects = true
+                            ShouldInvalidateCloudFrontCache = false,
+                            ShouldCleanUnmatchedObjects = false
                         };
 
                         return new AmazonS3WebsiteResourceWriter(x.GetRequiredService<ILogger<AmazonS3WebsiteResourceWriter>>(), x.GetRequiredService<IAmazonS3>(), x.GetRequiredService<IAmazonCloudFront>(), config);
