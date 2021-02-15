@@ -1,0 +1,316 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Parameters": {
+		"TwitterConsumerKey": {
+			"Type": "AWS::SSM::Parameter::Value<String>",
+			"Default": "TwitterConsumerKey"
+		},
+		"TwitterConsumerSecret": {
+			"Type": "AWS::SSM::Parameter::Value<String>",
+			"Default": "TwitterConsumerSecret"
+		},
+		"YouTubeApiKey": {
+			"Type": "AWS::SSM::Parameter::Value<String>",
+			"Default": "YouTubeApiKey"
+		},
+		"CloudFrontDistribution": {
+			"Type": "String",
+			"Default": "E295SAMVLG12SQ"
+		},
+		"S3Bucket": {
+			"Type": "String",
+			"Default": "ae-blog-static"
+		}
+	},
+	"Resources": {
+		"ProxyFunction": {
+			"Properties": {
+				"Code": {
+					"S3Bucket": "",
+					"S3Key": ""
+				},
+				"Environment": {
+					"Variables": {
+						"CLOUDFRONT_DISTRIBUTION": {
+							"Ref": "CloudFrontDistribution"
+						},
+						"S3_BUCKET": {
+							"Ref": "S3Bucket"
+						},
+						"TWITTER_CONSUMER_KEY": {
+							"Ref": "TwitterConsumerKey"
+						},
+						"TWITTER_CONSUMER_SECRET": {
+							"Ref": "TwitterConsumerSecret"
+						},
+						"YOUTUBE_API_KEY": {
+							"Ref": "YouTubeApiKey"
+						},
+						"POSTS_TABLE": {
+							"Ref": "PostsTable"
+						},
+						"IMAGES_TABLE": {
+							"Ref": "ImagesTable"
+						}
+					}
+				},
+				"Handler": "Ae.Blog::Ae.Blog.LambdaEntryPoint::FunctionHandlerAsync",
+				"MemorySize": 512,
+				"Role": {
+					"Fn::Sub": "${ProxyFunctionRole.Arn}"
+				},
+				"Runtime": "dotnetcore3.1",
+				"Timeout": 30
+			},
+			"Type": "AWS::Lambda::Function"
+		},
+		"ProxyFunctionPutResourcePermissionProd": {
+			"Properties": {
+				"Action": "lambda:invokeFunction",
+				"FunctionName": {
+					"Fn::Sub": "${ProxyFunction}"
+				},
+				"Principal": "apigateway.amazonaws.com",
+				"SourceArn": {
+					"Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ServerlessRestApi}/prod/ANY/*"
+				}
+			},
+			"Type": "AWS::Lambda::Permission",
+			"DependsOn": [
+				"ProxyFunction"
+			]
+		},
+		"ProxyFunctionRole": {
+			"Properties": {
+				"AssumeRolePolicyDocument": {
+					"Statement": [
+						{
+							"Action": [
+								"sts:AssumeRole"
+							],
+							"Effect": "Allow",
+							"Principal": {
+								"Service": [
+									"lambda.amazonaws.com"
+								]
+							}
+						}
+					],
+					"Version": "2012-10-17"
+				},
+				"ManagedPolicyArns": [
+					"arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+					"arn:aws:iam::aws:policy/AWSLambdaFullAccess",
+					"arn:aws:iam::aws:policy/AmazonSSMFullAccess"
+				],
+				"Policies": [
+					{
+						"PolicyName": "root",
+						"PolicyDocument": {
+							"Version": "2012-10-17",
+							"Statement": [
+								{
+									"Effect": "Allow",
+									"Action": [
+										"dynamodb:Query",
+										"dynamodb:GetItem",
+										"dynamodb:PutItem",
+										"dynamodb:DeleteItem",
+										"cloudfront:CreateInvalidation",
+										"s3:PutObject",
+										"s3:DeleteObject",
+										"s3:ListBucket"
+									],
+									"Resource": [
+										{
+											"Fn::GetAtt": [
+												"PostsTable",
+												"Arn"
+											]
+										},
+										{
+											"Fn::GetAtt": [
+												"ImagesTable",
+												"Arn"
+											]
+										},
+										{
+										  "Fn::Join": [
+											"", [
+													"arn:aws:cloudfront::",
+													{
+														"Ref": "AWS::AccountId"
+													},
+													":distribution/",
+													{
+														"Ref": "CloudFrontDistribution"
+													}
+												]
+											]
+										},
+										{
+										  "Fn::Join": [
+											"", [
+													"arn:aws:s3:::",
+													{
+														"Ref": "S3Bucket"
+													}
+												]
+											]
+										},
+										{
+										  "Fn::Join": [
+											"", [
+													"arn:aws:s3:::",
+													{
+														"Ref": "S3Bucket"
+													},
+													"/*"
+												]
+											]
+										}
+									]
+								}
+							]
+						}
+					}
+				]
+			},
+			"Type": "AWS::IAM::Role"
+		},
+		"ServerlessRestApi": {
+			"Type": "AWS::ApiGateway::RestApi",
+			"Properties": {
+				"Body": {
+					"swagger": "2.0",
+					"info": {
+						"title": {
+							"Fn::Sub": "${AWS::StackName}"
+						},
+						"version": "1.0"
+					},
+					"paths": {
+						"/": {
+							"x-amazon-apigateway-any-method": {
+								"responses": {},
+								"x-amazon-apigateway-integration": {
+									"httpMethod": "POST",
+									"type": "aws_proxy",
+									"uri": {
+										"Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ProxyFunction.Arn}/invocations"
+									}
+								}
+							}
+						},
+						"/{proxy+}": {
+							"x-amazon-apigateway-any-method": {
+								"responses": {},
+								"x-amazon-apigateway-integration": {
+									"httpMethod": "POST",
+									"type": "aws_proxy",
+									"uri": {
+										"Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ProxyFunction.Arn}/invocations"
+									}
+								}
+							}
+						}
+					},
+					"x-amazon-apigateway-binary-media-types": [
+						"*/*"
+					]
+				}
+			}
+		},
+		"ServerlessRestApiDeployment26c551a2f2": {
+			"Properties": {
+				"RestApiId": {
+					"Fn::Sub": "${ServerlessRestApi}"
+				},
+				"StageName": "prod"
+			},
+			"Type": "AWS::ApiGateway::Deployment"
+		},
+		"PostsTable": {
+			"Type": "AWS::DynamoDB::Table",
+			"Properties": {
+				"AttributeDefinitions": [
+					{
+						"AttributeName": "Slug",
+						"AttributeType": "S"
+					},
+					{
+						"AttributeName": "Type",
+						"AttributeType": "S"
+					},
+					{
+						"AttributeName": "Category",
+						"AttributeType": "S"
+					},
+					{
+						"AttributeName": "Published",
+						"AttributeType": "S"
+					}
+				],
+				"KeySchema": [
+					{
+						"AttributeName": "Slug",
+						"KeyType": "HASH"
+					}
+				],
+				"BillingMode": "PAY_PER_REQUEST",
+				"GlobalSecondaryIndexes": [
+					{
+						"IndexName": "Category-Published-index",
+						"KeySchema": [
+							{
+								"AttributeName": "Category",
+								"KeyType": "HASH"
+							},
+							{
+								"AttributeName": "Published",
+								"KeyType": "RANGE"
+							}
+						],
+						"Projection": {
+							"ProjectionType": "ALL"
+						}
+					},
+					{
+						"IndexName": "Type-Published-index",
+						"KeySchema": [
+							{
+								"AttributeName": "Type",
+								"KeyType": "HASH"
+							},
+							{
+								"AttributeName": "Published",
+								"KeyType": "RANGE"
+							}
+						],
+						"Projection": {
+							"ProjectionType": "ALL"
+						}
+					}
+				]
+			}
+		},
+		"ImagesTable": {
+			"Type": "AWS::DynamoDB::Table",
+			"Properties": {
+				"AttributeDefinitions": [
+					{
+						"AttributeName": "Url",
+						"AttributeType": "S"
+					}
+				],
+				"KeySchema": [
+					{
+						"AttributeName": "Url",
+						"KeyType": "HASH"
+					}
+				],
+				"BillingMode": "PAY_PER_REQUEST",
+			}
+		}
+	}
+}

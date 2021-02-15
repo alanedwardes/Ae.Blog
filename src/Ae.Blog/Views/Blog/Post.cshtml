@@ -1,0 +1,27 @@
+﻿@using Ae.Blog.Extensions;
+@model Ae.Blog.Models.Post
+<article>
+    @if (Model.IsSingle)
+    {
+        <h2>@Model.Title</h2>
+    }
+    else
+    {
+        <h2><a href="@Model.Url">@Model.Title</a></h2>
+    }
+
+    @if (Model.Updated.HasValue && (Model.Updated.Value - Model.Published > TimeSpan.FromDays(5)))
+    {
+        <p class="meta">Posted @Model.Published.ToOrdinalWords(), last updated @Model.Updated.Value.ToOrdinalWords() in <a href="@Model.CategoryUrl">@Model.Category</a></p>
+    }
+    else
+    {
+        <p class="meta">Posted @Model.Published.ToOrdinalWords() in <a href="@Model.CategoryUrl">@Model.Category</a></p>
+    }
+
+    @Html.Raw(Model.GetMarkdown())
+    @if (Model.HasSummary && !Model.IsSingle)
+    {
+        <p><a href="@Model.Url">Continue Reading &raquo;</a></p>
+    }
+</article>
