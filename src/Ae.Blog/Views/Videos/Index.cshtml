@@ -12,7 +12,7 @@
 }
 <section>
     <h2>@firstVideo.Snippet.Title</h2>
-    <p class="meta">Posted @DateTime.Parse(firstVideo.Snippet.PublishedAt).ToOrdinalWords()</p>
+    <p class="meta">Posted @*DateTime.Parse(firstVideo.Snippet.PublishedAt.Value).ToOrdinalWords()*@</p>
     <p class="youtube-container">
         <iframe class="youtube-iframe" width="960" height="540" src="https://www.youtube.com/embed/@firstVideo.Id" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </p>
