@@ -46,17 +46,40 @@
     </script>
     @await Html.PartialAsync("Post", Model.Single)
     <h2 id="comments">Comments</h2>
-    <div id="disqus_thread"></div>
+    <div id="disqus_thread">
+        <p>Please <a href="#comments" onclick="fetchComments()">click here</a> to load comments.</p>
+    </div>
     <script>
-        var disqus_config = function () {
-            this.page.url = "https://alanedwardes.com" + "@Model.Single.Url";
-            this.page.identifier = "@Model.Single.Slug";
-        };
-        (function() {
-        var d = document, s = d.createElement('script');
-        s.src = 'https://alanedwardes.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-        })();
+        var observer = new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting) {
+                fetchComments();
+            }
+        });
+
+        var commentsElement = document.getElementById("disqus_thread");
+
+        observer.observe(commentsElement);
+
+        var commentsLoaded = false;
+        function fetchComments() {
+            if (commentsLoaded) {
+                return;
+            }
+
+            commentsLoaded = true;
+            commentsElement.innerHTML = 'Loading comments...';
+
+            // Configure Disqus
+            window.disqus_config = function () {
+                this.page.url = "https://alanedwardes.com" + "@Model.Single.Url";
+                this.page.identifier = "@Model.Single.Slug";
+            };
+
+            // Load Disqus
+            var d = document, s = d.createElement('script');
+            s.src = 'https://alanedwardes.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
     </script>
 </section>
