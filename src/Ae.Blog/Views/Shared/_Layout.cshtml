@@ -42,6 +42,10 @@
     <header>
         @await Html.PartialAsync("_Header")
     </header>
+    @if (ViewData["BannerImage"] != null)
+    {
+        <div class="banner" style="background-image:url(@ViewData["BannerImage"])"></div>
+    }
     <main>
         @RenderBody()
     </main>
