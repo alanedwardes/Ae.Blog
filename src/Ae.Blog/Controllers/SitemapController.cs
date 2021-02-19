@@ -57,7 +57,7 @@ namespace Ae.Blog.Controllers
 
             var categories = new HashSet<string>();
 
-            foreach (var post in await blogPostRepository.GetPublishedPostSummaries(CancellationToken.None))
+            foreach (var post in await blogPostRepository.GetPublishedPosts(CancellationToken.None))
             {
                 urlSet.AppendChild(CreateUrl(document, $"{baseUrl}/blog/posts/{post.Slug}/", "monthly", "0.5"));
                 categories.Add(post.Category);

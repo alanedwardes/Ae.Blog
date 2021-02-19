@@ -18,28 +18,21 @@ namespace Ae.Blog.Controllers
             this.blogPostRetriever = blogPostRetriever;
         }
 
-        public async Task<PostSummary[]> GetPostSummaries(CancellationToken token)
-        {
-            return await blogPostRetriever.GetPublishedPostSummaries(token);
-        }
-
         public async Task<IActionResult> Index()
         {
-            var summariesTask = GetPostSummaries(CancellationToken.None);
             var postsTask = blogPostRetriever.GetPublishedPosts(CancellationToken.None);
 
             return View("List", new BlogModel
             {
-                Archive = await summariesTask,
+                Archive = await postsTask,
                 Posts = await postsTask
             });
         }
 
         public async Task<IActionResult> Posts(string id)
         {
+            var summariesTask = blogPostRetriever.GetPublishedPosts(CancellationToken.None);
             var singleTask = blogPostRetriever.GetPost(id, CancellationToken.None);
-
-            var summariesTask = GetPostSummaries(CancellationToken.None);
 
             return View("Single", new BlogModel
             {
@@ -50,7 +43,7 @@ namespace Ae.Blog.Controllers
 
         public async Task<IActionResult> Category(string id)
         {
-            var summariesTask = GetPostSummaries(CancellationToken.None);
+            var summariesTask = blogPostRetriever.GetPublishedPosts(CancellationToken.None);
             var postsTask = blogPostRetriever.GetPostsForCategory(id, CancellationToken.None);
 
             return View("List", new BlogModel

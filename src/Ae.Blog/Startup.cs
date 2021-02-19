@@ -24,7 +24,6 @@ namespace Ae.Blog
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddSingleton<IImageRepository, ImageRepository>();
             services.AddSingleton<IColourRepository, ColourRepository>();
             services.AddSingleton<IBlogPostRepository, BlogPostRepository>();
             services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(RegionEndpoint.EUWest1));

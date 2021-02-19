@@ -70,27 +70,26 @@ namespace Ae.Blog.Services
 
         public async Task<Post[]> GetPublishedPosts(CancellationToken token)
         {
-            return await GetPostsInternal(new QueryRequest
+            return await GetPostsInternal(new ScanRequest
             {
                 TableName = TableName,
-                IndexName = "Type-Published-index",
-                KeyConditionExpression = "#type = :published",
-                ScanIndexForward = false,
-                ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
-                    {":published", new AttributeValue { S =  "published" }}
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                {
+                    {":type", new AttributeValue { S = "published" }}
                 },
                 ExpressionAttributeNames = new Dictionary<string, string>
                 {
                     { "#type", "Type" }
-                }
+                },
+                FilterExpression = "#type = :type"
             }, token);
         }
 
-        private async Task<Post[]> GetPostsInternal(QueryRequest query, CancellationToken token)
+        private async Task<Post[]> GetPostsInternal(ScanRequest query, CancellationToken token)
         {
-            var response = await amazonDynamoDb.QueryAsync(query, token);
+            var response = await amazonDynamoDb.ScanAsync(query, token);
 
-            return response.Items.Select(ItemToPost).ToArray();
+            return response.Items.Select(ItemToPost).OrderByDescending(x => x.Published).ToArray();
         }
 
         private Post ItemToPost(IDictionary<string, AttributeValue> item)
@@ -117,12 +116,9 @@ namespace Ae.Blog.Services
 
         public async Task<Post[]> GetPostsForCategory(string category, CancellationToken token)
         {
-            return await GetPostsInternal(new QueryRequest
+            return await GetPostsInternal(new ScanRequest
             {
                 TableName = TableName,
-                IndexName = "Category-Published-index",
-                KeyConditionExpression = "#category = :category",
-                ScanIndexForward = false,
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue>
                 {
                     {":category", new AttributeValue { S = category }},
@@ -133,29 +129,8 @@ namespace Ae.Blog.Services
                     { "#category", "Category" },
                     { "#type", "Type" }
                 },
-                FilterExpression = "#type = :type"
+                FilterExpression = "#category = :category AND #type = :type"
             }, token);
-        }
-
-        public async Task<PostSummary[]> GetPublishedPostSummaries(CancellationToken token)
-        {
-            var response = await amazonDynamoDb.QueryAsync(new QueryRequest
-            {
-                TableName = TableName,
-                IndexName = "Type-Published-index",
-                KeyConditionExpression = "#type = :published",
-                ScanIndexForward = false,
-                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
-                {
-                    {":published", new AttributeValue { S =  "published" }}
-                },
-                ExpressionAttributeNames = new Dictionary<string, string>
-                {
-                    { "#type", "Type" }
-                }
-            }, token);
-
-            return response.Items.Select(ItemToPost).ToArray();
         }
 
         public async Task DeletePost(string slug, CancellationToken token)

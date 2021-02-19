@@ -48,9 +48,6 @@
 						},
 						"POSTS_TABLE": {
 							"Ref": "PostsTable"
-						},
-						"IMAGES_TABLE": {
-							"Ref": "ImagesTable"
 						}
 					}
 				},
@@ -125,12 +122,6 @@
 										{
 											"Fn::GetAtt": [
 												"PostsTable",
-												"Arn"
-											]
-										},
-										{
-											"Fn::GetAtt": [
-												"ImagesTable",
 												"Arn"
 											]
 										},
@@ -237,18 +228,6 @@
 					{
 						"AttributeName": "Slug",
 						"AttributeType": "S"
-					},
-					{
-						"AttributeName": "Type",
-						"AttributeType": "S"
-					},
-					{
-						"AttributeName": "Category",
-						"AttributeType": "S"
-					},
-					{
-						"AttributeName": "Published",
-						"AttributeType": "S"
 					}
 				],
 				"KeySchema": [
@@ -257,59 +236,7 @@
 						"KeyType": "HASH"
 					}
 				],
-				"BillingMode": "PAY_PER_REQUEST",
-				"GlobalSecondaryIndexes": [
-					{
-						"IndexName": "Category-Published-index",
-						"KeySchema": [
-							{
-								"AttributeName": "Category",
-								"KeyType": "HASH"
-							},
-							{
-								"AttributeName": "Published",
-								"KeyType": "RANGE"
-							}
-						],
-						"Projection": {
-							"ProjectionType": "ALL"
-						}
-					},
-					{
-						"IndexName": "Type-Published-index",
-						"KeySchema": [
-							{
-								"AttributeName": "Type",
-								"KeyType": "HASH"
-							},
-							{
-								"AttributeName": "Published",
-								"KeyType": "RANGE"
-							}
-						],
-						"Projection": {
-							"ProjectionType": "ALL"
-						}
-					}
-				]
-			}
-		},
-		"ImagesTable": {
-			"Type": "AWS::DynamoDB::Table",
-			"Properties": {
-				"AttributeDefinitions": [
-					{
-						"AttributeName": "Url",
-						"AttributeType": "S"
-					}
-				],
-				"KeySchema": [
-					{
-						"AttributeName": "Url",
-						"KeyType": "HASH"
-					}
-				],
-				"BillingMode": "PAY_PER_REQUEST",
+				"BillingMode": "PAY_PER_REQUEST"
 			}
 		}
 	}

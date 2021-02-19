@@ -48,7 +48,7 @@ namespace Ae.Blog.Controllers
             atomLink.SetAttribute("type", "application/rss+xml");
             channel.AppendChild(atomLink);
 
-            var posts = (await blogPostRepository.GetPublishedPostSummaries(CancellationToken.None)).OrderByDescending(x => x.Published).ToArray();
+            var posts = (await blogPostRepository.GetPublishedPosts(CancellationToken.None)).OrderByDescending(x => x.Published).ToArray();
 
             channel.AppendChild(CreateElement(document, "title", "Alan Edwardes"));
             channel.AppendChild(CreateElement(document, "description", "Blog posts for Alan Edwardes' personal blog."));
