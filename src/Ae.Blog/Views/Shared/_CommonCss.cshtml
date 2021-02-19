@@ -187,27 +187,25 @@ footer {
     line-height: 1.75em;
 }
 
-.projects article h2 {
-    text-align: center;
-    margin-bottom: 40px;
+@@media (max-width: 1024px) {
+    .project.small {
+        max-width: 100% !important;
+        float:none !important;
+    }
 }
 
-.projects article {
-    margin: 40px 0;
+.project.small {
+    background:#111;
+    padding:10px;
+    margin:10px;
+    box-shadow:0 0 10px #111;
+    max-width: 440px;
+    float:left;
 }
 
-    .projects article + article {
-        margin: 80px 0 40px 0;
-    }
-
-    .projects article .images {
-        text-align: center;
-    }
-
-        .projects article .images img {
-            margin: 5px 10px;
-            box-shadow: 0px 0px 5px black;
-        }
+.project.small p {
+    margin:0;
+}
 
 article pre, article code, article a {
     white-space: pre-wrap;
