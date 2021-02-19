@@ -108,11 +108,14 @@ namespace Ae.Blog.Controllers
         [HttpPost]
         public async Task<IActionResult> Flush()
         {
-            await freezer.Freeze(new FreezerConfiguration
+            var freezerConfiguration = new FreezerConfiguration
             {
                 BaseAddress = new Uri("https://uncached.alanedwardes.com"),
                 ResourceWriter = x => x.GetRequiredService<IWebsiteResourceWriter>()
-            }, CancellationToken.None);
+            };
+            freezerConfiguration.AdditionalResources.Add(new Uri("sitemap.xml", UriKind.Relative));
+        
+            await freezer.Freeze(freezerConfiguration, CancellationToken.None);
             return Redirect(Url.Action(nameof(Index)));
         }
     }

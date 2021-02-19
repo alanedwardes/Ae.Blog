@@ -53,7 +53,6 @@ namespace Ae.Blog.Controllers
 
             urlSet.AppendChild(CreateUrl(document, $"{baseUrl}/", "monthly", "1.0"));
             urlSet.AppendChild(CreateUrl(document, $"{baseUrl}/blog/", "weekly", "0.9"));
-            urlSet.AppendChild(CreateUrl(document, $"{baseUrl}/projects/", "monthly", "0.8"));
             urlSet.AppendChild(CreateUrl(document, $"{baseUrl}/contact/", "monthly", "0.7"));
 
             var categories = new HashSet<string>();
