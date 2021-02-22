@@ -42,18 +42,9 @@
     <header>
         @await Html.PartialAsync("_Header")
     </header>
-    @if (ViewData["BannerImage"] != null)
-    {
-        <main class="banner" style="background-image:url(@ViewData["BannerImage"])">
-            @RenderBody()
-        </main>
-    }
-    else
-    {
-        <main>
-            @RenderBody()
-        </main>
-    }
+    <main>
+        @RenderBody()
+    </main>
     <footer>
         @await Html.PartialAsync("_Footer")
     </footer>
