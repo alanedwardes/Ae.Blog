@@ -50,15 +50,18 @@
         <p>Please <a href="#comments" onclick="fetchComments()">click here</a> to load comments.</p>
     </div>
     <script>
-        var observer = new IntersectionObserver(function (entries) {
-            if (entries[0].isIntersecting) {
-                fetchComments();
-            }
-        });
-
         var commentsElement = document.getElementById("disqus_thread");
 
-        observer.observe(commentsElement);
+        if (document.location.hash.startsWith('#comment')) {
+            fetchComments();
+        } else {
+            var observer = new IntersectionObserver(function (entries) {
+                if (entries[0].isIntersecting) {
+                    fetchComments();
+                }
+            });
+            observer.observe(commentsElement);
+        }
 
         var commentsLoaded = false;
         function fetchComments() {
