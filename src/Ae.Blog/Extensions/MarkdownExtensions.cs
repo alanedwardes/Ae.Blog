@@ -9,6 +9,7 @@ namespace Ae.Blog.Extensions
         private static readonly MarkdownPipeline markdownPipeline = new MarkdownPipelineBuilder()
                 .UseEmphasisExtras()
                 .UseAutoIdentifiers()
+                .UsePipeTables()
                 .UseMediaLinks(new MediaOptions{Width = "960",Height = "540"})
                 .Build();
 
