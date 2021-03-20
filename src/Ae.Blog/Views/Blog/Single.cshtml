@@ -1,18 +1,37 @@
 ﻿@using Ae.Blog.Extensions;
+@using System.Text; 
 @model Ae.Blog.Models.BlogModel
 @{
     ViewData["Title"] = Model.Single.Title;
     ViewData["Description"] = Model.Single.GetFirstLineText();
-    ViewData["Footer"] = "<script src=\"//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js\"></script>" +
-                         "<script src=\"//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/languages/groovy.min.js\"></script>" +
-                         "<script>" +
-                         "var hljsThemeLink = document.createElement('link');" +
-                         "hljsThemeLink.rel = 'stylesheet';" +
-                         "hljsThemeLink.href = '//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/atom-one-dark.min.css';" +
-                         "hljsThemeLink.type = 'text/css';" +
-                         "document.getElementsByTagName('head')[0].appendChild(hljsThemeLink);" +
-                         "hljs.initHighlighting();" +
-                         "</script>";
+
+    var footerIncludebuilder = new StringBuilder();
+
+    if (Model.Single.ContentAll.Contains("```"))
+    {
+        footerIncludebuilder.AppendLine("<script src=\"/lib/highlight/highlight.pack.js\"></script>");
+
+        var languages = new[] { "groovy", "csharp", "javascript", "json", "cpp", "ini", "bash", "html", "xml" };
+
+        foreach (var language in languages)
+        {
+            if (Model.Single.ContentAll.Contains($"```{language}"))
+            {
+                footerIncludebuilder.AppendLine($"<script src=\"/lib/highlight/languages/{language}.min.js\"></script>");
+            }
+        }
+
+        footerIncludebuilder.AppendLine("<script>" +
+            "var hljsThemeLink = document.createElement('link');" +
+            "hljsThemeLink.rel = 'stylesheet';" +
+            "hljsThemeLink.href = '/lib/highlight/atom-one-dark.min.css';" +
+            "hljsThemeLink.type = 'text/css';" +
+            "document.getElementsByTagName('head')[0].appendChild(hljsThemeLink);" +
+            "hljs.initHighlighting();" +
+            "</script>");
+    }
+
+    ViewData["Footer"] = footerIncludebuilder.ToString();
 }
 
 <section>
