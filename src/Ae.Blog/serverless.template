@@ -17,9 +17,9 @@
 			"Type": "String",
 			"Default": "E295SAMVLG12SQ"
 		},
-		"S3Bucket": {
+		"EdgeLambda": {
 			"Type": "String",
-			"Default": "ae-blog-static"
+			"Default": "AeBlogEdgeResponder"
 		}
 	},
 	"Resources": {
@@ -34,8 +34,8 @@
 						"CLOUDFRONT_DISTRIBUTION": {
 							"Ref": "CloudFrontDistribution"
 						},
-						"S3_BUCKET": {
-							"Ref": "S3Bucket"
+						"EDGE_LAMBDA": {
+							"Ref": "EdgeLambda"
 						},
 						"TWITTER_CONSUMER_KEY": {
 							"Ref": "TwitterConsumerKey"
@@ -113,10 +113,10 @@
 										"dynamodb:GetItem",
 										"dynamodb:PutItem",
 										"dynamodb:DeleteItem",
+										"cloudfront:GetDistributionConfig",
 										"cloudfront:CreateInvalidation",
-										"s3:PutObject",
-										"s3:DeleteObject",
-										"s3:ListBucket"
+										"cloudfront:UpdateDistribution",
+										"lambda:UpdateFunctionCode"
 									],
 									"Resource": [
 										{
@@ -125,41 +125,9 @@
 												"Arn"
 											]
 										},
-										{
-										  "Fn::Join": [
-											"", [
-													"arn:aws:cloudfront::",
-													{
-														"Ref": "AWS::AccountId"
-													},
-													":distribution/",
-													{
-														"Ref": "CloudFrontDistribution"
-													}
-												]
-											]
-										},
-										{
-										  "Fn::Join": [
-											"", [
-													"arn:aws:s3:::",
-													{
-														"Ref": "S3Bucket"
-													}
-												]
-											]
-										},
-										{
-										  "Fn::Join": [
-											"", [
-													"arn:aws:s3:::",
-													{
-														"Ref": "S3Bucket"
-													},
-													"/*"
-												]
-											]
-										}
+										{ "Fn::Sub": "arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudFrontDistribution}" },
+										{ "Fn::Sub": "arn:aws:lambda:us-east-1:${AWS::AccountId}:function:${EdgeLambda}"}
+										
 									]
 								}
 							]

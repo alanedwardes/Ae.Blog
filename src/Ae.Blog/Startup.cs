@@ -5,7 +5,6 @@ using Ae.Blog.Services;
 using Amazon;
 using Amazon.CloudFront;
 using Amazon.DynamoDBv2;
-using Amazon.S3;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -16,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Net.Http;
+using Amazon.Lambda;
 
 namespace Ae.Blog
 {
@@ -28,7 +28,7 @@ namespace Ae.Blog
             services.AddSingleton<IBlogPostRepository, BlogPostRepository>();
             services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(RegionEndpoint.EUWest1));
             services.AddSingleton<IAmazonCloudFront>(new AmazonCloudFrontClient());
-            services.AddSingleton<IAmazonS3>(new AmazonS3Client());
+            services.AddSingleton<IAmazonLambda>(new AmazonLambdaClient(RegionEndpoint.USEast1));
 
             var configuration = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
@@ -41,15 +41,11 @@ namespace Ae.Blog
             services.AddFreezer()
                     .AddSingleton<IWebsiteResourceWriter>(x =>
                     {
-                        var config = new AmazonS3WebsiteResourceWriterConfiguration
+                        return new AmazonLambdaAtEdgeResourceWriter(new AmazonLambdaAtEdgeResourceWriterConfiguration
                         {
-                            BucketName = configuration["S3_BUCKET"],
                             DistributionId = configuration["CLOUDFRONT_DISTRIBUTION"],
-                            ShouldInvalidateCloudFrontCache = true,
-                            ShouldCleanUnmatchedObjects = true
-                        };
-
-                        return new AmazonS3WebsiteResourceWriter(x.GetRequiredService<ILogger<AmazonS3WebsiteResourceWriter>>(), x.GetRequiredService<IAmazonS3>(), x.GetRequiredService<IAmazonCloudFront>(), config);
+                            LambdaName = configuration["EDGE_LAMBDA"]
+                        }, x.GetRequiredService<IAmazonLambda>(), x.GetRequiredService<IAmazonCloudFront>());
                     });
 
             services.AddSingleton<IConfiguration>(configuration);
