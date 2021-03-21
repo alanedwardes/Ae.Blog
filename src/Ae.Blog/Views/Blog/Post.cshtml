@@ -22,7 +22,7 @@
     @if (Model.IsSingle)
     {
         <script>
-            fetch("https://disqus.com/api/3.0/threads/set.json?thread:ident=@(Model.Slug)&forum=alanedwardes&api_key=ELvWAMme6ubcjwVpMPn8lnCsX3AoICLDscWogwU4jDh1ukaIZJrWFxY1hFghRqTi")
+            fetch("/api/commentcount.json?slug=@(Model.Slug)")
                 .then(data => data.json())
                 .then(data => {
                     let info = data.response[0];
