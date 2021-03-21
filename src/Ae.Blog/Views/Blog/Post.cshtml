@@ -12,11 +12,25 @@
 
     @if (Model.Updated.HasValue && (Model.Updated.Value - Model.Published > TimeSpan.FromDays(5)))
     {
-        <p class="meta">Posted @Model.Published.ToOrdinalWords(), last updated @Model.Updated.Value.ToOrdinalWords() in <a href="@Model.CategoryUrl">@Model.Category</a></p>
+        <p class="meta">Posted @Model.Published.ToOrdinalWords(), last updated @Model.Updated.Value.ToOrdinalWords() in <a href="@Model.CategoryUrl">@Model.Category</a><span id="dynamic-comment-count"></span></p>
     }
     else
     {
-        <p class="meta">Posted @Model.Published.ToOrdinalWords() in <a href="@Model.CategoryUrl">@Model.Category</a></p>
+        <p class="meta">Posted @Model.Published.ToOrdinalWords() in <a href="@Model.CategoryUrl">@Model.Category</a><span id="dynamic-comment-count"></span></p>
+    }
+
+    @if (Model.IsSingle)
+    {
+        <script>
+            fetch("https://disqus.com/api/3.0/threads/set.json?thread:ident=@(Model.Slug)&forum=alanedwardes&api_key=ELvWAMme6ubcjwVpMPn8lnCsX3AoICLDscWogwU4jDh1ukaIZJrWFxY1hFghRqTi")
+                .then(data => data.json())
+                .then(data => {
+                    let info = data.response[0];
+                    let commentsCount = info.posts;
+                    let commentsInfo = document.getElementById('dynamic-comment-count');
+                    commentsInfo.innerHTML = ' with <a href="#comments">' + commentsCount + ' ' + (commentsCount === 1 ? 'comment' : 'comments') + '</a>';
+                });
+        </script>
     }
 
     @Html.Raw(Model.GetMarkdown())
