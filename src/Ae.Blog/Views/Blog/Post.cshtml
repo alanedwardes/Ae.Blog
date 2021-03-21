@@ -25,8 +25,7 @@
             fetch("/api/commentcount.json?slug=@(Model.Slug)")
                 .then(data => data.json())
                 .then(data => {
-                    let info = data.response[0];
-                    let commentsCount = info.posts;
+                    let commentsCount = data.count;
                     let commentsInfo = document.getElementById('dynamic-comment-count');
                     commentsInfo.innerHTML = ' with <a href="#comments">' + commentsCount + ' ' + (commentsCount === 1 ? 'comment' : 'comments') + '</a>';
                 });
