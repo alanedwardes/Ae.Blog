@@ -22,7 +22,7 @@
     @if (Model.IsSingle)
     {
         <script>
-            fetch("/api/commentcount.json?slug=@(Model.Slug)")
+            fetch("https://alanedwardes.com/api/commentcount.json?slug=@(Model.Slug)")
                 .then(data => data.json())
                 .then(data => {
                     let commentsCount = data.count;
