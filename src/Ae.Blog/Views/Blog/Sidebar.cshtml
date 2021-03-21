@@ -12,9 +12,10 @@
             <a href="https://www.youtube.com/alanedwardes"><img width="24" height="24" alt="YouTube Icon" src="https://s.edward.es/6a53929e-010e-452b-99c7-da577db714de.svg" /></a>
         </p>
         <div>
+            <div id="dynamic-latest-comments"></div>
             @foreach (var month in Model.GroupBy(x => x.Published.Year.ToString()))
             {
-            <h4>Posts in @month.Key</h4>
+                <h4>Posts in @month.Key</h4>
                 <ul>
                     @foreach (var post in month)
                     {
@@ -26,3 +27,53 @@
         </div>
     </div>
 </aside>
+<script>
+    fetch("https://alanedwardes.com/api/latestcomments.json")
+        .then(data => data.json())
+        .then(data => {
+            const latestComments = document.getElementById('dynamic-latest-comments');
+
+            const heading = document.createElement('h4');
+            heading.innerText = 'Recent Comments';
+            latestComments.appendChild(heading);
+
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+            const ordinalSuffix = d => {
+                if (d > 3 && d < 21) {
+                    return 'th';
+                }
+                switch (d % 10) {
+                    case 1: return "st";
+                    case 2: return "nd";
+                    case 3: return "rd";
+                    default: return "th";
+                }
+            }
+
+            const list = document.createElement('ul');
+            for (let i = 0; i < Math.min(data.length, 5); i++) {
+                const item = document.createElement('li');
+
+                const author = document.createElement('span');
+                author.textContent = data[i].comment.author;
+
+                const space = document.createElement('span');
+                space.textContent = ' ';
+
+                const createdAt = new Date(data[i].comment.createdAt);
+
+                const date = document.createElement('a');
+                date.href = '/blog/posts/' + data[i].post.slug + '/#comment-' + data[i].comment.id;
+                date.textContent = 'on ' + createdAt.getDate() + ordinalSuffix(createdAt.getDate()) + ' of ' + monthNames[createdAt.getMonth()] + ' ' + createdAt.getFullYear();
+                
+                item.appendChild(author);
+                item.appendChild(space);
+                item.appendChild(date);
+
+                list.appendChild(item);
+            }
+
+            latestComments.appendChild(list);
+        });
+</script>
