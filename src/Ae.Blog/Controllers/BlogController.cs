@@ -46,15 +46,14 @@ namespace Ae.Blog.Controllers
 
         public async Task<IActionResult> Category(string id)
         {
-            var summariesTask = blogPostRetriever.GetPublishedPosts(CancellationToken.None);
-            var postsTask = blogPostRetriever.GetPostsForCategory(id, CancellationToken.None);
+            var posts = await blogPostRetriever.GetPublishedPosts(CancellationToken.None);
 
             return View("List", new BlogModel
             {
                 FilterValue = id,
                 FilterType = "Category",
-                Archive = await summariesTask,
-                Posts = await postsTask
+                Archive = posts,
+                Posts = posts.Where(x => x.Category == id).ToArray()
             });
         }
 
