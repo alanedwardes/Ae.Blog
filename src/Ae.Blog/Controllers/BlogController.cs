@@ -1,5 +1,8 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Ae.Blog.Extensions;
 using Ae.Blog.Models;
 using Ae.Blog.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -48,9 +51,36 @@ namespace Ae.Blog.Controllers
 
             return View("List", new BlogModel
             {
-                Category = id,
+                FilterValue = id,
+                FilterType = "Category",
                 Archive = await summariesTask,
                 Posts = await postsTask
+            });
+        }
+
+        public async Task<IActionResult> Word(string id)
+        {
+            var posts = await blogPostRetriever.GetPublishedPosts(CancellationToken.None);
+
+            var matchingPosts = new List<Post>();
+
+            foreach (var post in posts)
+            {
+                var words = new Dictionary<string, int>();
+                post.GetWordStatistics(words);
+
+                if (words.ContainsKey(id))
+                {
+                    matchingPosts.Add(post);
+                }
+            }
+
+            return View("List", new BlogModel
+            {
+                FilterValue = id,
+                FilterType = "Word",
+                Archive = posts,
+                Posts = matchingPosts
             });
         }
     }

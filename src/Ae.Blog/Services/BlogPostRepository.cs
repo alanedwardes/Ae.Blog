@@ -114,25 +114,6 @@ namespace Ae.Blog.Services
             return post;
         }
 
-        public async Task<Post[]> GetPostsForCategory(string category, CancellationToken token)
-        {
-            return await GetPostsInternal(new ScanRequest
-            {
-                TableName = TableName,
-                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
-                {
-                    {":category", new AttributeValue { S = category }},
-                    {":type", new AttributeValue { S = "published" }}
-                },
-                ExpressionAttributeNames = new Dictionary<string, string>
-                {
-                    { "#category", "Category" },
-                    { "#type", "Type" }
-                },
-                FilterExpression = "#category = :category AND #type = :type"
-            }, token);
-        }
-
         public async Task DeletePost(string slug, CancellationToken token)
         {
             await amazonDynamoDb.DeleteItemAsync(new DeleteItemRequest

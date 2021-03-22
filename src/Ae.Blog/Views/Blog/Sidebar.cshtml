@@ -1,5 +1,6 @@
 ﻿@using Humanizer
-@model Ae.Blog.Models.PostSummary[]
+@using Ae.Blog.Extensions;
+@model Ae.Blog.Models.Post[]
 <aside class="right">
     <div class="sidebar">
         <h3>About the Author</h3>
@@ -12,6 +13,27 @@
             <a href="https://www.youtube.com/alanedwardes"><img width="24" height="24" alt="YouTube Icon" src="https://s.edward.es/6a53929e-010e-452b-99c7-da577db714de.svg" /></a>
         </p>
         <div>
+            <ul class="cloud">
+                @{
+                    var wordStatistics = new Dictionary<string, int>();
+
+                    foreach (var post in Model)
+                    {
+                        post.GetWordStatistics(wordStatistics);
+                    }
+
+                    var random = new Random(wordStatistics.Count);
+
+                    var topWords = wordStatistics.OrderByDescending(x => x.Value).Take(25).OrderBy(x => random.Next(0, int.MaxValue));
+                    var totalCount = topWords.Sum(x => x.Value);
+
+                    foreach (var topWord in topWords)
+                    {
+                        var weight = (int)((topWord.Value / (double)totalCount) * 100d);
+                        <li class="@("weight" + weight)"><a href="/blog/word/@topWord.Key/">@topWord.Key</a></li>
+                    }
+                }
+            </ul>
             <div id="dynamic-latest-comments"></div>
             @foreach (var month in Model.GroupBy(x => x.Published.Year.ToString()))
             {
@@ -66,7 +88,7 @@
                 const date = document.createElement('a');
                 date.href = '/blog/posts/' + data[i].post.slug + '/#comment-' + data[i].comment.id;
                 date.textContent = 'on ' + createdAt.getDate() + ordinalSuffix(createdAt.getDate()) + ' of ' + monthNames[createdAt.getMonth()] + ' ' + createdAt.getFullYear();
-                
+
                 item.appendChild(author);
                 item.appendChild(space);
                 item.appendChild(date);

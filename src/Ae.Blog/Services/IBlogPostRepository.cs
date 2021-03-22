@@ -6,7 +6,6 @@ namespace Ae.Blog.Services
 {
     public interface IBlogPostRepository
     {
-        Task<Post[]> GetPostsForCategory(string category, CancellationToken token);
         Task<Post[]> GetPublishedPosts(CancellationToken token);
         Task<PostSummary[]> GetAllPostSummaries(CancellationToken token);
         Task<Post> GetPost(string slug, CancellationToken token);
