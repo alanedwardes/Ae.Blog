@@ -10,25 +10,28 @@
         <h2><a href="@Model.Url">@Model.Title</a></h2>
     }
 
-    @if (Model.Updated.HasValue && (Model.Updated.Value - Model.Published > TimeSpan.FromDays(5)))
-    {
-        <p class="meta">Posted @Model.Published.ToOrdinalWords(), last updated @Model.Updated.Value.ToOrdinalWords() in <a href="@Model.CategoryUrl">@Model.Category</a><span id="dynamic-comment-count"></span></p>
-    }
-    else
-    {
-        <p class="meta">Posted @Model.Published.ToOrdinalWords() in <a href="@Model.CategoryUrl">@Model.Category</a><span id="dynamic-comment-count"></span></p>
-    }
+    <p class="meta">
+
+        @if (Model.Updated.HasValue && (Model.Updated.Value - Model.Published > TimeSpan.FromDays(5)))
+        {
+            <span>Posted @Model.Published.ToOrdinalWords(), last updated @Model.Updated.Value.ToOrdinalWords() in <a href="@Model.CategoryUrl">@Model.Category</a><span id="dynamic-comment-count"></span></span>
+        }
+        else
+        {
+            <span>Posted @Model.Published.ToOrdinalWords() in <a href="@Model.CategoryUrl">@Model.Category</a><span id="dynamic-comment-count"></span></span>
+        }
+    </p>
 
     @if (Model.IsSingle)
     {
         <script>
-            fetch("https://alanedwardes.com/api/commentcount.json?slug=@(Model.Slug)")
-                .then(data => data.json())
-                .then(data => {
-                    let commentsCount = data.count;
-                    let commentsInfo = document.getElementById('dynamic-comment-count');
-                    commentsInfo.innerHTML = ' with <a href="#comments">' + commentsCount + ' ' + (commentsCount === 1 ? 'comment' : 'comments') + '</a>';
-                });
+        fetch("https://alanedwardes.com/api/commentcount.json?slug=@(Model.Slug)")
+            .then(data => data.json())
+            .then(data => {
+                let commentsCount = data.count;
+                let commentsInfo = document.getElementById('dynamic-comment-count');
+                commentsInfo.innerHTML = ' with <a href="#comments">' + commentsCount + ' ' + (commentsCount === 1 ? 'comment' : 'comments') + '</a>';
+            });
         </script>
     }
 
@@ -36,5 +39,21 @@
     @if (Model.HasSummary && !Model.IsSingle)
     {
         <p><a href="@Model.Url">Continue Reading &raquo;</a></p>
+    }
+
+    @if (Model.IsSingle)
+    {
+        var wordStatistics = new Dictionary<string, int>();
+        Model.GetWordStatistics(wordStatistics);
+        var topWords = wordStatistics.OrderByDescending(x => x.Value).Take(10);
+
+        <p class="meta">
+            <span>Tagged with </span>
+
+            @foreach (var topWord in topWords)
+            {
+                <a href="/blog/word/@topWord.Key/">@topWord.Key</a>
+            }
+        </p>
     }
 </article>
