@@ -12,7 +12,7 @@
 
 <section>
     @await Html.PartialAsync("Sidebar", Model.Archive)
-    <aside>
+    <aside class="content left">
         @if (!string.IsNullOrWhiteSpace(Model.FilterValue))
         {
             <h2>@Model.FilterType "@Model.FilterValue"</h2>
@@ -23,4 +23,5 @@
             @await Html.PartialAsync("Post", post)
         }
     </aside>
+    <div class="clear"></div>
 </section>

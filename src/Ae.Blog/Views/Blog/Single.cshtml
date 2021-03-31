@@ -35,11 +35,9 @@
 }
 
 <section>
-    @if (!Model.Single.GetMarkdown().Contains("<video")) // Hack: make this a post option
-    {
-        @await Html.PartialAsync("Sidebar", Model.Archive)
-    }
-    <script type="application/ld+json">
+    @await Html.PartialAsync("Sidebar", Model.Archive)
+    <aside class="content left">
+        <script type="application/ld+json">
         {
             "@@context": "http://schema.org",
             "@@type": "BreadcrumbList",
@@ -62,13 +60,13 @@
                 }
             ]
         }
-    </script>
-    @await Html.PartialAsync("Post", Model.Single)
-    <h2 id="comments">Comments</h2>
-    <div id="disqus_thread">
-        <p>Please <a href="#comments" onclick="fetchComments()">click here</a> to load comments.</p>
-    </div>
-    <script>
+        </script>
+        @await Html.PartialAsync("Post", Model.Single)
+        <h2 id="comments">Comments</h2>
+        <div id="disqus_thread">
+            <p>Please <a href="#comments" onclick="fetchComments()">click here</a> to load comments.</p>
+        </div>
+        <script>
         var commentsElement = document.getElementById("disqus_thread");
 
         if (document.location.hash.startsWith('#comment')) {
@@ -103,7 +101,7 @@
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
         }
-    </script>
+        </script>
+    </aside>
+    <div class="clear"></div>
 </section>
-
-<div style="clear:right"></div>

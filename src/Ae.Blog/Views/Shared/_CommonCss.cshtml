@@ -77,18 +77,31 @@ main {
 
 section {
     padding: 20px 20px;
-    max-width: 960px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
-@@media (max-width: 800px) {
-    .right, .desktoponly {
+.content {
+    max-width: 730px;
+}
+
+@@media (max-width: 1060px) {
+    .desktoponly {
         display: none;
+    }
+
+    .content {
+        float:none !important;
+        max-width:inherit !important;
     }
 }
 
 .right {
     float: right;
+}
+
+.left {
+    float: left;
 }
 
 a {
@@ -245,7 +258,6 @@ main img {
 .sidebar {
     font-size:.9em;
     line-height: 1.5em;
-    margin-left: 20px;
     max-width: 220px;
     margin-bottom: 20px;
     padding: 10px 15px;
