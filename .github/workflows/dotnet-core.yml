@@ -27,5 +27,6 @@ jobs:
       
     - name: Deploy
       run: dotnet lambda deploy-serverless --s3-bucket "ae-temp" \
+                                           --template "serverless.template" \
                                            --project-location "src/Ae.Blog" \
                                            --msbuild-parameters "/p:PublishReadyToRun=true --self-contained false"
