@@ -26,4 +26,6 @@ jobs:
       run: dotnet tool install --global Amazon.Lambda.Tools
       
     - name: Deploy
-      run: dotnet lambda deploy-serverless --s3-bucket "ae-temp" --project-location "src/Ae.Blog/Ae.Blog.csproj" --msbuild-parameters "/p:PublishReadyToRun=true --self-contained false"
+      run: dotnet lambda deploy-serverless --s3-bucket "ae-temp" \
+                                           --project-location "src/Ae.Blog" \
+                                           --msbuild-parameters "/p:PublishReadyToRun=true --self-contained false"
