@@ -52,7 +52,7 @@
 
             @foreach (var topWord in topWords)
             {
-                <a href="@Url.Action("Word", "Blog", new { id = topWord.Key }).ToLower()">@topWord.Key</a>
+                <a href="/blog/word/@Uri.EscapeDataString(topWord.Key)/">@topWord.Key</a>
             }
         </p>
     }

@@ -30,7 +30,7 @@
                     foreach (var topWord in topWords)
                     {
                         var weight = (int)((topWord.Value / (double)totalCount) * 100d);
-                        <li class="@("weight" + weight)"><a href="@Url.Action("Word", "Blog", new { id = topWord.Key }).ToLower()">@topWord.Key</a></li>
+                        <li class="@("weight" + weight)"><a href="/blog/word/@Uri.EscapeDataString(topWord.Key)/">@topWord.Key</a></li>
                     }
                 }
             </ul>
