@@ -23,20 +23,6 @@
         <span> in <a href="@Model.CategoryUrl">@Model.Category</a></span>
 
         <span id="dynamic-comment-count"></span>
-
-        @if (Model.IsSingle)
-        {
-            var wordStatistics = new Dictionary<string, int>();
-            Model.GetWordStatistics(wordStatistics);
-            var topWords = wordStatistics.OrderByDescending(x => x.Value).Take(10);
-
-            <span><br/>Tagged </span>
-
-            @foreach (var topWord in topWords)
-            {
-                <a href="/blog/word/@Uri.EscapeDataString(topWord.Key)/">@topWord.Key</a>
-            }
-        }
     </p>
 
         @if (Model.IsSingle)
@@ -56,5 +42,21 @@
         @if (Model.HasSummary && !Model.IsSingle)
         {
             <p><a href="@Model.Url">Continue Reading &raquo;</a></p>
+        }
+
+        @if (Model.IsSingle)
+        {
+            var wordStatistics = new Dictionary<string, int>();
+            Model.GetWordStatistics(wordStatistics);
+            var topWords = wordStatistics.OrderByDescending(x => x.Value).Take(10);
+
+            <p class="meta">
+                <span>Tagged </span>
+
+                @foreach (var topWord in topWords)
+                {
+                    <a href="/blog/word/@Uri.EscapeDataString(topWord.Key)/">@topWord.Key</a>
+                }
+            </p>
         }
     </article>

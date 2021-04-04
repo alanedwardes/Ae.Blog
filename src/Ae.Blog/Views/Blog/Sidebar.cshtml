@@ -3,16 +3,8 @@
 @model Ae.Blog.Models.Post[]
 <aside class="right desktoponly">
     <div class="sidebar callout">
-        <h3>About the Author</h3>
-        <p>Alan is a hobbyist <a href="https://iamestranged.com/">Game Developer</a> and a Software Engineer with @(Math.Floor((DateTime.UtcNow - DateTime.Parse("July 2012")).TotalDays / 365) - 1) years of industry experience.</p>
-        <p class="icons">
-            <a href="https://www.linkedin.com/in/alanedwardes"><img width="24" height="24" alt="LinkedIn Icon" src="https://s.edward.es/1f679431-d2ed-4a7c-8625-76a4d6955a09.svg" /></a>
-            <a href="https://twitter.com/AlanEdwardes"><img width="24" height="24" alt="Twitter Icon" src="https://s.edward.es/1213a6ca-04eb-4a85-8e01-a06a4363398f.svg" /></a>
-            <a href="https://steamcommunity.com/id/alanedwardes"><img width="24" height="24" alt="Steam Icon" src="https://s.edward.es/15619271-77c6-47de-ad33-c0c76fc06a1f.svg" /></a>
-            <a href="https://github.com/alanedwardes/"><img width="24" height="24" alt="GitHub Icon" src="https://s.edward.es/1b9402ba-6ab3-4560-9dfd-f4a2d0704b06.svg" /></a>
-            <a href="https://www.youtube.com/alanedwardes"><img width="24" height="24" alt="YouTube Icon" src="https://s.edward.es/6a53929e-010e-452b-99c7-da577db714de.svg" /></a>
-        </p>
         <div>
+            <h3>Most Used Tags</h3>
             <ul class="cloud">
                 @{
                     var wordStatistics = new Dictionary<string, int>();
@@ -37,7 +29,7 @@
             <div id="dynamic-latest-comments"></div>
             @foreach (var month in Model.GroupBy(x => x.Published.Year.ToString()))
             {
-                <h4>Posts in @month.Key</h4>
+                <h3>Posts in @month.Key</h3>
                 <ul>
                     @foreach (var post in month)
                     {
@@ -55,7 +47,7 @@
         .then(data => {
             const latestComments = document.getElementById('dynamic-latest-comments');
 
-            const heading = document.createElement('h4');
+            const heading = document.createElement('h3');
             heading.innerText = 'Recent Comments';
             latestComments.appendChild(heading);
 
