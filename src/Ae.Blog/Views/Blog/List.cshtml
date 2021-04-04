@@ -16,7 +16,7 @@
         @if (!string.IsNullOrWhiteSpace(Model.FilterValue))
         {
             <h2>@Model.FilterType "@Model.FilterValue"</h2>
-            <p>Viewing subset of posts matching the @Model.FilterType.ToLower() "@Model.FilterValue".</p>
+            <p class="meta">Viewing subset of posts matching the @Model.FilterType.ToLower() "@Model.FilterValue".</p>
         }
         @foreach (var post in Model.Posts)
         {
