@@ -19,14 +19,14 @@ namespace Ae.Blog.Extensions
 
             renderer.Write("<div class=\"slideshow\">");
 
-            renderer.Write($"<a class=\"current slide\" href=\"{CDN_URI}/{firstImage}.webp\">");
+            renderer.Write($"<a class=\"current slide\" target=\"_new\" href=\"{CDN_URI}/{firstImage}.webp\">");
             renderer.Write($"<img src=\"{CDN_URI}/{firstImage}-large.webp\"/>");
             renderer.Write($"</a>");
 
             renderer.Write("<div class=\"slides\">");
             foreach (var image in slideshow.Images)
             {
-                renderer.Write($"<a class=\"slide preview\" onclick=\"showSlide(this);return false;\" " +
+                renderer.Write($"<a class=\"slide preview\" target=\"_new\" onclick=\"showSlide(this);return false;\" " +
                                $"href=\"{CDN_URI}/{image}.webp\" " +
                                $"data-image-small=\"{CDN_URI}/{image}-small.webp\" " +
                                $"data-image-large=\"{CDN_URI}/{image}-large.webp\" " +
