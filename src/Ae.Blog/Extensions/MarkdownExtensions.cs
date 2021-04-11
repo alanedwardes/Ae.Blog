@@ -4,6 +4,7 @@ using Markdig.Extensions.MediaLinks;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Renderers.Html.Inlines;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -16,7 +17,8 @@ namespace Ae.Blog.Extensions
                 .UseEmphasisExtras()
                 .UseAutoIdentifiers()
                 .UsePipeTables()
-                .UseMediaLinks(new MediaOptions{Width = "960",Height = "540"})
+                .Use<SlideshowMarkdownExtension>()
+                .UseMediaLinks(new MediaOptions{Width = "960", Height = "540"})
                 .Build();
 
         public sealed class TextOnlyRendererer : IMarkdownExtension

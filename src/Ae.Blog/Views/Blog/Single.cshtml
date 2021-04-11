@@ -34,6 +34,23 @@
     ViewData["Footer"] = footerIncludebuilder.ToString();
 }
 
+<script>
+    function showSlide(element) {
+        let largeImage = element.getAttribute('data-image-large');
+        let smallImage = element.getAttribute('data-image-small');
+        let originalImage = element.getAttribute('data-image-original');
+
+        let slides = element.parentElement;
+        let slideshow = slides.parentElement;
+
+        let slideLink = slideshow.querySelector('.current.slide');
+        let slideImage = slideLink.querySelector('img');
+
+        slideLink.href = originalImage;
+        slideImage.src = largeImage;
+    }
+</script>
+
 <section>
     <script type="application/ld+json">
     {
