@@ -20,7 +20,7 @@ namespace Ae.Blog.Extensions
             renderer.Write("<div class=\"slideshow\">");
 
             renderer.Write($"<a class=\"current slide\" target=\"_new\" href=\"{CDN_URI}/{firstImage}.webp\">");
-            renderer.Write($"<img src=\"{CDN_URI}/{firstImage}-large.webp\"/>");
+            renderer.Write($"<img onload=\"this.parentElement.classList.remove('loading')\" src=\"{CDN_URI}/{firstImage}-large.webp\"/>");
             renderer.Write($"</a>");
 
             renderer.Write("<div class=\"slides\">");

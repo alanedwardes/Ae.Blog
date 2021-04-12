@@ -47,6 +47,7 @@
         let slideImage = slideLink.querySelector('img');
 
         slideLink.href = originalImage;
+        slideLink.classList.add('loading');
         slideImage.src = largeImage;
     }
 </script>
