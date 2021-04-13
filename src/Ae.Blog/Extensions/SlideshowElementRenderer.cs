@@ -6,7 +6,7 @@ namespace Ae.Blog.Extensions
 {
     public class SlideshowElementRenderer : HtmlObjectRenderer<SlideshowElement>
     {
-        private readonly string CDN_URI = "http://s.edward.es";
+        private readonly string CDN_URI = "https://s.edward.es";
 
         protected override void Write(HtmlRenderer renderer, SlideshowElement slideshow)
         {
