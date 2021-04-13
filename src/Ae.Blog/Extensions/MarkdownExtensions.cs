@@ -121,7 +121,7 @@ namespace Ae.Blog.Extensions
                 "open", "references", "reference", "being", "always", "break", "make", "applicable", "img", "width", "height", "src", "mimicked", "prefer", "lives", "benefits",
                 "provides", "number", "numbers", "share", "safe", "predictable", "includes", "founders", "towards", "starts", "showcasing", "technique", "received", "information", "contact",
                 "visually", "difficult", "distinguish", "increase", "noticed", "control", "miscellaneous", "service", "services", "opt", "handling", "killing", "yields", "similar", "another",
-                "request", "requests", "response", "responses", "i'll", "away", "defines", "contents"
+                "request", "requests", "response", "responses", "i'll", "away", "defines", "contents", "mirror's", "edge", "standard", "normal"
             };
 
             var remappedWords = new Dictionary<string, string>
@@ -156,7 +156,9 @@ namespace Ae.Blog.Extensions
                 { "builds", "build" },
                 { "c#", "c♯" },
                 { "bytes", "byte" },
-                { "spec", "specification" }
+                { "spec", "specification" },
+                { "maps", "map" },
+                { "setpieces", "setpiece" }
             };
 
             var permittedPunctuation = new[] { '\'', '+', '@', '#', '♯', '-' };

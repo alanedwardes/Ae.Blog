@@ -10,6 +10,8 @@
     }
 }
 
+@await Html.PartialAsync("BlogCommon")
+
 <section>
     @await Html.PartialAsync("Sidebar", Model.Archive)
     <aside class="content left">
