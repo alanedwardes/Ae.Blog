@@ -136,7 +136,7 @@ namespace Ae.Blog.Controllers
                     CallerReference = $"Flush from aeblog {DateTimeOffset.UtcNow}",
                     Paths = new Paths
                     {
-                        Items = new List<string> { "*" },
+                        Items = new List<string> { "/*" },
                         Quantity = 1
                     }
                 }
