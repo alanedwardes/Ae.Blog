@@ -35,7 +35,11 @@
         <p>&nbsp;</p>
     }
 
+    <form method="post" action="/admin/publish/" onsubmit="return confirm('Are you sure you want to publish the website?');">
+        <button type="submit">Publish Website</button>
+    </form>
+
     <form method="post" action="/admin/flush/" onsubmit="return confirm('Are you sure you want to flush the cache?');">
-        <button type="submit">Flush</button>
+        <button type="submit">Flush Cache</button>
     </form>
 </section>

@@ -10,6 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Amazon.CloudFront;
+using Amazon.CloudFront.Model;
+using System.Collections.Generic;
 
 namespace Ae.Blog.Controllers
 {
@@ -17,11 +20,13 @@ namespace Ae.Blog.Controllers
     public class AdminController : Controller
     {
         private readonly IBlogPostRepository blogPostRetriever;
+        private readonly IAmazonCloudFront cloudFrontClient;
         private readonly IFreezer freezer;
 
-        public AdminController(IBlogPostRepository blogPostRetriever, IFreezer freezer)
+        public AdminController(IBlogPostRepository blogPostRetriever, IFreezer freezer, IAmazonCloudFront cloudFrontClient)
         {
             this.blogPostRetriever = blogPostRetriever;
+            this.cloudFrontClient = cloudFrontClient;
             this.freezer = freezer;
         }
 
@@ -106,7 +111,7 @@ namespace Ae.Blog.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Flush()
+        public async Task<IActionResult> Publish()
         {
             var freezerConfiguration = new FreezerConfiguration
             {
@@ -115,8 +120,29 @@ namespace Ae.Blog.Controllers
             };
             freezerConfiguration.AdditionalResources.Add(new Uri("sitemap.xml", UriKind.Relative));
             freezerConfiguration.AdditionalResources.Add(new Uri("lib/highlight/atom-one-dark.min.css", UriKind.Relative));
-        
+
             await freezer.Freeze(freezerConfiguration, CancellationToken.None);
+            return Redirect(Url.Action(nameof(Index)));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Flush()
+        {
+            var request = new CreateInvalidationRequest
+            {
+                DistributionId = Environment.GetEnvironmentVariable("CLOUDFRONT_DISTRIBUTION"),
+                InvalidationBatch = new InvalidationBatch
+                {
+                    CallerReference = $"Flush from aeblog {DateTimeOffset.UtcNow}",
+                    Paths = new Paths
+                    {
+                        Items = new List<string> { "*" },
+                        Quantity = 1
+                    }
+                }
+            };
+
+            await cloudFrontClient.CreateInvalidationAsync(request);
             return Redirect(Url.Action(nameof(Index)));
         }
     }
