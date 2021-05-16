@@ -71,8 +71,8 @@ namespace Ae.Blog.Extensions
         {
             foreach (Group group in IMAGE_URI_REGEX.Matches(post.GetMarkdown()).Select(x => x.Groups["uri"]))
             {
-                if (new[] { ".png", ".jpg", "jpeg", "webp", ".gif" }.Contains(group.Value[..4].ToLower()) &&
-                    Uri.TryCreate(group.Value, UriKind.RelativeOrAbsolute, out Uri uri))
+                if (new[] { ".png", ".jpg", ".jpeg", ".webp", ".gif" }.Any(group.Value.EndsWith) &&
+                    Uri.TryCreate(group.Value, UriKind.Absolute, out Uri uri))
                 {
                     return uri;
                 }
