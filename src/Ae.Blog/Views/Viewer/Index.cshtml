@@ -29,9 +29,16 @@
             let viewer = document.createElement('model-viewer');
             const urlParams = new URLSearchParams(window.location.search);
 
-            viewer.setAttribute('src', 'https://s.edward.es/' + urlParams.get('model'));
+            const cdn = 'https://s.edward.es/';
+
+            viewer.setAttribute('src', cdn + urlParams.get('model'));
             viewer.setAttribute('camera-controls', 'camera-controls');
             viewer.setAttribute('auto-rotate', 'auto-rotate');
+
+            if (urlParams.get('skybox')) {
+                viewer.setAttribute('skybox-image', cdn + urlParams.get('skybox'));
+            }
+
             document.body.appendChild(viewer);
         }
     </script>
