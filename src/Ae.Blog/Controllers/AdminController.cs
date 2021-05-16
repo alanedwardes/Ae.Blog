@@ -121,6 +121,7 @@ namespace Ae.Blog.Controllers
             freezerConfiguration.AdditionalResources.Add(new Uri("sitemap.xml", UriKind.Relative));
             freezerConfiguration.AdditionalResources.Add(new Uri("lib/highlight/atom-one-dark.min.css", UriKind.Relative));
             freezerConfiguration.AdditionalResources.Add(new Uri("viewer/", UriKind.Relative));
+            freezerConfiguration.AdditionalResources.Add(new Uri("lib/model-viewer/model-viewer.min.js", UriKind.Relative));
 
             await freezer.Freeze(freezerConfiguration, CancellationToken.None);
             return Redirect(Url.Action(nameof(Index)));
