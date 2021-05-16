@@ -35,6 +35,10 @@
             viewer.setAttribute('camera-controls', 'camera-controls');
             viewer.setAttribute('auto-rotate', 'auto-rotate');
 
+            if (urlParams.get('exposure')) {
+                viewer.setAttribute('exposure', urlParams.get('exposure'));
+            }
+
             if (urlParams.get('skybox')) {
                 viewer.setAttribute('skybox-image', cdn + urlParams.get('skybox'));
             }
