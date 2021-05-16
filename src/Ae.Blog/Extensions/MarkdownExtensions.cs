@@ -65,6 +65,22 @@ namespace Ae.Blog.Extensions
             return Markdown.ToPlainText(post.ContentFirstLine, markdownPipeline).Trim();
         }
 
+        private static readonly Regex IMAGE_URI_REGEX = new Regex("(poster|src)=\"(?<uri>.+?)\"");
+
+        public static Uri GetFirstImage(this Post post)
+        {
+            foreach (Group group in IMAGE_URI_REGEX.Matches(post.GetMarkdown()).Select(x => x.Groups["uri"]))
+            {
+                if (new[] { ".png", ".jpg", "jpeg", ".webp", ".gif" }.Contains(group.Value[..4].ToLower()) &&
+                    Uri.TryCreate(group.Value, UriKind.RelativeOrAbsolute, out Uri uri))
+                {
+                    return uri;
+                }
+            }
+
+            return null;
+        }
+
         public static void GetWordStatistics(this Post post, IDictionary<string, int> container)
         {
             var plainText = Markdown.ToPlainText(post.ContentAll, new MarkdownPipelineBuilder().Use<TextOnlyRendererer>().Build());
