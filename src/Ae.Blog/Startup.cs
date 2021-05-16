@@ -82,7 +82,7 @@ namespace Ae.Blog
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            app.UseExceptionHandler("/error");
+            app.UseDeveloperExceptionPage();
 
             loggerFactory.AddLambdaLogger();
 
