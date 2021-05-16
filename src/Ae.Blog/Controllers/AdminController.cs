@@ -115,7 +115,7 @@ namespace Ae.Blog.Controllers
         {
             var freezerConfiguration = new FreezerConfiguration
             {
-                BaseAddress = new Uri("https://uncached.alanedwardes.com"),
+                HttpClientName = "FREEZER_CLIENT",
                 ResourceWriter = x => x.GetRequiredService<IWebsiteResourceWriter>()
             };
             freezerConfiguration.AdditionalResources.Add(new Uri("sitemap.xml", UriKind.Relative));

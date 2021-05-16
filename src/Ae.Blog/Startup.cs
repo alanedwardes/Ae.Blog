@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Net.Http;
 using Amazon.Lambda;
+using System;
 
 namespace Ae.Blog
 {
@@ -37,6 +38,12 @@ namespace Ae.Blog
                 .Build();
 
             services.AddHttpClient();
+
+            services.AddHttpClient("FREEZER_CLIENT", x =>
+            {
+                x.BaseAddress = new Uri("https://uncached.alanedwardes.com");
+                x.DefaultRequestHeaders.Add("Freezing", "1");
+            });
 
             services.AddFreezer()
                     .AddSingleton<IWebsiteResourceWriter>(x =>
