@@ -1,5 +1,4 @@
 ﻿@{
-    @model Uri
     Layout = null;
 }
 
@@ -25,8 +24,16 @@
             --poster-color: transparent;
         }
     </style>
+    <script>
+        function init() {
+            let viewer = document.createElement('model-viewer');
+            const urlParams = new URLSearchParams(window.location.search);
+
+            viewer.setAttribute('src', 'https://s.edward.es/' + urlParams.get('model'));
+            viewer.setAttribute('camera-controls', 'camera-controls');
+            document.body.appendChild(viewer);
+        }
+    </script>
 </head>
-<body>
-    <model-viewer src="@Model" camera-controls></model-viewer>
-</body>
+<body onload="init()"></body>
 </html>
