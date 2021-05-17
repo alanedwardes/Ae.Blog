@@ -174,7 +174,11 @@ namespace Ae.Blog.Extensions
                 { "bytes", "byte" },
                 { "spec", "specification" },
                 { "maps", "map" },
-                { "setpieces", "setpiece" }
+                { "setpieces", "setpiece" },
+                { "models", "model" },
+                { "meshes", "mesh" },
+                { "textures", "texture" },
+                { "triangles", "triangle" }
             };
 
             var permittedPunctuation = new[] { '\'', '+', '@', '#', '♯', '-' };
