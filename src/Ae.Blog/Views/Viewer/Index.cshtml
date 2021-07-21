@@ -29,7 +29,7 @@
             let viewer = document.createElement('model-viewer');
             const urlParams = new URLSearchParams(window.location.search);
 
-            const cdn = 'https://s.edward.es/';
+            const cdn = '@(Ae.Blog.Constants.CDN_ROOT)';
 
             viewer.setAttribute('src', cdn + urlParams.get('model'));
             viewer.setAttribute('camera-controls', 'camera-controls');

@@ -6,7 +6,11 @@ namespace Ae.Blog.Models
     {
         private const string MoreMarker = "---";
 
-        public string Content { get; set; }
+        public string ContentRaw { set => _contentRaw = value; }
+        private string _contentRaw;
+
+        public string Content => _contentRaw.Replace("https://s.edward.es/", Constants.CDN_ROOT.ToString())
+                                            .Replace("$CDN_DOMAIN$", Constants.CDN_ROOT.ToString());
         public bool HasSummary => Content.Contains(MoreMarker);
         public string ContentAll => Content.Replace(MoreMarker, string.Empty);
         public string ContentSummary => Content.Split(MoreMarker)[0];

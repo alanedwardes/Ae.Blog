@@ -108,7 +108,7 @@ namespace Ae.Blog.Services
 
             if (item.ContainsKey("Content"))
             {
-                post.Content = item["Content"].S;
+                post.ContentRaw = item["Content"].S;
             }
 
             return post;

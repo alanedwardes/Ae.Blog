@@ -54,7 +54,7 @@ namespace Ae.Blog.Controllers
         {
             var post = new Post
             {
-                Content = model.Content,
+                ContentRaw = model.Content,
                 Type = model.IsPublished ? "published" : "draft",
                 Title = model.Title,
                 Category = model.Category,
@@ -78,7 +78,7 @@ namespace Ae.Blog.Controllers
         {
             var post = await blogPostRetriever.GetPost(id, CancellationToken.None);
 
-            post.Content = model.Content;
+            post.ContentRaw = model.Content;
             post.Category = model.Category;
             post.Updated = model.IsPublished ? DateTime.UtcNow : (DateTime?)null;
             post.Type = model.IsPublished ? "published" : "draft";
