@@ -178,7 +178,8 @@ namespace Ae.Blog.Extensions
                 { "models", "model" },
                 { "meshes", "mesh" },
                 { "textures", "texture" },
-                { "triangles", "triangle" }
+                { "triangles", "triangle" },
+                { "certificates", "certificate" }
             };
 
             var permittedPunctuation = new[] { '\'', '+', '@', '#', '♯', '-' };
