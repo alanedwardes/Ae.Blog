@@ -17,6 +17,7 @@ using System.IO;
 using System.Net.Http;
 using Amazon.Lambda;
 using System;
+using Amazon.IdentityManagement;
 
 namespace Ae.Blog
 {
@@ -29,6 +30,7 @@ namespace Ae.Blog
             services.AddSingleton<IBlogPostRepository, BlogPostRepository>();
             services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(RegionEndpoint.EUWest1));
             services.AddSingleton<IAmazonCloudFront>(new AmazonCloudFrontClient());
+            services.AddSingleton<IAmazonIdentityManagementService>(new AmazonIdentityManagementServiceClient());
             services.AddSingleton<IAmazonLambda>(new AmazonLambdaClient(RegionEndpoint.USEast1));
 
             var configuration = new ConfigurationBuilder()
@@ -48,11 +50,11 @@ namespace Ae.Blog
             services.AddFreezer()
                     .AddSingleton<IWebsiteResourceWriter>(x =>
                     {
-                        return new AmazonLambdaAtEdgeResourceWriter(new AmazonLambdaAtEdgeResourceWriterConfiguration
+                        return new AmazonLambdaAtEdgeResourceWriter(x.GetRequiredService<ILogger<AmazonLambdaAtEdgeResourceWriter>>(), new AmazonLambdaAtEdgeResourceWriterConfiguration
                         {
                             DistributionId = configuration["CLOUDFRONT_DISTRIBUTION"],
                             LambdaName = configuration["EDGE_LAMBDA"]
-                        }, x.GetRequiredService<IAmazonLambda>(), x.GetRequiredService<IAmazonCloudFront>());
+                        }, x.GetRequiredService<IAmazonLambda>(), x.GetRequiredService<IAmazonCloudFront>(), x.GetRequiredService<IAmazonIdentityManagementService>());
                     });
 
             services.AddSingleton<IConfiguration>(configuration);
