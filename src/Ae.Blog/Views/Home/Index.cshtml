@@ -1,8 +1,12 @@
-﻿<video class="desktoponly" autoplay loop muted playsinline src="@(Ae.Blog.Constants.CDN_ROOT)74596be7-607a-4413-bfc3-214cc79ba982.webm" poster="@(Ae.Blog.Constants.CDN_ROOT)2f6e0e35-ab38-420f-8e3c-89e6d2defc9c.webp"></video>
+﻿@model IEnumerable<Ae.Blog.Models.Post>
+
+<video class="desktoponly" autoplay loop muted playsinline src="@(Ae.Blog.Constants.CDN_ROOT)74596be7-607a-4413-bfc3-214cc79ba982.webm" poster="@(Ae.Blog.Constants.CDN_ROOT)2f6e0e35-ab38-420f-8e3c-89e6d2defc9c.webp"></video>
 
 <section class="home">
     <h2>Hello!</h2>
     <p>Welcome to my portfolio. I'm a Software Engineer that loves to develop immersive singleplayer game experiences.</p>
     <p>I'm currently based in the <a href="https://en.wikipedia.org/wiki/Sheffield">North of England</a>, working at <a href="https://www.autodesk.com/">Autodesk</a>. I created a game series called <a href="https://store.steampowered.com/franchise/Estranged-Franchise">Estranged</a> using Unreal Engine 4 and the Source Engine.</p>
     <p>Take a look at some of my <a href="/projects/">work</a>, visit my <a href="/blog/">blog</a>, or get in <a href="/contact/">touch</a>.</p>
+
+    @await Html.PartialAsync("Featured", Model)
 </section>

@@ -1,10 +1,10 @@
 ﻿@using Ae.Blog.Extensions;
 @model IEnumerable<Ae.Blog.Models.Post>
-<div class="featured">
+<div class="featured desktoponly">
     @foreach (var post in Model)
     {
         <div class="post" onclick="window.location.href = @('"' + post.Url + '"')" style="background-image:url(@post.GetFirstImage())">
-            <a href="@post.Url">@post.Title</a>
+            Featured: <a href="@post.Url">@post.Title</a>
         </div>
     }
     <div style="clear:both"></div>

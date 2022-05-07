@@ -17,7 +17,7 @@
     <aside class="content left">
         @if (string.IsNullOrWhiteSpace(Model.FilterValue))
         {
-            @await Html.PartialAsync("Featured", Model.Posts.Where(x => x.Type == "featured"))
+            @await Html.PartialAsync("Featured", Model.Posts.Where(x => x.IsFeatured))
         }
         else
         {
