@@ -75,13 +75,13 @@ namespace Ae.Blog.Services
                 TableName = TableName,
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue>
                 {
-                    {":type", new AttributeValue { S = "published" }}
+                    {":type", new AttributeValue { S = "draft" }}
                 },
                 ExpressionAttributeNames = new Dictionary<string, string>
                 {
                     { "#type", "Type" }
                 },
-                FilterExpression = "#type = :type"
+                FilterExpression = "#type <> :type"
             }, token);
         }
 
