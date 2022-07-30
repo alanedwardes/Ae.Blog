@@ -56,7 +56,7 @@
 				"Role": {
 					"Fn::Sub": "${ProxyFunctionRole.Arn}"
 				},
-				"Runtime": "dotnetcore3.1",
+				"Runtime": "dotnet6",
 				"Timeout": 30
 			},
 			"Type": "AWS::Lambda::Function"
