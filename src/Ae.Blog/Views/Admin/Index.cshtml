@@ -35,6 +35,9 @@
         <p>&nbsp;</p>
     }
 
+    <h3>Site Publish</h3>
+    <p>Status: @Model.Distribution.Distribution.Status, @Model.Distribution.Distribution.InProgressInvalidationBatches invalidations</p>
+
     <form method="post" action="/admin/publish/" onsubmit="return confirm('Are you sure you want to publish the website?');">
         <button type="submit">Publish Website</button>
     </form>

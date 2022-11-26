@@ -21,20 +21,27 @@ namespace Ae.Blog.Controllers
     {
         private readonly IBlogPostRepository blogPostRetriever;
         private readonly IAmazonCloudFront cloudFrontClient;
+        private readonly IConfiguration configuration;
         private readonly IFreezer freezer;
 
-        public AdminController(IBlogPostRepository blogPostRetriever, IFreezer freezer, IAmazonCloudFront cloudFrontClient)
+        public AdminController(IBlogPostRepository blogPostRetriever, IFreezer freezer, IAmazonCloudFront cloudFrontClient, IConfiguration configuration)
         {
             this.blogPostRetriever = blogPostRetriever;
             this.cloudFrontClient = cloudFrontClient;
+            this.configuration = configuration;
             this.freezer = freezer;
         }
 
         public async Task<IActionResult> Index()
         {
-            var summaries = await blogPostRetriever.GetAllPostSummaries(CancellationToken.None);
+            var distributionTask = cloudFrontClient.GetDistributionAsync(new GetDistributionRequest
+            {
+                Id = configuration["CLOUDFRONT_DISTRIBUTION"]
+            }, CancellationToken.None);
 
-            return View(new AdminModel{Posts = summaries});
+            var summaries = blogPostRetriever.GetAllPostSummaries(CancellationToken.None);
+
+            return View(new AdminModel{Posts = await summaries, Distribution = await distributionTask});
         }
 
         [AllowAnonymous]
@@ -132,7 +139,7 @@ namespace Ae.Blog.Controllers
         {
             var request = new CreateInvalidationRequest
             {
-                DistributionId = Environment.GetEnvironmentVariable("CLOUDFRONT_DISTRIBUTION"),
+                DistributionId = configuration["CLOUDFRONT_DISTRIBUTION"],
                 InvalidationBatch = new InvalidationBatch
                 {
                     CallerReference = $"Flush from aeblog {DateTimeOffset.UtcNow}",

@@ -39,6 +39,8 @@ namespace Ae.Blog
                 .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "config.secret.json"), true)
                 .Build();
 
+            services.AddSingleton<IConfiguration>(configuration);
+
             services.AddHttpClient();
 
             services.AddHttpClient("FREEZER_CLIENT", x =>
