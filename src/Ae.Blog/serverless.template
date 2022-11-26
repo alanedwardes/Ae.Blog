@@ -116,6 +116,7 @@
 										"cloudfront:GetDistributionConfig",
 										"cloudfront:CreateInvalidation",
 										"cloudfront:UpdateDistribution",
+										"cloudfront:GetDistribution",
 										"lambda:UpdateFunctionCode"
 									],
 									"Resource": [
