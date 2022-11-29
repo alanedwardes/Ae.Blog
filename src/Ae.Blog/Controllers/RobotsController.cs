@@ -12,7 +12,7 @@ namespace Ae.Blog.Controllers
 
             return new ContentResult
             {
-                Content = $"User-agent: *\n{permission}: /\nSitemap: /sitemap.xml",
+                Content = $"User-agent: *\n{permission}: /\nDisallow: /blog/category/\nDisallow: /blog/word/\nSitemap: /sitemap.xml",
                 ContentType = "text/plain"
             };
         }
