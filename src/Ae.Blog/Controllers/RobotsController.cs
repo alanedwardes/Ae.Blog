@@ -12,7 +12,14 @@ namespace Ae.Blog.Controllers
 
             return new ContentResult
             {
-                Content = $"User-agent: *\n{permission}: /\nDisallow: /blog/category/\nDisallow: /blog/word/\nSitemap: /sitemap.xml",
+                Content = string.Join("\n", new []
+                {
+                    "User-agent: *",
+                    $"{permission}: /",
+                    "Disallow: /blog/category/",
+                    "Disallow: /blog/word/",
+                    "Sitemap: /sitemap.xml"
+                }),
                 ContentType = "text/plain"
             };
         }
