@@ -63,11 +63,6 @@ namespace Ae.Blog.Controllers
                 categories.Add(post.Category);
             }
 
-            foreach (var category in categories)
-            {
-                urlSet.AppendChild(CreateUrl(document, $"{baseUrl}/blog/category/{category}/", "daily", "0.4"));
-            }
-
             var ms = new MemoryStream();
             document.Save(ms);
             ms.Seek(0, SeekOrigin.Begin);
