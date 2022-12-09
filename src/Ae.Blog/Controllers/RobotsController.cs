@@ -18,7 +18,7 @@ namespace Ae.Blog.Controllers
                     $"{permission}: /",
                     "Disallow: /blog/category/",
                     "Disallow: /blog/word/",
-                    "Sitemap: /sitemap.xml"
+                    "Sitemap: https://alanedwardes.com/sitemap.xml"
                 }),
                 ContentType = "text/plain"
             };
