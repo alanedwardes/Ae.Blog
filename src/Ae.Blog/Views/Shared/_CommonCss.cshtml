@@ -1,19 +1,37 @@
 ﻿@using Microsoft.Extensions.DependencyInjection
 @using Ae.Blog.Services;
-@{ 
+@using SixLabors.ImageSharp
+@using SixLabors.ImageSharp.PixelFormats
+@using System.Numerics
+@using SixLabors.ImageSharp.Processing
+@{
     var colourRepository = Context.RequestServices.GetRequiredService<IColourRepository>();
     var highlightColour = colourRepository.GetHighlightColour();
+    var lighterHighlightImage = new Image<Rgba32>(1, 1);
+    lighterHighlightImage[0, 0] = new Rgba32((Vector4)highlightColour);
+    lighterHighlightImage.Mutate(x => x.Lightness(1.1f));
+
+    var darkerHighlightImage = new Image<Rgba32>(1, 1);
+    darkerHighlightImage[0, 0] = new Rgba32((Vector4)highlightColour);
+    darkerHighlightImage.Mutate(x => x.Lightness(0.9f));
+    
+
     var highlightColourHex = '#' + highlightColour.ToHex();
-    var lighterHighlightColourHex = '#' + highlightColour.WithAlpha(.5f).ToHex();
+    var lighterHighlightColourHex = '#' + lighterHighlightImage[0, 0].ToHex();
+    var darkerHighlightColourHex = '#' + darkerHighlightImage[0, 0].ToHex();
 }
 body {
     margin: 0;
     padding: 0;
     height: 100%;
     line-height: 1.5em;
-    background: #111;
+    background: linear-gradient(90deg, @darkerHighlightColourHex 0%, @highlightColourHex 50%, @darkerHighlightColourHex 100%);
+    background: @darkerHighlightColourHex;
     height: 100%;
     overflow-y: scroll;
+    text-shadow: 0px 0px 7.5px black;
+    font-size: 1.2em;
+    font-family: "Georgia", sans-serif;
 }
 
 hr {
@@ -21,11 +39,6 @@ hr {
     background-color: @highlightColourHex;
     height: 2px;
     border: 0;
-}
-
-body {
-    font-size: 1.2em;
-    font-family: "Georgia", sans-serif;
 }
 
 textarea, button, input {
@@ -163,10 +176,7 @@ article h3 {
 }
 
 header {
-    border-bottom: 5px solid @highlightColourHex;
-    color: #aaa;
     font-size:1.1em;
-    background: white;
 }
 
     header .left {
@@ -175,18 +185,6 @@ header {
 
     header h1, header p {
         margin: 0
-    }
-
-    header section h1 a {
-        color: #444;
-    }
-
-    header section a {
-        color: #777;
-    }
-
-    header ul a {
-        color: #555;
     }
 
     header ul {
@@ -202,7 +200,7 @@ header {
         float: left;
     }
 
-    header a, header a:hover {
+    header a {
         border: 0;
     }
 
@@ -211,11 +209,11 @@ header {
     }
 
 footer {
-    background: #111;
+
 }
 
     footer, footer a {
-        color: #aaa;
+        color: white;
     }
 
         footer p {
@@ -229,6 +227,15 @@ footer {
 .home {
     font-size: 1.25em;
     line-height: 1.75em;
+}
+
+.home .warning {
+    background: @darkerHighlightColourHex;
+    background: linear-gradient(90deg, @darkerHighlightColourHex 0%, @highlightColourHex 50%, @darkerHighlightColourHex 100%);
+    border: 2px solid @highlightColourHex;
+    color:white;
+    text-align:center;
+    padding:5px;
 }
 
 @@media (max-width: 1024px) {

@@ -14,7 +14,7 @@ namespace Ae.Blog.Services
 
         public Color GetHighlightColour()
         {
-            var colours = new []{ Color.Orange, Color.LightSeaGreen, Color.Crimson, Color.LightSlateGray };
+            var colours = new []{ Color.LightSeaGreen, Color.Crimson, Color.LightSlateGray };
 
             return colours[random.Next(colours.Length)];
         }
