@@ -12,7 +12,7 @@ namespace Ae.Blog.Models
         public string Type { get; set; }
 
         public string Url => $"/blog/posts/{Slug}/";
-        public string CategoryUrl => $"/blog/category/{Category}/";
+        public string CategoryUrl => $"/blog/categories/{Category}/";
         public bool IsFeatured => Type == "featured";
     }
 }

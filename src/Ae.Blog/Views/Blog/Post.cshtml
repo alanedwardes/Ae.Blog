@@ -55,7 +55,7 @@
 
                 @foreach (var topWord in topWords)
                 {
-                    <a href="/blog/word/@Uri.EscapeDataString(topWord.Key)/">@topWord.Key</a>
+                    <a href="/blog/words/@Uri.EscapeDataString(topWord.Key)/">@topWord.Key</a>
                 }
             </p>
         }

@@ -17,7 +17,9 @@ namespace Ae.Blog.Controllers
                     "User-agent: *",
                     $"{permission}: /",
                     "Disallow: /blog/category/",
+                    "Disallow: /blog/categories/",
                     "Disallow: /blog/word/",
+                    "Disallow: /blog/words/",
                     "Sitemap: https://alanedwardes.com/sitemap.xml"
                 }),
                 ContentType = "text/plain"

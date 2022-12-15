@@ -22,7 +22,7 @@
                     foreach (var topWord in topWords)
                     {
                         var weight = (int)((topWord.Value / (double)totalCount) * 100d);
-                        <li class="@("weight" + weight)"><a href="/blog/word/@Uri.EscapeDataString(topWord.Key)/">@topWord.Key</a></li>
+                        <li class="@("weight" + weight)"><a href="/blog/words/@Uri.EscapeDataString(topWord.Key)/">@topWord.Key</a></li>
                     }
                 }
             </ul>

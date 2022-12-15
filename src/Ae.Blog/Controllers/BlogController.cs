@@ -44,7 +44,7 @@ namespace Ae.Blog.Controllers
             });
         }
 
-        public async Task<IActionResult> Category(string id)
+        public async Task<IActionResult> Categories(string id)
         {
             var posts = await blogPostRetriever.GetPublishedPosts(CancellationToken.None);
 
@@ -57,7 +57,7 @@ namespace Ae.Blog.Controllers
             });
         }
 
-        public async Task<IActionResult> Word(string id)
+        public async Task<IActionResult> Words(string id)
         {
             var posts = await blogPostRetriever.GetPublishedPosts(CancellationToken.None);
 
