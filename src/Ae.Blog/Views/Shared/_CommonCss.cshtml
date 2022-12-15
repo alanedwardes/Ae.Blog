@@ -20,13 +20,16 @@
     var lighterHighlightColourHex = '#' + lighterHighlightImage[0, 0].ToHex();
     var darkerHighlightColourHex = '#' + darkerHighlightImage[0, 0].ToHex();
 }
+html {
+    background: @darkerHighlightColourHex;
+    background: linear-gradient(90deg, @darkerHighlightColourHex 0%, @highlightColourHex 50%, @darkerHighlightColourHex 100%);
+}
+
 body {
     margin: 0;
     padding: 0;
     height: 100%;
     line-height: 1.5em;
-    background: @darkerHighlightColourHex;
-    background: linear-gradient(90deg, @darkerHighlightColourHex 0%, @highlightColourHex 50%, @darkerHighlightColourHex 100%);
     height: 100%;
     overflow-y: scroll;
     text-shadow: 0px 0px 7.5px black;
