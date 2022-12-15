@@ -14,7 +14,7 @@ namespace Ae.Blog.Services
 
         public Color GetHighlightColour()
         {
-            var colours = new []{ Color.Firebrick, Color.LightSeaGreen, Color.LightSlateGray };
+            var colours = new []{ Color.DarkSlateBlue, Color.Firebrick, Color.LightSeaGreen, Color.LightSlateGray };
 
             return colours[random.Next(colours.Length)];
         }
