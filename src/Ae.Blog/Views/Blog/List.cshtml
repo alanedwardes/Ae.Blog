@@ -1,4 +1,6 @@
-﻿@model Ae.Blog.Models.BlogModel
+﻿@using Ae.Blog.Models.Admin;
+@using Ae.Blog.Models;
+@model Ae.Blog.Models.BlogModel
 @{
     if (!string.IsNullOrWhiteSpace(Model.FilterValue))
     {
@@ -17,7 +19,7 @@
     <aside class="content left">
         @if (string.IsNullOrWhiteSpace(Model.FilterValue))
         {
-            @await Html.PartialAsync("Featured", Model.Posts.Where(x => x.IsFeatured))
+            @await Html.PartialAsync("Featured", Model.Posts.Where(x => x.Type == PostType.Featured))
         }
         else
         {

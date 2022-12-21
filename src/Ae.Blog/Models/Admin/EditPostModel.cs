@@ -16,7 +16,7 @@ namespace Ae.Blog.Models.Admin
         [DataType(DataType.Text)]
         public string Slug { get; set; }
         [Required]
-        public bool IsPublished { get; set; }
+        public PostType Type { get; set; }
         [Required]
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }

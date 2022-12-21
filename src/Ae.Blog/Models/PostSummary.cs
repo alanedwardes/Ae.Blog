@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ae.Blog.Models.Admin;
+using System;
 
 namespace Ae.Blog.Models
 {
@@ -9,10 +10,9 @@ namespace Ae.Blog.Models
         public DateTime Published { get; set; }
         public DateTime? Updated { get; set; }
         public string Title { get; set; }
-        public string Type { get; set; }
+        public PostType Type { get; set; }
 
-        public string Url => $"/blog/posts/{Slug}/";
+        public string Url => Type == PostType.Page ? $"/{Slug}/" : $"/blog/posts/{Slug}/";
         public string CategoryUrl => $"/blog/categories/{Category}/";
-        public bool IsFeatured => Type == "featured";
     }
 }

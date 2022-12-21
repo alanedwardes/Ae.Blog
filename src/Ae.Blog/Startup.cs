@@ -89,6 +89,8 @@ namespace Ae.Blog
 
             services.AddDataProtection()
                     .PersistKeysToAWSSystemsManager("/AeBlog/dataprotection");
+
+            services.AddSingleton<PageRouteTransformer>();
         }
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
@@ -107,6 +109,8 @@ namespace Ae.Blog
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapDynamicControllerRoute<PageRouteTransformer>("/");
+                endpoints.MapDynamicControllerRoute<PageRouteTransformer>("/{page}/");
                 endpoints.MapControllers();
                 endpoints.MapDefaultControllerRoute();
             });

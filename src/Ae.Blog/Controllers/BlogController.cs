@@ -35,7 +35,7 @@ namespace Ae.Blog.Controllers
         public async Task<IActionResult> Posts(string id)
         {
             var summariesTask = blogPostRetriever.GetPublishedPosts(CancellationToken.None);
-            var singleTask = blogPostRetriever.GetPost(id, CancellationToken.None);
+            var singleTask = blogPostRetriever.GetContent(id, CancellationToken.None);
 
             return View("Single", new BlogModel
             {

@@ -40,7 +40,7 @@ namespace Ae.Blog.Controllers
                 Id = configuration["CLOUDFRONT_DISTRIBUTION"]
             }, CancellationToken.None);
 
-            var summaries = blogPostRetriever.GetAllPostSummaries(CancellationToken.None);
+            var summaries = blogPostRetriever.GetAllContentSummaries(CancellationToken.None);
 
             return View(new AdminModel{Posts = await summaries, Distribution = await distributionTask});
         }
@@ -54,7 +54,7 @@ namespace Ae.Blog.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-            return Redirect(Url.Action(nameof(Index), nameof(HomeController)));
+            return Redirect("/");
         }
 
         [HttpPost]
@@ -63,14 +63,14 @@ namespace Ae.Blog.Controllers
             var post = new Post
             {
                 ContentRaw = model.Content,
-                Type = model.IsPublished ? "published" : "draft",
+                Type = model.Type,
                 Title = model.Title,
                 Category = model.Category,
                 Published = DateTime.UtcNow,
                 Slug = model.Slug
             };
 
-            await blogPostRetriever.PutPost(post, CancellationToken.None);
+            await blogPostRetriever.PutContent(post, CancellationToken.None);
 
             return Redirect(Url.Action(nameof(Index)));
         }
@@ -84,15 +84,15 @@ namespace Ae.Blog.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(string id, EditPostModel model)
         {
-            var post = await blogPostRetriever.GetPost(id, CancellationToken.None);
+            var post = await blogPostRetriever.GetContent(id, CancellationToken.None);
 
             post.ContentRaw = model.Content;
             post.Category = model.Category;
-            post.Updated = model.IsPublished ? DateTime.UtcNow : (DateTime?)null;
-            post.Type = model.IsPublished ? "published" : "draft";
+            post.Updated = model.Type == PostType.Draft ? null : DateTime.UtcNow;
+            post.Type = model.Type;
             post.Title = model.Title;
 
-            await blogPostRetriever.PutPost(post, CancellationToken.None);
+            await blogPostRetriever.PutContent(post, CancellationToken.None);
 
             return Redirect(Url.Action(nameof(Index)));
         }
@@ -100,21 +100,21 @@ namespace Ae.Blog.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var post = await blogPostRetriever.GetPost(id, CancellationToken.None);
+            var post = await blogPostRetriever.GetContent(id, CancellationToken.None);
 
             return View(new EditPostModel
             {
                 Title = post.Title,
                 Category = post.Category,
                 Content = post.Content,
-                IsPublished = post.Type == "published"
+                Type = post.Type
             });
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            await blogPostRetriever.DeletePost(id, CancellationToken.None);
+            await blogPostRetriever.DeleteContent(id, CancellationToken.None);
             return Redirect(Url.Action(nameof(Index)));
         }
 

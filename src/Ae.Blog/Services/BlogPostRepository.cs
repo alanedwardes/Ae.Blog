@@ -1,4 +1,5 @@
 ﻿using Ae.Blog.Models;
+using Ae.Blog.Models.Admin;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Microsoft.Extensions.Configuration;
@@ -23,13 +24,13 @@ namespace Ae.Blog.Services
 
         public string TableName => configuration["POSTS_TABLE"];
 
-        public async Task PutPost(Post post, CancellationToken token)
+        public async Task PutContent(Post post, CancellationToken token)
         {
             var attributeValues = new Dictionary<string, AttributeValue>
             {
                 { "Title", new AttributeValue(post.Title) },
                 { "Category", new AttributeValue(post.Category) },
-                { "Type", new AttributeValue(post.Type) },
+                { "Type", new AttributeValue(post.Type.ToString().ToLowerInvariant()) },
                 { "Content", new AttributeValue(post.Content) },
                 { "Slug", new AttributeValue(post.Slug) },
                 { "Published", new AttributeValue(post.Published.ToString("o")) }
@@ -43,7 +44,7 @@ namespace Ae.Blog.Services
             await amazonDynamoDb.PutItemAsync(TableName, attributeValues, token);
         }
 
-        public async Task<Post> GetPost(string slug, CancellationToken token)
+        public async Task<Post> GetContent(string slug, CancellationToken token)
         {
             var item = await amazonDynamoDb.GetItemAsync(TableName, new Dictionary<string, AttributeValue>
             {
@@ -55,7 +56,7 @@ namespace Ae.Blog.Services
             return post;
         }
 
-        public async Task<PostSummary[]> GetAllPostSummaries(CancellationToken token)
+        public async Task<PostSummary[]> GetAllContentSummaries(CancellationToken token)
         {
             return (await amazonDynamoDb.ScanAsync(new ScanRequest
             {
@@ -75,13 +76,14 @@ namespace Ae.Blog.Services
                 TableName = TableName,
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue>
                 {
-                    {":type", new AttributeValue { S = "draft" }}
+                    {":published", new AttributeValue { S = "published" }},
+                    {":featured", new AttributeValue { S = "featured" }}
                 },
                 ExpressionAttributeNames = new Dictionary<string, string>
                 {
                     { "#type", "Type" }
                 },
-                FilterExpression = "#type <> :type"
+                FilterExpression = "#type = :featured OR #type = :published"
             }, token);
         }
 
@@ -103,7 +105,7 @@ namespace Ae.Blog.Services
                 Updated = hasUpdated ? DateTime.Parse(item["Updated"].S) : new DateTime?(),
                 Slug = item["Slug"].S,
                 Title = item["Title"].S,
-                Type = item["Type"].S
+                Type = Enum.Parse<PostType>(item["Type"].S, true)
             };
 
             if (item.ContainsKey("Content"))
@@ -114,7 +116,7 @@ namespace Ae.Blog.Services
             return post;
         }
 
-        public async Task DeletePost(string slug, CancellationToken token)
+        public async Task DeleteContent(string slug, CancellationToken token)
         {
             await amazonDynamoDb.DeleteItemAsync(new DeleteItemRequest
             {

@@ -1,4 +1,6 @@
-﻿@model Ae.Blog.Models.Admin.EditPostModel
+﻿@using Ae.Blog.Models.Admin;
+@using Ae.Blog.Models;
+@model Ae.Blog.Models.Admin.EditPostModel
 @{
     var title = Model == null ? "New Post" : "Editing \"" + Model.Title + '"';
     var action = Model == null ? "new" : "edit";
@@ -20,8 +22,10 @@
             </p>
         }
         <p>
-            <label asp-for="IsPublished">Published</label>
-            <input asp-for="IsPublished" />
+            <label asp-for="Type">Type</label>
+            <select asp-for="Type" asp-items="Html.GetEnumSelectList<PostType>()">
+                <option>Select type</option>
+            </select>
         </p>
         <p>
             <label asp-for="Category">Category</label>
