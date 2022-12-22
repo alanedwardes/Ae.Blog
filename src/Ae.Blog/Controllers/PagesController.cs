@@ -22,7 +22,8 @@ namespace Ae.Blog.Controllers
             return View(new PageModel
             {
                 Title = post.Title,
-                Content = post.Content
+                Content = post.Content,
+                Category = post.Category
             });
         }
     }

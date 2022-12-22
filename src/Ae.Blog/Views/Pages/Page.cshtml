@@ -1,11 +1,15 @@
 ﻿@model Ae.Blog.Models.PageModel
 @{
-    if (Model.Layout != null)
+    if (!Model.Title.Equals("Index", StringComparison.InvariantCultureIgnoreCase))
     {
-        Layout = Model.Layout;
+        ViewData["Title"] = Model.Title;
     }
 
-    ViewData["Title"] = Model.Title;
+    switch (Model.Category)
+    {
+        case "raw":
+            Layout = null;
+            break;
+    }
 }
-
 @Html.Raw(Model.Content)
