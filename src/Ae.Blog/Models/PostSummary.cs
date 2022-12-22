@@ -12,7 +12,7 @@ namespace Ae.Blog.Models
         public string Title { get; set; }
         public PostType Type { get; set; }
 
-        public string Url => Type == PostType.Page ? $"/{Slug}/" : $"/blog/posts/{Slug}/";
+        public string Url => Type == PostType.Page ? Slug == "index" ? "/" : $"/{Slug}/" : $"/blog/posts/{Slug}/";
         public string CategoryUrl => $"/blog/categories/{Category}/";
     }
 }

@@ -14,10 +14,10 @@ using Amazon.CloudFront;
 using Amazon.CloudFront.Model;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
+using System.Linq;
 
 namespace Ae.Blog.Controllers
 {
-    [Authorize(Policy = "IsAdmin")]
     public class AdminController : Controller
     {
         private readonly IBlogPostRepository blogPostRetriever;
@@ -128,7 +128,16 @@ namespace Ae.Blog.Controllers
             };
             freezerConfiguration.AdditionalResources.Add(new Uri("sitemap.xml", UriKind.Relative));
             freezerConfiguration.AdditionalResources.Add(new Uri("lib/highlight/atom-one-dark.min.css", UriKind.Relative));
-            freezerConfiguration.AdditionalResources.Add(new Uri("viewer/", UriKind.Relative));
+
+            foreach (var page in (await blogPostRetriever.GetAllContentSummaries(CancellationToken.None)).Where(x => x.Type == PostType.Page))
+            {
+                var path = page.Url.TrimStart('/');
+                if (!string.IsNullOrWhiteSpace(path))
+                {
+                    freezerConfiguration.AdditionalResources.Add(new Uri(path, UriKind.Relative));
+                }
+            }
+
             freezerConfiguration.AdditionalResources.Add(new Uri("lib/model-viewer/model-viewer.min.js", UriKind.Relative));
 
             await freezer.Freeze(freezerConfiguration, CancellationToken.None);
