@@ -18,6 +18,7 @@ using System.Linq;
 
 namespace Ae.Blog.Controllers
 {
+    [Authorize(Policy = "IsAdmin")]
     public class AdminController : Controller
     {
         private readonly IBlogPostRepository blogPostRetriever;
