@@ -89,7 +89,7 @@ namespace Ae.Blog.Extensions
 
             var ignoredWords = new HashSet<string>
             {
-                "a", "the", "when", "at", "i", "to","and","of","is","in","for","you","it","this","on","that","with","be",
+                "a", "the", "when", "at", "i", "i'd", "to","and","of","is","in","for","you","it","this","on","that","with","be",
                 "can","as","are","use","your","from","not","will","an","but","which","if","using","all","or", "any","my",
                 "like","have","was","need","out","also","up","there","used","do","set","one","by","above","since","into",
                 "only","so","some","same","see","other","then","would","approach","does","around","over","example",
@@ -137,7 +137,8 @@ namespace Ae.Blog.Extensions
                 "open", "references", "reference", "being", "always", "break", "make", "applicable", "img", "width", "height", "src", "mimicked", "prefer", "lives", "benefits",
                 "provides", "number", "numbers", "share", "safe", "predictable", "includes", "founders", "towards", "starts", "showcasing", "technique", "received", "information", "contact",
                 "visually", "difficult", "distinguish", "increase", "noticed", "control", "miscellaneous", "service", "services", "opt", "handling", "killing", "yields", "similar", "another",
-                "request", "requests", "response", "responses", "i'll", "away", "defines", "contents", "mirror's", "edge", "standard", "normal", "please"
+                "request", "requests", "response", "responses", "i'll", "away", "defines", "contents", "mirror's", "edge", "standard", "normal", "please", "caused", "end", "explicitly", "infinitely",
+                "extend", "switcher"
             };
 
             var remappedWords = new Dictionary<string, string>
