@@ -61,7 +61,7 @@
             Model.GetWordStatistics(wordStatistics);
             var topWords = wordStatistics.OrderByDescending(x => x.Value).Take(10);
 
-            <p class="meta">
+            <p class="warning">
                 <span>🏷️ </span>
 
                 @foreach (var topWord in topWords)
