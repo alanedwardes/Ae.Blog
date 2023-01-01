@@ -43,7 +43,13 @@
             </script>
         }
 
+        @if (DateTime.UtcNow - Model.Published > TimeSpan.FromDays(365 * 3))
+        {
+            <p class="warning">⚠️ This post is from @Model.Published.Year, meaning its contents may be outdated.</p>
+        }
+
         @Html.Raw(Model.GetMarkdown())
+
         @if (Model.HasSummary && !Model.IsSingle)
         {
             <p><a href="@Model.Url">Continue Reading &raquo;</a></p>
