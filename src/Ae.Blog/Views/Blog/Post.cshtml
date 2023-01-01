@@ -43,9 +43,9 @@
             </script>
         }
 
-        @if (DateTime.UtcNow - Model.Published > TimeSpan.FromDays(365 * 3))
+        @if (Model.IsSingle && DateTime.UtcNow - Model.Published > TimeSpan.FromDays(365 * 3))
         {
-            <p class="warning">⚠️ This post is from @Model.Published.Year, meaning its contents may be outdated.</p>
+            <p class="highlight">⚠️ This post is from @Model.Published.Year, meaning its contents may be outdated.</p>
         }
 
         @Html.Raw(Model.GetMarkdown())
@@ -61,7 +61,7 @@
             Model.GetWordStatistics(wordStatistics);
             var topWords = wordStatistics.OrderByDescending(x => x.Value).Take(10);
 
-            <p class="warning">
+            <p class="highlight">
                 <span>🏷️ </span>
 
                 @foreach (var topWord in topWords)
