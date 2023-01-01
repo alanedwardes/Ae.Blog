@@ -13,14 +13,16 @@
     <p class="meta">
         @if (Model.Updated.HasValue && (Model.Updated.Value - Model.Published > TimeSpan.FromDays(5)))
         {
-            <span>Posted @Model.Published.ToOrdinalWords(), updated @Model.Updated.Value.ToOrdinalWords()</span>
+            <span><time datetime="@Model.Published.ToString("o")" title="@Model.Published">📅 @Model.Published.ToOrdinalWords()</time>, updated @Model.Updated.Value.ToOrdinalWords()</span>
         }
         else
         {
-            <span>Posted @Model.Published.ToOrdinalWords()</span>
+            <span><time datetime="@Model.Published.ToString("o")" title="@Model.Published">📅 @Model.Published.ToOrdinalWords()</time></span>
         }
 
-        <span> in <a href="@Model.CategoryUrl">@Model.Category</a></span>
+        <span> 🔖 <a href="@Model.CategoryUrl">@Model.Category</a></span>
+
+        <span> ⏲️ @((TimeSpan.FromMinutes(Math.Max(1, MarkdownExtensions.SplitTextIntoWords(Model.GetPlainText()).Count() / 250))).Humanize()) to read</span>
 
         <span id="dynamic-comment-count"></span>
     </p>
@@ -32,8 +34,11 @@
             .then(data => data.json())
             .then(data => {
                 let commentsCount = data.count;
-                let commentsInfo = document.getElementById('dynamic-comment-count');
-                commentsInfo.innerHTML = ' with <a href="#comments">' + commentsCount + ' ' + (commentsCount === 1 ? 'comment' : 'comments') + '</a>';
+                if (commentsCount > 0)
+                {
+                    let commentsInfo = document.getElementById('dynamic-comment-count');
+                    commentsInfo.innerHTML = ' 💬 <a href="#comments">' + commentsCount + ' ' + (commentsCount === 1 ? 'comment' : 'comments') + '</a>';
+                }
             });
             </script>
         }
@@ -51,7 +56,7 @@
             var topWords = wordStatistics.OrderByDescending(x => x.Value).Take(10);
 
             <p class="meta">
-                <span>Tagged </span>
+                <span>🏷️ </span>
 
                 @foreach (var topWord in topWords)
                 {

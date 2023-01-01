@@ -62,7 +62,16 @@ namespace Ae.Blog.Extensions
 
         public static string GetFirstLineText(this Post post)
         {
-            return Markdown.ToPlainText(post.ContentFirstLine, markdownPipeline).Trim();
+            var line = Markdown.ToPlainText(post.ContentFirstLine, markdownPipeline).Trim();
+
+            var trimEndingCharacters = new[] { ':', ';' };
+
+            if (trimEndingCharacters.Any(line.EndsWith))
+            {
+                line = line.TrimEnd(trimEndingCharacters) + '.';
+            }
+
+            return line;
         }
 
         private static readonly Regex IMAGE_URI_REGEX = new Regex("(poster|src)=\"(?<uri>.+?)\"");
@@ -81,11 +90,31 @@ namespace Ae.Blog.Extensions
             return null;
         }
 
-        public static void GetWordStatistics(this Post post, IDictionary<string, int> container)
+        public static string GetPlainText(this Post post)
         {
             var plainText = Markdown.ToPlainText(post.ContentAll, new MarkdownPipelineBuilder().Use<TextOnlyRendererer>().Build());
 
             plainText = Regex.Replace(plainText, @"http[^\s]+", "");
+
+            return plainText;
+        }
+
+        public static string[] SplitTextIntoWords(string text)
+        {
+            var permittedPunctuation = new[] { '\'', '+', '@', '#', '♯', '-' };
+
+            var punctuation = Enumerable.Range(char.MinValue, char.MaxValue)
+                .Select(x => (char)x)
+                .Where(x => !char.IsLetterOrDigit(x) && !permittedPunctuation.Contains(x))
+                .Distinct()
+                .ToArray();
+
+            return text.Split(punctuation);
+        }
+
+        public static void GetWordStatistics(this Post post, IDictionary<string, int> container)
+        {
+            var plainText = post.Title + ' ' + post.GetPlainText();
 
             var ignoredWords = new HashSet<string>
             {
@@ -96,7 +125,7 @@ namespace Ae.Blog.Extensions
                 "things","them","very","no","run","has","more","few","feature","get","want","they","its", "because",
                 "found", "here","following","new","should","however","these","check","had","once","where","first","could",
                 "large","allows","different","via","case","many","post","support","may","work","must","problem","it's",
-                "than","how","were","such","address","good","each","static", "app", "below", "process", "features",
+                "than","how","were","such","address","addresses","good","each","static", "app", "below", "process", "features",
                 "version", "hard", "time", "method", "project", "look", "system", "function", "server", "we", "identical",
                 "content", "start", "here's", "benefit", "real", "use", "uses", "person", "benefit", "you're", "just", "test",
                 "especially", "updating", "look", "great", "wanted", "ability", "per", "include", "point", "return", "across",
@@ -138,7 +167,9 @@ namespace Ae.Blog.Extensions
                 "provides", "number", "numbers", "share", "safe", "predictable", "includes", "founders", "towards", "starts", "showcasing", "technique", "received", "information", "contact",
                 "visually", "difficult", "distinguish", "increase", "noticed", "control", "miscellaneous", "service", "services", "opt", "handling", "killing", "yields", "similar", "another",
                 "request", "requests", "response", "responses", "i'll", "away", "defines", "contents", "mirror's", "edge", "standard", "normal", "please", "caused", "end", "explicitly", "infinitely",
-                "extend", "switcher", "getting"
+                "extend", "switcher", "getting", "quite", "option", "effort", "remove", "specific", "specify", "fail", "cooking", "question", "line", "initialised", "enable", "programatically", "checking",
+                "thing", "placed", "checked", "ask", "already", "explicit", "compose", "global", "events", "event", "generate", "virtual", "shows", "show", "subscribing", "report", "reported", "head", "preferences",
+                "upgraded", "pull", "stopped", "perform", "save", "tab", "select", "crate", "boxes", "box", "concatenate", "speed", "useful", "seconds", "second", "let's", "job", "personal", "hosted", "physical"
             };
 
             var remappedWords = new Dictionary<string, string>
@@ -180,18 +211,30 @@ namespace Ae.Blog.Extensions
                 { "meshes", "mesh" },
                 { "textures", "texture" },
                 { "triangles", "triangle" },
-                { "certificates", "certificate" }
+                { "certificates", "certificate" },
+                { "fixing", "fix" },
+                { "fixes", "fix" },
+                { "fixed", "fix" },
+                { "scammer", "scam" },
+                { "scammed", "scam" },
+                { "repo", "repository" },
+                { "objects", "object" },
+                { "recipes", "recipe" },
+                { "recording", "record" },
+                { "recorded", "record" },
+                { "records", "record" },
+                { "uploaded", "upload" },
+                { "uploads", "upload" },
+                { "uploading", "upload" },
+                { "generated", "generate" },
+                { "generates", "generate" },
+                { "generating", "generate" },
+                { "streamed", "stream" },
+                { "streams", "stream" },
+                { "streaming", "stream" }
             };
 
-            var permittedPunctuation = new[] { '\'', '+', '@', '#', '♯', '-' };
-
-            var punctuation = Enumerable.Range(char.MinValue, char.MaxValue)
-                .Select(x => (char)x)
-                .Where(x => !char.IsLetterOrDigit(x) && !permittedPunctuation.Contains(x))
-                .Distinct()
-                .ToArray();
-
-            var groups = plainText.Split(punctuation)
+            var groups = SplitTextIntoWords(plainText)
                                   .Select(x => x.ToLower().Trim())
                                   .Select(x => remappedWords.ContainsKey(x) ? remappedWords[x] : x)
                                   .Where(x => !ignoredWords.Contains(x))
