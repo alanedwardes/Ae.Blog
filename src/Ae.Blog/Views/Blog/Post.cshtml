@@ -22,7 +22,7 @@
 
         <span> 🔖 <a href="@Model.CategoryUrl">@Model.Category</a></span>
 
-        <span> ⏲️ @((TimeSpan.FromMinutes(Math.Max(1, MarkdownExtensions.SplitTextIntoWords(Model.GetPlainText()).Count() / 250))).Humanize()) to read</span>
+        <span> ⏲️ @((TimeSpan.FromMinutes(Math.Max(1, MarkdownExtensions.SplitTextIntoWords(Model.GetPlainText()).Count() / 200))).Humanize()) to read</span>
 
         <span id="dynamic-comment-count"></span>
     </p>
