@@ -30,22 +30,26 @@
         @if (Model.IsSingle)
         {
             <script>
-        fetch("https://alanedwardes.com/api/commentcount.json?slug=@(Model.Slug)")
-            .then(data => data.json())
-            .then(data => {
-                let commentsCount = data.count;
-                if (commentsCount > 0)
-                {
-                    let commentsInfo = document.getElementById('dynamic-comment-count');
-                    commentsInfo.innerHTML = ' 💬 <a href="#comments">' + commentsCount + ' ' + (commentsCount === 1 ? 'comment' : 'comments') + '</a>';
-                }
-            });
+                fetch("https://alanedwardes.com/api/commentcount.json?slug=@(Model.Slug)")
+                    .then(data => data.json())
+                    .then(data => {
+                        let commentsCount = data.count;
+                        if (commentsCount > 0)
+                        {
+                            let commentsInfo = document.getElementById('dynamic-comment-count');
+                            commentsInfo.innerHTML = ' 💬 <a href="#comments">' + commentsCount + ' ' + (commentsCount === 1 ? 'comment' : 'comments') + '</a>';
+                        }
+                    });
             </script>
         }
 
-        @if (Model.IsSingle && DateTime.UtcNow - Model.Published > TimeSpan.FromDays(365 * 3))
+        @{
+            var lastUpdated = Model.Updated ?? Model.Published;
+        }
+
+        @if (Model.IsSingle && DateTime.UtcNow - lastUpdated > TimeSpan.FromDays(365 * 3))
         {
-            <p class="highlight">⚠️ This post is from @Model.Published.Year, meaning its contents may be outdated.</p>
+            <p class="highlight">⚠️ This post was last updated in @lastUpdated.Year, meaning its contents may be outdated.</p>
         }
 
         @Html.Raw(Model.GetMarkdown())
