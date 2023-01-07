@@ -63,7 +63,7 @@
         {
             var wordStatistics = new Dictionary<string, int>();
             Model.GetWordStatistics(wordStatistics);
-            var topWords = wordStatistics.OrderByDescending(x => x.Value).Take(10);
+            var topWords = wordStatistics.OrderByDescending(x => x.Value).Take(15);
 
             <p class="highlight">
                 <span>🏷️ </span>
