@@ -69,6 +69,27 @@
     }
     </script>
     @await Html.PartialAsync("Post", Model.Single)
+    @{
+        var previousPost = @Model.Archive.OrderBy(x => x.Published).TakeWhile(x => x.Slug != Model.Single.Slug).LastOrDefault();
+        var nextPost = @Model.Archive.OrderBy(x => x.Published).SkipWhile(x => x.Slug != Model.Single.Slug).Skip(1).FirstOrDefault();
+        var randomPost = @Model.Archive.Where(x => x.Slug != Model.Single.Slug && x.Slug != nextPost?.Slug && x.Slug != previousPost?.Slug).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+
+        if (previousPost != null)
+        {
+            <p>⬅️ Previous post: <a href="@previousPost.Url">@previousPost.Title</a></p>
+        }
+
+        if (nextPost != null)
+        {
+            <p>➡️ Next post: <a href="@nextPost.Url">@nextPost.Title</a></p>
+        }
+
+        if (randomPost != null)
+        {
+            <p>🎲 Random post: <a href="@randomPost.Url">@randomPost.Title</a></p>
+        }
+    }
+
     <h2 id="comments">Comments</h2>
     <div id="disqus_thread">
         <p>Please <a href="#comments" onclick="fetchComments()">click here</a> to load comments.</p>

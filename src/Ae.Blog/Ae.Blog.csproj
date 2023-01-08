@@ -16,4 +16,13 @@
   <PackageReference Include="Markdig" Version="0.30.4" />
   <PackageReference Include="Google.Apis.YouTube.v3" Version="1.57.0.2827" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="Resources\redundant_words.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\word_remaps.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
