@@ -1,13 +1,13 @@
 {
 	"AWSTemplateFormatVersion": "2010-09-09",
 	"Parameters": {
-		"TwitterConsumerKey": {
+		"GoogleConsumerKey": {
 			"Type": "AWS::SSM::Parameter::Value<String>",
-			"Default": "TwitterConsumerKey"
+			"Default": "GoogleConsumerKey"
 		},
-		"TwitterConsumerSecret": {
+		"GoogleConsumerSecret": {
 			"Type": "AWS::SSM::Parameter::Value<String>",
-			"Default": "TwitterConsumerSecret"
+			"Default": "GoogleConsumerSecret"
 		},
 		"YouTubeApiKey": {
 			"Type": "AWS::SSM::Parameter::Value<String>",
@@ -37,11 +37,11 @@
 						"EDGE_LAMBDA": {
 							"Ref": "EdgeLambda"
 						},
-						"TWITTER_CONSUMER_KEY": {
-							"Ref": "TwitterConsumerKey"
+						"GOOGLE_CONSUMER_KEY": {
+							"Ref": "GoogleConsumerKey"
 						},
-						"TWITTER_CONSUMER_SECRET": {
-							"Ref": "TwitterConsumerSecret"
+						"GOOGLE_CONSUMER_SECRET": {
+							"Ref": "GoogleConsumerSecret"
 						},
 						"YOUTUBE_API_KEY": {
 							"Ref": "YouTubeApiKey"

@@ -8,7 +8,6 @@ using Amazon.DynamoDBv2;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Twitter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +17,8 @@ using System.Net.Http;
 using Amazon.Lambda;
 using System;
 using Amazon.IdentityManagement;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Ae.Blog
 {
@@ -68,21 +69,23 @@ namespace Ae.Blog
                 ApplicationName = "Ae.Blog"
             }));
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(options =>
+            services.AddAuthentication(options =>
                     {
-                        options.LoginPath = "/Admin/login";
-                        options.AccessDeniedPath = "/Admin/denied";
+                        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+                        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     })
-                    .AddTwitter(options =>
+                    .AddCookie()
+                    .AddGoogle(options =>
                     {
-                        options.CallbackPath = "/Admin/auth/twitter-signin";
-                        options.ConsumerKey = configuration["TWITTER_CONSUMER_KEY"];
-                        options.ConsumerSecret = configuration["TWITTER_CONSUMER_SECRET"];
+                        options.ClientId = configuration["GOOGLE_CONSUMER_KEY"];
+                        options.ClientSecret = configuration["GOOGLE_CONSUMER_SECRET"];
                     });
 
-            services.AddAuthorization(options => options.AddPolicy("IsAdmin", x => {
-                x.RequireClaim("urn:twitter:userid", "14201790").AddAuthenticationSchemes(TwitterDefaults.AuthenticationScheme);
+            services.AddAuthorization(options => options.AddPolicy("IsAdmin", x => 
+            {
+                x.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress", "alan@alanedwardes.com")
+                 .AddAuthenticationSchemes(GoogleDefaults.AuthenticationScheme);
             }));
 
             services.AddRouting(options => options.AppendTrailingSlash = true);
