@@ -23,7 +23,7 @@
 html {
     background: @darkerHighlightColourHex;
     height: 100%;
-    font-family: "EB Garamond", sans-serif;
+    font-family: "Garamond", sans-serif;
 }
 
 body {
@@ -41,7 +41,7 @@ body {
 hr {
     color: @highlightColourHex;
     background-color: @highlightColourHex;
-    height: 2px;
+    height: 1px;
     border: 0;
 }
 
@@ -73,11 +73,15 @@ button, select {
 
 a {
     color: rgba(255, 255, 255, 0.9);
-    border-bottom: 2px solid @highlightColourHex;
+    border-bottom: 1px solid @highlightColourHex;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a {
+    border-bottom:none;
 }
 
     a:hover {
-        border-bottom: 2px solid @lighterHighlightColourHex;
+        border-bottom: 1px solid @lighterHighlightColourHex;
     }
 
 .slideshow {
@@ -194,7 +198,7 @@ header {
     }
 
     header li.selected a {
-        border-bottom: 2px solid @lighterHighlightColourHex;
+        border-bottom: 1px solid @lighterHighlightColourHex;
     }
 
 footer {
@@ -231,12 +235,12 @@ p.highlight {
 p.highlight, blockquote {
     background: @darkerHighlightColourHex;
     background: linear-gradient(90deg, @darkerHighlightColourHex 0%, @highlightColourHex 50%, @darkerHighlightColourHex 100%);
-    border: 2px solid @highlightColourHex;
+    border: 1px solid @highlightColourHex;
     color: white;
 }
         
 p.highlight a, blockquote a {
-    border-bottom: 2px solid @lighterHighlightColourHex;
+    border-bottom: 1px solid @lighterHighlightColourHex;
 }
 
 @@media (max-width: 1024px) {
@@ -303,10 +307,6 @@ article pre code {
         color: #e0e2e4;
     }
 
-article p code, article ul code {
-    padding: 2.5px 5px;
-}
-
 article img {
   display:block;
   margin:0 auto;
@@ -362,7 +362,7 @@ main img {
 .callout {
     padding: 10px 15px;
     background: #252525;
-    border: 2px solid #333;
+    border: 1px solid #333;
     margin-bottom: 20px;
 }
 
