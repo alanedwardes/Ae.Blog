@@ -232,7 +232,7 @@ p.highlight {
     padding: 5px;
 }
 
-p.highlight, blockquote {
+p.highlight, blockquote, table thead tr {
     background: @darkerHighlightColourHex;
     background: linear-gradient(90deg, @darkerHighlightColourHex 0%, @highlightColourHex 50%, @darkerHighlightColourHex 100%);
     border: 1px solid @highlightColourHex;
@@ -322,7 +322,7 @@ main video {
     background:#111;
 }
 
-main video, main pre, main blockquote, main iframe, p.highlight, .sidebar {
+main video, main pre, main blockquote, main iframe, p.highlight, .sidebar, table {
     box-shadow:0px 0px 10px #111;
 }
 
@@ -412,16 +412,17 @@ table {
   border-collapse: collapse;
 }
 
-table thead tr {
-  background: @highlightColourHex;
-}
-
 table thead tr th {
   font-weight: normal;
+  padding:10px;
 }
 
 table tbody tr {
   background: #111;
+}
+
+table tbody tr td {
+  padding:10px;
 }
 
 table tbody tr:nth-child(even) {
