@@ -9,15 +9,28 @@
 
     if (Model.Single.ContentAll.Contains("```"))
     {
-        footerIncludebuilder.AppendLine("<script src=\"/lib/highlight/highlight.pack.js\"></script>");
+        footerIncludebuilder.AppendLine("<script src=\"/lib/highlight/highlight.min.js\"></script>");
 
-        var languages = new[] { "groovy", "csharp", "javascript", "json", "cpp", "ini", "bash", "html", "xml", "yaml", "python" };
-
-        foreach (var language in languages)
+        var languageAliases = new Dictionary<string, string>
         {
-            if (Model.Single.ContentAll.Contains($"```{language}"))
+            { "html", "xml" },
+            { "groovy", "groovy" },
+            { "csharp", "csharp" },
+            { "javascript", "javascript" },
+            { "json", "json" },
+            { "cpp", "cpp" },
+            { "ini", "ini" },
+            { "bash", "bash" },
+            { "xml", "xml" },
+            { "yaml", "yaml" },
+            { "python", "python" }
+        };
+
+        foreach (var alias in languageAliases)
+        {
+            if (Model.Single.ContentAll.Contains($"```{alias.Key}"))
             {
-                footerIncludebuilder.AppendLine($"<script src=\"/lib/highlight/languages/{language}.min.js\"></script>");
+                footerIncludebuilder.AppendLine($"<script src=\"/lib/highlight/languages/{alias.Value}.min.js\"></script>");
             }
         }
 
