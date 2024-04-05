@@ -16,7 +16,7 @@
 
 <section>
     @await Html.PartialAsync("Sidebar", Model.Archive)
-    <aside class="content left">
+    <aside class="content left" id="post-list">
         @if (string.IsNullOrWhiteSpace(Model.FilterValue))
         {
             @await Html.PartialAsync("Featured", Model.Posts.Where(x => x.Type == PostType.Featured))
@@ -26,6 +26,7 @@
             <h2>@Model.FilterType "@Model.FilterValue"</h2>
             <p class="meta">Viewing subset of posts matching the @Model.FilterType.ToLower() "@Model.FilterValue".</p>
         }
+        <div id="search-feedback"></div>
         @foreach (var post in Model.Posts)
         {
             @await Html.PartialAsync("Post", post)

@@ -4,6 +4,76 @@
 <aside class="right desktoponly">
     <div class="sidebar callout">
         <div>
+            <input type="search" placeholder="Filter posts" id="search" />
+            <script>
+                let searchPromise = null;
+                let searchCache = null;
+                const searchElement = document.querySelector('#search');
+
+                function doSearch() {
+                    if (searchPromise === null) {
+                        searchPromise = fetch("/blog/search")
+                            .then(data => data.json())
+                            .then(json => {
+                                searchCache = json;
+                                doSearch();
+                            });
+                        return;
+                    }
+
+                    if (searchCache === null){
+                        return;
+                    }
+
+                    const searchFeedback = document.querySelector('#search-feedback');
+                    searchFeedback.innerHTML = '';
+
+                    const terms = searchElement.value.toLowerCase();
+                    document.querySelectorAll('article.post, .featured').forEach(article => {
+                        article.style.display = terms ? 'none' : 'block';
+                    });
+
+                    const queryWords = terms.match(/\b(\w+)\b/g);
+
+                    let postIndexes = new Set();
+
+                    Object.keys(searchCache.words).forEach(postWord => {
+                        queryWords.forEach(queryWord => {
+                            if (queryWord.match(postWord)) {
+                                searchCache.words[postWord].forEach(index => {
+                                    postIndexes.add(index);
+                                });
+                            }
+                        });
+                    });
+
+                    let postsNotFound = [];
+
+                    for (let i = 0; i < searchCache.posts.length; i++) {
+                        if (postIndexes.has(i)) {
+                            let articleElement = document.querySelector('article.post[slug=' + searchCache.posts[i].slug + ']');
+                            if (articleElement) {
+                                articleElement.style.display = 'block';
+                            } else {
+                                postsNotFound.push(searchCache.posts[i]);
+                            }
+                        }
+                    }
+
+                    let searchTitle = document.createElement('h2');
+                    searchTitle.innerText = 'Search Results for "' + queryWords.join('", "') + '"';
+                    searchFeedback.appendChild(searchTitle);
+
+                    if (postsNotFound.length > 0) {
+                        searchFeedback.innerHTML += '<p class="meta">Found ' + postIndexes.size + ' matching posts, but some are not visible:</p>';
+                        searchFeedback.innerHTML += '<ul>' + postsNotFound.map(post => '<li><a href="/blog/posts/' + post.slug + '/">' + post.title + '</a></li>').join('') + '</ul>';
+                    } else {
+                        searchFeedback.innerHTML += '<p class="meta">Showing ' + postIndexes.size + ' posts matching these terms</p>';
+                    }
+                }
+
+                searchElement.addEventListener('input', doSearch);
+            </script>
             <ul class="cloud">
                 @{
                     var wordStatistics = new Dictionary<string, int>();

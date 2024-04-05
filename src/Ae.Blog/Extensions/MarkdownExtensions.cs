@@ -122,6 +122,7 @@ namespace Ae.Blog.Extensions
 
             var groups = SplitTextIntoWords(plainText)
                                   .Select(x => x.ToLower().Trim())
+                                  .Select(x => x.EndsWith("'s") ? x[..^2] : x)
                                   .Select(x => _wordRemaps.Value.ContainsKey(x) ? _wordRemaps.Value[x] : x)
                                   .Where(x => !_redundantWords.Value.Contains(x))
                                   .Where(x => !Guid.TryParse(x, out var id))

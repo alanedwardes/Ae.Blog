@@ -129,6 +129,7 @@ namespace Ae.Blog.Controllers
             };
             freezerConfiguration.AdditionalResources.Add(new Uri("sitemap.xml", UriKind.Relative));
             freezerConfiguration.AdditionalResources.Add(new Uri("lib/highlight/atom-one-dark.min.css", UriKind.Relative));
+            freezerConfiguration.AdditionalResources.Add(new Uri("blog/search", UriKind.Relative));
 
             foreach (var page in (await blogPostRetriever.GetAllContentSummaries(CancellationToken.None)).Where(x => x.Type == PostType.Page))
             {

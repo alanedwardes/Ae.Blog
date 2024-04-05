@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -80,6 +81,35 @@ namespace Ae.Blog.Controllers
                 FilterType = "Word",
                 Archive = posts,
                 Posts = matchingPosts
+            });
+        }
+
+        public async Task<JsonResult> Search()
+        {
+            var posts = await blogPostRetriever.GetPublishedPosts(CancellationToken.None);
+
+            var words = new Dictionary<string, List<int>>();
+
+            foreach (var post in posts)
+            {
+                var postIndex = Array.IndexOf(posts, post);
+
+                var postWords = new Dictionary<string, int>();
+                post.GetWordStatistics(postWords);
+
+                foreach (var word in postWords.Keys)
+                {
+                    if (!words.TryAdd(word, new List<int> { postIndex }))
+                    {
+                        words[word].Add(postIndex);
+                    }
+                }
+            }
+
+            return new JsonResult(new Dictionary<string, object>
+            {
+                { "posts", posts.Select(post => new { slug = post.Slug, title = post.Title }) },
+                { "words", words.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value) }
             });
         }
     }

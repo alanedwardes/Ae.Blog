@@ -1,6 +1,6 @@
 ﻿@using Ae.Blog.Extensions;
 @model Ae.Blog.Models.Post
-<article>
+<article class="post" slug="@Model.Slug">
     @if (Model.IsSingle)
     {
         <h2>@Model.Title</h2>
