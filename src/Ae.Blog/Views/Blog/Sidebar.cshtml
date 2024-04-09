@@ -21,7 +21,7 @@
                         return;
                     }
 
-                    if (searchCache === null){
+                    if (searchCache === null) {
                         return;
                     }
 
@@ -29,22 +29,24 @@
                     searchFeedback.innerHTML = '';
 
                     const terms = searchElement.value.toLowerCase();
+                    const queryWords = terms.match(/\b(\w+)\b/g) ?? [];
+
                     document.querySelectorAll('article.post, .featured').forEach(article => {
-                        article.style.display = terms ? 'none' : 'block';
+                        article.style.display = queryWords.length === 0 ? 'block' : 'none';
                     });
 
-                    const queryWords = terms.match(/\b(\w+)\b/g);
+                    if (queryWords.length === 0) {
+                        return;
+                    }
 
                     let postIndexes = new Set();
 
-                    Object.keys(searchCache.words).forEach(postWord => {
-                        queryWords.forEach(queryWord => {
-                            if (queryWord.match(postWord)) {
-                                searchCache.words[postWord].forEach(index => {
-                                    postIndexes.add(index);
-                                });
-                            }
-                        });
+                    queryWords.forEach(queryWord => {
+                        if (queryWord in searchCache.words) {
+                            searchCache.words[queryWord].forEach(index => {
+                                postIndexes.add(index);
+                            });
+                        }
                     });
 
                     let postsNotFound = [];
@@ -91,7 +93,7 @@
                     foreach (var topWord in topWords)
                     {
                         var weight = (int)((topWord.Value / (double)totalCount) * 100d);
-                        <li class="@("weight" + weight)"><a href="/blog/words/@Uri.EscapeDataString(topWord.Key)/">@topWord.Key</a></li>
+                                    <li class="@("weight" + weight)"><a href="/blog/words/@Uri.EscapeDataString(topWord.Key)/">@topWord.Key</a></li>
                     }
                 }
             </ul>

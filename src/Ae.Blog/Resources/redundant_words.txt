@@ -619,7 +619,6 @@ make
 applicable
 img
 width
-height
 src
 mimicked
 prefer
