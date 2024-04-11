@@ -4,6 +4,6 @@ ARG TARGETPLATFORM
 
 ADD build/${TARGETPLATFORM} /opt/aeblog
 
-WORKDIR /opt/aeblog/Ae.Blog
+WORKDIR /opt/aeblog
 
 ENTRYPOINT ["/opt/aeblog/Ae.Blog"]
