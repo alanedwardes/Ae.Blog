@@ -43,7 +43,7 @@ namespace Ae.Blog
 
             services.AddHttpClient("FREEZER_CLIENT", x =>
             {
-                x.BaseAddress = new Uri("https://uncached.alanedwardes.com");
+                x.BaseAddress = new Uri(configuration["BASE_ADDRESS"]);
                 x.DefaultRequestHeaders.Add("Freezing", "1");
             });
 
