@@ -3,8 +3,6 @@ using Ae.Freezer.Writers;
 using Ae.Blog.Models;
 using Ae.Blog.Models.Admin;
 using Ae.Blog.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -18,7 +16,6 @@ using System.Linq;
 
 namespace Ae.Blog.Controllers
 {
-    [Authorize(Policy = "IsAdmin")]
     public class AdminController : Controller
     {
         private readonly IBlogPostRepository blogPostRetriever;
@@ -44,18 +41,6 @@ namespace Ae.Blog.Controllers
             var summaries = blogPostRetriever.GetAllContentSummaries(CancellationToken.None);
 
             return View(new AdminModel{Posts = await summaries, Distribution = await distributionTask});
-        }
-
-        [AllowAnonymous]
-        public IActionResult Login() => Challenge();
-
-        [AllowAnonymous]
-        public IActionResult Denied() => Content("Unathorized");
-
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync();
-            return Redirect("/");
         }
 
         [HttpPost]

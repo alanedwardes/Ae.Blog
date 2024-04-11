@@ -7,7 +7,6 @@ using Amazon.CloudFront;
 using Amazon.DynamoDBv2;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,8 +16,6 @@ using System.Net.Http;
 using Amazon.Lambda;
 using System;
 using Amazon.IdentityManagement;
-using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Authentication;
 
 namespace Ae.Blog
 {
@@ -69,25 +66,6 @@ namespace Ae.Blog
                 ApplicationName = "Ae.Blog"
             }));
 
-            services.AddAuthentication(options =>
-                    {
-                        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-                        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    })
-                    .AddCookie()
-                    .AddGoogle(options =>
-                    {
-                        options.ClientId = configuration["GOOGLE_CONSUMER_KEY"];
-                        options.ClientSecret = configuration["GOOGLE_CONSUMER_SECRET"];
-                    });
-
-            services.AddAuthorization(options => options.AddPolicy("IsAdmin", x => 
-            {
-                x.RequireClaim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress", "alan@alanedwardes.com")
-                 .AddAuthenticationSchemes(GoogleDefaults.AuthenticationScheme);
-            }));
-
             services.AddRouting(options => options.AppendTrailingSlash = true);
 
             services.AddDataProtection()
@@ -106,9 +84,6 @@ namespace Ae.Blog
             app.UseStatusCodePagesWithReExecute("/error");
 
             app.UseRouting();
-
-            app.UseAuthorization();
-            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
