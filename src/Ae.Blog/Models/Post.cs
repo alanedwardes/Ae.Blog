@@ -10,7 +10,8 @@ namespace Ae.Blog.Models
         private string _contentRaw;
 
         public string Content => _contentRaw.Replace("https://s.edward.es/", Constants.CDN_ROOT.ToString())
-                                            .Replace("$CDN_DOMAIN$", Constants.CDN_ROOT.ToString());
+                                            .Replace("$CDN_DOMAIN$", Constants.CDN_ROOT.ToString())
+                                            .Replace("alan.gdn", Constants.CDN_ROOT.Host);
         public bool HasSummary => Content.Contains(MoreMarker);
         public string ContentAll => Content.Replace(MoreMarker, string.Empty);
         public string ContentSummary => Content.Split(MoreMarker)[0];
