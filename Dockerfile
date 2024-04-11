@@ -4,8 +4,6 @@ ARG TARGETPLATFORM
 
 ADD build/${TARGETPLATFORM} /opt/aeblog
 
-VOLUME ["/data"]
-
-WORKDIR /data
+WORKDIR /opt/aeblog/Ae.Blog
 
 ENTRYPOINT ["/opt/aeblog/Ae.Blog"]
