@@ -28,7 +28,6 @@ namespace Ae.Blog
             services.AddSingleton<IBlogPostRepository, BlogPostRepository>();
             services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(RegionEndpoint.EUWest1));
             services.AddSingleton<IAmazonCloudFront>(new AmazonCloudFrontClient());
-            services.AddSingleton<IAmazonIdentityManagementService>(new AmazonIdentityManagementServiceClient());
             services.AddSingleton<IAmazonLambda>(new AmazonLambdaClient(RegionEndpoint.USEast1));
 
             var configuration = new ConfigurationBuilder()
@@ -67,9 +66,6 @@ namespace Ae.Blog
             }));
 
             services.AddRouting(options => options.AppendTrailingSlash = true);
-
-            services.AddDataProtection()
-                    .PersistKeysToAWSSystemsManager("/AeBlog/dataprotection");
 
             services.AddSingleton<PageRouteTransformer>();
         }

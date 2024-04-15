@@ -1,9 +1,9 @@
 ﻿using Ae.Blog.Models;
-using Ae.Blog.Models.Admin;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -13,6 +13,7 @@ namespace Ae.Blog.Services
 {
     public class BlogPostRepository : IBlogPostRepository
     {
+        private readonly IDictionary<string, object> cache = new ConcurrentDictionary<string, object>();
         private readonly IAmazonDynamoDB amazonDynamoDb;
         private readonly IConfiguration configuration;
 
@@ -42,49 +43,78 @@ namespace Ae.Blog.Services
             }
 
             await amazonDynamoDb.PutItemAsync(TableName, attributeValues, token);
+            cache.Clear();
         }
 
         public async Task<Post> GetContent(string slug, CancellationToken token)
         {
-            var item = await amazonDynamoDb.GetItemAsync(TableName, new Dictionary<string, AttributeValue>
-            {
-                { "Slug", new AttributeValue(slug) }
-            }, token);
+            var cacheKey = $"{nameof(GetContent)}-{slug}";
+            Post post;
 
-            var post = ItemToPost(item.Item);
-            post.IsSingle = true;
+            if (cache.TryGetValue(cacheKey, out var cachedValue))
+            {
+                post = (Post)cachedValue;
+            }
+            else
+            {
+                var item = await amazonDynamoDb.GetItemAsync(TableName, new Dictionary<string, AttributeValue>
+                {
+                    { "Slug", new AttributeValue(slug) }
+                }, token);
+                post = ItemToPost(item.Item);
+                post.IsSingle = true;
+                cache[cacheKey] = post;
+            }
             return post;
         }
 
         public async Task<PostSummary[]> GetAllContentSummaries(CancellationToken token)
         {
-            return (await amazonDynamoDb.ScanAsync(new ScanRequest
+            if (cache.TryGetValue(nameof(GetAllContentSummaries), out var cachedValue))
             {
-                TableName = TableName,
-                ProjectionExpression = "Slug,Category,Published,Title,#Type",
-                ExpressionAttributeNames = new Dictionary<string, string>
+                return (PostSummary[])cachedValue;
+            }
+            else
+            {
+                var postSummaries = (await amazonDynamoDb.ScanAsync(new ScanRequest
                 {
-                    { "#Type", "Type" }
-                },
-            })).Items.Select(ItemToPost).OrderByDescending(x => x.Published).ToArray();
+                    TableName = TableName,
+                    ProjectionExpression = "Slug,Category,Published,Title,#Type",
+                    ExpressionAttributeNames = new Dictionary<string, string>
+                    {
+                        { "#Type", "Type" }
+                    },
+                })).Items.Select(ItemToPost).OrderByDescending(x => x.Published).ToArray();
+                cache[nameof(GetAllContentSummaries)] = postSummaries;
+                return postSummaries;
+            }
         }
 
         public async Task<Post[]> GetPublishedPosts(CancellationToken token)
         {
-            return await GetPostsInternal(new ScanRequest
+            if (cache.TryGetValue(nameof(GetPublishedPosts), out var cachedValue))
             {
-                TableName = TableName,
-                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                return (Post[])cachedValue;
+            }
+            else
+            {
+                var posts = await GetPostsInternal(new ScanRequest
                 {
-                    {":published", new AttributeValue { S = "published" }},
-                    {":featured", new AttributeValue { S = "featured" }}
-                },
-                ExpressionAttributeNames = new Dictionary<string, string>
-                {
-                    { "#type", "Type" }
-                },
-                FilterExpression = "#type = :featured OR #type = :published"
-            }, token);
+                    TableName = TableName,
+                    ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                    {
+                        {":published", new AttributeValue { S = "published" }},
+                        {":featured", new AttributeValue { S = "featured" }}
+                    },
+                    ExpressionAttributeNames = new Dictionary<string, string>
+                    {
+                        { "#type", "Type" }
+                    },
+                    FilterExpression = "#type = :featured OR #type = :published"
+                }, token);
+                cache[nameof(GetPublishedPosts)] = posts;
+                return posts;
+            }
         }
 
         private async Task<Post[]> GetPostsInternal(ScanRequest query, CancellationToken token)
@@ -126,6 +156,7 @@ namespace Ae.Blog.Services
                     { "Slug", new AttributeValue(slug) }
                 }
             }, token);
+            cache.Clear();
         }
     }
 }
