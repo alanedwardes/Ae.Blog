@@ -1,5 +1,6 @@
 ﻿@using Ae.Blog.Extensions;
 @using System.Text;
+@using Ae.Blog.Models;
 @model Ae.Blog.Models.BlogModel
 @{
     ViewData["Title"] = Model.Single.Title;
@@ -82,7 +83,7 @@
         ]
     }
     </script>
-    @await Html.PartialAsync("Post", Model.Single)
+    @await Html.PartialAsync("Post", new PostModel(Model.Single, true))
     @{
         var previousPost = @Model.Archive.OrderBy(x => x.Published).TakeWhile(x => x.Slug != Model.Single.Slug).LastOrDefault();
         var nextPost = @Model.Archive.OrderBy(x => x.Published).SkipWhile(x => x.Slug != Model.Single.Slug).Skip(1).FirstOrDefault();

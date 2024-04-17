@@ -66,10 +66,7 @@ namespace Ae.Blog.Controllers
 
             foreach (var post in posts)
             {
-                var words = new Dictionary<string, int>();
-                post.GetWordStatistics(words);
-
-                if (words.ContainsKey(id))
+                if (post.ContentWordStatistics.ContainsKey(id))
                 {
                     matchingPosts.Add(post);
                 }
@@ -94,8 +91,7 @@ namespace Ae.Blog.Controllers
             {
                 var postIndex = Array.IndexOf(posts, post);
 
-                var postWords = new Dictionary<string, int>();
-                post.GetWordStatistics(postWords);
+                var postWords = post.ContentWordStatistics;
 
                 foreach (var word in postWords.Keys)
                 {

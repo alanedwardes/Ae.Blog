@@ -51,9 +51,9 @@ namespace Ae.Blog.Extensions
             }
         }
 
-        public static string GetMarkdown(this Post post)
+        public static string GetMarkdown(this Post post, bool isSingle)
         {
-            if (post.IsSingle)
+            if (isSingle)
             {
                 return Markdown.ToHtml(post.ContentAll, markdownPipeline);
             }
@@ -79,7 +79,7 @@ namespace Ae.Blog.Extensions
 
         public static Uri GetFirstImage(this Post post)
         {
-            foreach (Group group in IMAGE_URI_REGEX.Matches(post.GetMarkdown()).Select(x => x.Groups["uri"]))
+            foreach (Group group in IMAGE_URI_REGEX.Matches(post.GetMarkdown(true)).Select(x => x.Groups["uri"]))
             {
                 if (new[] { ".png", ".jpg", ".jpeg", ".webp", ".gif" }.Any(group.Value.EndsWith) &&
                     Uri.TryCreate(group.Value, UriKind.Absolute, out Uri uri))
@@ -116,32 +116,26 @@ namespace Ae.Blog.Extensions
         private static readonly Lazy<string[]> _redundantWords = new(() => File.ReadAllLines("Resources/redundant_words.txt"));
         private static readonly Lazy<Dictionary<string, string>> _wordRemaps = new(() => File.ReadAllLines("Resources/word_remaps.csv").Select(x => x.Split(',')).ToDictionary(x => x[0], x => x[1]));
 
-        public static void GetWordStatistics(this Post post, IDictionary<string, int> container)
+        public static IDictionary<string, int> GetWordStatistics(IEnumerable<string> words)
         {
-            var plainText = post.Title + ' ' + post.GetPlainText();
+            var container = new Dictionary<string, int>();
 
-            var groups = SplitTextIntoWords(plainText)
-                                  .Select(x => x.ToLower().Trim())
-                                  .Select(x => x.EndsWith("'s") ? x[..^2] : x)
-                                  .Select(x => _wordRemaps.Value.ContainsKey(x) ? _wordRemaps.Value[x] : x)
-                                  .Where(x => !_redundantWords.Value.Contains(x))
-                                  .Where(x => !Guid.TryParse(x, out var id))
-                                  .Where(x => !int.TryParse(x, out var _))
-                                  .Where(x => x.Count(permittedPunctuation.Contains) < 2)
-                                  .Where(x => x.Length > 1 && x.Length < 20)
-                                  .GroupBy(x => x);
+            var groups = words.Select(x => x.ToLower().Trim())
+                        .Select(x => x.EndsWith("'s") ? x[..^2] : x)
+                        .Select(x => _wordRemaps.Value.ContainsKey(x) ? _wordRemaps.Value[x] : x)
+                        .Where(x => !_redundantWords.Value.Contains(x))
+                        .Where(x => !Guid.TryParse(x, out var id))
+                        .Where(x => !int.TryParse(x, out var _))
+                        .Where(x => x.Count(permittedPunctuation.Contains) < 2)
+                        .Where(x => x.Length > 1 && x.Length < 20)
+                        .GroupBy(x => x);
 
             foreach (var group in groups)
             {
-                if (container.ContainsKey(group.Key))
-                {
-                    container[group.Key] += group.Count();
-                }
-                else
-                {
-                    container.Add(group.Key, group.Count());
-                }
+                container.Add(group.Key, group.Count());
             }
+
+            return container;
         }
     }
 }

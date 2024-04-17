@@ -82,7 +82,17 @@
 
                     foreach (var post in Model)
                     {
-                        post.GetWordStatistics(wordStatistics);
+                        foreach (var word in post.ContentWordStatistics)
+                        {
+                            if (wordStatistics.ContainsKey(word.Key))
+                            {
+                                wordStatistics[word.Key] += word.Value;
+                            }
+                            else
+                            {
+                                wordStatistics.Add(word.Key, word.Value);
+                            }
+                        }
                     }
 
                     var random = new Random(wordStatistics.Count);

@@ -1,28 +1,28 @@
 ﻿@using Ae.Blog.Extensions;
-@model Ae.Blog.Models.Post
-<article class="post" slug="@Model.Slug">
+@model Ae.Blog.Models.PostModel
+<article class="post" slug="@Model.Post.Slug">
     @if (Model.IsSingle)
     {
-        <h2>@Model.Title</h2>
+        <h2>@Model.Post.Title</h2>
     }
     else
     {
-        <h2><a href="@Model.Url">@Model.Title</a></h2>
+        <h2><a href="@Model.Post.Url">@Model.Post.Title</a></h2>
     }
 
     <p class="meta">
-        @if (Model.Updated.HasValue && (Model.Updated.Value - Model.Published > TimeSpan.FromDays(5)))
+        @if (Model.Post.Updated.HasValue && (Model.Post.Updated.Value - Model.Post.Published > TimeSpan.FromDays(5)))
         {
-            <span><time datetime="@Model.Published.ToString("o")" title="@Model.Published">📅 @Model.Published.ToOrdinalWords()</time>, updated @Model.Updated.Value.ToOrdinalWords()</span>
+            <span><time datetime="@Model.Post.Published.ToString("o")" title="@Model.Post.Published">📅 @Model.Post.Published.ToOrdinalWords()</time>, updated @Model.Post.Updated.Value.ToOrdinalWords()</span>
         }
         else
         {
-            <span><time datetime="@Model.Published.ToString("o")" title="@Model.Published">📅 @Model.Published.ToOrdinalWords()</time></span>
+            <span><time datetime="@Model.Post.Published.ToString("o")" title="@Model.Post.Published">📅 @Model.Post.Published.ToOrdinalWords()</time></span>
         }
 
-        <span> 🔖 <a href="@Model.CategoryUrl">@Model.Category</a></span>
+        <span> 🔖 <a href="@Model.Post.CategoryUrl">@Model.Post.Category</a></span>
 
-        <span> ⏲️ @((TimeSpan.FromMinutes(Math.Max(1, MarkdownExtensions.SplitTextIntoWords(Model.GetPlainText()).Count() / 200))).Humanize()) to read</span>
+        <span> ⏲️ @((TimeSpan.FromMinutes(Math.Max(1, Model.Post.ContentWords.Count() / 200))).Humanize()) to read</span>
 
         <span id="dynamic-comment-count"></span>
     </p>
@@ -30,7 +30,7 @@
         @if (Model.IsSingle)
         {
             <script>
-                fetch("https://alanedwardes.com/api/commentcount.json?slug=@(Model.Slug)")
+                fetch("https://alanedwardes.com/api/commentcount.json?slug=@(Model.Post.Slug)")
                     .then(data => data.json())
                     .then(data => {
                         let commentsCount = data.count;
@@ -44,7 +44,7 @@
         }
 
         @{
-            var lastUpdated = Model.Updated ?? Model.Published;
+            var lastUpdated = Model.Post.Updated ?? Model.Post.Published;
         }
 
         @if (Model.IsSingle && DateTime.UtcNow - lastUpdated > TimeSpan.FromDays(365 * 3))
@@ -52,18 +52,16 @@
             <p class="highlight">⚠️ This post was last updated in @lastUpdated.Year, meaning its contents may be outdated.</p>
         }
 
-        @Html.Raw(Model.GetMarkdown())
+        @Html.Raw(Model.Post.GetMarkdown(Model.IsSingle))
 
-        @if (Model.HasSummary && !Model.IsSingle)
+        @if (Model.Post.HasSummary && !Model.IsSingle)
         {
-            <p><a href="@Model.Url">Continue Reading &raquo;</a></p>
+            <p><a href="@Model.Post.Url">Continue Reading &raquo;</a></p>
         }
 
         @if (Model.IsSingle)
         {
-            var wordStatistics = new Dictionary<string, int>();
-            Model.GetWordStatistics(wordStatistics);
-            var topWords = wordStatistics.OrderByDescending(x => x.Value).Take(15);
+            var topWords = Model.Post.ContentWordStatistics.OrderByDescending(x => x.Value).Take(15);
 
             <p class="highlight">
                 <span>🏷️ </span>

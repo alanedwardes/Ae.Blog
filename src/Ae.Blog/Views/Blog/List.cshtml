@@ -29,7 +29,7 @@
         <div id="search-feedback"></div>
         @foreach (var post in Model.Posts)
         {
-            @await Html.PartialAsync("Post", post)
+            @await Html.PartialAsync("Post", new PostModel(post, false))
         }
     </aside>
     <div class="clear"></div>

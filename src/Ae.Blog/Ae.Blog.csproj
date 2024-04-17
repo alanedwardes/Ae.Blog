@@ -6,7 +6,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-  <PackageReference Include="Ae.Freezer.Aws" Version="1.1.0" />
+  <PackageReference Include="Ae.Freezer.Aws" Version="2.0.3" />
   <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="9.0.0" />
   <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.302.15" />
   <PackageReference Include="AWSSDK.S3" Version="3.7.307.15" />
