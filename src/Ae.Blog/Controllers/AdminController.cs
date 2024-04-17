@@ -116,12 +116,20 @@ namespace Ae.Blog.Controllers
             freezerConfiguration.AdditionalResources.Add(new Uri("lib/highlight/atom-one-dark.min.css", UriKind.Relative));
             freezerConfiguration.AdditionalResources.Add(new Uri("blog/search", UriKind.Relative));
 
-            foreach (var page in (await blogPostRetriever.GetAllContentSummaries(CancellationToken.None)).Where(x => x.Type == PostType.Page))
+            foreach (var content in (await blogPostRetriever.GetAllContentSummaries(CancellationToken.None)))
             {
-                var path = page.Url.TrimStart('/');
-                if (!string.IsNullOrWhiteSpace(path))
+                if (content.Type == PostType.Page)
                 {
-                    freezerConfiguration.AdditionalResources.Add(new Uri(path, UriKind.Relative));
+                    var path = content.Url.TrimStart('/');
+                    if (!string.IsNullOrWhiteSpace(path))
+                    {
+                        freezerConfiguration.AdditionalResources.Add(new Uri(path, UriKind.Relative));
+                    }
+                }
+
+                if (content.Type == PostType.Published)
+                {
+                    freezerConfiguration.AdditionalResources.Add(new Uri($"blog/posts/{content.Slug}.md", UriKind.Relative));
                 }
             }
 

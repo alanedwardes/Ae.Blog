@@ -45,6 +45,13 @@ namespace Ae.Blog.Controllers
             });
         }
 
+        [HttpGet("/blog/posts/{id}.md")]
+        public async Task<IActionResult> Markdown(string id)
+        {
+            var post = await blogPostRetriever.GetContent(id, CancellationToken.None);
+            return Content(post.Content);
+        }
+
         public async Task<IActionResult> Categories(string id)
         {
             var posts = await blogPostRetriever.GetPublishedPosts(CancellationToken.None);
