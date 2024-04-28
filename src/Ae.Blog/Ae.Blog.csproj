@@ -4,6 +4,12 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="config.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config.json" />
+  </ItemGroup>
   
   <ItemGroup>
   <PackageReference Include="Ae.Freezer.Aws" Version="2.1.0" />
