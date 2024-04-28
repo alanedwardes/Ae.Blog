@@ -30,6 +30,7 @@ namespace Ae.Blog
             services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(RegionEndpoint.EUWest1));
             services.AddSingleton<IAmazonCloudFront>(new AmazonCloudFrontClient());
             services.AddSingleton<IAmazonLambda>(new AmazonLambdaClient(RegionEndpoint.USEast1));
+            services.AddSingleton<IAmazonIdentityManagementService>(new AmazonIdentityManagementServiceClient());
 
             var configuration = new ConfigurationBuilder()
                 .AddEnvironmentVariables()

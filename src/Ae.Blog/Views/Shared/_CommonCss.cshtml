@@ -71,8 +71,11 @@ button, select {
         background: #444;
     }
 
-a {
+a, strong {
     color: rgba(255, 255, 255, 0.9);
+}
+
+a {
     border-bottom: 1px solid @highlightColourHex;
 }
 
@@ -143,6 +146,12 @@ section {
     .content {
         float:none !important;
         max-width:inherit !important;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        box-shadow: none !important;
     }
 }
 
@@ -297,6 +306,11 @@ article pre, article code, article a {
     word-wrap: break-word;
 }
 
+article code:not(.hljs) {
+    background: #333;
+    padding: 2px 4px;
+}
+
 article pre code {
     display: block;
 }
@@ -322,7 +336,7 @@ main video {
     background:#111;
 }
 
-main video, main pre, main blockquote, main iframe, p.highlight, .sidebar, table {
+main video, main pre, main blockquote, main iframe, p.highlight, .sidebar, table, code:not(.hljs) {
     box-shadow:0px 0px 10px #111;
 }
 
@@ -411,8 +425,8 @@ ul.cloud a {
 }
 
 table {
-  text-align:center;
-  width:100%;
+  text-align: center;
+  width: 100%;
   border-collapse: collapse;
 }
 
