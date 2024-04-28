@@ -16,6 +16,7 @@ using System.Net.Http;
 using Amazon.Lambda;
 using System;
 using Amazon.S3;
+using Amazon.IdentityManagement;
 
 namespace Ae.Blog
 {
