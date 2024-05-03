@@ -1,0 +1,403 @@
+﻿html {
+    height: 100%;
+    font-family: "Atkinson Hyperlegible", sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5em;
+    height: 100%;
+    overflow-y: scroll;
+    text-shadow: 0px 0px 7.5px rgba(1, 1, 1, 0.5);
+    font-size: 1.4em;
+    color:rgba(255, 255, 255, 0.7);
+}
+
+hr {
+    height: 1px;
+    border: 0;
+}
+
+textarea, button, input, select {
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    background: #333;
+    border: 1px solid #333;
+}
+
+input, textarea {
+    padding: 2.5px 5px;
+}
+
+input[type=text] {
+    min-width:100%;
+}
+
+button, select {
+    padding: 5px 10px;
+    border: 0;
+    width: 100%;
+}
+
+    button:hover {
+        background: #444;
+    }
+
+a, strong {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a {
+    border-bottom:none;
+}
+
+.slideshow {
+    line-height:0;
+}
+
+.slideshow a {
+    border-width:0;
+    display:inline-block;
+}
+
+.slideshow .slide.preview + .slide.preview {
+    padding-left:5px;
+}
+
+.slide {
+    transition:opacity 0.3s;
+}
+
+.slide.loading {
+    opacity:0.5;
+}
+
+.slides {
+    padding-top:5px;
+    padding-bottom:5px;
+    text-align:center;
+    white-space:nowrap;
+    overflow-x:scroll;
+}
+
+.slides a {
+    transition:opacity 0.3s;
+}
+
+.slides a:hover {
+    opacity:0.75;
+}
+
+main {
+    background: #222;
+}
+
+section {
+    padding: 20px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.content {
+    max-width: 730px;
+}
+
+@media (max-width: 1060px) {
+    .desktoponly {
+        display: none;
+    }
+
+    .content {
+        float:none !important;
+        max-width:inherit !important;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        box-shadow: none !important;
+    }
+}
+
+.right {
+    float: right;
+}
+
+.left {
+    float: left;
+}
+
+a {
+    text-decoration: none;
+}
+
+.clear {
+    clear: both;
+}
+
+h1, h2, h3, h4, h5 {
+    line-height: 1.4em;
+    font-weight: normal;
+    color: white;
+    margin: 0;
+}
+
+header {
+    font-size:1.1em;
+}
+
+    header .left {
+        float: left;
+    }
+
+    header h1, header p {
+        margin: 0
+    }
+
+    header ul {
+        float: right;
+        list-style-type: none;
+        margin: 1.1em 0 0 0;
+        padding: 0;
+    }
+
+    header li {
+        padding: 0 10px;
+        float: left;
+    }
+
+    header a {
+        border: 0;
+    }
+
+footer {
+
+}
+
+    footer, footer a {
+        color: white;
+    }
+
+        footer p {
+            margin: 0;
+        }
+
+        footer .ligature {
+            float: right;
+        }
+
+.home {
+    font-size: 1.25em;
+    line-height: 1.75em;
+}
+        
+blockquote {
+    margin: 20px 0;
+    padding: 0 20px;
+}
+        
+p.highlight {
+    text-align: center;
+    padding: 5px;
+}
+
+p.highlight, blockquote, table thead {
+    color: white;
+}
+
+@media (max-width: 1024px) {
+    .project.small {
+        max-width: 100% !important;
+        float:none !important;
+    }
+}
+
+.featured {
+    margin-bottom:15px;
+}
+
+.home .featured .post {
+    width:300px;
+    height:150px;
+}
+
+.featured .post {
+    text-shadow:1px 1px 2.5px black,
+                -1px -1px 2.5px black,
+                1px -1px 2.5px black,
+                -1px 1px 2.5px black;
+    cursor:pointer;
+    width:210px;
+    height:120px;
+    background-size:cover;
+    background-position:center center;
+    padding:10px;
+    float:left;
+    box-shadow:0px 0px 5px black;
+    margin-right:10px;
+}
+
+.featured .post:hover a {
+    border-bottom:0px;
+}
+
+.project.small {
+    background:#111;
+    padding:10px;
+    margin:10px;
+    box-shadow:0 0 10px #111;
+    max-width: 440px;
+    float:left;
+}
+
+.project.small p {
+    margin:0;
+}
+
+article pre, article code, article a {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+article code:not(.hljs) {
+    background: #333;
+    padding: 2px 4px;
+}
+
+article pre code {
+    display: block;
+}
+
+    article pre code:not(.hljs) {
+        padding: .5em;
+        background: #282b2e;
+        color: #e0e2e4;
+    }
+
+article img {
+  display:block;
+  margin:0 auto;
+}
+
+.meta {
+    color: #757575;
+}
+
+main video {
+    height: 100%;
+    width: 100%;
+    background:#111;
+}
+
+main video, main pre, main blockquote, main iframe, p.highlight, .sidebar, table, code:not(.hljs) {
+    box-shadow:0px 0px 10px #111;
+}
+
+main iframe {
+    width:100%;
+    border:0;
+}
+
+main img {
+    max-width: 100%;
+    filter: drop-shadow(0px 0px 10px #111);
+}
+
+.sidebar {
+    font-size:.9em;
+    line-height: 1.5em;
+    max-width: 220px;
+}
+
+    .sidebar input {
+        width: 100%;
+    }
+
+    .sidebar ul {
+        padding-left: 20px;
+    }
+
+    .sidebar .meta {
+        color: #757575;
+    }
+
+    .sidebar .icons {
+        text-align:center;
+    }
+
+    .sidebar .icons a {
+        border:0;
+        padding:0px 7.5px;
+    }
+
+.callout {
+    padding: 10px;
+    background: #252525;
+    border: 1px solid #333;
+    margin-bottom: 20px;
+}
+
+textarea {
+    width: 100%;
+    height: 512px;
+    display: block;
+}
+
+#disqus_thread {
+    min-height:400px;
+}
+
+#disqus_thread iframe {
+    box-shadow:none;
+}
+
+ul.cloud {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+ul.cloud li.weight1 { font-size: 0.5em; }
+ul.cloud li.weight2 { font-size: 0.7em; }
+ul.cloud li.weight3 { font-size: 0.9em; }
+ul.cloud li.weight4 { font-size: 1.1em; }
+ul.cloud li.weight5 { font-size: 1.3em; }
+ul.cloud li.weight6 { font-size: 1.5em; }
+ul.cloud li.weight7 { font-size: 1.7em; }
+ul.cloud li.weight8 { font-size: 1.9em; }
+ul.cloud li.weight9 { font-size: 2.1em; }
+
+ul.cloud a {
+  display: block;
+  margin: 0.125rem 0.25rem;
+  border:0;
+  position: relative;
+}
+
+table {
+  text-align: center;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table thead tr th {
+  font-weight: normal;
+  padding:10px;
+}
+
+table tbody tr {
+  background: #111;
+}
+
+table tbody tr td {
+  padding:10px;
+}
+
+table tbody tr:nth-child(even) {
+  background: #171717;
+}

@@ -37,6 +37,8 @@ namespace Ae.Blog
                 .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "config.secret.json"), true)
                 .Build();
 
+            configuration["STATIC_ASSET_PREFIX"] = $"assets-{Guid.NewGuid().ToString().Split('-')[0]}";
+
             services.AddSingleton<IConfiguration>(configuration);
 
             services.AddHttpClient();
@@ -74,10 +76,12 @@ namespace Ae.Blog
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             app.UseDeveloperExceptionPage();
-
             loggerFactory.AddLambdaLogger();
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                RequestPath = "/" + app.ApplicationServices.GetRequiredService<IConfiguration>()["STATIC_ASSET_PREFIX"]
+            });
             app.UseStatusCodePagesWithReExecute("/error");
 
             app.UseRouting();

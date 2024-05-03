@@ -1,16 +1,20 @@
 ﻿@using Ae.Blog.Extensions;
 @using System.Text;
 @using Ae.Blog.Models;
+@using Microsoft.Extensions.Configuration
+@using Microsoft.Extensions.DependencyInjection
 @model Ae.Blog.Models.BlogModel
 @{
     ViewData["Title"] = Model.Single.Title;
     ViewData["Description"] = Model.Single.GetFirstLineText();
 
+    var staticAssetPrefix = Context.RequestServices.GetRequiredService<IConfiguration>()["STATIC_ASSET_PREFIX"];
+
     var footerIncludebuilder = new StringBuilder();
 
     if (Model.Single.ContentAll.Contains("```"))
     {
-        footerIncludebuilder.AppendLine("<script src=\"/lib/highlight/highlight.min.js\"></script>");
+        footerIncludebuilder.AppendLine($"<script src=\"/{staticAssetPrefix}/lib/highlight/highlight.min.js\"></script>");
 
         var languageAliases = new Dictionary<string, string>
         {
@@ -32,14 +36,14 @@
         {
             if (Model.Single.ContentAll.Contains($"```{alias.Key}"))
             {
-                footerIncludebuilder.AppendLine($"<script src=\"/lib/highlight/languages/{alias.Value}.min.js\"></script>");
+                footerIncludebuilder.AppendLine($"<script src=\"/{staticAssetPrefix}/lib/highlight/languages/{alias.Value}.min.js\"></script>");
             }
         }
 
         footerIncludebuilder.AppendLine("<script>" +
             "var hljsThemeLink = document.createElement('link');" +
             "hljsThemeLink.rel = 'stylesheet';" +
-            "hljsThemeLink.href = '/lib/highlight/atom-one-dark.min.css';" +
+            $"hljsThemeLink.href = '/{staticAssetPrefix}/lib/highlight/atom-one-dark.min.css';" +
             "hljsThemeLink.type = 'text/css';" +
             "document.getElementsByTagName('head')[0].appendChild(hljsThemeLink);" +
             "hljs.highlightAll();" +

@@ -12,7 +12,7 @@ using Amazon.CloudFront;
 using Amazon.CloudFront.Model;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
-using System.Linq;
+using System.IO;
 
 namespace Ae.Blog.Controllers
 {
@@ -48,7 +48,7 @@ namespace Ae.Blog.Controllers
         {
             var post = new Post
             {
-                ContentRaw = model.Content,
+                Content = model.Content,
                 Type = model.Type,
                 Title = model.Title,
                 Category = model.Category,
@@ -72,7 +72,7 @@ namespace Ae.Blog.Controllers
         {
             var post = await blogPostRetriever.GetContent(id, CancellationToken.None);
 
-            post.ContentRaw = model.Content;
+            post.Content = model.Content;
             post.Category = model.Category;
             post.Updated = model.Type == PostType.Draft ? null : DateTime.UtcNow;
             post.Type = model.Type;
@@ -107,14 +107,22 @@ namespace Ae.Blog.Controllers
         [HttpPost]
         public async Task<IActionResult> Publish()
         {
+            var staticAssetPrefix = HttpContext.RequestServices.GetRequiredService<IConfiguration>()["STATIC_ASSET_PREFIX"];
+
             var freezerConfiguration = new FreezerConfiguration
             {
                 HttpClientName = "FREEZER_CLIENT",
                 ResourceWriter = x => x.GetRequiredService<IWebsiteResourceWriter>()
             };
             freezerConfiguration.AdditionalResources.Add(new Uri("sitemap.xml", UriKind.Relative));
-            freezerConfiguration.AdditionalResources.Add(new Uri("lib/highlight/atom-one-dark.min.css", UriKind.Relative));
             freezerConfiguration.AdditionalResources.Add(new Uri("blog/search", UriKind.Relative));
+
+            var staticAssets = "wwwroot";
+            foreach (var staticAsset in Directory.EnumerateFiles(staticAssets, "*", SearchOption.AllDirectories))
+            {
+                var publicPath = staticAsset[staticAssets.Length..].Replace("\\", "/");
+                freezerConfiguration.AdditionalResources.Add(new Uri($"{staticAssetPrefix}{publicPath}", UriKind.Relative));
+            }
 
             foreach (var content in (await blogPostRetriever.GetAllContentSummaries(CancellationToken.None)))
             {
@@ -132,8 +140,6 @@ namespace Ae.Blog.Controllers
                     freezerConfiguration.AdditionalResources.Add(new Uri($"blog/posts/{content.Slug}.md", UriKind.Relative));
                 }
             }
-
-            freezerConfiguration.AdditionalResources.Add(new Uri("lib/model-viewer/model-viewer.min.js", UriKind.Relative));
 
             await freezer.Freeze(freezerConfiguration, CancellationToken.None);
             return Redirect(Url.Action(nameof(Index)));

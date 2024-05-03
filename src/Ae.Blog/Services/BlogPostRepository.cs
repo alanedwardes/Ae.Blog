@@ -97,7 +97,11 @@ namespace Ae.Blog.Services
 
             if (item.ContainsKey("Content"))
             {
-                post.ContentRaw = item["Content"].S;
+                post.Content = item["Content"].S
+                    .Replace("https://s.edward.es/", Constants.CDN_ROOT.ToString())
+                    .Replace("$CDN_DOMAIN$", Constants.CDN_ROOT.ToString())
+                    .Replace("alan.gdn", Constants.CDN_ROOT.Host)
+                    .Replace("$STATIC_ASSET_PREFIX$", configuration["STATIC_ASSET_PREFIX"]);
                 post.PreCompute();
             }
 
