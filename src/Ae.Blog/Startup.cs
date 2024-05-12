@@ -58,7 +58,6 @@ namespace Ae.Blog
                         {
                             BucketName = configuration["PUBLISH_BUCKET"],
                             DistributionId = configuration["CLOUDFRONT_DISTRIBUTION"],
-                            PutRequestModifier = request => request.CannedACL = S3CannedACL.PublicRead,
                             ShouldCleanUnmatchedObjects = true,
                         }, x.GetRequiredService<IAmazonS3>(), x.GetRequiredService<IAmazonCloudFront>());
                     });
