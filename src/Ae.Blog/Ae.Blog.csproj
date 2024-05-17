@@ -14,12 +14,11 @@
   <ItemGroup>
   <PackageReference Include="Ae.Freezer.Aws" Version="2.1.0" />
   <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="9.0.0" />
-  <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.302.24" />
-  <PackageReference Include="AWSSDK.S3" Version="3.7.307.24" />
+  <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.303.8" />
+  <PackageReference Include="AWSSDK.S3" Version="3.7.308.2" />
   <PackageReference Include="Humanizer.Core" Version="2.14.1" />
   <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
   <PackageReference Include="Markdig" Version="0.37.0" />
-  <PackageReference Include="Google.Apis.YouTube.v3" Version="1.68.0.3394" />
   </ItemGroup>
   
   <ItemGroup>

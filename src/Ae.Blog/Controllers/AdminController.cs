@@ -13,6 +13,10 @@ using Amazon.CloudFront.Model;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using Microsoft.AspNetCore.Http;
+using Amazon.S3;
+using Amazon.S3.Model;
+using Amazon;
 
 namespace Ae.Blog.Controllers
 {
@@ -21,6 +25,7 @@ namespace Ae.Blog.Controllers
         private readonly IBlogPostRepository blogPostRetriever;
         private readonly IAmazonCloudFront cloudFrontClient;
         private readonly IConfiguration configuration;
+        private readonly IAmazonS3 amazonS3;
         private readonly IFreezer freezer;
 
         public AdminController(IBlogPostRepository blogPostRetriever, IFreezer freezer, IAmazonCloudFront cloudFrontClient, IConfiguration configuration)
@@ -29,6 +34,8 @@ namespace Ae.Blog.Controllers
             this.cloudFrontClient = cloudFrontClient;
             this.configuration = configuration;
             this.freezer = freezer;
+
+            amazonS3 = new AmazonS3Client(RegionEndpoint.GetBySystemName(configuration["CDN_REGION"]));
         }
 
         public async Task<IActionResult> Index()
@@ -41,6 +48,23 @@ namespace Ae.Blog.Controllers
             var summaries = blogPostRetriever.GetAllContentSummaries(CancellationToken.None);
 
             return View(new AdminModel{Posts = await summaries, Distribution = await distributionTask});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Upload(IFormFile file)
+        {
+            var objectKey = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+
+            await amazonS3.PutObjectAsync(new PutObjectRequest
+            {
+                BucketName = configuration["CDN_BUCKET"],
+                InputStream = file.OpenReadStream(),
+                ContentType = file.ContentType,
+                CannedACL = S3CannedACL.PublicRead,
+                Key = objectKey
+            });
+
+            return Redirect(string.Format(configuration["CDN_URI_FORMAT"], objectKey));
         }
 
         [HttpPost]

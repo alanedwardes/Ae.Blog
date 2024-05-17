@@ -5,8 +5,6 @@ using Ae.Blog.Services;
 using Amazon;
 using Amazon.CloudFront;
 using Amazon.DynamoDBv2;
-using Google.Apis.Services;
-using Google.Apis.YouTube.v3;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -64,12 +62,6 @@ namespace Ae.Blog
 
             services.AddSingleton<IConfiguration>(configuration);
             services.AddSingleton(new HttpClient());
-
-            services.AddSingleton(new YouTubeService(new BaseClientService.Initializer()
-            {
-                ApiKey = configuration["YOUTUBE_API_KEY"],
-                ApplicationName = "Ae.Blog"
-            }));
 
             services.AddRouting(options => options.AppendTrailingSlash = true);
 
