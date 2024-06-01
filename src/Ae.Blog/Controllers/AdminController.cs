@@ -138,14 +138,14 @@ namespace Ae.Blog.Controllers
                 HttpClientName = "FREEZER_CLIENT",
                 ResourceWriter = x => x.GetRequiredService<IWebsiteResourceWriter>()
             };
-            freezerConfiguration.AdditionalResources.Add(new Uri("sitemap.xml", UriKind.Relative));
-            freezerConfiguration.AdditionalResources.Add(new Uri("blog/search", UriKind.Relative));
+            freezerConfiguration.AdditionalResources.Add("sitemap.xml");
+            freezerConfiguration.AdditionalResources.Add("blog/search");
 
             var staticAssets = "wwwroot";
             foreach (var staticAsset in Directory.EnumerateFiles(staticAssets, "*", SearchOption.AllDirectories))
             {
                 var publicPath = staticAsset[staticAssets.Length..].Replace("\\", "/");
-                freezerConfiguration.AdditionalResources.Add(new Uri($"{staticAssetPrefix}{publicPath}", UriKind.Relative));
+                freezerConfiguration.AdditionalResources.Add($"{staticAssetPrefix}{publicPath}");
             }
 
             foreach (var content in (await blogPostRetriever.GetAllContentSummaries(CancellationToken.None)))
@@ -155,13 +155,13 @@ namespace Ae.Blog.Controllers
                     var path = content.Url.TrimStart('/');
                     if (!string.IsNullOrWhiteSpace(path))
                     {
-                        freezerConfiguration.AdditionalResources.Add(new Uri(path, UriKind.Relative));
+                        freezerConfiguration.AdditionalResources.Add(path);
                     }
                 }
 
                 if (content.Type == PostType.Published)
                 {
-                    freezerConfiguration.AdditionalResources.Add(new Uri($"blog/posts/{content.Slug}.md", UriKind.Relative));
+                    freezerConfiguration.AdditionalResources.Add($"blog/posts/{content.Slug}.md");
                 }
             }
 
