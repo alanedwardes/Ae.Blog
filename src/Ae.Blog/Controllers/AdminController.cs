@@ -104,7 +104,7 @@ namespace Ae.Blog.Controllers
 
             await blogPostRetriever.PutContent(post, CancellationToken.None);
 
-            return Redirect(Url.Action(nameof(Index)));
+            return Redirect(Url.Action(nameof(Edit), new { id = id }));
         }
 
         [HttpGet]
