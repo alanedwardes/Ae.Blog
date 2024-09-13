@@ -5,6 +5,7 @@
         Draft,
         Published,
         Featured,
+        Demoted,
         Page
     }
 }

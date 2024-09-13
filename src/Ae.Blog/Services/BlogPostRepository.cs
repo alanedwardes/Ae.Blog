@@ -66,7 +66,7 @@ namespace Ae.Blog.Services
 
         public async Task<Post[]> GetPublishedPosts(CancellationToken token)
         {
-            return (await allPosts).Where(x => x.Type == PostType.Featured || x.Type == PostType.Published).ToArray();
+            return (await allPosts).Where(x => x.Type == PostType.Featured || x.Type == PostType.Published || x.Type == PostType.Demoted).ToArray();
         }
 
         private async Task<Post[]> GetAllPosts(CancellationToken token)

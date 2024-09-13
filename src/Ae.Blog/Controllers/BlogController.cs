@@ -29,7 +29,7 @@ namespace Ae.Blog.Controllers
             return View("List", new BlogModel
             {
                 Archive = await postsTask,
-                Posts = await postsTask
+                Posts = (await postsTask).Where(x => x.Type != PostType.Demoted).ToList()
             });
         }
 

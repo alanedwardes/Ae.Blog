@@ -117,7 +117,8 @@ namespace Ae.Blog.Controllers
                 Title = post.Title,
                 Category = post.Category,
                 Content = post.Content,
-                Type = post.Type
+                Type = post.Type,
+                Slug = post.Slug
             });
         }
 
