@@ -1,5 +1,4 @@
 {
-  "POSTS_TABLE": "AeBlog-PostsTable-AKMP77WYC4X3",
   "CLOUDFRONT_DISTRIBUTION": "E295SAMVLG12SQ",
   "PUBLISH_BUCKET": "ae-blog-publish-london",
   "BASE_ADDRESS": "https://localhost:5001/",

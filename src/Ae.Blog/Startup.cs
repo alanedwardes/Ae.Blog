@@ -4,7 +4,6 @@ using Ae.Freezer.Writers;
 using Ae.Blog.Services;
 using Amazon;
 using Amazon.CloudFront;
-using Amazon.DynamoDBv2;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,12 +23,10 @@ namespace Ae.Blog
         {
             services.AddMvc();
             services.AddSingleton<IColourRepository, ColourRepository>();
-            services.AddSingleton<IBlogPostRepository, BlogPostRepository>();
-            services.AddSingleton<IAmazonS3>(new AmazonS3Client(RegionEndpoint.EUWest2));
-            services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(RegionEndpoint.EUWest1));
-            services.AddSingleton<IAmazonCloudFront>(new AmazonCloudFrontClient());
-            services.AddSingleton<IAmazonLambda>(new AmazonLambdaClient(RegionEndpoint.USEast1));
-            services.AddSingleton<IAmazonIdentityManagementService>(new AmazonIdentityManagementServiceClient());
+			services.AddSingleton<IAmazonS3>(x => new AmazonS3Client(RegionEndpoint.EUWest2));
+            services.AddSingleton<IAmazonCloudFront>(x => new AmazonCloudFrontClient());
+            services.AddSingleton<IAmazonLambda>(x => new AmazonLambdaClient(RegionEndpoint.USEast1));
+            services.AddSingleton<IAmazonIdentityManagementService>(x => new AmazonIdentityManagementServiceClient());
 
             var configuration = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
@@ -39,7 +36,9 @@ namespace Ae.Blog
 
             configuration["STATIC_ASSET_PREFIX"] = $"assets-{Guid.NewGuid().ToString().Split('-')[0]}";
 
-            services.AddSingleton<IConfiguration>(configuration);
+			services.AddSingleton<IConfiguration>(configuration);
+
+			services.AddSingleton<IBlogPostRepository, LocalBlogPostRepository>();
 
             services.AddHttpClient();
 

@@ -1,0 +1,9 @@
+{
+  "Slug": "hello-world",
+  "Category": "general",
+  "Published": "2024-01-01T09:00:00Z",
+  "Updated": null,
+  "Title": "Hello World",
+  "Type": "Published",
+  "Content": "Hello from disk!"
+}
