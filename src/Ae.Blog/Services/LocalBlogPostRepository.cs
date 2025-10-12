@@ -92,6 +92,8 @@ namespace Ae.Blog.Services
 				var post = JsonSerializer.Deserialize<Post>(json, jsonOptions);
 				if (post == null) continue;
 
+				post.ContentRaw = post.Content;
+
 				if (!string.IsNullOrEmpty(post.Content))
 				{
 					post.Content = post.Content

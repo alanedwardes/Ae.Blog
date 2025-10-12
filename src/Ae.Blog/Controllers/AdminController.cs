@@ -40,14 +40,9 @@ namespace Ae.Blog.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var distributionTask = cloudFrontClient.GetDistributionAsync(new GetDistributionRequest
-            {
-                Id = configuration["CLOUDFRONT_DISTRIBUTION"]
-            }, CancellationToken.None);
+            var summaries = await blogPostRetriever.GetAllContentSummaries(CancellationToken.None);
 
-            var summaries = blogPostRetriever.GetAllContentSummaries(CancellationToken.None);
-
-            return View(new AdminModel{Posts = await summaries, Distribution = await distributionTask});
+            return View(new AdminModel{Posts = summaries});
         }
 
         [HttpPost]
@@ -116,7 +111,7 @@ namespace Ae.Blog.Controllers
             {
                 Title = post.Title,
                 Category = post.Category,
-                Content = post.Content,
+                Content = post.ContentRaw,
                 Type = post.Type,
                 Slug = post.Slug
             });

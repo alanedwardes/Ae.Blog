@@ -17,16 +17,12 @@
     <table>
         <thead>
             <tr>
-                <th>Deploy Status</th>
-                <th>Cache Invalidations</th>
                 <th>Publish</th>
                 <th>Flush Cache</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>@Model.Distribution.Distribution.Status</td>
-                <td>@Model.Distribution.Distribution.InProgressInvalidationBatches</td>
                 <td>
                     <form method="post" action="/admin/publish/" onsubmit="return confirm('Are you sure you want to publish the website?');">
                         <button type="submit">Publish Website</button>

@@ -6,6 +6,5 @@ namespace Ae.Blog.Models.Admin
     {
         public Post Post { get; set; }
         public PostSummary[] Posts { get; set; }
-        public GetDistributionResponse Distribution { get; set; }
     }
 }

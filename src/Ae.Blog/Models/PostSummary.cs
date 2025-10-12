@@ -1,5 +1,6 @@
 ﻿using Ae.Blog.Models.Admin;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Ae.Blog.Models
 {
@@ -12,7 +13,10 @@ namespace Ae.Blog.Models
         public string Title { get; set; }
         public PostType Type { get; set; }
 
+        [JsonIgnore]
         public string Url => Type == PostType.Page ? Slug == "index" ? "/" : $"/{Slug}/" : $"/blog/posts/{Slug}/";
+
+        [JsonIgnore]
         public string CategoryUrl => $"/blog/categories/{Category}/";
     }
 }
