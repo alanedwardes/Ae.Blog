@@ -67,7 +67,7 @@ namespace Ae.Blog.Controllers
         {
             var post = new Post
             {
-                Content = model.Content,
+                Content = model.Content.Replace("https://s.alanedwardes.com/", "$CDN_DOMAIN$"),
                 Type = model.Type,
                 Title = model.Title,
                 Category = model.Category,
