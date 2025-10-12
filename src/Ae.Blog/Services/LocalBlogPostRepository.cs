@@ -96,11 +96,8 @@ namespace Ae.Blog.Services
 
 				if (!string.IsNullOrEmpty(post.Content))
 				{
-					post.Content = post.Content
-						.Replace("https://s.edward.es/", Constants.CDN_ROOT.ToString())
-						.Replace("$CDN_DOMAIN$", Constants.CDN_ROOT.ToString())
-						.Replace("alan.gdn", Constants.CDN_ROOT.Host)
-						.Replace("$STATIC_ASSET_PREFIX$", configuration["STATIC_ASSET_PREFIX"]);
+					post.Content = post.Content.Replace("$CDN_DOMAIN$", Constants.CDN_ROOT.ToString())
+											   .Replace("$STATIC_ASSET_PREFIX$", configuration["STATIC_ASSET_PREFIX"]);
 					post.PreCompute();
 				}
 

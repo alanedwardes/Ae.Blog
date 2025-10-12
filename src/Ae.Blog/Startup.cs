@@ -24,7 +24,7 @@ namespace Ae.Blog
             services.AddMvc();
             services.AddSingleton<IColourRepository, ColourRepository>();
 			services.AddSingleton<IAmazonS3>(x => new AmazonS3Client(RegionEndpoint.EUWest2));
-            services.AddSingleton<IAmazonCloudFront>(x => new AmazonCloudFrontClient());
+            services.AddSingleton<IAmazonCloudFront>(x => new AmazonCloudFrontClient(RegionEndpoint.USEast1));
             services.AddSingleton<IAmazonLambda>(x => new AmazonLambdaClient(RegionEndpoint.USEast1));
             services.AddSingleton<IAmazonIdentityManagementService>(x => new AmazonIdentityManagementServiceClient());
 

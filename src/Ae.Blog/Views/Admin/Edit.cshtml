@@ -10,6 +10,7 @@
 <section>
     <h2>@title</h2>
     <p><a href="/admin/">Back</a> &bull; @if (Model != null){<a href="/blog/posts/@Model.Slug/">View Post</a>}</p>
+    <p>Replacements: <code>$CDN_DOMAIN$</code>, <code>$STATIC_ASSET_PREFIX$</code></p>
     <form asp-controller="admin" asp-action="@action" method="post">
         <p>
             <label asp-for="Title">Title</label>
