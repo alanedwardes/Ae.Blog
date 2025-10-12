@@ -91,7 +91,7 @@ namespace Ae.Blog.Controllers
         {
             var post = await blogPostRetriever.GetContent(id, CancellationToken.None);
 
-            post.Content = model.Content;
+            post.Content = model.Content.Replace("https://s.alanedwardes.com/", "$CDN_DOMAIN$");
             post.Category = model.Category;
             post.Updated = model.Type == PostType.Draft ? null : DateTime.UtcNow;
             post.Type = model.Type;
