@@ -2,9 +2,11 @@ services:
   blog:
     build: .
     ports:
-      - "80:8080"
+      - 5000:5000
     restart: always
     env_file:
       - .env
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
     volumes:
       - ./posts:/app/posts
