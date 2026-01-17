@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon;
+using System.Linq;
 
 namespace Ae.Blog.Controllers
 {
@@ -46,8 +47,15 @@ namespace Ae.Blog.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Upload(IFormFile file)
+        [DisableRequestSizeLimit]
+        public async Task<IActionResult> Upload()
         {
+            var file = Request.Form.Files.FirstOrDefault();
+            if (file == null)
+            {
+                return BadRequest("No file uploaded");
+            }
+
             var objectKey = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
 
             await amazonS3.PutObjectAsync(new PutObjectRequest
