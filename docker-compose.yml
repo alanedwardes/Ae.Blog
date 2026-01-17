@@ -1,0 +1,8 @@
+services:
+  blog:
+    build: .
+    ports:
+      - "80:8080"
+    restart: always
+    env_file:
+      - .env
