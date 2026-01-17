@@ -6,3 +6,5 @@ services:
     restart: always
     env_file:
       - .env
+    volumes:
+      - ./posts:/app/posts
